@@ -217,6 +217,9 @@ h1, h2, h3, p { margin: 0; }
 .hero-icon { width: 96px; height: 96px; border-radius: 48px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.2); }
 .lv-green .hero-icon, .lv-yellow .hero-icon, .lv-missing .hero-icon { background: rgba(255, 255, 255, 0.6); }
 .hero-card.lv-green { background: #1E7A3C; color: #FFFFFF; border: 0; }
+/* "Nothing found by our checks": calm, but not a green all-clear we cannot promise. */
+.hero-card.lv-calm { background: var(--surface); color: var(--ink); border: 2px solid var(--line); }
+.lv-calm .hero-icon { background: var(--action-soft); color: var(--action); }
 .hero-card.lv-green .hero-icon { background: rgba(255, 255, 255, 0.2); }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .chips span { padding: 4px 14px; border-radius: 16px; background: rgba(255, 255, 255, 0.22); font-size: 17px; font-weight: 700; }

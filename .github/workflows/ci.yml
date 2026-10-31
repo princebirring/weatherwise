@@ -49,3 +49,19 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+
+  container:
+    name: Container image (build + smoke test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build (linux/amd64, as App Runner runs it)
+        run: docker build -t weatherwise:ci .
+      - name: Smoke test
+        run: |
+          docker run -d --name ww -p 8080:8080 weatherwise:ci
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:8080/api/status && break; sleep 1; done
+          curl -sf http://127.0.0.1:8080/api/status | grep -q '"agents_ready":false'
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/app/shelter)" = 200
+          test "$(docker exec ww whoami)" = weatherwise
+          docker exec ww test -s /app/geodata/ne_10m_coastline.geojson

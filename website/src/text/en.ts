@@ -42,8 +42,9 @@ export const en = {
 
   // today
   'today.changePlace': 'Change place',
-  'today.safeTitle': 'Safe to work today',
-  'today.safeBody': 'No heat, drought or flood danger in the next 7 days',
+  'today.safeTitle': 'No danger found by our checks',
+  'today.safeBody': 'Our forecast checks found no heat, drought or flood danger in the next 7 days. Official IMD warnings come first: check them too.',
+  'today.officialWarnings': 'Official warnings (IMD / SACHET)',
   'today.missingTitle': 'Some forecast data is missing',
   'today.missingBody': 'We cannot say there is no risk. Check again later and follow IMD.',
   'today.whatToDo': 'What should I do?',

@@ -54,6 +54,11 @@ export function Home({ place, data, status, onPlace }: {
 
       <Week outlook={outlook} />
 
+      {/* Our checks do not see every danger (cyclones, official red alerts): IMD always comes first. */}
+      <a href="https://sachet.ndma.gov.in/" target="_blank" rel="noopener noreferrer" className="btn big secondary">
+        <Icon name="shield" size={26} />{t('today.officialWarnings')}
+      </a>
+
       {status?.agents_ready && (
         <Link href="/app/ask" className="btn big secondary"><Icon name="chat" size={26} />{t('today.ask')}</Link>
       )}
@@ -74,8 +79,8 @@ function CalmCard({ outlook }: { outlook: Outlook }) {
     )
   }
   return (
-    <section className="hero-card lv-green" role="status">
-      <div className="hero-icon"><Icon name="check" size={60} /></div>
+    <section className="hero-card lv-calm" role="status">
+      <div className="hero-icon"><Icon name="shield" size={56} /></div>
       <h1>{t('today.safeTitle')}</h1>
       <p>{t('today.safeBody')}</p>
     </section>
