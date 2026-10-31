@@ -55,7 +55,7 @@ export function iconOf(hazard: string): IconName {
   return 'heat'
 }
 
-const LOCALES: Record<Language, string> = { en: 'en-IN', hi: 'hi-IN', mr: 'mr-IN' }
+export const LOCALES: Record<Language, string> = { en: 'en-IN', hi: 'hi-IN', mr: 'mr-IN' }
 
 export function weekday(isoDay: string, language: Language): string {
   return new Intl.DateTimeFormat(LOCALES[language], { weekday: 'short', timeZone: 'UTC' }).format(new Date(isoDay))
@@ -128,4 +128,21 @@ export function dayLevel(row: DayRow): Level | null {
 export function dayIcon(row: DayRow): IconName {
   if (row.hazards.length) return iconOf(row.hazards[0].split(':')[0])
   return row.rain_mm !== null && row.rain_mm >= 2.5 ? 'drop' : 'sun'
+}
+
+// SACHET's event types, matched by keyword, most specific first, to our own translated names.
+const OFFICIAL_EVENTS: [RegExp, TextKey][] = [
+  [/cyclone|depression/i, 'event.cyclone'], [/storm surge/i, 'event.storm_surge'], [/tsunami/i, 'event.tsunami'],
+  [/earthquake/i, 'event.earthquake'], [/flood|inundation/i, 'event.flood'], [/landslide/i, 'event.landslide'],
+  [/rain|cloudburst/i, 'event.rain'], [/thunder/i, 'event.thunderstorm'], [/lightning/i, 'event.lightning'],
+  [/hail/i, 'event.hail'], [/dust/i, 'event.dust'], [/wind|squall/i, 'event.wind'], [/heat/i, 'event.heat'],
+  [/cold/i, 'event.cold'], [/fog/i, 'event.fog'],
+]
+
+/** An official alert's title in the chosen language: the issuer's own words in English,
+ *  otherwise our translation of the event type (or "Official warning" if unknown). */
+export function officialTitle(event: string, language: Language, t: T): string {
+  if (language === 'en') return event
+  const match = OFFICIAL_EVENTS.find(([pattern]) => pattern.test(event))
+  return t(match ? match[1] : 'official.title')
 }

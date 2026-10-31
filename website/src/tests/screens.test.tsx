@@ -4,6 +4,7 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from '../App'
+import { ApiError } from '../api'
 import { LanguageProvider, textFor } from '../text'
 import { en, type TextKey } from '../text/en'
 import { FloodGuide } from '../screens/FloodGuide'
@@ -16,7 +17,7 @@ import { Todo } from '../screens/Todo'
 import { Welcome } from '../screens/Welcome'
 import { Ask } from '../screens/Ask'
 import type { Language, PlaceAndOutlook } from '../types'
-import { events, outlook, place, policy, replay, shelters, status } from './fixtures/data'
+import { events, outlook, place, policy, replay, shelters, status, telanganaWatch } from './fixtures/data'
 
 const LANGUAGES: Language[] = ['en', 'hi', 'mr']
 // Names kept on purpose: the brand, data sources, and the technical agent name next to its translation.
@@ -29,7 +30,9 @@ const ENGLISH_SENTENCES = [
     typeof v === 'string' ? [v] : v.flatMap((x: string | { who: string; what: string }) => (typeof x === 'string' ? [x] : [x.who, x.what]))),
 ].map((s) => s.split('{name}')[0].trim()).filter((s) => s.length >= 12)
 
-const loaded = (data: PlaceAndOutlook) => ({ data, error: null, loading: false, retry: () => {} })
+const loaded = <T,>(data: T) => ({ data, error: null, loading: false, retry: () => {} })
+// Official warnings not fetched separately: Today falls back to those inside the forecast.
+const idle = { data: null, error: null, loading: false, retry: () => {} }
 
 function show(language: Language, ui: ReactNode) {
   return render(
@@ -72,7 +75,7 @@ describe.each(LANGUAGES)('in %s', (language) => {
   })
 
   it('Today on a danger day: the warning, what to do, send to family', () => {
-    show(language, <Home place={place} data={loaded(outlook(true))} status={status} onPlace={() => {}} />)
+    show(language, <Home place={place} official={idle} data={loaded(outlook(true))} status={status} onPlace={() => {}} />)
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe(t('hazard.heat_wave'))
     expect(screen.getByText(t('today.whatToDo'))).toBeTruthy()
     expect(screen.getByText(t('today.share'))).toBeTruthy()
@@ -83,12 +86,54 @@ describe.each(LANGUAGES)('in %s', (language) => {
   })
 
   it('Today on a safe day', () => {
-    show(language, <Home place={place} data={loaded(outlook(false))} status={status} onPlace={() => {}} />)
+    show(language, <Home place={place} official={idle} data={loaded(outlook(false))} status={status} onPlace={() => {}} />)
     expect(screen.getByText(t('today.safeTitle'))).toBeTruthy()
     expect(screen.queryByText(t('today.whatToDo'))).toBeNull()
     // Never an all-clear: our checks do not see cyclones or official alerts, so IMD is one tap away.
     expect(document.body.textContent).not.toMatch(/safe to work|काम करणे सुरक्षित|काम करना सुरक्षित/i)
-    expect(screen.getByText(t('today.officialWarnings')).closest('a')?.getAttribute('href')).toBe('https://sachet.ndma.gov.in/')
+    expect(screen.getByText(t('official.none'))).toBeTruthy() // SACHET checked: nothing in force
+    expectOnlyLanguage(language)
+  })
+
+  it('Official warnings come first, in this language, with who issued them', () => {
+    const alerts = { status: 'ok' as const, alerts: [telanganaWatch], source: 'SACHET' }
+    show(language, <Home place={place} official={idle} data={loaded(outlook(false, null, alerts))} status={status} onPlace={() => {}} />)
+    const card = document.querySelector('article.official')!
+    expect(card).toBeTruthy()
+    expect(card.compareDocumentPosition(document.querySelector('.hero-card')!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(card.textContent).toContain(telanganaWatch.translations[language])
+    expect(card.querySelector('h1')?.textContent).toBe(language === 'en' ? telanganaWatch.event : t('event.thunderstorm'))
+    expect(card.textContent).toContain(t('official.level.yellow'))
+    expect(card.textContent).toContain(t('official.kicker', 'Telangana SDMA'))
+    expect(screen.getByText(t('today.nothingMore'))).toBeTruthy()       // our checks follow, quietly
+    expect(screen.queryByText(t('today.safeTitle'))).toBeNull()
+    expectOnlyLanguage(language)
+  })
+
+  it('An official warning with no translation shows the original and says so', () => {
+    const untranslated = { ...telanganaWatch, translations: { en: telanganaWatch.translations.en } }
+    show(language, <Home place={place} official={idle} data={loaded(outlook(false, null, { status: 'ok', alerts: [untranslated], source: 'S' }))}
+      status={status} onPlace={() => {}} />)
+    const card = document.querySelector('article.official')!
+    expect(card.textContent).toContain(telanganaWatch.message)
+    if (language !== 'en') expect(card.textContent).toContain(t('official.original', '').trim().split(' ')[0])
+  })
+
+  it('Official warnings still show when our forecast is down', () => {
+    const forecastDown = { data: null, error: new ApiError('failed', 'Open-Meteo rate limit', 502), loading: false, retry: () => {} }
+    show(language, <Home place={place} data={forecastDown}
+      official={loaded({ status: 'ok' as const, alerts: [telanganaWatch], source: 'SACHET' })} status={status} onPlace={() => {}} />)
+    const card = document.querySelector('article.official')!
+    expect(card.textContent).toContain(telanganaWatch.translations[language])
+    const error = screen.getByText(t('state.failed'))
+    expect(card.compareDocumentPosition(error) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy() // warning first
+  })
+
+  it('If official warnings cannot be checked, it says so: never "none"', () => {
+    show(language, <Home place={place} official={idle} data={loaded(outlook(false, null, { status: 'unavailable', alerts: [], source: null }))}
+      status={status} onPlace={() => {}} />)
+    expect(screen.getByText(t('official.unavailable'))).toBeTruthy()
+    expect(screen.queryByText(t('official.none'))).toBeNull()
     expectOnlyLanguage(language)
   })
 

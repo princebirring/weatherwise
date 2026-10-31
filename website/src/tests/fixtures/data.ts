@@ -1,6 +1,6 @@
 // Test data shaped like the WeatherWise API's answers. policy.json is the real message_policy
 // (regenerate: uv run python -c "from weatherwise.rules import message_policy; ...").
-import type { PlaceAndOutlook, Policy, Replay, ReplayEvent, SavedPlace, Shelters, Status } from '../../types'
+import type { OfficialAlert, OfficialAlerts, PlaceAndOutlook, Policy, Replay, ReplayEvent, SavedPlace, Shelters, Status } from '../../types'
 import policyJson from './policy.json'
 
 export const policy = policyJson as unknown as Policy
@@ -10,7 +10,21 @@ export const place: SavedPlace = { name: 'Akola', label: 'Akola, Maharashtra', l
 const days = ['2026-04-22', '2026-04-23', '2026-04-24', '2026-04-25', '2026-04-26', '2026-04-27', '2026-04-28']
 const tmax = [41, 43, 45.4, 45.1, 44, 42, 40]
 
-export function outlook(withDanger: boolean, floodMode: 'prepare' | 'urgent' | null = null): PlaceAndOutlook {
+// A real Telangana SDMA watch from SACHET (Oct 31, 2026), with SACHET's own translations.
+export const telanganaWatch: OfficialAlert = {
+  id: '1793433201489030', event: 'Thunderstorm, Lightning, and Gusty winds', level: 'yellow', level_word: 'WATCH',
+  source: 'Telangana SDMA', area: '15 districts of Telangana', starts: '2026-10-31T13:16:00+05:30',
+  ends: '2026-11-01T08:31:00+05:30', language: 'en', flood_related: false,
+  message: 'Thunderstorm accompanied with Lightning and Gusty Winds of 30-40 kmph very likely to occur at isolated places.',
+  translations: {
+    en: 'Thunderstorm accompanied with Lightning and Gusty Winds of 30-40 kmph very likely to occur at isolated places.',
+    mr: 'काही ठिकाणी विजांच्या कडकडाटासह 30-40 किमी प्रतितास वेगाने वादळ आणि सोसाट्याचा वारा येण्याची दाट शक्यता आहे.',
+    hi: 'कुछ स्थानों पर बिजली और 30-40 किमी प्रति घंटे की तेज़ हवाओं के साथ आंधी आने की बहुत संभावना है.',
+  },
+}
+
+export function outlook(withDanger: boolean, floodMode: 'prepare' | 'urgent' | null = null,
+  official: OfficialAlerts = { status: 'ok', alerts: [], source: 'SACHET' }): PlaceAndOutlook {
   return {
     place: {
       lat: 20.7, lon: 77.0, name: 'Akola', admin: { country_code: 'in', state: 'Maharashtra', district: 'Akola' },
@@ -31,6 +45,7 @@ export function outlook(withDanger: boolean, floodMode: 'prepare' | 'urgent' | n
         hazards: withDanger && i >= 2 && i <= 4 ? ['heat_wave:heat_wave'] : [],
       })),
       flood_level_m3s: null,
+      official,
       attribution: 'Weather data by Open-Meteo.com',
     },
   }

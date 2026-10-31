@@ -1,15 +1,17 @@
 import { useEffect } from 'react'
-import { chipsOf, dayIcon, dayLevel, iconOf, levelOf, shortDate, sortDetections, titleOf, weekday, whenOf } from '../hazards'
+import { chipsOf, dayIcon, dayLevel, iconOf, levelOf, LOCALES, officialTitle, shortDate, sortDetections, titleOf, weekday, whenOf } from '../hazards'
 import { Icon } from '../components/Icon'
 import { ErrorBox, Loading } from '../components/Shell'
 import type { Async } from '../components/useAsync'
 import { Link } from '../router'
 import { useLanguage } from '../text'
-import type { Detection, Outlook, PlaceAndOutlook, SavedPlace, Status } from '../types'
+import type { TextKey } from '../text/en'
+import type { Detection, OfficialAlerts, Outlook, PlaceAndOutlook, SavedPlace, Status } from '../types'
 
 /** Today: one big answer to "is it safe, and what do I do?" */
-export function Home({ place, data, status, onPlace }: {
-  place: SavedPlace; data: Async<PlaceAndOutlook>; status: Status | null; onPlace: (p: SavedPlace) => void
+export function Home({ place, data, official, status, onPlace }: {
+  place: SavedPlace; data: Async<PlaceAndOutlook>; official: Async<OfficialAlerts>; status: Status | null
+  onPlace: (p: SavedPlace) => void
 }) {
   const { t, language } = useLanguage()
 
@@ -21,8 +23,16 @@ export function Home({ place, data, status, onPlace }: {
     }
   }, [facts, place, onPlace])
 
-  if (data.loading) return <main className="app-main"><Loading /></main>
-  if (data.error || !data.data) return <main className="app-main">{data.error && <ErrorBox error={data.error} retry={data.retry} />}</main>
+  // Official warnings come first, and do not wait for our forecast (it may be slow or down).
+  const officialNow: OfficialAlerts | null = official.data
+    ?? (official.error ? { status: 'unavailable', alerts: [], source: null } : data.data?.outlook.official ?? null)
+  const timezone = data.data?.place.timezone
+  const officialSection = officialNow && <OfficialWarnings official={officialNow} timezone={timezone} />
+
+  if (data.loading) return <main className="app-main">{officialSection}<Loading /></main>
+  if (data.error || !data.data) {
+    return <main className="app-main">{officialSection}{data.error && <ErrorBox error={data.error} retry={data.retry} />}</main>
+  }
 
   const { outlook } = data.data
   const detections = sortDetections(outlook.detections)
@@ -31,7 +41,11 @@ export function Home({ place, data, status, onPlace }: {
 
   return (
     <main className="app-main">
-      {top ? <DangerCard d={top} outlook={outlook} place={place} /> : <CalmCard outlook={outlook} />}
+      {/* Official warnings always come first; our own checks follow. */}
+      {officialSection}
+      {top
+        ? <DangerCard d={top} outlook={outlook} place={place} />
+        : <CalmCard outlook={outlook} afterOfficial={(officialNow?.alerts.length ?? 0) > 0} />}
 
       {floodMode && (
         <Link href="/app/flood" className={`btn big ${floodMode === 'urgent' ? 'danger' : 'flood'}`}>
@@ -54,11 +68,6 @@ export function Home({ place, data, status, onPlace }: {
 
       <Week outlook={outlook} />
 
-      {/* Our checks do not see every danger (cyclones, official red alerts): IMD always comes first. */}
-      <a href="https://sachet.ndma.gov.in/" target="_blank" rel="noopener noreferrer" className="btn big secondary">
-        <Icon name="shield" size={26} />{t('today.officialWarnings')}
-      </a>
-
       {status?.agents_ready && (
         <Link href="/app/ask" className="btn big secondary"><Icon name="chat" size={26} />{t('today.ask')}</Link>
       )}
@@ -67,7 +76,7 @@ export function Home({ place, data, status, onPlace }: {
   )
 }
 
-function CalmCard({ outlook }: { outlook: Outlook }) {
+function CalmCard({ outlook, afterOfficial }: { outlook: Outlook; afterOfficial: boolean }) {
   const { t } = useLanguage()
   if (outlook.data_missing.length > 0) {
     return (
@@ -79,10 +88,48 @@ function CalmCard({ outlook }: { outlook: Outlook }) {
     )
   }
   return (
-    <section className="hero-card lv-calm" role="status">
-      <div className="hero-icon"><Icon name="shield" size={56} /></div>
-      <h1>{t('today.safeTitle')}</h1>
+    <section className={`hero-card lv-calm ${afterOfficial ? 'quiet' : ''}`} role="status">
+      {!afterOfficial && <div className="hero-icon"><Icon name="shield" size={56} /></div>}
+      <h1>{afterOfficial ? t('today.nothingMore') : t('today.safeTitle')}</h1>
       <p>{t('today.safeBody')}</p>
+    </section>
+  )
+}
+
+/** Official warnings in force for this place, most serious first, in the person's language. */
+function OfficialWarnings({ official, timezone }: { official: OfficialAlerts; timezone?: string }) {
+  const { t, language } = useLanguage()
+  if (official.status === 'unavailable') {
+    return <p className="official-note warn" role="status"><Icon name="alert" size={22} />{t('official.unavailable')}</p>
+  }
+  if (official.status !== 'ok') return null
+  if (official.alerts.length === 0) {
+    return <p className="official-note" role="status"><Icon name="shield" size={22} />{t('official.none')}</p>
+  }
+  const until = (iso: string) => new Intl.DateTimeFormat(LOCALES[language],
+    { weekday: 'short', hour: 'numeric', minute: '2-digit', timeZone: timezone }).format(new Date(iso))
+  const languageName = (code: string) => {
+    try { return new Intl.DisplayNames([LOCALES[language]], { type: 'language' }).of(code) ?? code } catch { return code }
+  }
+  return (
+    <section className="stack" style={{ gap: 10 }}>
+      {official.alerts.map((a) => {
+        const own = a.translations[language]
+        const translated = !!own && a.language !== language
+        return (
+          <article key={a.id} className={`official lv-${a.level === 'green' ? 'calm' : a.level}`} role="alert">
+            <span className="kicker">{t('official.kicker', a.source)}</span>
+            <h1 className="official-title"><Icon name="shield" size={28} />{officialTitle(a.event, language, t)}</h1>
+            <div className="chips">
+              <span>{t(`official.level.${a.level}` as TextKey)}</span>
+              <span>{t('official.until', until(a.ends))}</span>
+            </div>
+            <p className="official-message" lang={own ? language : a.language}>{own ?? a.message}</p>
+            <p className="fine-on">{translated ? t('official.translatedBy') : !own ? t('official.original', languageName(a.language)) : ''}</p>
+            <p className="fine-on">{t('official.source')}</p>
+          </article>
+        )
+      })}
     </section>
   )
 }

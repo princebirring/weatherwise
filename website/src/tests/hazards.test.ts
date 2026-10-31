@@ -1,6 +1,6 @@
 // How warnings are shown: IMD colours, order, likelihood and day pictures. Display only.
 import { describe, expect, it } from 'vitest'
-import { chipsOf, dayIcon, dayLevel, levelOf, likelihood, sortDetections, titleOf, weekday, whenOf } from '../hazards'
+import { chipsOf, dayIcon, dayLevel, levelOf, likelihood, officialTitle, sortDetections, titleOf, weekday, whenOf } from '../hazards'
 import { textFor } from '../text'
 import type { DayRow, Detection } from '../types'
 
@@ -54,5 +54,15 @@ describe('warning display', () => {
     expect(dayLevel(row('2026-04-24', 30))).toBeNull()
     expect(dayIcon(row('2026-04-24', 30, [], 12))).toBe('drop')
     expect(dayIcon(row('2026-04-24', 30))).toBe('sun')
+  })
+})
+
+describe('official warning titles', () => {
+  it('keeps the issuer words in English and translates the event type otherwise', () => {
+    const event = 'Thunderstorm, Lightning, and Gusty winds'
+    expect(officialTitle(event, 'en', textFor('en'))).toBe(event)
+    expect(officialTitle(event, 'mr', textFor('mr'))).toBe('गडगडाटी वादळ')
+    expect(officialTitle('Deep Depression', 'hi', textFor('hi'))).toBe('चक्रवात')
+    expect(officialTitle('Something new', 'mr', textFor('mr'))).toBe('अधिकृत इशारा')
   })
 })

@@ -1,6 +1,6 @@
 // The one way the website reaches data: the WeatherWise API (weatherwise/api/server.py).
 import type {
-  ChatReply, Language, PlaceAndOutlook, PlaceCandidate, Policy, Replay, ReplayEvent, SavedPlace, Shelters, Status,
+  ChatReply, Language, OfficialAlerts, PlaceAndOutlook, PlaceCandidate, Policy, Replay, ReplayEvent, SavedPlace, Shelters, Status,
 } from './types'
 
 export class ApiError extends Error {
@@ -33,6 +33,7 @@ export const api = {
   policy: () => request<Policy>('/api/policy'),
   findPlace: (q: string) => request<{ candidates: PlaceCandidate[] }>(`/api/places?${query({ q })}`),
   place: (lat: number, lon: number) => request<PlaceAndOutlook>(`/api/place?${query({ lat, lon })}`),
+  official: (lat: number, lon: number) => request<OfficialAlerts>(`/api/official?${query({ lat, lon })}`),
   shelters: (lat: number, lon: number, hazard: 'heat' | 'flood') =>
     request<Shelters>(`/api/shelters?${query({ lat, lon, hazard })}`),
   replays: () => request<ReplayEvent[]>('/api/replays'),

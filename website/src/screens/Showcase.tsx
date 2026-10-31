@@ -8,7 +8,7 @@ import { useLanguage, type T } from '../text'
 import type { TextKey } from '../text/en'
 import type { HazardScore, Language, Replay, ReplayEvent } from '../types'
 
-const TOOLS = ['find_place', 'resolve_place', 'hazard_outlook', 'find_shelters', 'backtest', 'cap_alerts', 'message_policy']
+const TOOLS = ['find_place', 'resolve_place', 'hazard_outlook', 'official_alerts', 'find_shelters', 'backtest', 'cap_alerts', 'message_policy']
 
 const LAYERS = [1, 2, 3, 4, 5] as const
 const RULES = [1, 2, 3] as const
