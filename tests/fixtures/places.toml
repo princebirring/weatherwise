@@ -1,0 +1,57 @@
+# Test places: coordinates plus what resolve_place SHOULD derive for them.
+# These are tests of the derivation, never runtime data.
+
+[[place]]
+id = "akola"
+lat = 20.70
+lon = 77.00
+expect_state = "Maharashtra"
+expect_district = "Akola"
+expect_terrain = "plains"
+expect_river_area = false
+
+[[place]]
+id = "kolhapur"
+lat = 16.70
+lon = 74.24
+expect_state = "Maharashtra"
+expect_district = "Kolhapur"
+expect_terrain = "plains"
+expect_river_area = true
+expect_upstream_points = 2
+
+[[place]]
+id = "latur"
+lat = 18.40
+lon = 76.56
+expect_state = "Maharashtra"
+expect_district = "Latur"
+expect_terrain = "plains"
+expect_river_area = false
+
+[[place]]
+id = "kharghar"
+lat = 19.03
+lon = 73.07
+expect_state = "Maharashtra"
+expect_district = "Raigad"
+expect_terrain = "coast"
+expect_river_area = false
+
+[[place]]
+id = "mahabaleshwar"
+lat = 17.92
+lon = 73.66
+expect_state = "Maharashtra"
+expect_district = "Satara"
+expect_terrain = "hills"
+expect_river_area = false
+
+[[place]]
+id = "patna"   # Outside the pilot state: must still work on India defaults
+lat = 25.59
+lon = 85.14
+expect_state = "Bihar"
+expect_district = "Patna"
+expect_terrain = "plains"
+expect_river_area = true

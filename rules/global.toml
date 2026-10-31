@@ -1,0 +1,72 @@
+# Our own rules, used in every country unless the country file overrides them.
+# Official definitions (IMD, NWS, KMD...) belong in rules/countries/<iso-code>.toml, not here.
+# Supported countries = the files in rules/countries/ (named by ISO code, e.g. in.toml).
+
+[river_exposure]
+# A point is a "large river" area if its nearest river's 1-in-5-year flow is at least this.
+# The global river model (GloFAS) is built for large catchments; smaller rivers and nalas are
+# warned through heavy rain (Flow 4) instead (plan §7). A country file can override.
+min_flood_flow_m3s = 1000.0   # CONFIRM against GloFAS skill guidance; checked on tests/fixtures/places.toml
+screen_years = 5              # Recent years used to find which nearby river cell holds the river
+
+[shelters]
+search_km = 20.0              # Plan §4.2: "no cooling center near you" beyond this
+max_results = 3
+
+[scan]
+neighbour_ring = true         # Stage 2: also scan the 8 cells around each subscribed cell
+
+[heat]
+min_consecutive_days = 2      # A single hot day alone does not trigger a warning
+min_agreement = 0.70          # Share of forecast runs that must agree (plan §5.2)
+first_warning_lead_days = [3, 7]
+
+[humid_heat]
+apparent_tmax_danger = 41.0   # CONFIRM: heat-index "danger" band
+min_consecutive_days = 1      # Kharghar 2023 was a single day
+min_agreement = 0.70
+
+[excess_heat]
+# Excess Heat Factor (Nairn & Fawcett 2015; used operationally by Australia's Bureau of
+# Meteorology). Compares each place to its OWN climate, so it works on gridded forecasts,
+# where official station-based thresholds miss (measured: Akola, April 2026). Ours, labelled.
+reference_first_year = 1991
+reference_last_year = 2020
+heat_percentile = 95          # T95: 95th percentile of daily mean temperature
+severe_percentile = 85        # Severe if EHF >= 85th percentile of past positive EHF values
+min_agreement = 0.70
+min_consecutive_days = 1      # EHF already averages 3 days
+
+[heavy_rain]
+min_agreement = 0.50          # Starting value, tuned on replays
+
+[dry_spell]
+min_dry_days = 10             # Plan §5.2: about 10-15+ days
+min_agreement = 0.70
+soil_moisture_dry = 0.20      # m3/m3, top layer. CONFIRM: tune per soil type
+
+[sowing]
+forecast_days = 14
+max_total_rain_mm = 20.0      # Starting value
+min_agreement = 0.70
+
+[river_flood]
+# Each area's flood level = the river flow reached about once every N years, computed from
+# that area's own history of yearly peak flows (plan §8.5). Set on 2019 and 2021, tested on 2024.
+flood_level_return_period_years = 5
+history_first_year = 1984
+min_agreement = 0.50          # Starting value
+
+[flood_guide]
+# When the flood guide starts (plan §4.3, Flows 3-4).
+# Our own model data (river forecast, heavy rain) only ever starts PREPARE mode.
+# URGENT ("move now") needs an official red alert or extremely heavy rain within urgent_within_days.
+prepare_within_days = 3
+urgent_within_days = 1
+prepare_rain_categories = ["very_heavy", "extremely_heavy"]
+urgent_rain_category = "extremely_heavy"
+# Ours: once PREPARE starts, the guide stays on until this many mornings in a row show no flood
+# signal. A household half-way through preparing must not see the guide vanish because one
+# forecast wobbled (Kolhapur 2024: signal on Jul 21, quiet forecasts Jul 22-25, flood Jul 26).
+# URGENT is never held: it always needs a live red alert or extremely heavy rain.
+stay_on_quiet_days = 7        # Starting value

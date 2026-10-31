@@ -1,0 +1,59 @@
+# English: our safety text for every country that uses this language (plan §6.1, §8.6).
+# The checker uses the unsafe phrases of ALL languages on every message, so a mixed-language
+# reply is still checked. Messages are sent when the AI fails; "TODO" text falls back to English.
+
+[unsafe_phrases]
+# "Go to high ground" is unsafe on its own (landslides: Irshalwadi 2023): it must come with a
+# slope-safety word in the same message.
+high_ground = ["high ground"]
+slope_safety_words = ["slope"]
+never_say = ["otp", "send money", "official warning service"]   # we never ask for money or OTPs, never claim to be official
+
+[safe_messages]
+general = "We could not prepare your answer right now. For emergencies call 112. For disaster help call 1077. Please try again in a few minutes."
+heat = "Heat warning for your area. Work before 10 am and after 5 pm, drink water often, rest in shade. Signs of heatstroke: confusion, no sweat, fainting: cool the person and call 108. Disaster help: 1077."
+flood = "Flood risk for your area. Move to a safe place away from rivers and away from hill slopes. Never cross flowing water. Call 112 / 1077."
+
+[footer]
+text = "Not an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No"
+
+# What the website shows people, beside the agents' replies (plan §9.2). Same steps as the
+# agents' skills, written for people. From NDMA heat-wave and flood guidelines, IMD/KVK
+# agromet advisories and ICAR-CRIDA contingency plans. CONFIRM wording against those sources.
+[guidance]
+heat = [
+    { who = "If you must work outside", what = "Work before 10 am and after 5 pm. Rest in shade every hour. Drink water often." },
+    { who = "Elderly, pregnant women, children, people who are ill", what = "Stay indoors from 12 to 4 pm." },
+    { who = "Cattle and poultry", what = "Keep them in shade and give extra water." },
+]
+heatstroke = "Heatstroke signs: confusion, no sweat, fainting. Cool the person with water and shade, then call 108."
+dry_spell = [
+    { who = "If you have water (well, canal, drip)", what = "Give protective irrigation now, and mulch to keep the soil moist." },
+    { who = "If you have no water", what = "Mulch to keep the soil moist." },
+    { who = "Livestock", what = "Keep water and fodder ready." },
+]
+sowing = [
+    { who = "If you plan to sow", what = "Wait for enough rain, or choose a hardier crop." },
+    { who = "Crop advice", what = "Call the Kisan Call Centre: 1800-180-1551." },
+]
+heavy_rain = [
+    { who = "Everyone", what = "Avoid underpasses, low roads and flowing water. Never walk where you cannot see open manholes." },
+    { who = "Near rivers and hill slopes", what = "Be ready to move away from rivers and hill slopes." },
+]
+flood_village = [
+    "Put documents (Aadhaar, ration card, land papers) and money in a plastic bag.",
+    "Store grain and seed up high.",
+    "Plan where cattle will go. Move them early to higher, safe ground away from hill slopes.",
+    "Charge phones. Keep a torch ready.",
+    "Know your shelter by name. It is shown below; we never give a route in a flood.",
+    "Elderly, children, people who are ill: plan who helps them move.",
+]
+flood_city = [
+    "Know your upper floor or terrace as the safe place.",
+    "Keep documents, medicines and a phone charger in a waterproof bag.",
+    "Avoid underpasses and low roads. Never walk where you cannot see open manholes.",
+    "Know the municipal shelter by name. It is shown below; we never give a route in a flood.",
+]
+flood_always = "Call 1077 / 112 if water is rising."
+flood_urgent = "Move to a safe place now, away from rivers and away from hill slopes. Never cross flowing water. Call 112 / 1077."
+flood_safety_line = "Use the high road. Never walk or drive through flowing water. Move away from rivers and away from hill slopes."

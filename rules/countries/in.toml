@@ -1,0 +1,69 @@
+# India: official definitions and national policy, the same for every state (IMD is national).
+# Time zone comes from each place's coordinates; language is the person's choice at sign-up.
+# Every value marked "CONFIRM" is checked against the source and recorded in docs/sources.csv
+# (plan §17).
+
+[country]
+name = "India"
+default_languages = ["hi", "en"]   # Offered first at sign-up; the person chooses
+
+[terrain]
+# IMD station types, derived from elevation and distance to the coast.
+coast_max_km = 20.0           # CONFIRM: IMD "coastal station"
+hills_min_elevation_m = 1000  # CONFIRM: IMD "hilly region"
+
+[helplines]
+emergency = "112"
+ambulance = "108"
+disaster = "1077"             # District disaster control room (dial from the district)
+kisan_call_centre = "1800-180-1551"   # CONFIRM
+
+[seasons.rainfed_crop_seasons]   # CONFIRM: ICAR crop calendar
+kharif = ["06-01", "10-15"]
+
+# When "wait before sowing" (dry soil + little rain in the 2-week forecast) is checked.
+# Kharif only: monsoon sowing depends on rain, so waiting for enough rain is the right advice.
+# Rabi is left out on purpose: it is sown on stored soil moisture or after irrigation, the
+# weeks after the monsoon are always dry, and "wait for rain" would fire daily and be wrong.
+# CONFIRM with the KVK / state agriculture calendar (plan: open question "which districts").
+[seasons.sowing_windows]
+kharif = ["06-10", "07-31"]
+
+[heat]
+rule = "imd"   # Selects imd_heat_wave_severity in weatherwise/risk/heat_wave.py (HEAT_WAVE_RULES)
+# A day counts only if the zone's base temperature is reached AND
+# (departure from normal >= heat_wave_departure OR, in the plains, tmax >= heat_wave_absolute).
+base_tmax = { plains = 40.0, coast = 37.0, hills = 30.0 }   # CONFIRM: IMD
+heat_wave_departure = 4.5                                   # CONFIRM: IMD
+severe_departure_above = 6.4                                # CONFIRM: IMD (severe if departure > 6.4)
+heat_wave_absolute = 45.0                                   # CONFIRM: IMD, plains only
+severe_absolute = 47.0                                      # CONFIRM: IMD, plains only
+
+[heavy_rain]
+# IMD 24-hour rainfall categories, mm/day.
+heavy = 64.5                  # CONFIRM: IMD
+very_heavy = 115.6            # CONFIRM: IMD
+extremely_heavy = 204.5       # CONFIRM: IMD
+
+[dry_spell]
+dry_day_max_mm = 2.5          # CONFIRM: IMD "rainy day" is >= 2.5 mm
+
+[messages]
+# Evaluator checks (plan §6.1, §8.8.4). Unsafe phrases are per language: rules/languages/.
+max_chars_reply = 900          # WhatsApp chat reply; voice notes stay under ~45 s
+max_chars_urgent = 300         # Urgent mode: ONE short message (plan §4.3)
+no_links_in_floods = ["http://", "https://", "maps.", "openstreetmap", "directions"]
+
+[messages.required_numbers]
+# Every message about this hazard must contain these helpline numbers.
+heat = ["108"]                 # Heatstroke: call 108
+flood = ["1077", "112"]
+heavy_rain = ["1077"]
+shelter = ["1077"]             # "Call 1077 to confirm the place is open"
+
+[delivery]
+# When warnings may be sent (plan §5.1).
+send_from_hour = 7             # Normal warnings only 7 AM - 8 PM local time; urgent any time
+send_until_hour = 20
+max_warnings_per_month = 4     # Urgent and official-alert messages are exempt
+max_messages_per_event = 3     # First warning -> reminder -> update or cancel
