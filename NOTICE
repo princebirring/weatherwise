@@ -1,0 +1,16 @@
+WeatherWise
+Copyright 2026 The WeatherWise authors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+It uses data from these sources, under their own terms:
+
+- Weather data by Open-Meteo.com (https://open-meteo.com/), licensed under CC BY 4.0,
+  including ECMWF, GloFAS and ERA5 data.
+- Map data © OpenStreetMap contributors (https://www.openstreetmap.org/copyright), licensed
+  under the Open Database License (ODbL).
+- Coastline from Natural Earth (https://www.naturalearthdata.com/), public domain.
+
+Safety guidance in rules/languages/ and skills/ is adapted from the National Disaster
+Management Authority (NDMA), India Meteorological Department (IMD), KVK and ICAR-CRIDA
+publications. WeatherWise is not an official warning service.
