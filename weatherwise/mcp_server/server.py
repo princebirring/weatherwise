@@ -55,9 +55,10 @@ def resolve_place(lat: float, lon: float) -> dict:
 
 @server.tool()
 def hazard_outlook(lat: float, lon: float, place_name: str | None = None) -> dict:
-    """Heat-wave, humid-heat, excess-heat, heavy-rain, dry-spell, sowing and river-flood risk
-    for the next days at a point, with how many forecast runs agree, plus whether the flood
-    guide should start (prepare or urgent). Use this before writing any warning.
+    """Official warnings in force (always first), then our heat-wave, humid-heat, excess-heat,
+    heavy-rain, dry-spell, sowing and river-flood risk for the next days at a point, with how
+    many forecast runs agree, plus whether the flood guide should start (prepare or urgent).
+    Use this before writing any warning.
 
     Args:
         lat: Latitude.
@@ -65,6 +66,20 @@ def hazard_outlook(lat: float, lon: float, place_name: str | None = None) -> dic
         place_name: Optional name to show, e.g. "Wadgaon, Latur".
     """
     return services().hazard_outlook(lat, lon, place_name)
+
+
+@server.tool()
+def official_alerts(lat: float, lon: float) -> dict:
+    """Official warnings in force at a point, from IMD and the state disaster authority (via
+    NDMA's SACHET), most serious first, each with its colour (red/orange/yellow/green), issuer,
+    expiry and message (with translations). These always come before our own forecasts. If the
+    status is "unavailable", say official warnings could not be checked: never "no warnings".
+
+    Args:
+        lat: Latitude.
+        lon: Longitude.
+    """
+    return services().official_alerts(lat, lon)
 
 
 @server.tool()

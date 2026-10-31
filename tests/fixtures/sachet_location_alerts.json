@@ -1,0 +1,44 @@
+{
+ "alerts": [
+  {
+   "severity": "WATCH",
+   "identifier": 1793433201489030,
+   "effective_start_time": "Sat Oct 31 13:16:00 IST 2026",
+   "effective_end_time": "Sun Nov 01 08:31:00 IST 2026",
+   "area_json": "{\"type\": \"MultiPolygon\", \"coordinates\": []}",
+   "disaster_type": "Thunderstorm, Lightning, and Gusty winds",
+   "area_description": "15 districts of Telangana",
+   "severity_level": "Very Likely",
+   "type": 0,
+   "actual_lang": "en",
+   "warning_message": "Thunderstorm accompanied with Lightning and Gusty Winds of 30-40 kmph very likely to occur at isolated places in Jayashankar Bhupalapally,Mulugu,Bhadradri Kothagudem,Khammam,Nalgonda,Suryapet,Mahabubabad,Warangal,Hanamkonda,Jangaon,Siddipet,Yadadri Bhuvanagiri,Rangareddy,Hyd,MDCM districts- by TGiCCC",
+   "disseminated": "true",
+   "severity_color": "yellow",
+   "alert_id_sdma_autoinc": 153266,
+   "centroid": "80.70607613090446,17.688583094663596",
+   "alert_source": "Telangana SDMA",
+   "area_covered": "57425.35",
+   "sender_org_id": "30"
+  },
+  {
+   "severity": "ALERT",
+   "identifier": 1793436168508008,
+   "effective_start_time": "Sat Oct 31 14:10:00 IST 2026",
+   "effective_end_time": "Sun Nov 01 17:10:00 IST 2026",
+   "area_json": "{\"type\": \"MultiPolygon\", \"coordinates\": []}",
+   "disaster_type": "Lightning",
+   "area_description": "13 Mandals",
+   "severity_level": "Likely",
+   "type": 0,
+   "actual_lang": "te",
+   "warning_message": "మీ ప్రాంతంలో పిడుగులు పడే అవకాశం ఉంది.ఉరుములు మెరుపులతో కూడిన వర్షం పడేప్పుడు చెట్లు,టవర్స్,పోల్స్,పొలాలు,బహిరంగ ప్రదేశాల్లో ఉండరాదు.సురక్షితమైన భవనాల్లో ఆశ్రయం పొందండి-ఆంధ్రప్రదేశ్ ప్రభుత్వం.",
+   "disseminated": "true",
+   "severity_color": "orange",
+   "alert_id_sdma_autoinc": 153273,
+   "centroid": "81.56325717227932,16.5784641325382",
+   "alert_source": "Andhra Pradesh SDMA",
+   "area_covered": "3230.14",
+   "sender_org_id": "8"
+  }
+ ]
+}

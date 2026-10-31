@@ -10,6 +10,7 @@ import time
 from pathlib import Path
 from typing import Any, Protocol
 
+MINUTE = 60
 HOUR = 3600
 DAY = 24 * HOUR
 
@@ -24,6 +25,8 @@ TTL_SECONDS = {
     "geocode": 30 * DAY,
     "health_facilities": 30 * DAY,
     "archive": 3650 * DAY,  # past data does not change
+    "official_alerts": 5 * MINUTE,       # official warnings change fast; ask again every 5 minutes
+    "official_translation": 7 * DAY,     # a given alert's translation never changes
 }
 
 

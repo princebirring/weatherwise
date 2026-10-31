@@ -4,8 +4,8 @@ import asyncio
 
 from weatherwise.mcp_server.server import server
 
-EXPECTED = {"find_place", "resolve_place", "hazard_outlook", "find_shelters", "backtest", "cap_alerts",
-            "message_policy"}
+EXPECTED = {"find_place", "resolve_place", "hazard_outlook", "official_alerts", "find_shelters", "backtest",
+            "cap_alerts", "message_policy"}
 
 
 def test_tools_are_registered_with_descriptions():
