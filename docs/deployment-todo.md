@@ -60,12 +60,12 @@ Browser ──HTTPS──> [CloudFront + WAF]  (Phase 2)
 
 ## Phase 1: one container live on a public HTTPS link (do first, target Nov 2)
 
-- [ ] **1.1 Build the image locally.** The Dockerfile has not been built yet (no Docker on Prashant's machine).
+- [ ] **1.1 Build the image.** Built and smoke-tested on Oct 31 with Podman on an Apple-silicon Mac (arm64, 421 MB), and CI now builds the linux/amd64 image on every pull request. Build the amd64 image on an x86 machine or in CI: emulated amd64 builds on Apple silicon crash inside the Python installer (qemu segfault).
   ```bash
   docker build -t weatherwise .
   docker run --rm -p 8080:8080 weatherwise
   ```
-  The build runs the website tests (54) before building it. If the coastline download step fails, retry: it fetches a pinned Natural Earth release from GitHub.
+  The build runs the website tests before building it. If the coastline download step fails, retry: it fetches a pinned Natural Earth release from GitHub.
   **Check:** `curl localhost:8080/api/status` → `{"agents_ready": false, ...}`; open `http://localhost:8080/app` and `http://localhost:8080/`.
 
 - [ ] **1.2 Run the test suites once** (from the repo, not the image):
@@ -79,7 +79,7 @@ Browser ──HTTPS──> [CloudFront + WAF]  (Phase 2)
   `docker run --rm -p 8080:8080 -e CLIMATE_AGENT_MODEL_ID=<id> -e AWS_REGION=ap-south-1 -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN weatherwise`
   then `/api/status` shows `"agents_ready": true`, and asking "Will it be very hot?" on `/app/ask` gets a reply with "How this answer was made" steps.
 
-- [ ] **1.4 Push to ECR** (repository `weatherwise`, image tag = git commit SHA, plus `judging` for the frozen one). Build for the platform the service runs on (`--platform linux/amd64` for App Runner).
+- [ ] **1.4 Push to ECR** (repository `weatherwise`, image tag = git commit SHA, plus `judging` for the frozen one). App Runner runs linux/amd64: build on x86 (or GitHub Actions), not emulated on Apple silicon.
 
 - [ ] **1.5 Run it on AWS App Runner** (recommended: one container, HTTPS URL included, no load balancer to manage). Check App Runner is offered in the chosen region; if not, use ECS Fargate behind an ALB with the same image and settings.
   - Port 8080; health check `HTTP /api/status`.

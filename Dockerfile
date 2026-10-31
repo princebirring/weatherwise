@@ -7,7 +7,7 @@
 #   docker run -p 8080:8080 -e CLIMATE_AGENT_MODEL_ID=... -e AWS_REGION=ap-south-1 weatherwise
 #
 # Runs as-is on App Runner, ECS/Fargate, or Lambda (add the AWS Lambda Web Adapter; see
-# docs/deployment-todo.md). Not yet built on a machine with Docker: build it first.
+# docs/deployment-todo.md). CI builds and smoke-tests it (linux/amd64) on every pull request.
 
 # ---- 1. Build the website ----
 FROM node:22-slim AS website
