@@ -165,3 +165,10 @@ def test_behind_one_trusted_proxy_the_last_forwarded_address_is_the_visitor(monk
     assert send("9.9.9.9, 203.0.113.5") == 200
     assert send("1.1.1.1, 203.0.113.5") == 429   # faking the left part changes nothing
     assert send("198.51.100.9") == 200           # a different real visitor
+
+
+def test_official_warnings_have_their_own_route():
+    c, tools, _ = client()
+    assert c.get("/api/official", params={"lat": 17.38, "lon": 78.48}).status_code == 200
+    assert tools.calls[-1] == ("official_alerts", {"lat": 17.38, "lon": 78.48})
+    assert c.get("/api/official", params={"lat": 120, "lon": 78}).status_code == 400

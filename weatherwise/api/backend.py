@@ -98,6 +98,12 @@ class WeatherWiseApi:
         place = _covered(self.call("resolve_place", {"lat": lat, "lon": lon}))
         return {"place": place, "outlook": _covered(self.call("hazard_outlook", {"lat": lat, "lon": lon}))}
 
+    def official(self, lat, lon) -> dict:
+        """Official warnings in force, asked separately from the forecast so they still show
+        when the weather service is down."""
+        lat, lon = _number(lat, "lat", -90, 90), _number(lon, "lon", -180, 180)
+        return _covered(self.call("official_alerts", {"lat": lat, "lon": lon}))
+
     def shelters(self, lat, lon, hazard: str) -> dict:
         if hazard not in HAZARDS:
             raise BadRequest(f"hazard must be one of {sorted(HAZARDS)}")
