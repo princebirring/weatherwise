@@ -1,0 +1,223 @@
+{
+ "helplines": {
+  "emergency": "112",
+  "ambulance": "108",
+  "disaster": "1077",
+  "kisan_call_centre": "1800-180-1551"
+ },
+ "default_languages": [
+  "hi",
+  "en"
+ ],
+ "footer": {
+  "en": "Not an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+  "hi": "यह आधिकारिक चेतावनी सेवा नहीं है; IMD का पालन करें. हम कभी पैसे या OTP नहीं माँगते. क्या यह उपयोगी था? 1 हाँ / 2 नहीं",
+  "mr": "ही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही"
+ },
+ "guidance": {
+  "en": {
+   "heat": [
+    {
+     "who": "If you must work outside",
+     "what": "Work before 10 am and after 5 pm. Rest in shade every hour. Drink water often."
+    },
+    {
+     "who": "Elderly, pregnant women, children, people who are ill",
+     "what": "Stay indoors from 12 to 4 pm."
+    },
+    {
+     "who": "Cattle and poultry",
+     "what": "Keep them in shade and give extra water."
+    }
+   ],
+   "heatstroke": "Heatstroke signs: confusion, no sweat, fainting. Cool the person with water and shade, then call 108.",
+   "dry_spell": [
+    {
+     "who": "If you have water (well, canal, drip)",
+     "what": "Give protective irrigation now, and mulch to keep the soil moist."
+    },
+    {
+     "who": "If you have no water",
+     "what": "Mulch to keep the soil moist."
+    },
+    {
+     "who": "Livestock",
+     "what": "Keep water and fodder ready."
+    }
+   ],
+   "sowing": [
+    {
+     "who": "If you plan to sow",
+     "what": "Wait for enough rain, or choose a hardier crop."
+    },
+    {
+     "who": "Crop advice",
+     "what": "Call the Kisan Call Centre: 1800-180-1551."
+    }
+   ],
+   "heavy_rain": [
+    {
+     "who": "Everyone",
+     "what": "Avoid underpasses, low roads and flowing water. Never walk where you cannot see open manholes."
+    },
+    {
+     "who": "Near rivers and hill slopes",
+     "what": "Be ready to move away from rivers and hill slopes."
+    }
+   ],
+   "flood_village": [
+    "Put documents (Aadhaar, ration card, land papers) and money in a plastic bag.",
+    "Store grain and seed up high.",
+    "Plan where cattle will go. Move them early to higher, safe ground away from hill slopes.",
+    "Charge phones. Keep a torch ready.",
+    "Know your shelter by name. It is shown below; we never give a route in a flood.",
+    "Elderly, children, people who are ill: plan who helps them move."
+   ],
+   "flood_city": [
+    "Know your upper floor or terrace as the safe place.",
+    "Keep documents, medicines and a phone charger in a waterproof bag.",
+    "Avoid underpasses and low roads. Never walk where you cannot see open manholes.",
+    "Know the municipal shelter by name. It is shown below; we never give a route in a flood."
+   ],
+   "flood_always": "Call 1077 / 112 if water is rising.",
+   "flood_urgent": "Move to a safe place now, away from rivers and away from hill slopes. Never cross flowing water. Call 112 / 1077.",
+   "flood_safety_line": "Use the high road. Never walk or drive through flowing water. Move away from rivers and away from hill slopes."
+  },
+  "hi": {
+   "heat": [
+    {
+     "who": "अगर आपको बाहर काम करना ही है",
+     "what": "सुबह 10 बजे से पहले और शाम 5 बजे के बाद काम करें. हर घंटे छाँव में आराम करें. बार-बार पानी पिएँ."
+    },
+    {
+     "who": "बुज़ुर्ग, गर्भवती महिलाएँ, बच्चे, बीमार लोग",
+     "what": "दोपहर 12 से 4 बजे तक घर के अंदर रहें."
+    },
+    {
+     "who": "पशु और मुर्गियाँ",
+     "what": "उन्हें छाँव में रखें और ज़्यादा पानी दें."
+    }
+   ],
+   "heatstroke": "लू लगने के लक्षण: उलझन, पसीना न आना, बेहोशी. व्यक्ति को पानी और छाँव से ठंडा करें, फिर 108 पर कॉल करें.",
+   "dry_spell": [
+    {
+     "who": "अगर आपके पास पानी है (कुआँ, नहर, ड्रिप)",
+     "what": "अभी जीवन-रक्षक सिंचाई करें, और मिट्टी की नमी बचाने के लिए मल्चिंग करें."
+    },
+    {
+     "who": "अगर पानी नहीं है",
+     "what": "मिट्टी की नमी बचाने के लिए मल्चिंग करें."
+    },
+    {
+     "who": "पशु",
+     "what": "पानी और चारा तैयार रखें."
+    }
+   ],
+   "sowing": [
+    {
+     "who": "अगर आप बुवाई करना चाहते हैं",
+     "what": "पर्याप्त बारिश होने तक रुकें, या कम पानी वाली फसल चुनें."
+    },
+    {
+     "who": "फसल की सलाह",
+     "what": "किसान कॉल सेंटर पर कॉल करें: 1800-180-1551."
+    }
+   ],
+   "heavy_rain": [
+    {
+     "who": "सभी के लिए",
+     "what": "अंडरपास, निचली सड़कों और बहते पानी से बचें. जहाँ खुले मैनहोल न दिखें, वहाँ न चलें."
+    },
+    {
+     "who": "नदी और पहाड़ी ढलानों के पास रहने वाले",
+     "what": "नदी और पहाड़ी ढलानों से दूर जाने के लिए तैयार रहें."
+    }
+   ],
+   "flood_village": [
+    "दस्तावेज़ (आधार, राशन कार्ड, ज़मीन के कागज़) और पैसे प्लास्टिक की थैली में रखें.",
+    "अनाज और बीज ऊँचाई पर रखें.",
+    "तय करें कि पशु कहाँ जाएँगे. उन्हें समय रहते सुरक्षित ऊँची जगह ले जाएँ, पहाड़ी ढलानों से दूर.",
+    "फ़ोन चार्ज करें. टॉर्च तैयार रखें.",
+    "अपने आश्रय का नाम याद रखें. वह नीचे दिया है; बाढ़ में हम कभी रास्ता नहीं बताते.",
+    "बुज़ुर्ग, बच्चे, बीमार लोग: तय करें कि उन्हें ले जाने में कौन मदद करेगा."
+   ],
+   "flood_city": [
+    "अपनी ऊपरी मंज़िल या छत को सुरक्षित जगह मानें.",
+    "दस्तावेज़, दवाइयाँ और फ़ोन चार्जर वॉटरप्रूफ़ थैली में रखें.",
+    "अंडरपास और निचली सड़कों से बचें. जहाँ खुले मैनहोल न दिखें, वहाँ न चलें.",
+    "नगर निगम के आश्रय का नाम याद रखें. वह नीचे दिया है; बाढ़ में हम कभी रास्ता नहीं बताते."
+   ],
+   "flood_always": "पानी बढ़ रहा हो तो 1077 / 112 पर कॉल करें.",
+   "flood_urgent": "अभी सुरक्षित जगह पर जाएँ, नदी से और पहाड़ी ढलानों से दूर. बहते पानी को कभी पार न करें. 112 / 1077 पर कॉल करें.",
+   "flood_safety_line": "ऊँचे रास्ते से जाएँ. बहते पानी में कभी न चलें, न गाड़ी चलाएँ. नदी से और पहाड़ी ढलानों से दूर जाएँ."
+  },
+  "mr": {
+   "heat": [
+    {
+     "who": "तुम्हाला बाहेर काम करावे लागत असेल तर",
+     "what": "सकाळी 10 च्या आधी आणि संध्याकाळी 5 नंतर काम करा. दर तासाला सावलीत विश्रांती घ्या. वारंवार पाणी प्या."
+    },
+    {
+     "who": "वृद्ध, गर्भवती महिला, मुले, आजारी व्यक्ती",
+     "what": "दुपारी 12 ते 4 घरातच राहा."
+    },
+    {
+     "who": "जनावरे आणि कोंबड्या",
+     "what": "त्यांना सावलीत ठेवा आणि जास्त पाणी द्या."
+    }
+   ],
+   "heatstroke": "उष्माघाताची लक्षणे: गोंधळ, घाम न येणे, बेशुद्ध पडणे. व्यक्तीला पाणी आणि सावलीने थंड करा, मग 108 वर कॉल करा.",
+   "dry_spell": [
+    {
+     "who": "तुमच्याकडे पाणी असेल तर (विहीर, कालवा, ठिबक)",
+     "what": "आत्ता संरक्षक पाणी द्या, आणि जमिनीतील ओलावा टिकवण्यासाठी आच्छादन करा."
+    },
+    {
+     "who": "पाणी नसेल तर",
+     "what": "जमिनीतील ओलावा टिकवण्यासाठी आच्छादन करा."
+    },
+    {
+     "who": "जनावरे",
+     "what": "पाणी आणि चारा तयार ठेवा."
+    }
+   ],
+   "sowing": [
+    {
+     "who": "पेरणी करायची असेल तर",
+     "what": "पुरेसा पाऊस होईपर्यंत थांबा, किंवा कमी पाण्यात येणारे पीक निवडा."
+    },
+    {
+     "who": "पिकाबद्दल सल्ला",
+     "what": "किसान कॉल सेंटरला कॉल करा: 1800-180-1551."
+    }
+   ],
+   "heavy_rain": [
+    {
+     "who": "सर्वांसाठी",
+     "what": "भुयारी मार्ग, सखल रस्ते आणि वाहते पाणी टाळा. उघडी गटारे दिसत नसतील तिथे चालू नका."
+    },
+    {
+     "who": "नदी आणि डोंगर उताराजवळ राहणारे",
+     "what": "नदी आणि डोंगर उतारापासून दूर जाण्याची तयारी ठेवा."
+    }
+   ],
+   "flood_village": [
+    "कागदपत्रे (आधार, रेशन कार्ड, जमिनीचे कागद) आणि पैसे प्लास्टिक पिशवीत ठेवा.",
+    "धान्य आणि बियाणे उंचावर ठेवा.",
+    "जनावरे कुठे जातील ते ठरवा. त्यांना लवकर सुरक्षित, उंच जागी हलवा, डोंगर उतारापासून दूर.",
+    "फोन चार्ज करा. टॉर्च तयार ठेवा.",
+    "तुमच्या निवाऱ्याचे नाव लक्षात ठेवा. ते खाली दिले आहे; पुरात आम्ही कधीही रस्ता दाखवत नाही.",
+    "वृद्ध, मुले, आजारी व्यक्ती: त्यांना हलवायला कोण मदत करेल ते ठरवा."
+   ],
+   "flood_city": [
+    "तुमचा वरचा मजला किंवा गच्ची ही सुरक्षित जागा म्हणून लक्षात ठेवा.",
+    "कागदपत्रे, औषधे आणि फोन चार्जर पाणी न शिरणाऱ्या पिशवीत ठेवा.",
+    "भुयारी मार्ग आणि सखल रस्ते टाळा. उघडी गटारे दिसत नसतील तिथे चालू नका.",
+    "महापालिकेच्या निवाऱ्याचे नाव लक्षात ठेवा. ते खाली दिले आहे; पुरात आम्ही कधीही रस्ता दाखवत नाही."
+   ],
+   "flood_always": "पाणी वाढत असेल तर 1077 / 112 वर कॉल करा.",
+   "flood_urgent": "आत्ताच सुरक्षित ठिकाणी जा, नदीपासून आणि डोंगर उतारांपासून दूर. वाहत्या पाण्यातून कधीही जाऊ नका. 112 / 1077 वर कॉल करा.",
+   "flood_safety_line": "उंच रस्त्याने जा. वाहत्या पाण्यातून कधीही चालू किंवा गाडी चालवू नका. नदीपासून आणि डोंगर उतारांपासून दूर जा."
+  }
+ }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "WeatherWise",
+  "short_name": "WeatherWise",
+  "description": "Heat, drought and flood warnings for your village.",
+  "start_url": "/app",
+  "display": "standalone",
+  "background_color": "#F3F5F2",
+  "theme_color": "#0B5F5A",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
