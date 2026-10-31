@@ -2847,6 +2847,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "aws-opentelemetry-distro" },
     { name = "bedrock-agentcore" },
+    { name = "certifi" },
     { name = "mcp" },
     { name = "starlette" },
     { name = "strands-agents" },
@@ -2864,6 +2865,7 @@ dev = [
 requires-dist = [
     { name = "aws-opentelemetry-distro" },
     { name = "bedrock-agentcore" },
+    { name = "certifi", specifier = ">=2024.2" },
     { name = "mcp", specifier = ">=2.1" },
     { name = "starlette", specifier = ">=1.0" },
     { name = "strands-agents", specifier = ">=1.62" },

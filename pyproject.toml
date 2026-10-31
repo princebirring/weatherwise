@@ -9,6 +9,7 @@ dependencies = [
     "strands-agents>=1.62",
     "bedrock-agentcore",
     "aws-opentelemetry-distro",
+    "certifi>=2024.2",  # Mozilla's certificate list for every HTTPS call (weatherwise/https.py)
     "starlette>=1.0",   # WeatherWise API (weatherwise/api)
     "uvicorn>=0.40",
 ]

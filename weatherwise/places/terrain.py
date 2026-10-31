@@ -5,9 +5,9 @@ weather service defines its station types differently.
 """
 
 import json
-import urllib.request
 from pathlib import Path
 
+from weatherwise.https import urlopen
 from weatherwise.places.geocoding import distance_km
 from weatherwise.risk.models import TerrainZone
 
@@ -29,7 +29,7 @@ class Coastline:
         if self._points is None:
             if not self.cache_file.exists():
                 self.cache_file.parent.mkdir(parents=True, exist_ok=True)
-                with urllib.request.urlopen(COASTLINE_URL, timeout=120) as resp:
+                with urlopen(COASTLINE_URL, timeout=120) as resp:
                     self.cache_file.write_bytes(resp.read())
             data = json.loads(self.cache_file.read_text())
             points = []
