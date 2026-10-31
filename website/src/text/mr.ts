@@ -37,8 +37,9 @@ export const mr: Record<TextKey, string> = {
   'start.privacy': 'मोफत. नोंदणी नाही. तुमचे ठिकाण तुमच्या फोनवरच राहते.',
 
   'today.changePlace': 'ठिकाण बदला',
-  'today.safeTitle': 'आज काम करणे सुरक्षित',
-  'today.safeBody': 'पुढील 7 दिवसांत उष्णता, दुष्काळ किंवा पुराचा धोका नाही',
+  'today.safeTitle': 'आमच्या तपासणीत धोका आढळला नाही',
+  'today.safeBody': 'पुढील 7 दिवसांत उष्णता, दुष्काळ किंवा पुराचा धोका आमच्या अंदाज-तपासणीत आढळला नाही. अधिकृत IMD इशारे आधी: तेही पाहा.',
+  'today.officialWarnings': 'अधिकृत इशारे (IMD / SACHET)',
   'today.missingTitle': 'अंदाजाची काही माहिती उपलब्ध नाही',
   'today.missingBody': 'धोका नाही असे आम्ही सांगू शकत नाही. नंतर पुन्हा तपासा आणि IMD चे पालन करा.',
   'today.whatToDo': 'मी काय करू?',
