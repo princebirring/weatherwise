@@ -1,0 +1,22 @@
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+
+# Data downloaded or produced at run time (re-created automatically)
+cache/
+evals/reports/
+
+# Website build and packages
+website/node_modules/
+website/dist/
+
+# Private or local-only
+.env
+.env.*
+.claude/settings.local.json
+workshop_proof/
+
+# OS
+.DS_Store
