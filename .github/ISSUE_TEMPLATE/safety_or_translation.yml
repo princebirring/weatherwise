@@ -1,0 +1,43 @@
+name: Safety or translation problem
+description: A warning, advice line or translation that is wrong, unclear or unsafe.
+labels: ["safety"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. These reports are treated first. If someone is in danger now, call 112.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem
+      options:
+        - A warning was shown that should not have been (false alarm)
+        - A warning was missing (a real event was not warned)
+        - Advice is wrong or unsafe
+        - Translation is wrong or unclear (Marathi / Hindi)
+        - Shelter or helpline information is wrong
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      options: [Marathi, Hindi, English]
+  - type: input
+    id: place_date
+    attributes:
+      label: Place and date
+      description: Village or district and the date shown. A district is enough; no house locations.
+    validations:
+      required: true
+  - type: textarea
+    id: shown
+    attributes:
+      label: What was shown, and what it should say
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source for the correct version
+      description: For example an IMD bulletin, NDMA guideline or KVK advisory (link or name).
