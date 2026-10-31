@@ -28,8 +28,8 @@ Person (website / WhatsApp)              6 AM scheduled job (per forecast grid c
     Evaluator steering)                                                         |
           |_____________________________  MCP  _________________________________|
                                          |
-                    Climate Risk MCP server (7 tools)
-   find_place · resolve_place · hazard_outlook · find_shelters · backtest · cap_alerts · message_policy
+                    Climate Risk MCP server (8 tools)
+   find_place · resolve_place · hazard_outlook · official_alerts · find_shelters · backtest · cap_alerts · message_policy
                                          |
    Plain-code core (no AI): places (any point -> district, terrain, river) · risk rules · backtests
                                          |
@@ -38,7 +38,9 @@ Person (website / WhatsApp)              6 AM scheduled job (per forecast grid c
 
 **Design rules:**
 - **Numbers come from data, never from the AI.** The Evaluator checks every message in code: helplines present, no "high ground" without slope safety, no map links in floods, no invented numbers.
-- **Official warnings always win.** Our own rules are labelled "ours".
+- **Official warnings always win.** Warnings from IMD and state disaster authorities (via NDMA's SACHET)
+  show first on Today, in the person's language, even when our forecast is down; an official red
+  flood, rain or cyclone alert starts the flood guide's urgent mode. Our own rules are labelled "ours".
 - **Location-agnostic.** A point goes in and everything else is derived. Work is cached per ~25 km forecast cell, so cost grows with cells, not people.
 - **Only what no API can provide is written down** (`rules/`): official definitions, helplines, our safety text per language.
 
@@ -107,6 +109,7 @@ rules) and our [Code of Conduct](CODE_OF_CONDUCT.md). Report security problems p
 [Apache License 2.0](LICENSE). Data sources and their licences are listed in [NOTICE](NOTICE).
 
 ## Data and credits
+- Official warnings from [SACHET](https://sachet.ndma.gov.in/), National Disaster Management Authority (public domain).
 - Weather data by [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0), including ECMWF, GloFAS and ERA5.
 - Map data © OpenStreetMap contributors (ODbL).
 - Coastline from Natural Earth (public domain).

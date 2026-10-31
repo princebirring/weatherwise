@@ -68,8 +68,10 @@ These protect people who may act on a warning. A pull request that breaks one wi
 
 1. **Numbers come from data, never from the AI.** Messages are checked in code
    (`weatherwise/agents/message_rules.py`); do not weaken a check to make a test pass.
-2. **Official warnings always win.** Thresholds from an official service (IMD) go in
-   `rules/countries/<code>.toml` with the source in a comment. Our own rules are labelled "ours".
+2. **Official warnings always win.** They show first, before our own checks, and must still show
+   when our forecast is down. If they cannot be checked, say so: never show that as "no warnings".
+   Thresholds from an official service (IMD) go in `rules/countries/<code>.toml` with the source in a
+   comment. Our own rules are labelled "ours".
 3. **"Move now" only on an official red alert or extremely heavy rain within a day.** Our model
    data alone only ever starts the flood guide in prepare mode.
 4. **"High ground" never without "away from hill slopes"** (landslides), and **no map routes in

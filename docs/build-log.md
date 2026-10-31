@@ -83,3 +83,27 @@ criterion it serves, a metric, and what we learned (plan §14.2). The article is
 - Heat replays unchanged (Akola Excess Heat Factor: POD 0.58, FAR 0.22).
 
 **Honest limit:** the replay carries the guide's history day to day. The live service needs the same memory (the "active events" table in DynamoDB, plan §8.5) so the app and WhatsApp keep the guide on too; until that is deployed, a live forecast that goes quiet still turns the guide off.
+
+## Oct 31 (evening): official warnings
+
+**Why:** IMD was in the news for a cyclone threat on the Andhra coast while WeatherWise showed "Safe
+to work today" there. Our checks cover heat, drought, heavy rain and river floods, not cyclone wind,
+and the promise "official warnings always win" was never wired in.
+
+**What shipped**
+- The all-clear wording is gone ("No danger found by our checks").
+- Official warnings from NDMA's SACHET (IMD and every state disaster authority), asked for the
+  person's point the same way SACHET's own website does, cached 5 minutes per area. Shown first on
+  Today, with issuer, colour and expiry, in Marathi / Hindi / English (SACHET translates the
+  message; event names come from our language files).
+- Asked separately from the forecast: on Oct 31 Open-Meteo rate-limited us and the forecast took
+  minutes, yet the official warnings still showed.
+- An official red flood/rain/cyclone alert starts the flood guide's urgent mode; orange starts prepare.
+
+**Bugs found on the way:** macOS's certificate list lacks the root SACHET uses (all HTTPS now uses
+certifi); SACHET's translator translates the alert by id, not the text sent (so used for messages
+only); the same alert issued for overlapping mandals showed twice (now once).
+
+**Measured (live, Oct 31, 20:00 IST):** Hyderabad: Telangana SDMA thunderstorm watch (yellow).
+Buchireddipalem: Andhra Pradesh SDMA lightning alert (orange), shown in Marathi. Akola: "no official
+warnings in force". SACHET had no active cyclone warning that evening.
