@@ -1,0 +1,14 @@
+# Reviewers requested automatically (later lines win). Both maintainers on every path, so either
+# can approve the other's pull request; the first name is the one who knows that area best.
+*                    @princebirring @pm19nov
+
+# Safety text, official thresholds and agent procedures: Prashant checks sources and wording.
+/rules/              @pm19nov @princebirring
+/skills/             @pm19nov @princebirring
+/website/src/text/   @pm19nov @princebirring
+
+# Deployment and CI: Prince.
+/Dockerfile          @princebirring @pm19nov
+/.dockerignore       @princebirring @pm19nov
+/.github/workflows/  @princebirring @pm19nov
+/docs/deployment-todo.md @princebirring @pm19nov

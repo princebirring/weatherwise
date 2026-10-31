@@ -1,0 +1,20 @@
+# Upstream rain points for river areas in India. PILOT DATA, set by hand for one river and labelled so.
+# Production replaces this file with catchments derived from river-network data
+# (HydroSHEDS / GloFAS), plan §8.9. Places within applies_within_km of the outlet use these points.
+
+[[catchment]]
+name = "Panchganga at Kolhapur"
+outlet_lat = 16.70
+outlet_lon = 74.24
+applies_within_km = 15.0
+status = "pilot: set by hand; CONFIRM with CWC / district flood plan"
+
+[[catchment.upstream_rain_point]]
+name = "Gaganbawda (Ghats)"
+lat = 16.55
+lon = 73.83
+
+[[catchment.upstream_rain_point]]
+name = "Radhanagari (Ghats)"
+lat = 16.41
+lon = 73.99

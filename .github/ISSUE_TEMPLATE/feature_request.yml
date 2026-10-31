@@ -1,0 +1,28 @@
+name: Feature idea
+description: Suggest an improvement.
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: part
+    attributes:
+      label: Which part it serves
+      options:
+        - "Part 1: heat-wave and drought early warning for farmers"
+        - "Part 2: cooling center / shelter router"
+        - "Part 3: flood-risk household guide"
+        - Platform (tests, deployment, docs)
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: Who has it, and what happens today.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+    validations:
+      required: true

@@ -1,0 +1,38 @@
+[project]
+name = "weatherwise"
+version = "0.1.0"
+description = "Heat-wave and drought early warning, shelter router, and flood-risk guide, on open climate-risk infrastructure"
+requires-python = ">=3.13"
+license = "Apache-2.0"
+dependencies = [
+    "mcp>=2.1",
+    "strands-agents>=1.62",
+    "bedrock-agentcore",
+    "aws-opentelemetry-distro",
+    "starlette>=1.0",   # WeatherWise API (weatherwise/api)
+    "uvicorn>=0.40",
+]
+
+[dependency-groups]
+dev = ["pytest>=9", "strands-agents-evals", "ruff>=0.17"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["live: calls real external APIs (deselect with -m 'not live')"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+# Errors, imports, bugs, simplifications. E402/E731 are listed so the existing noqa markers
+# (scripts that set sys.path first; small lambdas) mean something on every machine.
+select = ["E", "F", "W", "I", "B", "RUF", "PERF", "PIE", "S112"]
+ignore = ["E501", "RUF001", "RUF002", "RUF003", "PERF401", "RUF005"]  # long lines in data/prompts; Devanagari and dashes in text; loop style
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "B011", "RUF012"]
