@@ -86,6 +86,9 @@ describe.each(LANGUAGES)('in %s', (language) => {
     show(language, <Home place={place} data={loaded(outlook(false))} status={status} onPlace={() => {}} />)
     expect(screen.getByText(t('today.safeTitle'))).toBeTruthy()
     expect(screen.queryByText(t('today.whatToDo'))).toBeNull()
+    // Never an all-clear: our checks do not see cyclones or official alerts, so IMD is one tap away.
+    expect(document.body.textContent).not.toMatch(/safe to work|काम करणे सुरक्षित|काम करना सुरक्षित/i)
+    expect(screen.getByText(t('today.officialWarnings')).closest('a')?.getAttribute('href')).toBe('https://sachet.ndma.gov.in/')
     expectOnlyLanguage(language)
   })
 
