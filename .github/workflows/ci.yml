@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: ['**']
 
 permissions:
   contents: read
@@ -65,3 +65,71 @@ jobs:
           test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/app/shelter)" = 200
           test "$(docker exec ww whoami)" = weatherwise
           docker exec ww test -s /app/geodata/ne_10m_coastline.geojson
+
+  publish-ecr:
+    name: Publish image to ECR
+    needs: [server, website, container]
+    # `main` is this repository's default branch. A merge into it creates this push.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ vars.AWS_ECR_PUBLISH_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Log in to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: Set up ARM64 image emulation
+        uses: docker/setup-qemu-action@v3
+      - name: Build and publish immutable image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/arm64
+          push: true
+          tags: |
+            ${{ steps.ecr.outputs.registry }}/weatherwise:${{ github.sha }}
+            ${{ steps.ecr.outputs.registry }}/weatherwise:main
+
+  deploy-infrastructure:
+    name: Deploy infrastructure
+    needs: publish-ecr
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ vars.AWS_CLOUDFORMATION_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Resolve immutable image URI
+        id: image
+        run: |
+          account_id="$(aws sts get-caller-identity --query Account --output text)"
+          echo "uri=${account_id}.dkr.ecr.${AWS_REGION}.amazonaws.com/weatherwise:${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+      - name: Deploy production stack
+        run: |
+          aws cloudformation deploy \
+            --stack-name weatherwise-prod \
+            --template-file infra/cloudformation/weatherwise-service.yaml \
+            --role-arn "${{ vars.AWS_CLOUDFORMATION_EXECUTION_ROLE_ARN }}" \
+            --capabilities CAPABILITY_NAMED_IAM \
+            --no-fail-on-empty-changeset \
+            --parameter-overrides \
+              ImageUri="${{ steps.image.outputs.uri }}" \
+              ClimateAgentModelId="us.amazon.nova-micro-v1:0" \
+              EnableWaf=true
+      - name: Report service endpoint
+        run: |
+          aws cloudformation describe-stacks --stack-name weatherwise-prod \
+            --query "Stacks[0].Outputs[?OutputKey=='ServiceUrl'].OutputValue" --output text

@@ -1,0 +1,137 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creates the WeatherWise ECR repository and GitHub Actions OIDC roles for publishing and CloudFormation deployment.
+
+Parameters:
+  GitHubRepository:
+    Type: String
+    Default: princebirring/weatherwise
+    Description: GitHub owner/repository, without https://github.com/.
+  ExistingEcrRepositoryName:
+    Type: String
+    Default: ''
+    Description: Optional existing ECR repository name. Supply weatherwise when retrying after a retained repository.
+
+Conditions:
+  CreateEcrRepository: !Equals [!Ref ExistingEcrRepositoryName, '']
+
+Resources:
+  EcrRepository:
+    Condition: CreateEcrRepository
+    Type: AWS::ECR::Repository
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RepositoryName: weatherwise
+      ImageScanningConfiguration: {ScanOnPush: true}
+
+  GitHubOidcProvider:
+    Type: AWS::IAM::OIDCProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList: [sts.amazonaws.com]
+
+  EcrPublisherRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: WeatherWiseGitHubEcrPublisher
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Ref GitHubOidcProvider
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                'token.actions.githubusercontent.com:aud': sts.amazonaws.com
+                'token.actions.githubusercontent.com:sub': !Sub 'repo:${GitHubRepository}:ref:refs/heads/main'
+      Policies:
+        - PolicyName: push-weatherwise-images-only
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:CompleteLayerUpload
+                  - ecr:InitiateLayerUpload
+                  - ecr:PutImage
+                  - ecr:UploadLayerPart
+                Resource: !If
+                  - CreateEcrRepository
+                  - !GetAtt EcrRepository.Arn
+                  - !Sub arn:${AWS::Partition}:ecr:${AWS::Region}:${AWS::AccountId}:repository/${ExistingEcrRepositoryName}
+
+  CloudFormationExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: WeatherWiseCloudFormationExecution
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: {Service: cloudformation.amazonaws.com}
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        # The stack creates network, ECS, IAM, logs, and WAF resources. It is used
+        # only by CloudFormation invoked from the protected main branch.
+        - arn:aws:iam::aws:policy/AdministratorAccess
+
+  CloudFormationDeployerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: WeatherWiseGitHubCloudFormationDeployer
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Ref GitHubOidcProvider
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                'token.actions.githubusercontent.com:aud': sts.amazonaws.com
+                'token.actions.githubusercontent.com:sub': !Sub 'repo:${GitHubRepository}:ref:refs/heads/main'
+      Policies:
+        - PolicyName: deploy-weatherwise-cloudformation
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cloudformation:CreateStack
+                  - cloudformation:UpdateStack
+                  - cloudformation:CreateChangeSet
+                  - cloudformation:DeleteChangeSet
+                  - cloudformation:DescribeStacks
+                  - cloudformation:DescribeStackEvents
+                  - cloudformation:DescribeStackResources
+                  - cloudformation:DescribeChangeSet
+                  - cloudformation:ExecuteChangeSet
+                  - cloudformation:GetTemplateSummary
+                  - cloudformation:ValidateTemplate
+                Resource: '*'
+              - Effect: Allow
+                Action: iam:PassRole
+                Resource: !GetAtt CloudFormationExecutionRole.Arn
+
+Outputs:
+  EcrRepositoryArn:
+    Value: !If
+      - CreateEcrRepository
+      - !GetAtt EcrRepository.Arn
+      - !Sub arn:${AWS::Partition}:ecr:${AWS::Region}:${AWS::AccountId}:repository/${ExistingEcrRepositoryName}
+  EcrRepositoryUri:
+    Value: !If
+      - CreateEcrRepository
+      - !GetAtt EcrRepository.RepositoryUri
+      - !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.${AWS::URLSuffix}/${ExistingEcrRepositoryName}
+  EcrPublisherRoleArn:
+    Value: !GetAtt EcrPublisherRole.Arn
+  CloudFormationDeployerRoleArn:
+    Value: !GetAtt CloudFormationDeployerRole.Arn
+  CloudFormationExecutionRoleArn:
+    Value: !GetAtt CloudFormationExecutionRole.Arn
