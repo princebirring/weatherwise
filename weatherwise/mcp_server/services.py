@@ -92,14 +92,15 @@ class ClimateRiskServices:
         return place, rules, self._today(place.timezone)
 
     # ---- tools ---------------------------------------------------------------------
-    def find_place(self, name: str, country_code: str = "in") -> dict:
-        """Cached 30 days per name: the public geocoders ask callers to cache repeat lookups."""
+    def find_place(self, name: str, country_code: str = "in", language: str = "en") -> dict:
+        """Cached 30 days per name and language: the public geocoders ask callers to cache repeat
+        lookups."""
         def search() -> list[dict]:
             return [{"label": c.label, "lat": c.lat, "lon": c.lon, "source": c.source}
-                    for c in search_place(name, country_code, self.geocoders)[:8]]
+                    for c in search_place(name, country_code, self.geocoders, language=language)[:8]]
 
-        candidates = cached(self.resolver.cache, "geocode",
-                            f"{country_code.lower()}:{name.strip().lower()}", search)
+        key = f"{country_code.lower()}:{name.strip().lower()}" + ("" if language == "en" else f":{language}")
+        candidates = cached(self.resolver.cache, "geocode", key, search)
         return {
             "query": name,
             "candidates": candidates,

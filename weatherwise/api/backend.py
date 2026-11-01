@@ -12,6 +12,8 @@ from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 
+from weatherwise.rules import country_for, load_rules, rules_version
+
 ROOT = Path(__file__).resolve().parents[2]
 REPLAYS_FILE = ROOT / "evals" / "headline_events.toml"
 HAZARDS = {"heat", "flood", "cyclone", "other"}
@@ -86,11 +88,16 @@ class WeatherWiseApi:
             self._policies[country] = self.call("message_policy", {"country_code": country})
         return self._policies[country]
 
-    def find_place(self, query: str) -> dict:
+    def find_place(self, query: str, language: str | None = None) -> dict:
         query = (query or "").strip()
         if not 2 <= len(query) <= 80:
             raise BadRequest("type 2 to 80 characters")
-        return self.call("find_place", {"name": query})
+        args = {"name": query}
+        if language and language != "en":
+            if language not in LANGUAGES:
+                raise BadRequest("unknown language")
+            args["language"] = language
+        return self.call("find_place", args)
 
     def place(self, lat, lon) -> dict:
         """What we know about the point, plus its outlook (the risk strip)."""
@@ -109,6 +116,29 @@ class WeatherWiseApi:
             raise BadRequest(f"hazard must be one of {sorted(HAZARDS)}")
         return _covered(self.call("find_shelters", {"lat": _number(lat, "lat", -90, 90),
                                                     "lon": _number(lon, "lon", -180, 180), "hazard": hazard}))
+
+    def rules(self, country: str = "in") -> dict:
+        """The lines our checks use, read from rules/ (never copied into the website), for the
+        "how a warning is decided" diagram. Official lines and our own are kept apart."""
+        r = load_rules(country_for(country))
+        heat, rain, guide = r["heat"], r["heavy_rain"], r["flood_guide"]
+        return {
+            "country": country,
+            "heat": {"base_tmax_c": heat["base_tmax"], "departure_c": heat["heat_wave_departure"],
+                     "absolute_c": heat["heat_wave_absolute"], "min_days": heat["min_consecutive_days"],
+                     "agreement": heat["min_agreement"],
+                     "work_heat_c": {lv["name"]: lv["feels_like_c"] for lv in r["work_heat"]["levels"]},
+                     "excess_heat_percentile": r["excess_heat"]["heat_percentile"]},
+            "rain_mm": {k: rain[k] for k in ("heavy", "very_heavy", "extremely_heavy")},
+            "unusual_rain": {"percentile": r["unusual_rain"]["percentile"], "min_mm": r["unusual_rain"]["min_mm"]},
+            "river_return_period_years": r["river_flood"]["flood_level_return_period_years"],
+            "flood_guide": {k: guide[k] for k in ("prepare_signals", "prepare_within_days", "urgent_within_days",
+                                                   "urgent_rain_category", "heavy_rain_days_in_a_row",
+                                                   "stay_on_quiet_days")},
+            "correction": {"training_days": r["forecast_correction"]["training_days"],
+                           "max_shift_c": r["forecast_correction"]["max_shift_c"]},
+            "rules_version": rules_version(),
+        }
 
     def replays(self) -> list[dict]:
         events = tomllib.loads(REPLAYS_FILE.read_text())["replay"]

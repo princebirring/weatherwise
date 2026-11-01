@@ -57,7 +57,8 @@ export function iconOf(hazard: string): IconName {
   return 'heat'
 }
 
-export const LOCALES: Record<Language, string> = { en: 'en-IN', hi: 'hi-IN', mr: 'mr-IN' }
+// Latin digits everywhere: Marathi dates would otherwise use Devanagari digits next to 33° and 7.
+export const LOCALES: Record<Language, string> = { en: 'en-IN', hi: 'hi-IN', mr: 'mr-IN-u-nu-latn' }
 
 export function weekday(isoDay: string, language: Language): string {
   return new Intl.DateTimeFormat(LOCALES[language], { weekday: 'short', timeZone: 'UTC' }).format(new Date(isoDay))

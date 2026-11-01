@@ -1,6 +1,6 @@
 // The one way the website reaches data: the WeatherWise API (weatherwise/api/server.py).
 import type {
-  ChatReply, Language, OfficialAlerts, PlaceAndOutlook, PlaceCandidate, Policy, Replay, ReplayEvent, SavedPlace, Shelters, Status,
+  ChatReply, Language, OfficialAlerts, PlaceAndOutlook, PlaceCandidate, Policy, Replay, ReplayEvent, Rules, SavedPlace, Shelters, Status,
 } from './types'
 
 export class ApiError extends Error {
@@ -31,11 +31,13 @@ const query = (params: Record<string, string | number>) =>
 export const api = {
   status: () => request<Status>('/api/status'),
   policy: () => request<Policy>('/api/policy'),
-  findPlace: (q: string) => request<{ candidates: PlaceCandidate[] }>(`/api/places?${query({ q })}`),
+  // Names come back in the person's language where known (Marathi, Hindi), else English.
+  findPlace: (q: string, lang: Language) => request<{ candidates: PlaceCandidate[] }>(`/api/places?${query({ q, lang })}`),
   place: (lat: number, lon: number) => request<PlaceAndOutlook>(`/api/place?${query({ lat, lon })}`),
   official: (lat: number, lon: number) => request<OfficialAlerts>(`/api/official?${query({ lat, lon })}`),
   shelters: (lat: number, lon: number, hazard: 'heat' | 'flood') =>
     request<Shelters>(`/api/shelters?${query({ lat, lon, hazard })}`),
+  rules: () => request<Rules>('/api/rules'),
   replays: () => request<ReplayEvent[]>('/api/replays'),
   replay: (id: string) => request<Replay>(`/api/replays/${encodeURIComponent(id)}`),
   chat: (sessionId: string, message: string, language: Language, place: SavedPlace | null) =>

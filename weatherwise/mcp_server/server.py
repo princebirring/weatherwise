@@ -30,15 +30,16 @@ def services() -> ClimateRiskServices:
 
 
 @server.tool()
-def find_place(name: str, country_code: str = "in") -> dict:
+def find_place(name: str, country_code: str = "in", language: str = "en") -> dict:
     """Find villages or towns by name (typed or spoken). Returns candidates with district and
     state. Always read the candidates back to the person and confirm one before using it.
 
     Args:
         name: Place name as the person said or typed it, e.g. "Wadgaon".
         country_code: ISO country code, e.g. "in".
+        language: Language for the names, e.g. "mr" or "hi" (English where none is known).
     """
-    return services().find_place(name, country_code)
+    return services().find_place(name, country_code, language)
 
 
 @server.tool()

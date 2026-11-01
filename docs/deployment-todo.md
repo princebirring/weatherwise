@@ -3,7 +3,7 @@
 **For:** Prince, and the Claude Code session he runs this with.
 **Goal:** first place. Start with "Do this first" below. The result is a public HTTPS link judges
 can open, with live chat on Claude in Amazon Bedrock and the agents on Amazon Bedrock AgentCore,
-all in **Mumbai (`ap-south-1`)**, using only the six services listed in "The stack".
+in one AWS region of Prince's choice, using only the six services listed in "The stack".
 **Deadline:** judging deployment frozen **Nov 3, 6 PM IST** (submission Nov 4).
 
 > **To the Claude session reading this:** work through the phases in order and tick the boxes.
@@ -33,7 +33,7 @@ us first place. Everything below closes it, in order.
 | W5 | Claude (Prashant's session) | after W1 | Evaluator on/off comparison, Limits section, article, video |
 
 - [ ] **W1. Bedrock access today.** This blocks everything else.
-  1. In the Bedrock console in `ap-south-1`, enable **Claude Sonnet 5.5**. If it is offered only
+  1. In the Bedrock console in `<region>`, enable **Claude Sonnet 5.5**. If it is offered only
      through an inference profile, prefer the **global** profile (cheapest; we store no personal
      data, so where the model runs does not matter). Note the **inference-profile ID** (decision 0.1).
   2. Create an IAM user (or an SSO permission set) for Prashant with **only**
@@ -43,15 +43,15 @@ us first place. Everything below closes it, in order.
   3. Set the AWS Budget alarms (decision 0.3).
   **Check:**
   ```bash
-  aws bedrock-runtime converse --region ap-south-1 --model-id <profile-id> \
+  aws bedrock-runtime converse --region <region> --model-id <profile-id> \
     --messages '[{"role":"user","content":[{"text":"Say OK"}]}]'
   ```
-  answers, and from the repo `CLIMATE_AGENT_MODEL_ID=<profile-id> AWS_REGION=ap-south-1 uv run python -m weatherwise.api.server`
+  answers, and from the repo `CLIMATE_AGENT_MODEL_ID=<profile-id> AWS_REGION=<region> uv run python -m weatherwise.api.server`
   then `curl localhost:8080/api/status` shows `"agents_ready": true`.
 
 - [ ] **W2. First real-model scenario run** (30 cases, a few dollars at most):
   ```bash
-  CLIMATE_AGENT_MODEL_ID=<profile-id> AWS_REGION=ap-south-1 uv run python evals/run_scenarios.py --judge
+  CLIMATE_AGENT_MODEL_ID=<profile-id> AWS_REGION=<region> uv run python evals/run_scenarios.py --judge
   ```
   The report is written to `evals/reports/`. Commit it on a branch and open a PR. **Don't fix
   failures yourself:** send the report to Prashant; Claude fixes them on his side (prompts and
@@ -109,7 +109,7 @@ working. Worst case about US$10 a day in model cost.
 tested code via our MCP server (fast, cheap, checkable). Only the Ask chat uses the agents on
 AgentCore. "AI only where it helps; checked code everywhere else."
 
-### Expected cost in Mumbai (US$, before 18% GST)
+### Expected cost (US$, before any GST)
 
 | Item | Per month |
 |---|---|
@@ -120,7 +120,7 @@ AgentCore. "AI only where it helps; checked code everywhere else."
 | Claude Sonnet 5.5 (global profile $2 / $10 per million tokens; India/Asia profile +10%) | ≈ $0.10 per chat answer; ≈ $20 for W2/W5 testing, ≈ $30 for judging |
 
 November in all: **≈ US$110–130, ≈ US$130–155 with GST.** Confirm the rates in the AWS Pricing
-Calculator for `ap-south-1`. New accounts usually get up to US$200 in credits (decision 0.4).
+Calculator for the chosen region. New accounts usually get up to US$200 in credits (decision 0.4).
 After judging, stopping the ECS service (which removes the load balancer) brings the cost to
 about zero.
 
@@ -129,7 +129,7 @@ about zero.
 ## 0. What you are deploying
 
 ```
-Browser ──HTTPS──> ECS Express Mode load balancer (ap-south-1)
+Browser ──HTTPS──> ECS Express Mode load balancer
                          │
                          ▼
           ┌─────────── one container (Dockerfile) ───────────┐
@@ -144,9 +144,8 @@ Browser ──HTTPS──> ECS Express Mode load balancer (ap-south-1)
           AgentCore Runtime: weatherwise/runtime.py (agents + same MCP server inside)
 ```
 
-- **Region:** `ap-south-1` (Mumbai) for everything. Close to our users, and Indian government
-  sites (SACHET) are less likely to block or slow requests from an Indian address. The code reads
-  `AWS_REGION`.
+- **Region:** one region for everything, Prince's choice: it must offer Claude on Bedrock, AgentCore Runtime and
+  ECS Express Mode. The code reads `AWS_REGION`; below, `<region>` stands for it.
 - **No database is needed.** Nothing personal is stored; chat sessions live in memory for 24 h,
   which is why the service runs exactly **one** task (a second task would not know the first
   one's chat sessions).
@@ -160,7 +159,7 @@ Browser ──HTTPS──> ECS Express Mode load balancer (ap-south-1)
 | Variable | Value | What it does |
 |---|---|---|
 | `CLIMATE_AGENT_MODEL_ID` | the inference-profile ID from the Bedrock console | Turns chat on. Without it the site works, chat says "not connected yet" |
-| `AWS_REGION` | `ap-south-1` | Bedrock region |
+| `AWS_REGION` | `<region>` | Bedrock region |
 | `WEATHERWISE_CACHE_DIR` | `/tmp/weatherwise` (already set in the Dockerfile) | Writable folder for downloaded forecasts |
 | `WEATHERWISE_GEODATA_DIR` | `/app/geodata` (already set) | Coastline file baked into the image |
 | `WEATHERWISE_CHATS_PER_DAY` | `100` (the default) | Daily chat cap: the AI-spend guard |
@@ -172,7 +171,7 @@ Browser ──HTTPS──> ECS Express Mode load balancer (ap-south-1)
 
 ### Decisions to make with Prashant before starting
 
-- [ ] **0.1 Model:** Claude Sonnet 5.5 in `ap-south-1`; send back the inference-profile ID.
+- [ ] **0.1 Model:** Claude Sonnet 5.5 in `<region>`; send back the inference-profile ID.
 - [ ] **0.2 Open-Meteo key:** the free API is shared and rate-limited. When it says "too many requests" our code waits 5 / 10 / 20 / 40 s, so a busy judging day can make a first visit to a new village take over a minute (measured Oct 31). A paid key (from about €29/month) removes this. Decide yes/no.
 - [ ] **0.3 Budget alarms:** US$50 and US$100 per month, emails to Prince and Prashant.
 - [ ] **0.4 Billing check:** under Billing → Tax settings, see whether the account is billed by AWS India (AISPL, in INR, +18% GST), and whether the new-account credits are on it. On the "Free" account plan, upgrade to "Paid" to use Bedrock and AgentCore (credits carry over).
@@ -191,24 +190,24 @@ Browser ──HTTPS──> ECS Express Mode load balancer (ap-south-1)
 
 - [ ] **1.2 Run the test suites once** (from the repo, not the image):
   ```bash
-  uv sync && uv run pytest -m "not live"      # expect 228 passed
+  uv sync && uv run pytest -m "not live"      # expect 232 passed
   uv run pytest -m live                        # real APIs; expect all passed
   ```
 
 - [ ] **1.3 Bedrock from the container.** With local AWS credentials,
-  `docker run --rm -p 8080:8080 -e CLIMATE_AGENT_MODEL_ID=<id> -e AWS_REGION=ap-south-1 -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN weatherwise`
+  `docker run --rm -p 8080:8080 -e CLIMATE_AGENT_MODEL_ID=<id> -e AWS_REGION=<region> -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN weatherwise`
   **Check:** `/api/status` shows `"agents_ready": true`, and asking "Will it be very hot?" on `/app/ask` gets a reply with "How this answer was made" steps.
 
-- [ ] **1.4 Push to ECR** in `ap-south-1` (repository `weatherwise`, image tag = git commit SHA, plus `judging` for the frozen one).
+- [ ] **1.4 Push to ECR** in `<region>` (repository `weatherwise`, image tag = git commit SHA, plus `judging` for the frozen one).
 
-- [ ] **1.5 Run it on ECS Express Mode** in `ap-south-1` (AWS's replacement for App Runner, which no longer accepts new accounts). Create the service from the ECR image:
+- [ ] **1.5 Run it on ECS Express Mode** in `<region>` (AWS's replacement for App Runner, which no longer accepts new accounts). Create the service from the ECR image:
   - Port 8080; health check path `/api/status`.
   - 1 vCPU, 2 GB, ARM64 (or x86, matching 1.1). **Exactly 1 task: minimum 1, maximum 1** (one warm task keeps the forecast cache and the chat sessions; see 1.7).
   - Task role: `bedrock:InvokeModel` and `bedrock:InvokeModelWithResponseStream` on the chosen inference profile and the foundation models behind it. Nothing else.
   - Networking: tasks in **public subnets with a public IP**, so they reach the internet with **no NAT Gateway** (a NAT Gateway alone would add about US$33/month).
   - Environment: the values from the settings table, including `WEATHERWISE_TRUSTED_PROXY_HOPS=1`.
   - Logs: CloudWatch, retention 14 days.
-  - If Express Mode is not offered in `ap-south-1`: a plain ECS service on Fargate behind an Application Load Balancer with an ACM certificate, same image and settings.
+  - If Express Mode is not offered in `<region>`: a plain ECS service on Fargate behind an Application Load Balancer with an ACM certificate, same image and settings.
 
 - [ ] **1.6 Smoke test the public URL.** All must pass:
   ```bash
@@ -239,7 +238,7 @@ Browser ──HTTPS──> ECS Express Mode load balancer (ap-south-1)
 
 ## Phase 2: agents on AgentCore (target Nov 3, 12 PM)
 
-- [ ] **2.1 Deploy the agent runtime to AgentCore Runtime** in `ap-south-1`, the same way as workshop Module 5 (`agentcore configure` with entry point `weatherwise/runtime.py`, then `agentcore launch`). Mumbai has AgentCore Runtime; it lacks AgentCore Evaluations and Policy, which we don't use.
+- [ ] **2.1 Deploy the agent runtime to AgentCore Runtime** in `<region>`, the same way as workshop Module 5 (`agentcore configure` with entry point `weatherwise/runtime.py`, then `agentcore launch`). We don't use AgentCore Evaluations or Policy, so any region with AgentCore Runtime works.
   - The package must include `weatherwise/`, `rules/`, `data/`, `skills/` (the agents read skills and the MCP server reads rules and data). If the toolkit wants a requirements file: `uv export --no-dev --no-hashes > requirements.txt`.
   - Environment: `CLIMATE_AGENT_MODEL_ID`, `AWS_REGION`, `WEATHERWISE_CACHE_DIR=/tmp/weatherwise`. Leave `CLIMATE_RISK_MCP_URL` unset: the runtime starts the MCP server inside its own microVM.
   - Execution role: Bedrock invoke (as 1.5) plus what AgentCore needs for logs and traces.

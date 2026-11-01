@@ -204,3 +204,30 @@ export interface Status {
   languages: Language[]
   limits: { max_message_chars: number }
 }
+
+/** The lines our checks use, served from rules/ (GET /api/rules). Official (IMD) and ours apart. */
+export interface Rules {
+  country: string
+  heat: {
+    base_tmax_c: Record<string, number> // by terrain: plains, coast, hills
+    departure_c: number
+    absolute_c: number
+    min_days: number
+    agreement: number
+    work_heat_c: Record<string, number> // ours, by level name
+    excess_heat_percentile: number
+  }
+  rain_mm: { heavy: number; very_heavy: number; extremely_heavy: number }
+  unusual_rain: { percentile: number; min_mm: number }
+  river_return_period_years: number
+  flood_guide: {
+    prepare_signals: string[]
+    prepare_within_days: number
+    urgent_within_days: number
+    urgent_rain_category: string
+    heavy_rain_days_in_a_row: number
+    stay_on_quiet_days: number
+  }
+  correction: { training_days: number; max_shift_c: number }
+  rules_version: string
+}

@@ -7,6 +7,18 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Added
+- Judges' page rebuilt: a phone in the hero showing the real app (warning, advice, helplines) in
+  the chosen language (a heat warning days ahead, what to do, the flood guide, "move now"); proof numbers computed from the replays (9 days of warning, 2 of 2 floods
+  warned with no false alarms, 4 disasters replayed); "Why the people most at risk hear last" (the
+  gap we measured for each of the three parts, and our answer); "How a warning is decided" (heat
+  and rain gauges with every line read live from rules/, official IMD lines and ours marked); the two
+  journeys through the system step by step (Today with no AI, and a question through the agents)
+  with the six AWS services and their jobs; the Strands features in use; and an honest "what it does not do
+  yet". Every word in Marathi, Hindi and English.
+- `GET /api/rules`: the lines our checks use, read from rules/ for the judges' page.
+- Place search in the person's language (`find_place` `language`, `/api/places?lang=`): Marathi
+  and Hindi names where the geocoders have them, else English.
+- Today's week strip shows rain (mm) on days with at least 1 mm.
 - "Listen" button on Today (our warning, the calm answer, official warnings) and on each
   what-to-do card: the phone reads it aloud in Marathi / Hindi / English with its own voice
   (Web Speech API; free, no AWS service). Amazon Polly was considered but has no Marathi. If the
@@ -31,6 +43,9 @@ All notable changes to this project are documented here. The format follows
 - Vijayawada 2024 flood replay.
 
 ### Changed
+- Judges' page no longer mentions WhatsApp or 6 AM warnings (not built for judging); "1 days"
+  wording fixed.
+- Marathi dates use 0-9 digits like every other number on the screen.
 - Deployment plan: six AWS services in Mumbai (Bedrock, AgentCore Runtime, ECS Express Mode +
   ECR, CloudWatch, IAM, Budgets); App Runner (closed to new accounts) and CloudFront + WAF dropped
   for judging. Daily chat cap default 500 -> 100.
