@@ -8,12 +8,12 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 - Judges' page rebuilt: a phone in the hero showing the real app (warning, advice, helplines) in
-  the chosen language; proof numbers computed from the replays (9 days of warning, 2 of 2 floods
+  the chosen language (a heat warning days ahead, what to do, the flood guide, "move now"); proof numbers computed from the replays (9 days of warning, 2 of 2 floods
   warned with no false alarms, 4 disasters replayed); "Why the people most at risk hear last" (the
   gap we measured for each of the three parts, and our answer); "How a warning is decided" (heat
-  and rain gauges with every line read live from rules/, official IMD lines and ours marked); an
-  animated architecture diagram of the six AWS services with two journeys (Today with no AI, and a
-  question through the agents); the Strands features in use; and an honest "what it does not do
+  and rain gauges with every line read live from rules/, official IMD lines and ours marked); the two
+  journeys through the system step by step (Today with no AI, and a question through the agents)
+  with the six AWS services and their jobs; the Strands features in use; and an honest "what it does not do
   yet". Every word in Marathi, Hindi and English.
 - `GET /api/rules`: the lines our checks use, read from rules/ for the judges' page.
 - Place search in the person's language (`find_place` `language`, `/api/places?lang=`): Marathi

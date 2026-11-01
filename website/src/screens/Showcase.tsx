@@ -114,7 +114,7 @@ export function Showcase() {
               </ul>
             </div>
             <div className="grid-auto">
-              {([1, 3] as const).map((n) => (
+              {([1] as const).map((n) => (
                 <p key={n} className="rule-tile"><b>{t(`show.rule${n}b`)}</b> {t(`show.rule${n}t`)}</p>
               ))}
             </div>
