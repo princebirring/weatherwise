@@ -5,7 +5,7 @@ import { ErrorBox, Loading, ScreenHeader } from '../components/Shell'
 import type { Async } from '../components/useAsync'
 import { Link, navigate } from '../router'
 import { useGuidance, useLanguage } from '../text'
-import type { AdviceItem, Guidance, PlaceAndOutlook } from '../types'
+import type { AdviceItem, Detection, Guidance, PlaceAndOutlook } from '../types'
 
 interface Card {
   icon: IconName
@@ -22,10 +22,15 @@ const ICONS: Record<string, IconName[]> = {
   heavy_rain: ['waves', 'alert'],
 }
 
-function cardsFor(hazard: string, g: Guidance): Card[] {
+function cardsFor(d: Detection, g: Guidance): Card[] {
   const list = (key: keyof typeof ICONS, items: AdviceItem[]) =>
     items.map((a, i) => ({ icon: ICONS[key][i] ?? 'check', label: a.who, text: a.what }))
-  if (HEAT_HAZARDS.has(hazard)) return [...list('heat', g.heat), { icon: 'alert', label: '', text: g.heatstroke, call108: true }]
+  const hazard = d.hazard
+  if (HEAT_HAZARDS.has(hazard)) {
+    const level = hazard === 'work_heat' ? g.work_heat?.[d.severity] : undefined
+    const first: Card[] = level ? [{ icon: 'heat', label: '', text: level }] : []
+    return [...first, ...list('heat', g.heat), { icon: 'alert', label: '', text: g.heatstroke, call108: true }]
+  }
   if (hazard === 'dry_spell') return list('dry_spell', g.dry_spell)
   if (hazard === 'sowing_risk') return list('sowing', g.sowing)
   return list('heavy_rain', g.heavy_rain)
@@ -49,7 +54,7 @@ export function Todo({ index, data }: { index: number; data: Async<PlaceAndOutlo
       </>
     )
   }
-  const cards = cardsFor(d.hazard, guidance)
+  const cards = cardsFor(d, guidance)
   const card = cards[Math.min(step, cards.length - 1)]
   const last = step >= cards.length - 1
 

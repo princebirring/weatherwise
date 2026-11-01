@@ -11,12 +11,14 @@ export type Level = 'red' | 'orange' | 'yellow'
 const LEVELS: Record<string, Level> = {
   'heat_wave:heat_wave': 'orange',
   'heat_wave:severe': 'red',
-  'humid_heat:danger': 'orange',
+  'work_heat:take_care': 'yellow',
+  'work_heat:danger': 'orange',
   'excess_heat:heatwave': 'orange',
   'excess_heat:severe': 'red',
   'heavy_rain:heavy': 'yellow',
   'heavy_rain:very_heavy': 'orange',
   'heavy_rain:extremely_heavy': 'red',
+  'unusual_rain:unusual': 'yellow',
   'dry_spell:dry_spell': 'yellow',
   'sowing_risk:sow_or_wait': 'yellow',
   'river_flood:above_flood_level': 'orange',
@@ -26,8 +28,8 @@ const RANK: Record<Level, number> = { red: 3, orange: 2, yellow: 1 }
 // Rules taken from the official service; everything else is labelled "ours".
 const OFFICIAL_HAZARDS = new Set(['heat_wave', 'heavy_rain'])
 
-export const HEAT_HAZARDS = new Set(['heat_wave', 'humid_heat', 'excess_heat'])
-export const FLOOD_HAZARDS = new Set(['heavy_rain', 'river_flood'])
+export const HEAT_HAZARDS = new Set(['heat_wave', 'work_heat', 'excess_heat'])
+export const FLOOD_HAZARDS = new Set(['heavy_rain', 'unusual_rain', 'river_flood'])
 
 export const levelOf = (d: Detection): Level => LEVELS[`${d.hazard}:${d.severity}`] ?? 'yellow'
 export const levelOfKey = (hazardKey: string): Level => LEVELS[hazardKey] ?? 'yellow'
@@ -49,7 +51,7 @@ export function likelihood(d: Detection, t: T): string {
 }
 
 export function iconOf(hazard: string): IconName {
-  if (hazard === 'heavy_rain') return 'drop'
+  if (hazard === 'heavy_rain' || hazard === 'unusual_rain') return 'drop'
   if (hazard === 'river_flood') return 'waves'
   if (hazard === 'dry_spell' || hazard === 'sowing_risk') return 'dry'
   return 'heat'
@@ -94,7 +96,7 @@ export function chipsOf(d: Detection, rows: DayRow[], placeName: string, t: T): 
   if (d.hazard === 'heat_wave' || d.hazard === 'excess_heat') {
     const top = maxOf(span.map((r) => r.tmax_c))
     if (top !== null) chips.push(t('chip.upTo', Math.round(top)))
-  } else if (d.hazard === 'humid_heat') {
+  } else if (d.hazard === 'work_heat') {
     const feels = maxOf(span.map((r) => r.feels_like_max_c))
     if (feels !== null) chips.push(t('chip.feelsLike', Math.round(feels)))
   } else if (d.hazard === 'heavy_rain') {
@@ -102,6 +104,10 @@ export function chipsOf(d: Detection, rows: DayRow[], placeName: string, t: T): 
     const rain = maxOf(span.map((r) => r.rain_mm))
     if (upstream) chips.push(t('chip.upstream', upstream))
     else if (rain !== null) chips.push(t('chip.rain', Math.round(rain)))
+  } else if (d.hazard === 'unusual_rain') {
+    const rain = maxOf(span.map((r) => r.rain_mm))
+    if (rain !== null) chips.push(t('chip.rain', Math.round(rain)))
+    chips.push(t('chip.rareHere'))
   } else if (d.hazard === 'dry_spell') {
     chips.push(t('chip.dry'))
   } else if (d.hazard === 'sowing_risk') {

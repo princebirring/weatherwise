@@ -30,6 +30,10 @@
      "what": "Keep them in shade and give extra water."
     }
    ],
+   "work_heat": {
+    "take_care": "Hot for work in the sun. Rest in shade often and drink water before you feel thirsty.",
+    "danger": "Too hot to work in the sun at midday. Stop outdoor work from 12 to 4 pm, and check on anyone working alone."
+   },
    "heatstroke": "Heatstroke signs: confusion, no sweat, fainting. Cool the person with water and shade, then call 108.",
    "dry_spell": [
     {
@@ -98,6 +102,10 @@
      "what": "उन्हें छाँव में रखें और ज़्यादा पानी दें."
     }
    ],
+   "work_heat": {
+    "take_care": "धूप में काम के लिए गर्मी ज़्यादा है. बार-बार छाँव में आराम करें और प्यास लगने से पहले पानी पिएँ.",
+    "danger": "दोपहर में धूप में काम के लिए बहुत गर्मी है. दोपहर 12 से 4 बजे तक बाहर का काम बंद रखें, और अकेले काम कर रहे लोगों का हाल पूछते रहें."
+   },
    "heatstroke": "लू लगने के लक्षण: उलझन, पसीना न आना, बेहोशी. व्यक्ति को पानी और छाँव से ठंडा करें, फिर 108 पर कॉल करें.",
    "dry_spell": [
     {
@@ -166,6 +174,10 @@
      "what": "त्यांना सावलीत ठेवा आणि जास्त पाणी द्या."
     }
    ],
+   "work_heat": {
+    "take_care": "उन्हात कामासाठी उष्णता जास्त आहे. वारंवार सावलीत विश्रांती घ्या आणि तहान लागण्याआधी पाणी प्या.",
+    "danger": "दुपारी उन्हात कामासाठी खूप उष्णता आहे. दुपारी 12 ते 4 बाहेरचे काम बंद ठेवा, आणि एकट्याने काम करणाऱ्यांची चौकशी करत राहा."
+   },
    "heatstroke": "उष्माघाताची लक्षणे: गोंधळ, घाम न येणे, बेशुद्ध पडणे. व्यक्तीला पाणी आणि सावलीने थंड करा, मग 108 वर कॉल करा.",
    "dry_spell": [
     {

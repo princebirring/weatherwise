@@ -120,6 +120,7 @@ export interface AdviceItem {
 export interface Guidance {
   heat: AdviceItem[]
   heatstroke: string
+  work_heat: Record<string, string> // first card for each work-heat level, by level name
   dry_spell: AdviceItem[]
   sowing: AdviceItem[]
   heavy_rain: AdviceItem[]
@@ -171,6 +172,7 @@ export interface Replay {
   event: ReplayEvent
   mode: 'as_issued' | 'conditions_only'
   flood_level_m3s: number | null
+  unusual_rain_mm?: number | null
   verification: {
     mode: string
     scores?: Record<string, HazardScore>

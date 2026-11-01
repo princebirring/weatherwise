@@ -18,6 +18,12 @@ describe('warning display', () => {
     expect(levelOf(det('dry_spell', 'dry_spell'))).toBe('yellow')
   })
 
+  it('colours our own work-heat levels and unusual rain', () => {
+    expect(levelOf(det('work_heat', 'take_care'))).toBe('yellow')
+    expect(levelOf(det('work_heat', 'danger'))).toBe('orange')
+    expect(levelOf(det('unusual_rain', 'unusual'))).toBe('yellow')
+  })
+
   it('puts the most serious warning first, then the soonest', () => {
     const order = sortDetections([det('dry_spell', 'dry_spell', 0), det('heat_wave', 'heat_wave', 3), det('heat_wave', 'severe', 4)])
     expect(order.map((d) => d.severity)).toEqual(['severe', 'heat_wave', 'dry_spell'])
@@ -31,7 +37,9 @@ describe('warning display', () => {
   it('titles a warning in every language', () => {
     expect(titleOf(det('heat_wave', 'severe'), textFor('en'))).toBe('Severe heat wave')
     expect(titleOf(det('heat_wave', 'severe'), textFor('mr'))).toBe('तीव्र उष्णतेची लाट')
-    expect(titleOf(det('humid_heat', 'danger'), textFor('hi'))).toBe('खतरनाक उमस भरी गर्मी')
+    expect(titleOf(det('work_heat', 'danger'), textFor('hi'))).toBe('धूप में काम के लिए खतरनाक गर्मी')
+    expect(titleOf(det('work_heat', 'take_care'), textFor('en'))).toBe('Hot for work in the sun')
+    expect(titleOf(det('unusual_rain', 'unusual'), textFor('mr'))).toBe('तुमच्या भागासाठी असामान्य पाऊस')
   })
 
   it('names days in the chosen language', () => {
@@ -47,6 +55,11 @@ describe('warning display', () => {
       .toEqual(['Up to 45°', 'Likely', 'Our early signal'])
     expect(chipsOf(det('heavy_rain', 'heavy', 1, 0.8, { place: 'Gaganbawda (Ghats)' }), rows, 'Kolhapur', textFor('en'))[0])
       .toBe('Upstream: Gaganbawda (Ghats)')
+    const ours = { rule: 'ours (feels-like heat for outdoor work)' }
+    expect(chipsOf(det('work_heat', 'danger', 1, 0.8, ours), rows, 'Akola', textFor('en'))).toEqual(['Feels like 47°', 'Very likely', 'Our early signal'])
+    const wet = [row('2026-04-24', 30, [], 52), row('2026-04-25', 30, [], 20)]
+    expect(chipsOf(det('unusual_rain', 'unusual', 1, 0.5, { rule: 'ours (rain rare for this place)' }), wet, 'Vijayawada', textFor('en')))
+      .toEqual(['Up to 52 mm rain', 'Rare here', 'Possible', 'Our early signal'])
   })
 
   it('colours and pictures each day by its most serious hazard', () => {

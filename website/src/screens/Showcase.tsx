@@ -143,7 +143,7 @@ function HeroStat({ event }: { event: ReplayEvent }) {
 /** The one number that sums up a replay, computed from its scores. */
 function headline(r: Replay, t: T, language: Language): { value: string; label: string; color: string } | null {
   const scores = Object.values(r.verification.scores ?? {})
-  const flood = r.verification.scores?.river_flood
+  const flood = r.verification.scores?.flood_guide
   const firstLead = flood?.event_lead_days.find(([, lead]) => lead !== null)
   if (flood && firstLead) return { value: `${firstLead[1]}`, label: t('show.lead', fullDate(firstLead[0], language)), color: 'var(--flood)' }
   const best = scores.filter((s) => s.pod !== null).sort((a, b) => (b.pod ?? 0) - (a.pod ?? 0))[0]
@@ -176,14 +176,27 @@ function Replays({ events }: { events: ReplayEvent[] }) {
   )
 }
 
+type ChartKind = 'river' | 'rain' | 'heat'
+
+/** What the replay's chart shows: the river if it flooded, else rain if the flood came from rain
+ *  (towns flood from streams and drains too), else the day's top temperature. */
+function chartKind(r: Replay): ChartKind {
+  const happened = (e: string) => r.timeline.some((d) => d.what_happened.includes(e))
+  if (r.flood_level_m3s !== null && happened('river_above_flood_level')) return 'river'
+  if (happened('very_heavy_rain') || happened('unusual_rain')) return 'rain'
+  return 'heat'
+}
+
 function ReplayView({ r }: { r: Replay }) {
   const { t, language } = useLanguage()
-  const river = r.flood_level_m3s !== null && r.timeline.some((d) => d.observed.river_m3s !== null)
-  const metric = (d: Replay['timeline'][number]) => (river ? d.observed.river_m3s : d.observed.tmax) ?? null
+  const kind = chartKind(r)
+  const line = kind === 'river' ? r.flood_level_m3s : kind === 'rain' ? r.unusual_rain_mm ?? null : null
+  const metric = (d: Replay['timeline'][number]) =>
+    (kind === 'river' ? d.observed.river_m3s : kind === 'rain' ? d.observed.rain_mm : d.observed.tmax) ?? null
   const values = r.timeline.map(metric)
   const known = values.filter((v): v is number => v !== null)
-  const floor = river ? 0 : Math.min(...known, ...r.timeline.map((d) => d.observed.normal_tmax ?? Infinity)) - 3
-  const top = Math.max(...known, river ? (r.flood_level_m3s ?? 0) * 1.04 : -Infinity)
+  const floor = kind === 'heat' ? Math.min(...known, ...r.timeline.map((d) => d.observed.normal_tmax ?? Infinity)) - 3 : 0
+  const top = Math.max(...known, line !== null ? line * 1.04 : -Infinity)
   const y = (v: number) => ((v - floor) / (top - floor)) * 100
   const cols = { gridTemplateColumns: `repeat(${r.timeline.length}, minmax(0, 1fr))` }
   const scores = Object.values(r.verification.scores ?? {}).filter((s) => s.hits + s.misses + s.false_alarms > 0)
@@ -194,18 +207,19 @@ function ReplayView({ r }: { r: Replay }) {
       <div className="row" style={{ flexWrap: 'wrap', alignItems: 'baseline', gap: '6px 20px' }}>
         <b style={{ fontSize: 21 }}>{r.event.titles[language]}</b>
         <span className="small">
-          {river ? t('show.riverAxis', Math.round(r.flood_level_m3s ?? 0).toLocaleString('en-IN')) : t('show.tmaxAxis')}
+          {kind === 'river' ? t('show.riverAxis', Math.round(line ?? 0).toLocaleString('en-IN'))
+            : kind === 'rain' ? t('show.rainAxis', Math.round(line ?? 0)) : t('show.tmaxAxis')}
         </span>
       </div>
       <div className="timeline">
         <div className="inner">
           <div className="plot" style={cols} role="img"
             aria-label={r.timeline.map((d, i) => `${d.day}: ${values[i] ?? '–'}${d.what_happened.length ? ` (${d.what_happened.join(', ')})` : ''}`).join('; ')}>
-            {river && <div className="refline" style={{ bottom: `${y(r.flood_level_m3s ?? 0)}%` }} />}
+            {line !== null && <div className="refline" style={{ bottom: `${y(line)}%` }} />}
             {r.timeline.map((d, i) => (
               <div key={d.day} style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'flex-end' }}>
                 <i className={d.what_happened.length ? 'hit' : ''} style={{ width: '100%', height: `${values[i] === null ? 0 : y(values[i] as number)}%` }} />
-                {!river && d.observed.normal_tmax != null && (
+                {kind === 'heat' && d.observed.normal_tmax != null && (
                   <span style={{ position: 'absolute', left: 0, right: 0, bottom: `${y(d.observed.normal_tmax)}%`, borderTop: '2px dashed var(--ink)' }} />
                 )}
               </div>
@@ -220,7 +234,7 @@ function ReplayView({ r }: { r: Replay }) {
         </div>
       </div>
       <div className="legend" style={{ fontSize: 14, color: 'var(--ink-2)' }}>
-        {river && <span><i className="swatch" style={{ background: 'var(--flood)' }} />{t('show.legendGuide')}</span>}
+        {r.timeline.some((d) => d.flood_guide) && <span><i className="swatch" style={{ background: 'var(--flood)' }} />{t('show.legendGuide')}</span>}
         <span><i className="swatch" style={{ background: '#9DB8DA' }} />{t('show.legendWarned')}</span>
         <span><i className="swatch" style={{ background: 'var(--red)' }} />{t('show.legendHappened')}</span>
       </div>
