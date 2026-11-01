@@ -61,9 +61,11 @@ Any place and dates since 2024 can be backtested the same way. Details and lesso
 ## Repository layout
 ```
 weatherwise/   all code: places/, risk/, weather/, backtest/, mcp_server/, agents/, api/ (website API),
+                      shelter_data/ (builds the shelter list from district disaster plans),
                       shelters.py, cap.py, cache.py, rules.py, runtime.py (AgentCore entry point)
 rules/                global.toml · countries/in.toml · languages/{en,hi,mr}.toml
-data/                 shelters_in.csv (verified shelters) · river_catchments_in.toml (pilot)
+data/                 shelters_in.csv (verified shelters; how it is built: data/SHELTERS_README.md)
+                      · shelter_sources_in.csv · review/ (drafts) · river_catchments_in.toml (pilot)
 skills/               SKILL.md procedures for the agents
 website/              the website: React + Vite + TypeScript (app + showcase)
 evals/                scenario suite (+ headline events) and runner

@@ -40,6 +40,9 @@ screen_years = 5              # Recent years used to find which nearby river cel
 [shelters]
 search_km = 20.0              # Plan §4.2: "no cooling center near you" beyond this
 max_results = 3
+# Plan §6.5: a verified place is hidden after this many days unless re-checked
+# (scripts/shelter_data.py approve sets recheck_due from it).
+recheck_days = 30
 
 [scan]
 neighbour_ring = true         # Stage 2: also scan the 8 cells around each subscribed cell

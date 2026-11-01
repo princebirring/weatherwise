@@ -72,3 +72,29 @@ send_from_hour = 7             # Normal warnings only 7 AM - 8 PM local time; ur
 send_until_hour = 20
 max_warnings_per_month = 4     # Urgent and official-alert messages are exempt
 max_messages_per_event = 3     # First warning -> reminder -> update or cancel
+
+[shelter_sources]
+# Where this country's district disaster plans are found, for building the verified shelter list
+# (weatherwise/shelter_data/, scripts/shelter_data.py). The district list and each district's
+# website come from OpenStreetMap and Wikidata, so no district is typed here.
+osm_country = "IN"            # ISO code on the OpenStreetMap country boundary
+district_admin_level = 5      # OpenStreetMap admin level of a district in India
+# Government domains district sites move between; a stale listed address is retried under each.
+domain_suffixes = [".gov.in", ".nic.in"]
+# Pages to look at on a district website. Most Indian district sites share NIC's S3WaaS template.
+search_paths = ["/documents/", "/?s=disaster+management+plan", "/?s=disaster", "/disaster-management/"]
+# Words that mark a disaster management plan, in the country's main languages: English, Hindi,
+# Marathi, Bengali, Malayalam, Tamil, Telugu, Gujarati, Kannada, Odia, Punjabi. CONFIRM with native speakers.
+disaster_words = ["disaster", "ddmp", "आपदा", "आपत्ती", "আপদ", "দুর্যোগ", "ദുരന്ത", "பேரிடர்", "విపత్తు",
+                  "આપત્તિ", "ವಿಪತ್ತು", "ବିପର୍ଯ୍ୟୟ", "ଦୁର୍ଯ୍ୟୋଗ", "ਆਫ਼ਤ", "ਆਫਤ"]
+plan_words = ["plan", "ddmp", "योजना", "आराखडा", "পরিকল্পনা", "പദ്ധതി", "திட்ட", "ప్రణాళిక", "યોજના", "ಯೋಜನೆ",
+              "ଯୋଜନା", "ਯੋਜਨਾ"]
+not_plan_words = ["act", "tender", "corrigendum", "lottery", "roster", "roaster", "court", "oil spill", "hospital",
+                  "meeting", "minutes"]   # other bodies' plans and paperwork, not the district plan
+# Among several plans on a site, one whose title names the district level is preferred.
+district_words = ["district", "ddmp", "जिला", "जिल्हा", "জেলা", "ജില്ല", "மாவட்ட", "జిల్లా", "જિલ્લા", "ಜಿಲ್ಲಾ", "ଜିଲ୍ଲା",
+                  "ਜ਼ਿਲ੍ਹਾ"]   # CONFIRM with native speakers
+# Words on a plan page that may list shelters; only those pages are sent to the model.
+shelter_words = ["shelter", "relief camp", "relief centre", "relief center", "evacuation", "cooling",
+                 "आश्रय", "राहत शिविर", "निवारा", "छावणी", "আশ্রয়", "ক্যাম্প", "ദുരിതാശ്വാസ", "ക്യാമ്പ്", "முகாம்",
+                 "పునరావాస", "શિબિર", "આશ્રય", "ಆಶ್ರಯ", "ଆଶ୍ରୟ", "ਆਸਰਾ"]   # CONFIRM with native speakers
