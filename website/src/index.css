@@ -306,10 +306,14 @@ h1, h2, h3, p { margin: 0; }
 .phone-screen .app-main { overflow: hidden; }
 .phone-screen .app-main > * { animation: phone-in 0.45s ease both; }
 .phone .tabbar { position: static; margin-top: auto; }
-.phone .tabbar span { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0; min-height: 64px; border-radius: 16px;
-  font-size: 16px; font-weight: 700; }
-.phone .tabbar span.on { color: var(--action); background: var(--action-soft); font-weight: 800; }
-.phone .tabbar span.tab-help { background: var(--red); color: #FFFFFF; font-weight: 800; }
+.phone .tabbar button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0; min-height: 64px; border-radius: 16px;
+  border: 0; background: transparent; color: var(--ink); font-size: 16px; font-weight: 700; }
+.phone .tabbar button.on { color: var(--action); background: var(--action-soft); font-weight: 800; }
+.phone .tabbar button.tab-help { background: var(--red); color: #FFFFFF; font-weight: 800; }
+.phone .tabbar button.tab-help.on { box-shadow: inset 0 0 0 3px #7A1A14; }
+.phone button.call { text-align: left; }
+.phone-note { position: absolute; left: 16px; right: 16px; bottom: 100px; padding: 14px 16px; border-radius: 16px; background: var(--ink); color: #FFFFFF;
+  font-size: 18px; line-height: 1.35; text-align: center; animation: phone-in 0.3s ease both; }
 .phone-caption { max-width: 300px; min-height: 2.8em; text-align: center; font-size: 16px; line-height: 1.4; color: var(--ink); }
 @keyframes phone-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 

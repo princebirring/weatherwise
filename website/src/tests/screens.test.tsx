@@ -235,6 +235,14 @@ describe.each(LANGUAGES)('in %s', (language) => {
     fireEvent.click(screen.getByRole('tab', { name: t('show.tabHeat') }))
     fireEvent.click(screen.getByRole('button', { name: t('today.whatToDo') }))
     expect(screen.getByText(g.work_heat.danger)).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: t('todo.next') }))
+    expect(screen.getByText(g.heat[0].what)).toBeTruthy()            // the next real advice card
+    fireEvent.click(screen.getByRole('tab', { name: t('today.floodGuide') }))
+    fireEvent.click(screen.getByRole('button', { name: t('todo.next') }))
+    expect(screen.getByText(g.flood_village[1])).toBeTruthy()        // flood guide, step 2
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(t('help.title')) }))
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(t('help.ambulance')) }))
+    expect(screen.getByText(t('show.demoCall', '108'))).toBeTruthy()  // never dials from the page
   })
 
   it('Showcase: the tech flow shows the Today journey, then the Ask journey', () => {
