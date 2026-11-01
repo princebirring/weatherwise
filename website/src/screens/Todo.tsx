@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { FLOOD_HAZARDS, HEAT_HAZARDS, sortDetections, titleOf } from '../hazards'
 import { Icon, type IconName } from '../components/Icon'
+import { Listen } from '../components/Listen'
 import { ErrorBox, Loading, ScreenHeader } from '../components/Shell'
 import type { Async } from '../components/useAsync'
 import { Link, navigate } from '../router'
@@ -67,6 +68,7 @@ export function Todo({ index, data }: { index: number; data: Async<PlaceAndOutlo
           <div className={`todo-icon ${card.call108 ? 'warn' : ''}`}><Icon name={card.icon} size={72} /></div>
           {card.label && <p className="todo-label">{card.label}</p>}
           <p className="todo-text">{card.text}</p>
+          <Listen text={[card.label, card.text].filter(Boolean).join('. ')} />
           {card.call108 && <a href="tel:108" className="btn big danger">{t('todo.call108')}</a>}
           {last && HEAT_HAZARDS.has(d.hazard) && <Link href="/app/shelter?kind=heat" className="btn big secondary">{t('todo.findCooling')}</Link>}
           {last && FLOOD_HAZARDS.has(d.hazard) && <Link href="/app/flood" className="btn big flood">{t('today.floodGuide')}</Link>}

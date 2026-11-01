@@ -7,6 +7,10 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Added
+- "Listen" button on Today (our warning, the calm answer, official warnings) and on each
+  what-to-do card: the phone reads it aloud in Marathi / Hindi / English with its own voice
+  (Web Speech API; free, no AWS service). Amazon Polly was considered but has no Marathi. If the
+  phone has no voice for the language, there is no button (never Marathi read by an English voice).
 - Official warnings: IMD and state disaster authority alerts for the person's place, from NDMA's
   SACHET, shown first on Today in Marathi / Hindi / English (messages translated by SACHET), with
   issuer, colour and expiry. Shown even when the weather service is down; "could not check" is

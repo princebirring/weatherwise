@@ -73,6 +73,8 @@ export const mr: Record<TextKey, string> = {
   'today.alsoComing': 'हेही येत आहे',
   'today.floodGuide': 'पूर मार्गदर्शक',
   'today.share': 'कुटुंबाला पाठवा',
+  'listen.play': 'ऐका',
+  'listen.stop': 'थांबवा',
   'today.ask': 'प्रश्न विचारा',
   'today.checked': '{name} रोजी तपासले · IMD चा इशारा आधी पाळा',
   'today.week': 'पुढील 7 दिवस',

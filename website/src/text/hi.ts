@@ -73,6 +73,8 @@ export const hi: Record<TextKey, string> = {
   'today.alsoComing': 'यह भी आ रहा है',
   'today.floodGuide': 'बाढ़ गाइड',
   'today.share': 'परिवार को भेजें',
+  'listen.play': 'सुनें',
+  'listen.stop': 'रोकें',
   'today.ask': 'सवाल पूछें',
   'today.checked': '{name} को जाँचा · IMD की चेतावनी पहले मानें',
   'today.week': 'अगले 7 दिन',
