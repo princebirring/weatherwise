@@ -7,6 +7,16 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Added
+- Official warnings: IMD and state disaster authority alerts for the person's place, from NDMA's
+  SACHET, shown first on Today in Marathi / Hindi / English (messages translated by SACHET), with
+  issuer, colour and expiry. Shown even when the weather service is down; "could not check" is
+  never shown as "none". An official red flood, rain or cyclone alert starts the flood guide's
+  urgent mode, orange starts prepare. New MCP tool `official_alerts`; agents lead with them.
+- All HTTPS calls check certificates against Mozilla's list (certifi), the same on every machine.
+
+### Changed
+- "Safe to work today" replaced by "No danger found by our checks" (our checks cannot see every danger).
+
 - Risk engine for any place in India: IMD heat wave, humid heat, Excess Heat Factor (ours),
   dry spell, wait-before-sowing (monsoon sowing only), heavy rain (local and upstream), river flood.
 - Flood guide: prepare mode stays on until 7 quiet mornings; urgent mode only on an official red

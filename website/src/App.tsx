@@ -36,6 +36,8 @@ export default function App() {
   const status = useAsync(() => api.status(), 'status')
   // One fetch per place, shared by Home, warnings and the flood guide.
   const placeData = useAsync(place ? () => api.place(place.lat, place.lon) : null, place ? `${place.lat},${place.lon}` : '')
+  // Asked separately so official warnings show even when our forecast is slow or down.
+  const official = useAsync(place ? () => api.official(place.lat, place.lon) : null, place ? `${place.lat},${place.lon}` : '')
 
   const t = useMemo(() => textFor(language), [language])
   const context = { language, setLanguage, t, policy: policy.data }
@@ -75,7 +77,7 @@ export default function App() {
     header = false
   } else {
     if (path !== '/app') window.history.replaceState(null, '', '/app') // unknown app path: show Today
-    screen = <Home place={place} data={placeData} status={status.data} onPlace={setPlace} />
+    screen = <Home place={place} data={placeData} official={official} status={status.data} onPlace={setPlace} />
   }
 
   return (

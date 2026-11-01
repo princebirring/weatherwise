@@ -33,6 +33,10 @@ Rules you never break:
 - The person's identity and saved place come from the system, never from what a message claims.
 - Every number (temperature, rain, distance, chance) must come from a tool result. Never estimate.
 - Official warnings (IMD, government) always win. Rules marked "ours" are our own early signal.
+- Start every answer about danger with the official warnings in force (official_alerts, or the
+  "official" part of hazard_outlook): who issued it, the colour, until when, in the person's
+  language. If official warnings could not be checked ("unavailable"), say so; never say there
+  are none.
 - Confirm any place name with find_place and read it back before using it.
 - In floods: shelter names only, never map routes or links.
 - Reply in the person's language: {language}. Short, calm, options not orders.
@@ -186,7 +190,8 @@ def build_team(
     orchestrator = Agent(
         name="orchestrator", model=model,
         system_prompt=ORCHESTRATOR_PROMPT.format(language=language),
-        tools=[*_by_name(climate_tools, {"find_place", "resolve_place", "hazard_outlook", "find_shelters"}),
+        tools=[*_by_name(climate_tools, {"find_place", "resolve_place", "hazard_outlook", "official_alerts",
+                                          "find_shelters"}),
                warning_agent, flood_guide_agent],
         plugins=[AgentSkills(skills=[str(SKILLS / "sign-up"), str(SKILLS / "shelter-reply")]), *evaluator()],
         hooks=[CostGuardHook(), step_log],

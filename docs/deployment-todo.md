@@ -33,8 +33,10 @@ Browser ──HTTPS──> [CloudFront + WAF]  (Phase 2)
 
 - **Region:** `ap-south-1` (Mumbai) unless Bedrock model access forces another; the code reads `AWS_REGION`.
 - **No database is needed for Phase 1.** Nothing personal is stored; chat sessions live in memory for 24 h.
-- **Data sources** are public and need no AWS setup: Open-Meteo (forecasts, river flow, history),
-  OpenStreetMap Nominatim (place names), Natural Earth (coastline, baked into the image).
+- **Data sources** are public and need no AWS setup: SACHET (official warnings, NDMA), Open-Meteo
+  (forecasts, river flow, history), OpenStreetMap Nominatim (place names), Natural Earth (coastline,
+  baked into the image). The service needs outbound HTTPS to `sachet.ndma.gov.in`, `*.open-meteo.com`,
+  `nominatim.openstreetmap.org` and the Overpass mirrors.
 
 ### Settings (environment variables)
 
@@ -97,6 +99,7 @@ Browser ──HTTPS──> [CloudFront + WAF]  (Phase 2)
   curl -s -o /dev/null -w "%{http_code}\n" "$U/api/place?lat=-0.10&lon=34.75"   # Kenya: 422 (not covered)
   curl -s "$U/api/shelters?lat=16.70&lon=74.24&hazard=flood" | head -c 200      # never a route
   curl -s -o /dev/null -w "%{http_code}\n" $U/app/shelter            # 200 (website screens)
+  curl -s "$U/api/official?lat=17.38&lon=78.48" | head -c 200         # status "ok" (not "unavailable")
   ```
   Then in a phone browser: `/app` → choose मराठी → search "Akola" → Today → Safe place → Help; switch language in the header (every word changes); `/` → the three replays show charts.
 
@@ -152,6 +155,7 @@ Each needs code work first (Claude, in this repo) and agreement with Prashant:
 ## Things that must stay true (check after every deploy)
 
 - Places outside India say "not covered yet" and show **no Indian helpline numbers** (Kenya check in 1.6).
+- `/api/official` answers `"status": "ok"`. If it says `"unavailable"`, SACHET cannot be reached from AWS: fix the network path before judging.
 - Flood shelter answers **never** contain a map route (`directions_link` is null for floods).
 - The site states "Not an official warning service. Always follow IMD." and 112 / 108 / 1077 are one tap away.
 - No personal data in logs: the API logs no message text or locations; keep CloudWatch retention short.

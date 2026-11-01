@@ -58,7 +58,30 @@ export interface Outlook {
   data_missing: string[]
   days: DayRow[]
   flood_level_m3s: number | null
+  official: OfficialAlerts
   attribution: string
+}
+
+/** Official warnings in force (IMD, state disaster authorities) from SACHET; they come first. */
+export interface OfficialAlert {
+  id: string
+  event: string
+  level: 'red' | 'orange' | 'yellow' | 'green'
+  level_word: string
+  source: string
+  area: string
+  starts: string
+  ends: string
+  language: string
+  message: string
+  translations: Record<string, string> // language -> message (translated by SACHET)
+  flood_related: boolean
+}
+
+export interface OfficialAlerts {
+  status: 'ok' | 'unavailable' | 'not_connected'
+  alerts: OfficialAlert[]
+  source: string | null
 }
 
 export interface PlaceAndOutlook {

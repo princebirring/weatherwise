@@ -5,6 +5,9 @@ This product is licensed under the Apache License, Version 2.0 (see LICENSE).
 
 It uses data from these sources, under their own terms:
 
+- Official warnings from SACHET (https://sachet.ndma.gov.in/), the National Disaster
+  Management Authority's alert platform (IMD and state disaster authorities), public domain.
+
 - Weather data by Open-Meteo.com (https://open-meteo.com/), licensed under CC BY 4.0,
   including ECMWF, GloFAS and ERA5 data.
 - Map data © OpenStreetMap contributors (https://www.openstreetmap.org/copyright), licensed

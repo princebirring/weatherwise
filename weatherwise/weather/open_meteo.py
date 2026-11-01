@@ -19,6 +19,7 @@ import urllib.request
 from collections import defaultdict
 from datetime import date, timedelta
 
+from weatherwise.https import urlopen
 from weatherwise.risk.forecast_agreement import MIN_FORECAST_RUNS
 from weatherwise.risk.models import Area, EnsembleForecast, ForecastDataMissing, RainPoint
 
@@ -68,7 +69,7 @@ def _get_json(url: str, params: dict, retries: int = 5, timeout: float = 30) -> 
     last_error: Exception | None = None
     for attempt in range(retries):
         try:
-            with urllib.request.urlopen(f"{url}?{query}", timeout=timeout) as resp:
+            with urlopen(f"{url}?{query}", timeout=timeout) as resp:
                 data = json.load(resp)
             if isinstance(data, dict) and data.get("error"):
                 raise WeatherDataUnavailable(data.get("reason", "unknown error"))

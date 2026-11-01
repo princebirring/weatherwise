@@ -14,6 +14,8 @@ import urllib.request
 from dataclasses import dataclass
 from typing import Protocol
 
+from weatherwise.https import urlopen
+
 USER_AGENT = "weatherwise/0.1 (AWS Strands hackathon; open source)"
 
 
@@ -49,7 +51,7 @@ class ReverseGeocoder(Protocol):
 def _get_json(url: str, params: dict, timeout: float = 20) -> object:
     query = urllib.parse.urlencode(params)
     request = urllib.request.Request(f"{url}?{query}", headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(request, timeout=timeout) as resp:
+    with urlopen(request, timeout=timeout) as resp:
         return json.load(resp)
 
 

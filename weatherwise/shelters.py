@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Protocol
 
 from weatherwise.cache import Cache
+from weatherwise.https import urlopen
 from weatherwise.places.geocoding import USER_AGENT, distance_km
 from weatherwise.places.grid import grid_cell
 from weatherwise.rules import DATA_ROOT
@@ -121,7 +122,7 @@ class OsmHealthFacilities:
         for url in self.MIRRORS:
             try:
                 req = urllib.request.Request(url, data=data, headers={"User-Agent": USER_AGENT})
-                with urllib.request.urlopen(req, timeout=self.MIRROR_TIMEOUT_SECONDS) as resp:
+                with urlopen(req, timeout=self.MIRROR_TIMEOUT_SECONDS) as resp:
                     elements = json.load(resp)["elements"]
                 break
             except Exception as e:

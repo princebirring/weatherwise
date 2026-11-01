@@ -269,3 +269,16 @@ h1, h2, h3, p { margin: 0; }
 .call-main b { color: #FFFFFF; font-size: 34px; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .urgent .btn.outline { background: transparent; }
+
+/* ---- official warnings (always first) ---- */
+.official { display: flex; flex-direction: column; gap: 8px; border-radius: 22px; padding: 18px; }
+.official-title { display: flex; align-items: center; gap: 10px; font-size: 24px; line-height: 1.15; font-weight: 800; }
+.official .chips { justify-content: flex-start; }
+.official-message { font-size: 18px; line-height: 1.45; }
+.official .fine-on { font-size: 13px; opacity: 0.9; }
+.official.lv-yellow .chips span { background: rgba(255, 255, 255, 0.75); }
+.official-note { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 16px; background: var(--surface);
+  border: 1px solid var(--line); font-size: 16px; color: var(--ink-2); }
+.official-note.warn { background: var(--yellow-soft); border-color: #E8C94A; color: var(--yellow-ink); }
+.hero-card.quiet { padding: 16px 18px; }
+.hero-card.quiet h1 { font-size: 22px; }

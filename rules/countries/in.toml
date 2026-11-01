@@ -12,6 +12,11 @@ default_languages = ["hi", "en"]   # Offered first at sign-up; the person choose
 coast_max_km = 20.0           # CONFIRM: IMD "coastal station"
 hills_min_elevation_m = 1000  # CONFIRM: IMD "hilly region"
 
+[official_alerts]
+# Where this country's official warnings are read from (weatherwise/official/). SACHET is NDMA's
+# Common Alerting Protocol platform: IMD and every state disaster authority publish there.
+provider = "sachet"
+
 [helplines]
 emergency = "112"
 ambulance = "108"

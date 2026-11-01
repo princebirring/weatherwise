@@ -177,7 +177,7 @@ class TestNotCovered:
     def test_kenyan_village_is_not_covered_and_gets_no_indian_helplines(self):
         s = self.services()
         for answer in (s.resolve_place(-0.10, 34.75), s.hazard_outlook(-0.10, 34.75),
-                       s.find_shelters(-0.10, 34.75, "heat")):
+                       s.find_shelters(-0.10, 34.75, "heat"), s.official_alerts(-0.10, 34.75)):
             assert answer["covered"] is False and answer["country_code"] == "ke"
             assert answer["covered_countries"] == ["in"]
             assert "1077" not in str(answer) and "helpline" not in answer

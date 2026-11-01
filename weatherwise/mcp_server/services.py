@@ -15,12 +15,20 @@ from weatherwise.backtest.backtest import backtest_place
 from weatherwise.backtest.verification import verify
 from weatherwise.cache import Cache, FileCache, cached
 from weatherwise.cap import detection_to_cap
+from weatherwise.official.sachet import SachetAlerts, most_serious
 from weatherwise.places.geocoding import Geocoder, NominatimGeocoder, OpenMeteoGeocoder, search_place
 from weatherwise.places.resolve import PlaceContext, PlaceResolver
 from weatherwise.places.terrain import Coastline
 from weatherwise.risk.area_scan import daily_outlook, scan_area
 from weatherwise.risk.models import Hazard, HazardDetection
-from weatherwise.rules import UnsupportedCountry, load_rules, message_policy, rules_version, supported_countries
+from weatherwise.rules import (
+    UnsupportedCountry,
+    country_for,
+    load_rules,
+    message_policy,
+    rules_version,
+    supported_countries,
+)
 from weatherwise.shelters import HealthFacilityFinder, OsmHealthFacilities, find_shelters, load_shelters
 from weatherwise.weather import ATTRIBUTION
 from weatherwise.weather.area_weather import build_area_weather, fetch_raw_inputs
@@ -59,6 +67,7 @@ class ClimateRiskServices:
     geocoders: list[Geocoder]
     health: HealthFacilityFinder | None
     today_fn: object = field(default=None)  # callable(timezone) -> date; injected for tests
+    official: SachetAlerts | None = None    # official warnings; None = not connected (tests)
 
     @classmethod
     def default(cls, cache_root: Path = CACHE_ROOT) -> "ClimateRiskServices":
@@ -68,6 +77,7 @@ class ClimateRiskServices:
             resolver=PlaceResolver(nominatim, Coastline(GEODATA_ROOT / "ne_10m_coastline.geojson"), cache),
             geocoders=[OpenMeteoGeocoder(), nominatim],
             health=OsmHealthFacilities(cache),
+            official=SachetAlerts(cache),
         )
 
     def _today(self, timezone: str) -> date:
@@ -98,8 +108,6 @@ class ClimateRiskServices:
         }
 
     def message_policy(self, country_code: str = "in") -> dict:
-        from weatherwise.rules import country_for
-
         return message_policy(country_for(country_code))
 
     def resolve_place(self, lat: float, lon: float) -> dict:
@@ -117,7 +125,10 @@ class ClimateRiskServices:
         weather = self.resolver.weather(place.timezone)
         raw = fetch_raw_inputs(place, weather, rules)
         area_weather = build_area_weather(raw, today, rules)
-        result = scan_area(place.as_area(), area_weather, today, rules)
+        official = self._official(lat, lon, rules)
+        # An official red flood/rain/cyclone alert starts the flood guide in urgent mode, orange in prepare.
+        result = scan_area(place.as_area(), area_weather, today, rules,
+                           official_alert=most_serious(official["alerts"], flood_only=True))
         return {
             "place": {"name": place.name, "district": place.admin.district, "state": place.admin.state,
                       "terrain": place.terrain.value, "large_river_nearby": place.river.is_river_area,
@@ -128,12 +139,31 @@ class ClimateRiskServices:
             "flood_guide": {"mode": result.flood_guide.mode, "reasons": result.flood_guide.reasons},
             "data_missing": [h.value for h in result.data_missing],
             "days": daily_outlook(area_weather, result.detections),
+            "official": official,
             "flood_level_m3s": place.river.flood_level_m3s if place.river.is_river_area else None,
             "rules_note": "Numbers come from forecasts, never from AI. 'ours' rules are labelled; "
                           "official warnings (IMD) always win.",
             "rules_version": rules_version(),
             "attribution": ATTRIBUTION,
         }
+
+    def _official(self, lat: float, lon: float, rules: dict) -> dict:
+        provider = rules.get("official_alerts", {}).get("provider")
+        if provider == "sachet" and self.official is not None:
+            return self.official.for_point(lat, lon)
+        return {"status": "not_connected", "alerts": [], "source": None}
+
+    def official_alerts(self, lat: float, lon: float) -> dict:
+        """Needs only the country (to pick the official source), not our forecast: official
+        warnings must still show when the weather service is down or rate-limited."""
+        try:
+            country = country_for(self.resolver.admin(lat, lon).country_code)
+        except UnsupportedCountry as e:
+            return not_covered(e)
+        except Exception:  # place lookup down: we cannot tell which official source applies
+            return {"status": "unavailable", "alerts": [], "source": None, "covered": True,
+                    "rules_version": rules_version()}
+        return {**self._official(lat, lon, load_rules(country)), "covered": True, "rules_version": rules_version()}
 
     def find_shelters(self, lat: float, lon: float, hazard: str) -> dict:
         try:
