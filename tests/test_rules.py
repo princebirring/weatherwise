@@ -1,6 +1,7 @@
 """Rules: global -> country, per-language safety text, and the message_policy the MCP server serves."""
 
 import shutil
+from pathlib import Path
 
 import pytest
 
@@ -50,6 +51,29 @@ def test_missing_rules_fail_at_load_not_at_6_am(tmp_path):
 @pytest.mark.parametrize("country", supported_countries())
 def test_every_country_is_complete(country):
     load_rules(country)
+
+
+def country_with(tmp_path, extra: str) -> Path:
+    """The real rules, plus a test country "xx" with India's file and extra lines appended."""
+    shutil.copytree(RULES_ROOT, tmp_path / "rules")
+    india = (tmp_path / "rules" / "countries" / "in.toml").read_text()
+    (tmp_path / "rules" / "countries" / "xx.toml").write_text(india + "\n" + extra)
+    return tmp_path / "rules"
+
+
+def test_a_country_can_switch_a_check_off(tmp_path):
+    root = country_with(tmp_path, '[checks]\nenabled = ["heat_wave", "heavy_rain"]\n')
+    assert load_rules("xx", root=root)["checks"]["enabled"] == ["heat_wave", "heavy_rain"]
+
+
+@pytest.mark.parametrize("extra, message", [
+    ('[checks]\nenabled = ["heat_wave", "humid_heat"]\n', "humid_heat"),
+    ('[flood_guide]\nprepare_signals = ["very_heavy_rian"]\n', "very_heavy_rian"),
+    ('[work_heat]\nlevels = [{ name = "danger" }]\n', r"\[work_heat\] levels"),
+])
+def test_a_misspelt_switch_fails_at_load_never_silently_off(tmp_path, extra, message):
+    with pytest.raises(ConfigError, match=message):
+        load_rules("xx", root=country_with(tmp_path, extra))
 
 
 def test_no_state_or_time_zone_settings_remain(rules):

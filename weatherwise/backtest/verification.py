@@ -4,7 +4,7 @@ For each hazard, every day in the window is one of:
 - hit: it happened, and we had warned at least 1 day before;
 - miss: it happened, and we had not warned;
 - false alarm: we had warned for that day, and it did not happen;
-(River floods are scored per flood-guide episode instead: see _flood_guide_score.)
+(The flood guide is scored per episode instead: see _flood_guide_score.)
 - correct negative: no warning, nothing happened.
 
 Probability of detection (POD) = hits / (hits + misses).
@@ -18,13 +18,15 @@ from datetime import date, timedelta
 from weatherwise.backtest.backtest import (
     EXCESS_HEAT_DAY,
     HEAT_WAVE_DAY,
-    HUMID_HEAT_DAY,
     RIVER_ABOVE_DAY,
+    UNUSUAL_RAIN_DAY,
     VERY_HEAVY_RAIN_DAY,
+    WORK_HEAT_DAY,
     Backtest,
 )
 
 MAX_LEAD_DAYS = 7
+FLOOD_DAY_EVENTS = {RIVER_ABOVE_DAY, VERY_HEAVY_RAIN_DAY, UNUSUAL_RAIN_DAY}
 
 
 @dataclass
@@ -83,10 +85,12 @@ def _guide_episodes(bt: Backtest) -> list[tuple[date, date]]:
 def _flood_guide_score(bt: Backtest) -> HazardScore:
     """Scored per flood-guide episode (event-based), the standard for flood warnings: the
     guide starting is the warning; the days it stays on are the household's preparation, not
-    new warnings. An episode is a hit if the river passes its flood level after it starts
-    and within 7 days of it last being on."""
-    score = HazardScore("river_flood")
-    flood_days = [bd.day for bd in bt.days if RIVER_ABOVE_DAY in bd.observed_events]
+    new warnings. A flood day is one where the large river passed its flood level, or
+    flood-level rain fell at the place (very heavy, or unusual for it): towns also flood from
+    streams and drains (Vijayawada, 2024: the Budameru stream, not the Krishna). An episode is a
+    hit if a flood day comes after it starts and within 7 days of it last being on."""
+    score = HazardScore("flood_guide")
+    flood_days = [bd.day for bd in bt.days if FLOOD_DAY_EVENTS & set(bd.observed_events)]
     episodes = _guide_episodes(bt)
     for start, end in episodes:
         if any(start < f <= end + timedelta(days=MAX_LEAD_DAYS) for f in flood_days):
@@ -125,6 +129,17 @@ def _score(bt: Backtest, hazard: str, event: str, warned: dict[date, int]) -> Ha
     return score
 
 
+def _work_heat_scores(bt: Backtest, levels: list[str]) -> list[HazardScore]:
+    """One score per work-heat level (lowest first): it happened if the feels-like temperature
+    reached that level; we warned if a work-heat warning at that level or higher covered the day."""
+    scores = []
+    for k, name in enumerate(levels):
+        at_or_above = set(levels[k:])
+        scores.append(_score(bt, f"{WORK_HEAT_DAY}:{name}", f"{WORK_HEAT_DAY}:{name}", _warned_days(
+            bt, lambda w, ok=at_or_above: w["hazard"] == WORK_HEAT_DAY and w["severity"] in ok)))
+    return scores
+
+
 def verify(bt: Backtest) -> dict:
     if bt.mode != "as_issued":
         return {
@@ -139,16 +154,16 @@ def verify(bt: Backtest) -> dict:
     scores = [
         _score(bt, "heat_wave", HEAT_WAVE_DAY,
                _warned_days(bt, lambda w: w["hazard"] == "heat_wave")),
-        _score(bt, "humid_heat", HUMID_HEAT_DAY,
-               _warned_days(bt, lambda w: w["hazard"] == "humid_heat")),
+        *_work_heat_scores(bt, bt.work_heat_levels),
         _score(bt, "excess_heat", EXCESS_HEAT_DAY,
                _warned_days(bt, lambda w: w["hazard"] == "excess_heat")),
         _score(bt, "very_heavy_rain", VERY_HEAVY_RAIN_DAY,
                _warned_days(bt, lambda w: w["hazard"] == "heavy_rain" and w["place"] == local
                             and w["severity"] in ("very_heavy", "extremely_heavy"))),
+        _score(bt, "unusual_rain", UNUSUAL_RAIN_DAY,
+               _warned_days(bt, lambda w: w["hazard"] == "unusual_rain")),
     ]
-    if bt.flood_level_m3s is not None:
-        scores.append(_flood_guide_score(bt))
+    scores.append(_flood_guide_score(bt))
 
     outcomes = {
         bd.day: 1.0 if HEAT_WAVE_DAY in bd.observed_events else 0.0 for bd in bt.days

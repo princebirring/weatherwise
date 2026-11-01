@@ -123,7 +123,7 @@ class ClimateRiskServices:
         except UnsupportedCountry as e:
             return not_covered(e)
         weather = self.resolver.weather(place.timezone)
-        raw = fetch_raw_inputs(place, weather, rules)
+        raw = fetch_raw_inputs(place, weather, rules, today)
         area_weather = build_area_weather(raw, today, rules)
         official = self._official(lat, lon, rules)
         # An official red flood/rain/cyclone alert starts the flood guide in urgent mode, orange in prepare.
@@ -139,6 +139,7 @@ class ClimateRiskServices:
             "flood_guide": {"mode": result.flood_guide.mode, "reasons": result.flood_guide.reasons},
             "data_missing": [h.value for h in result.data_missing],
             "days": daily_outlook(area_weather, result.detections),
+            "forecast_correction": area_weather.correction,
             "official": official,
             "flood_level_m3s": place.river.flood_level_m3s if place.river.is_river_area else None,
             "rules_note": "Numbers come from forecasts, never from AI. 'ours' rules are labelled; "
@@ -191,6 +192,7 @@ class ClimateRiskServices:
             "place": {"name": place.name, "district": place.admin.district, "state": place.admin.state},
             "mode": bt.mode,
             "flood_level_m3s": bt.flood_level_m3s,
+            "unusual_rain_mm": bt.unusual_rain_mm,
             "verification": verify(bt),
             "timeline": [
                 {
@@ -198,6 +200,7 @@ class ClimateRiskServices:
                     "would_have_sent": sorted({f"{w['hazard']}:{w['severity']}" for w in d.warnings}),
                     "flood_guide": d.flood_guide_mode,
                     "flood_guide_reasons": d.flood_guide_reasons,
+                    "forecast_correction": d.correction,
                     "what_happened": d.observed_events,
                     "observed": d.observed,
                 }

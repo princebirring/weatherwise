@@ -5,7 +5,8 @@ APIs used (plan §8.5):
 - Flood API (GloFAS, 51 runs): daily river discharge, forecast and history
 - Forecast API: past rain and current soil moisture (not in the ensemble)
 - Historical API (ERA5): 1991-2020 daily max temperature, for "normal" values
-- Previous Runs API: rain forecasts as issued days earlier, from several models (replays)
+- Previous Runs API: forecasts as issued days earlier, from several models (replays, and
+  each model's recent errors for the forecast correction)
 
 fetch_* functions take any place with .lat and .lon (an Area or a RainPoint).
 """
@@ -149,16 +150,17 @@ def fetch_historical_tmax(
     )
 
 
-def fetch_historical_daily_mean(
-    place: Place, timezone: str, first_year: int = 1991, last_year: int = 2020
+def fetch_historical_daily(
+    place: Place, timezone: str, variable: str, first_year: int = 1991, last_year: int = 2020
 ) -> dict:
-    """Decades of daily mean temperature (ERA5), for the Excess Heat Factor baseline."""
+    """Decades of one daily variable (ERA5): mean temperature for the Excess Heat Factor
+    baseline, rain for the place's unusual-rain line."""
     return _get_json(
         HISTORICAL_URL,
         {
             "latitude": place.lat,
             "longitude": place.lon,
-            "daily": "temperature_2m_mean",
+            "daily": variable,
             "start_date": f"{first_year}-01-01",
             "end_date": f"{last_year}-12-31",
             "timezone": timezone,
@@ -218,12 +220,15 @@ def fetch_observed_daily(place: Place, first_day: date, last_day: date, timezone
     )
 
 
-def fetch_heat_as_issued(place: Place, first_day: date, last_day: date, timezone: str) -> dict:
-    """Hourly temperature and feels-like forecasts for past days, as issued 1-7 days earlier."""
+def fetch_heat_as_issued(place: Place, first_day: date, last_day: date, timezone: str,
+                         models: tuple[str, ...] = AS_ISSUED_MODELS,
+                         max_previous_day: int = MAX_PREVIOUS_DAY) -> dict:
+    """Hourly temperature and feels-like forecasts for past days, as issued 1 to
+    max_previous_day days earlier."""
     variables = [
         f"{v}_previous_day{k}"
         for v in ("temperature_2m", "apparent_temperature")
-        for k in range(1, MAX_PREVIOUS_DAY + 1)
+        for k in range(1, max_previous_day + 1)
     ]
     return _get_json(
         PREVIOUS_RUNS_URL,
@@ -231,7 +236,7 @@ def fetch_heat_as_issued(place: Place, first_day: date, last_day: date, timezone
             "latitude": place.lat,
             "longitude": place.lon,
             "hourly": ",".join(variables),
-            "models": ",".join(AS_ISSUED_MODELS),
+            "models": ",".join(models),
             "start_date": first_day.isoformat(),
             "end_date": last_day.isoformat(),
             "timezone": timezone,
@@ -405,6 +410,27 @@ def parse_daily_values(raw: dict, variable: str) -> dict[date, float]:
     }
 
 
+_COMBINE_HOURS = {"sum": lambda vs: round(sum(max(v, 0.0) for v in vs), 1),
+                  "max": lambda vs: round(max(vs), 1),
+                  "mean": lambda vs: round(sum(vs) / len(vs), 2)}
+
+
+def _hours_by_day(hourly: dict) -> dict[str, list[int]]:
+    hours: dict[str, list[int]] = defaultdict(list)
+    for i, t in enumerate(hourly["time"]):
+        hours[t[:10]].append(i)
+    return hours
+
+
+def _issued_value(hourly: dict, hours: list[int], variable: str, previous_day: int, model: str | None,
+                  daily: str) -> float | None:
+    """One model's forecast for one day, issued previous_day days earlier (None if incomplete).
+    model None: a one-model request, whose columns carry no model name."""
+    series = hourly.get(f"{variable}_previous_day{previous_day}" + (f"_{model}" if model else ""))
+    values = [series[i] for i in hours] if series is not None else []
+    return None if len(values) != 24 or any(v is None for v in values) else _COMBINE_HOURS[daily](values)
+
+
 def parse_as_issued(raw: dict, issue_date: date, variable: str, daily: str) -> EnsembleForecast:
     """Daily forecasts of one hourly variable the way they looked on the morning of issue_date.
 
@@ -414,24 +440,14 @@ def parse_as_issued(raw: dict, issue_date: date, variable: str, daily: str) -> E
     Each archived model is one forecast run. Trailing days with too few models are dropped.
     """
     hourly = raw["hourly"]
-    hours_by_day: dict[str, list[int]] = defaultdict(list)
-    for i, t in enumerate(hourly["time"]):
-        hours_by_day[t[:10]].append(i)
-    combine = {"sum": lambda vs: round(sum(max(v, 0.0) for v in vs), 1),
-               "max": lambda vs: round(max(vs), 1),
-               "mean": lambda vs: round(sum(vs) / len(vs), 2)}[daily]
-
+    hours_by_day = _hours_by_day(hourly)
     dates, rows = [], []
     for k in range(MAX_PREVIOUS_DAY):
         target = issue_date + timedelta(days=k)
         hours = hours_by_day.get(target.isoformat(), [])
-        row = []
-        for model in AS_ISSUED_MODELS:
-            series = hourly.get(f"{variable}_previous_day{k + 1}_{model}")
-            values = [series[i] for i in hours] if series is not None else []
-            row.append(None if len(values) != 24 or any(v is None for v in values) else combine(values))
         dates.append(target)
-        rows.append(tuple(row))
+        rows.append(tuple(_issued_value(hourly, hours, variable, k + 1, model, daily)
+                          for model in AS_ISSUED_MODELS))
 
     while rows and sum(v is not None for v in rows[-1]) < MIN_FORECAST_RUNS:
         rows.pop()
@@ -439,6 +455,17 @@ def parse_as_issued(raw: dict, issue_date: date, variable: str, daily: str) -> E
     if not rows:
         raise ForecastDataMissing(f"{issue_date}: fewer than {MIN_FORECAST_RUNS} archived models")
     return EnsembleForecast(dates=tuple(dates), values=tuple(rows))
+
+
+def parse_day_ahead(raw: dict, variable: str, daily: str,
+                    models: tuple[str, ...] = AS_ISSUED_MODELS) -> dict[date, tuple[float | None, ...]]:
+    """Every day in an archive, as forecast the day before: one value per model, in order."""
+    hourly = raw["hourly"]
+    names: tuple[str | None, ...] = (None,) if len(models) == 1 else models  # one model: no suffix
+    return {
+        date.fromisoformat(day): tuple(_issued_value(hourly, hours, variable, 1, m, daily) for m in names)
+        for day, hours in _hours_by_day(hourly).items()
+    }
 
 
 def parse_rain_as_issued(raw: dict, issue_date: date) -> EnsembleForecast:

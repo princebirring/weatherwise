@@ -80,3 +80,44 @@ class TestGuideStaysOn:
         assert keep_guide_on(urgent, ISSUE, ISSUE - timedelta(days=2), rules["flood_guide"]) is urgent
         held = keep_guide_on(self.QUIET, ISSUE, ISSUE - timedelta(days=1), rules["flood_guide"])
         assert held.mode == PREPARE  # a held guide is only ever PREPARE, never "move now"
+
+
+class TestPrepareSignals:
+    """Each way of starting PREPARE is a named signal in [flood_guide] prepare_signals."""
+
+    def unusual(self, days_ahead: int) -> HazardDetection:
+        return HazardDetection("vijayawada", Hazard.UNUSUAL_RAIN, "unusual", ISSUE, ISSUE, days_ahead, 0.6,
+                               {"place": "Vijayawada"})
+
+    def heavy_on(self, day: int, place: str = "Ghats") -> HazardDetection:
+        d = ISSUE + timedelta(days=day)
+        return HazardDetection("kolhapur", Hazard.HEAVY_RAIN, "heavy", d, d, day, 0.6, {"place": place})
+
+    def test_heavy_rain_two_days_running_starts_prepare(self, rules):
+        decision = decide_flood_guide_mode([self.heavy_on(1), self.heavy_on(2)], rules["flood_guide"])
+        assert decision.mode == PREPARE
+        assert decision.reasons[0].startswith("heavy_rain_days_in_a_row: ")
+
+    def test_heavy_rain_on_two_days_at_different_places_is_not_a_run(self, rules):
+        found = [self.heavy_on(1, "Ghats"), self.heavy_on(2, "Kolhapur")]
+        assert decide_flood_guide_mode(found, rules["flood_guide"]).mode is None
+
+    def test_heavy_rain_on_two_separate_days_is_not_a_run(self, rules):
+        assert decide_flood_guide_mode([self.heavy_on(0), self.heavy_on(2)], rules["flood_guide"]).mode is None
+
+    def test_unusual_rain_starts_prepare_never_urgent(self, rules):
+        decision = decide_flood_guide_mode([self.unusual(0)], rules["flood_guide"])
+        assert decision.mode == PREPARE and decision.reasons[0].startswith("unusual_rain: ")
+
+    def test_too_far_ahead_waits(self, rules):
+        assert decide_flood_guide_mode([self.unusual(4)], rules["flood_guide"]).mode is None
+
+    def test_a_signal_switched_off_starts_nothing(self, rules):
+        only_river = {**rules["flood_guide"], "prepare_signals": ["river_flood"]}
+        assert decide_flood_guide_mode([self.unusual(0), rain("very_heavy", 1)], only_river).mode is None
+        assert decide_flood_guide_mode([river(1)], only_river).mode == PREPARE
+
+    def test_switching_signals_off_never_switches_off_urgent(self, rules):
+        none = {**rules["flood_guide"], "prepare_signals": []}
+        assert decide_flood_guide_mode([rain("extremely_heavy", 0)], none).mode == URGENT
+        assert decide_flood_guide_mode([], none, official_alert="orange").mode == PREPARE

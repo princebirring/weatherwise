@@ -6,8 +6,9 @@ from weatherwise.risk.heat_wave import (
     NONE,
     SEVERE,
     detect_heat_wave,
-    detect_humid_heat,
+    detect_work_heat,
     heat_wave_severity,
+    work_heat_level,
 )
 from weatherwise.risk.models import ForecastDataMissing, Hazard, TerrainZone
 
@@ -77,14 +78,31 @@ class TestDetectHeatWave:
             detect_heat_wave(akola, f, same_normal(f, 39.0), ISSUE, rules["heat"])
 
 
-class TestHumidHeat:
-    def test_single_danger_day_warns_kharghar_style(self, rules, kharghar):
-        f = forecast([36, 36, 42, 36])
-        found = detect_humid_heat(kharghar, f, ISSUE, rules["humid_heat"])
-        assert len(found) == 1
-        assert found[0].hazard is Hazard.HUMID_HEAT
-        assert found[0].evidence["rule"] == "ours"
-        assert found[0].days_ahead == 2
+class TestWorkHeat:
+    """Ours: feels-like heat for outdoor work, in levels set in [work_heat] levels."""
 
-    def test_below_danger_band_is_quiet(self, rules, kharghar):
-        assert detect_humid_heat(kharghar, forecast([40.9] * 5), ISSUE, rules["humid_heat"]) == []
+    def test_single_hot_day_warns_kharghar_style(self, rules, kharghar):
+        found = detect_work_heat(kharghar, forecast([36, 36, 41, 36]), ISSUE, rules["work_heat"])
+        assert len(found) == 1
+        assert (found[0].hazard, found[0].severity, found[0].days_ahead) == (Hazard.WORK_HEAT, "take_care", 2)
+        assert found[0].evidence["rule"].startswith("ours")
+
+    def test_a_span_takes_its_highest_level(self, rules, kharghar):
+        found = detect_work_heat(kharghar, forecast([41, 44, 41, 36]), ISSUE, rules["work_heat"])
+        assert [(d.severity, d.days_ahead, (d.last_day - d.first_day).days) for d in found] == [("danger", 0, 2)]
+
+    def test_below_the_lowest_level_is_quiet(self, rules, kharghar):
+        assert detect_work_heat(kharghar, forecast([39.9] * 5), ISSUE, rules["work_heat"]) == []
+
+    def test_levels_need_runs_to_agree(self, rules, kharghar):
+        split = forecast([runs_split(6, 44.0, 38.0)] * 3)  # 6 of 10 runs: below 70%
+        assert detect_work_heat(kharghar, split, ISSUE, rules["work_heat"]) == []
+
+    def test_levels_come_from_the_rules_not_the_code(self, rules, kharghar):
+        stricter = {**rules["work_heat"], "levels": [{"name": "danger", "feels_like_c": 45.0}]}
+        assert detect_work_heat(kharghar, forecast([44] * 3), ISSUE, stricter) == []
+        assert detect_work_heat(kharghar, forecast([46] * 3), ISSUE, stricter)[0].severity == "danger"
+
+    def test_level_of_a_temperature(self, rules):
+        assert [work_heat_level(t, rules["work_heat"]) for t in (39.9, 40.0, 42.9, 43.0)] == [
+            None, "take_care", "take_care", "danger"]

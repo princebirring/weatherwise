@@ -5,9 +5,10 @@ from enum import Enum
 
 class Hazard(str, Enum):
     HEAT_WAVE = "heat_wave"
-    HUMID_HEAT = "humid_heat"
+    WORK_HEAT = "work_heat"  # ours: feels-like heat too high for outdoor work (a health line)
     EXCESS_HEAT = "excess_heat"  # Excess Heat Factor: ours, self-calibrating to local climate
     HEAVY_RAIN = "heavy_rain"
+    UNUSUAL_RAIN = "unusual_rain"  # ours: rain rare for this place, whatever IMD's national lines say
     DRY_SPELL = "dry_spell"
     SOWING_RISK = "sowing_risk"
     RIVER_FLOOD = "river_flood"

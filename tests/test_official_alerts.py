@@ -142,7 +142,7 @@ class TestOutlookPutsOfficialWarningsFirst:
             return result
 
         monkeypatch.setattr(svc, "fetch_raw_inputs", lambda *a: {})
-        monkeypatch.setattr(svc, "build_area_weather", lambda *a: None)
+        monkeypatch.setattr(svc, "build_area_weather", lambda *a: type("W", (), {"correction": {}})())
         monkeypatch.setattr(svc, "daily_outlook", lambda *a: [])
         monkeypatch.setattr(svc, "scan_area", scan)
         official = type("Official", (), {"for_point": lambda self, lat, lon: alerts_answer})()
