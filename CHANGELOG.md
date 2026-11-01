@@ -27,6 +27,11 @@ All notable changes to this project are documented here. The format follows
 - Vijayawada 2024 flood replay.
 
 ### Changed
+- Deployment plan: six AWS services in Mumbai (Bedrock, AgentCore Runtime, ECS Express Mode +
+  ECR, CloudWatch, IAM, Budgets); App Runner (closed to new accounts) and CloudFront + WAF dropped
+  for judging. Daily chat cap default 500 -> 100.
+- The `CloudFront-Viewer-Address` header is trusted only with `WEATHERWISE_BEHIND_CLOUDFRONT=1`;
+  without CloudFront, a visitor could send it to dodge the per-visitor chat limit.
 - "Safe to work today" replaced by "No danger found by our checks" (our checks cannot see every danger).
 - Replays run the live scan's own checks (`run_checks`) and correction, so switches mean the same in both.
 - The flood guide replay score (`flood_guide`, was `river_flood`) also counts flood-level rain

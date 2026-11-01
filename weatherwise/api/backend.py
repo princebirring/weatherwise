@@ -49,7 +49,7 @@ class DemoBusy(RuntimeError):
 class Limits:
     max_message_chars: int = 500
     chats_per_minute_per_visitor: int = 6
-    chats_per_day: int = 500          # the daily AI-spend cap (plan §9.2 rule 3)
+    chats_per_day: int = 100          # the daily AI-spend cap (plan §9.2 rule 3)
     max_sessions: int = 300           # oldest sessions are dropped beyond this
     session_seconds: int = 24 * 3600  # demo sessions expire after 24 h
 
