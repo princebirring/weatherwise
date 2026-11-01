@@ -1,0 +1,47 @@
+{
+  "country": "in",
+  "heat": {
+    "base_tmax_c": {
+      "plains": 40.0,
+      "coast": 37.0,
+      "hills": 30.0
+    },
+    "departure_c": 4.5,
+    "absolute_c": 45.0,
+    "min_days": 2,
+    "agreement": 0.7,
+    "work_heat_c": {
+      "take_care": 40.0,
+      "danger": 43.0
+    },
+    "excess_heat_percentile": 95
+  },
+  "rain_mm": {
+    "heavy": 64.5,
+    "very_heavy": 115.6,
+    "extremely_heavy": 204.5
+  },
+  "unusual_rain": {
+    "percentile": 99.5,
+    "min_mm": 30.0
+  },
+  "river_return_period_years": 5,
+  "flood_guide": {
+    "prepare_signals": [
+      "very_heavy_rain",
+      "heavy_rain_days_in_a_row",
+      "unusual_rain",
+      "river_flood"
+    ],
+    "prepare_within_days": 3,
+    "urgent_within_days": 1,
+    "urgent_rain_category": "extremely_heavy",
+    "heavy_rain_days_in_a_row": 2,
+    "stay_on_quiet_days": 7
+  },
+  "correction": {
+    "training_days": 30,
+    "max_shift_c": 3.0
+  },
+  "rules_version": "test"
+}

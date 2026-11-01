@@ -113,10 +113,11 @@ def build_app(backend: WeatherWiseApi | None = None) -> Starlette:
     routes = [
         Route("/api/status", handler(lambda r, b: run(b.status))),
         Route("/api/policy", handler(lambda r, b: run(b.policy))),
-        Route("/api/places", handler(lambda r, b: run(b.find_place, q(r, "q")))),
+        Route("/api/places", handler(lambda r, b: run(b.find_place, q(r, "q"), q(r, "lang")))),
         Route("/api/place", handler(lambda r, b: run(b.place, q(r, "lat"), q(r, "lon")))),
         Route("/api/official", handler(lambda r, b: run(b.official, q(r, "lat"), q(r, "lon")))),
         Route("/api/shelters", handler(lambda r, b: run(b.shelters, q(r, "lat"), q(r, "lon"), q(r, "hazard")))),
+        Route("/api/rules", handler(lambda r, b: run(b.rules))),
         Route("/api/replays", handler(lambda r, b: run(b.replays))),
         Route("/api/replays/{replay_id}", handler(lambda r, b: run(b.replay, r.path_params["replay_id"]))),
         Route("/api/chat", handler(chat), methods=["POST"]),

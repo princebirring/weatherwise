@@ -22,13 +22,13 @@ export function Welcome({ onPlace }: { onPlace: (p: SavedPlace) => void }) {
     if (q.length < 2) return
     let live = true
     const timer = setTimeout(() => {
-      api.findPlace(q).then(
+      api.findPlace(q, language).then(
         (r) => live && (setResults({ query: q, candidates: r.candidates }), setError(null)),
         (e) => live && setError(e as ApiError),
       )
     }, SEARCH_DELAY_MS)
     return () => { live = false; clearTimeout(timer) }
-  }, [q])
+  }, [q, language])
 
   const choose = (p: SavedPlace) => {
     onPlace(p)

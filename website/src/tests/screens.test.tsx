@@ -17,11 +17,11 @@ import { Todo } from '../screens/Todo'
 import { Welcome } from '../screens/Welcome'
 import { Ask } from '../screens/Ask'
 import type { Language, PlaceAndOutlook } from '../types'
-import { events, outlook, place, policy, replay, shelters, status, telanganaWatch } from './fixtures/data'
+import { events, outlook, place, policy, replay, rules, shelters, status, telanganaWatch } from './fixtures/data'
 
 const LANGUAGES: Language[] = ['en', 'hi', 'mr']
 // Names kept on purpose: the brand, data sources, and the technical agent name next to its translation.
-const SAME_IN_ALL = new Set<TextKey>(['brand.name', 'show.layer5b', 'show.layer3n'])
+const SAME_IN_ALL = new Set<TextKey>(['brand.name'])
 
 // Every English sentence the site or the safety advice could show (short words like "Heat" skipped).
 const ENGLISH_SENTENCES = [
@@ -53,7 +53,7 @@ function expectOnlyLanguage(language: Language) {
 function stubApi(overrides: Record<string, [number, unknown]> = {}) {
   const routes: Record<string, [number, unknown]> = {
     '/api/shelters': [200, shelters], '/api/replays/': [200, replay], '/api/replays': [200, events],
-    '/api/policy': [200, policy], '/api/status': [200, status], ...overrides,
+    '/api/policy': [200, policy], '/api/status': [200, status], '/api/rules': [200, rules], ...overrides,
   }
   vi.stubGlobal('fetch', vi.fn(async (url: string) => {
     const path = Object.keys(routes).find((p) => url.startsWith(p)) ?? ''
@@ -215,6 +215,31 @@ describe.each(LANGUAGES)('in %s', (language) => {
     await screen.findAllByText(new RegExp(t('show.far')))
     expect(screen.getByText(t('show.riverAxis', '1,321'))).toBeTruthy()
     expectOnlyLanguage(language)
+  })
+
+  it('Showcase: how a warning is decided, with every line from the rules file', async () => {
+    show(language, <Showcase />)
+    await screen.findAllByText(new RegExp(t('show.markVeryHeavy')))
+    const decide = document.getElementById('decide')!.textContent ?? ''
+    for (const v of [rules.rain_mm.very_heavy, rules.rain_mm.extremely_heavy, rules.heat.absolute_c]) expect(decide).toContain(String(v))
+    expect(decide).toContain(t('show.ruleStays', rules.flood_guide.stay_on_quiet_days))
+    expect(decide).toContain(t('show.oursTag'))
+    expectOnlyLanguage(language)
+  })
+
+  it('Showcase: the tech flow shows the Today journey, then the Ask journey', () => {
+    show(language, <Showcase />)
+    expect(screen.getByText(t('show.today4'))).toBeTruthy()
+    fireEvent.click(screen.getByRole('tab', { name: t('show.flowAsk') }))
+    expect(screen.getByText(t('show.ask6'))).toBeTruthy()
+    expect(screen.queryByText(t('show.today4'))).toBeNull()
+  })
+
+  it('Showcase: proof numbers come from the replays, and nothing is claimed that is not built', async () => {
+    show(language, <Showcase />)
+    await screen.findByText(t('show.statReplays'))
+    expect(document.body.textContent).not.toMatch(/WhatsApp|6 AM/)
+    expect(document.body.textContent).not.toMatch(/\b1 days\b/)
   })
 
   it('Showcase: a flood from rain is charted as rain, against the place\'s own line', async () => {

@@ -41,7 +41,7 @@ class PlaceCandidate:
 
 
 class Geocoder(Protocol):
-    def search(self, name: str, country_code: str) -> list[PlaceCandidate]: ...
+    def search(self, name: str, country_code: str, language: str = "en") -> list[PlaceCandidate]: ...
 
 
 class ReverseGeocoder(Protocol):
@@ -58,7 +58,7 @@ def _get_json(url: str, params: dict, timeout: float = 20) -> object:
 def _clean_district(name: str | None) -> str | None:
     if not name:
         return None
-    for suffix in (" District", " district"):
+    for suffix in (" District", " district", " जिल्हा", " जिला"):  # English, Marathi, Hindi
         if name.endswith(suffix):
             return name[: -len(suffix)]
     return name
@@ -67,8 +67,9 @@ def _clean_district(name: str | None) -> str | None:
 class OpenMeteoGeocoder:
     URL = "https://geocoding-api.open-meteo.com/v1/search"
 
-    def search(self, name: str, country_code: str) -> list[PlaceCandidate]:
-        data = _get_json(self.URL, {"name": name, "count": 10, "countryCode": country_code.upper()})
+    def search(self, name: str, country_code: str, language: str = "en") -> list[PlaceCandidate]:
+        data = _get_json(self.URL, {"name": name, "count": 10, "countryCode": country_code.upper(),
+                                    "language": language})
         return [
             PlaceCandidate(
                 name=r["name"],
@@ -88,22 +89,24 @@ class NominatimGeocoder:
     _lock = threading.Lock()
     _last_call = 0.0
 
-    def _throttled(self, path: str, params: dict) -> object:
+    def _throttled(self, path: str, params: dict, language: str = "en") -> object:
         with self._lock:
             wait = 1.0 - (time.monotonic() - NominatimGeocoder._last_call)
             if wait > 0:
                 time.sleep(wait)
             NominatimGeocoder._last_call = time.monotonic()
-        return _get_json(f"{self.URL}/{path}", {**params, "format": "jsonv2", "accept-language": "en"})
+        # Names in the person's language where OpenStreetMap has them, else English.
+        accept = language if language == "en" else f"{language},en"
+        return _get_json(f"{self.URL}/{path}", {**params, "format": "jsonv2", "accept-language": accept})
 
     @staticmethod
     def _admin(address: dict) -> AdminArea:
         district = address.get("state_district") or address.get("county")
         return AdminArea(address.get("country_code", ""), address.get("state"), _clean_district(district))
 
-    def search(self, name: str, country_code: str) -> list[PlaceCandidate]:
+    def search(self, name: str, country_code: str, language: str = "en") -> list[PlaceCandidate]:
         results = self._throttled(
-            "search", {"q": name, "countrycodes": country_code, "addressdetails": 1, "limit": 10}
+            "search", {"q": name, "countrycodes": country_code, "addressdetails": 1, "limit": 10}, language
         )
         return [
             PlaceCandidate(
@@ -131,16 +134,17 @@ def distance_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
 
 
 def search_place(
-    name: str, country_code: str, geocoders: list[Geocoder], same_place_km: float = 2.0
+    name: str, country_code: str, geocoders: list[Geocoder], same_place_km: float = 2.0, language: str = "en"
 ) -> list[PlaceCandidate]:
-    """Candidates from all geocoders, with duplicates (within same_place_km) merged.
+    """Candidates from all geocoders, with duplicates (within same_place_km) merged. Names come in
+    `language` (e.g. "mr") where the geocoder has them, else in English.
 
     A geocoder that fails is skipped, so one outage never blocks sign-up.
     """
     merged: list[PlaceCandidate] = []
     for geocoder in geocoders:
         try:
-            found = geocoder.search(name, country_code)
+            found = geocoder.search(name, country_code, language)
         except Exception:  # noqa: S112 - one geocoder down must never block finding a village
             continue
         for c in found:

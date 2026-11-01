@@ -54,6 +54,26 @@ def chat(c, message="Will it be hot?", **extra):
     return c.post("/api/chat", json={"session_id": SESSION, "message": message, "language": "mr", **extra})
 
 
+def test_place_search_in_the_persons_language():
+    c, tools, _ = client()
+    assert c.get("/api/places", params={"q": "Akola", "lang": "mr"}).status_code == 200
+    assert tools.calls[-1] == ("find_place", {"name": "Akola", "language": "mr"})
+    c.get("/api/places", params={"q": "Akola"})
+    assert tools.calls[-1] == ("find_place", {"name": "Akola"})   # English: unchanged call
+    assert c.get("/api/places", params={"q": "Akola", "lang": "xx"}).status_code == 400
+
+
+def test_rules_summary_comes_from_the_rules_files():
+    from weatherwise.rules import load_rules
+    c, _, _ = client()
+    body = c.get("/api/rules").json()
+    r = load_rules("in")
+    assert body["rain_mm"]["very_heavy"] == r["heavy_rain"]["very_heavy"]
+    assert body["heat"]["departure_c"] == r["heat"]["heat_wave_departure"]
+    assert body["heat"]["work_heat_c"] == {lv["name"]: lv["feels_like_c"] for lv in r["work_heat"]["levels"]}
+    assert body["flood_guide"]["prepare_signals"] == r["flood_guide"]["prepare_signals"]
+
+
 def test_place_asks_the_mcp_tools_for_facts_and_outlook():
     c, tools, _ = client()
     body = c.get("/api/place", params={"lat": 16.7, "lon": 74.24}).json()

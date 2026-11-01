@@ -47,9 +47,10 @@ class TestTerrain:
 
 class FakeGeocoder:
     def __init__(self, candidates=None, fail=False):
-        self.candidates, self.fail = candidates or [], fail
+        self.candidates, self.fail, self.languages = candidates or [], fail, []
 
-    def search(self, name, country_code):
+    def search(self, name, country_code, language="en"):
+        self.languages.append(language)
         if self.fail:
             raise ConnectionError("down")
         return self.candidates
@@ -71,6 +72,15 @@ class TestSearchPlace:
         found = search_place("Wadgaon", "in", [FakeGeocoder(fail=True),
                                                FakeGeocoder([candidate("Wadgaon", 18.1, 76.5, "Latur")])])
         assert len(found) == 1
+
+    def test_names_are_asked_for_in_the_persons_language(self):
+        g = FakeGeocoder([candidate("वडगाव", 18.1, 76.5, "लातूर")])
+        search_place("Wadgaon", "in", [g], language="mr")
+        assert g.languages == ["mr"]
+
+    def test_district_word_is_dropped_in_every_language(self):
+        from weatherwise.places.geocoding import _clean_district
+        assert [_clean_district(d) for d in ("Akola District", "अकोला जिल्हा", "अकोला जिला")] == ["Akola", "अकोला", "अकोला"]
 
     def test_label_reads_back_district_and_state(self):
         assert candidate("Wadgaon", 18.1, 76.5, "Latur").label == "Wadgaon, Latur, Maharashtra"

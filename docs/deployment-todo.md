@@ -191,7 +191,7 @@ Browser ──HTTPS──> ECS Express Mode load balancer (ap-south-1)
 
 - [ ] **1.2 Run the test suites once** (from the repo, not the image):
   ```bash
-  uv sync && uv run pytest -m "not live"      # expect 228 passed
+  uv sync && uv run pytest -m "not live"      # expect 232 passed
   uv run pytest -m live                        # real APIs; expect all passed
   ```
 

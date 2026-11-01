@@ -1,9 +1,12 @@
 // Test data shaped like the WeatherWise API's answers. policy.json is the real message_policy
 // (regenerate: uv run python -c "from weatherwise.rules import message_policy; ...").
-import type { OfficialAlert, OfficialAlerts, PlaceAndOutlook, Policy, Replay, ReplayEvent, SavedPlace, Shelters, Status } from '../../types'
+import type { OfficialAlert, OfficialAlerts, PlaceAndOutlook, Policy, Replay, ReplayEvent, Rules, SavedPlace, Shelters, Status } from '../../types'
 import policyJson from './policy.json'
+import rulesJson from './rules.json'
 
 export const policy = policyJson as unknown as Policy
+// GET /api/rules, generated from rules/ (WeatherWiseApi.rules).
+export const rules = rulesJson as Rules
 
 export const place: SavedPlace = { name: 'Akola', label: 'Akola, Maharashtra', lat: 20.7, lon: 77.0 }
 
