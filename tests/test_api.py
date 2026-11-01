@@ -149,12 +149,21 @@ def test_rate_limit_cannot_be_dodged_by_faking_forwarded_for():
     assert c.post("/api/chat", json={"session_id": SESSION, "message": "hi", "language": "en"}, headers=fake).status_code == 429
 
 
-def test_cloudfront_viewer_address_identifies_the_visitor():
+def test_cloudfront_viewer_address_identifies_the_visitor(monkeypatch):
+    monkeypatch.setenv("WEATHERWISE_BEHIND_CLOUDFRONT", "1")
     c, _, _ = client(limits=Limits(chats_per_minute_per_visitor=1))
     for ip, expected in (("203.0.113.5:4431", 200), ("203.0.113.5:5555", 429), ("198.51.100.9:80", 200)):
         r = c.post("/api/chat", json={"session_id": SESSION, "message": "hi", "language": "en"},
                    headers={"cloudfront-viewer-address": ip})
         assert r.status_code == expected
+
+
+def test_without_cloudfront_a_faked_viewer_address_does_not_reset_the_limit():
+    c, _, _ = client(limits=Limits(chats_per_minute_per_visitor=1))
+    send = lambda ip: c.post("/api/chat", json={"session_id": SESSION, "message": "hi", "language": "en"},  # noqa: E731
+                             headers={"cloudfront-viewer-address": ip}).status_code
+    assert send("203.0.113.5:4431") == 200
+    assert send("198.51.100.9:80") == 429
 
 
 def test_behind_one_trusted_proxy_the_last_forwarded_address_is_the_visitor(monkeypatch):

@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build (linux/amd64, as App Runner runs it)
+      - name: Build (linux/amd64)
         run: docker build -t weatherwise:ci .
       - name: Smoke test
         run: |

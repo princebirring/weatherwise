@@ -9,12 +9,13 @@ Settings (env):
     AWS_REGION                  Bedrock region (default ap-south-1).
     CLIMATE_RISK_MCP_URL        A deployed Climate Risk MCP server; otherwise a local one is started.
     WEATHERWISE_CACHE_DIR       Downloads and cached forecasts (on Lambda: a folder under /tmp).
-    WEATHERWISE_CHATS_PER_DAY   Daily chat cap, the AI-spend guard (default 500).
+    WEATHERWISE_CHATS_PER_DAY   Daily chat cap, the AI-spend guard (default 100).
     WEATHERWISE_CHATS_PER_MINUTE  Per visitor (default 6).
-    WEATHERWISE_TRUSTED_PROXY_HOPS  Our proxies in front (not CloudFront), e.g. 1 on App Runner.
+    WEATHERWISE_TRUSTED_PROXY_HOPS  Our proxies in front, e.g. 1 behind the ECS load balancer.
+    WEATHERWISE_BEHIND_CLOUDFRONT  1 only when CloudFront is in front: trust CloudFront-Viewer-Address.
 
-Production runs this API behind CloudFront + WAF (plan §8.6); the limits here are the second
-line of defence.
+The judging deployment runs this API on ECS behind a load balancer, with no CloudFront or WAF, so
+these limits are the defence: they cap chat, the only part that costs money per request.
 """
 
 import argparse
@@ -53,13 +54,14 @@ def _connect() -> tuple[WeatherWiseApi, object]:
 def visitor_of(request: Request) -> str:
     """Who is asking, for the per-visitor chat limit.
 
-    Behind CloudFront: CloudFront-Viewer-Address (set by CloudFront, "ip:port").
-    Behind other proxies (App Runner, a load balancer): WEATHERWISE_TRUSTED_PROXY_HOPS = how many
+    Behind CloudFront (WEATHERWISE_BEHIND_CLOUDFRONT=1): CloudFront-Viewer-Address ("ip:port").
+    Without CloudFront a browser could send that header itself, so it is ignored.
+    Behind other proxies (a load balancer): WEATHERWISE_TRUSTED_PROXY_HOPS = how many
     of our own proxies append to X-Forwarded-For; the entry that many places from the right is
     the visitor. Entries further left are written by the browser and never trusted, so a visitor
     cannot dodge the limit by faking the header."""
     viewer = request.headers.get("cloudfront-viewer-address")
-    if viewer:
+    if viewer and os.environ.get("WEATHERWISE_BEHIND_CLOUDFRONT") == "1":
         return viewer.rsplit(":", 1)[0]
     hops = int(os.environ.get("WEATHERWISE_TRUSTED_PROXY_HOPS", "0"))
     forwarded = [h.strip() for h in request.headers.get("x-forwarded-for", "").split(",") if h.strip()]
