@@ -107,3 +107,46 @@ only); the same alert issued for overlapping mandals showed twice (now once).
 **Measured (live, Oct 31, 20:00 IST):** Hyderabad: Telangana SDMA thunderstorm watch (yellow).
 Buchireddipalem: Andhra Pradesh SDMA lightning alert (orange), shown in Marathi. Akola: "no official
 warnings in force". SACHET had no active cyclone warning that evening.
+
+## Oct 31 (night): safer heat lines, flood signals that fire, forecast correction
+
+**Why:** heat and flood warnings almost never appeared. Part of that is the season (no heat waves
+or monsoon floods at the end of October), but replays showed real gaps: IMD's station heat rule
+never fired on gridded forecasts during the April 2026 Akola heat wave, and in 30 years Kolhapur's
+~25 km forecast square reached IMD's "very heavy" 115.6 mm on only 4 days.
+
+**What shipped** (each one a switch in `rules/global.toml`)
+- Work-heat levels (ours), on feels-like temperature: "take care" 40 °C, "danger" 43 °C. The official
+  "heat wave" label stays IMD's alone. CONFIRM the numbers with NDMA / Heat Action Plan guidance.
+- Unusual rain (ours): each place's own wettest ~2 days a year (Kolhapur ~43 mm, Patna ~45,
+  Akola ~61, Mumbai ~85; never below 30 mm). Starts the flood guide's prepare mode only.
+- Heavy rain two days running at one place starts prepare mode.
+- Forecast correction (ours): each model's temperatures shifted by its error over the 30 days
+  before each morning (what happened known ~6 days late), capped at 3 °C.
+
+**Measured, same saved data, old rules vs new** (forecasts as issued)
+| Event | Old | New |
+|---|---|---|
+| Kolhapur flood, Jul 26 2024 | Guide from Jul 21 (5 days' lead) | Guide from Jul 17 (9 days), heavy rain two days running at Gaganbawda; 0 false alarms |
+| Vijayawada flood, Aug 31 2024 | Guide never on | Guide from Aug 29, rain unusual for Vijayawada; 0 false alarms |
+| Akola heat, Apr–May 2026: Excess Heat Factor | 7 of 12 days, 2 false | 8 of 12, 1 false |
+| Akola: feels-like heat | single 41 °C line: 12 of 22 days, 1 false | take care: 15 of 28, 6 false; danger: 3 of 5, 7 false |
+| Wayanad landslides, Jul 30 2024 | missed | missed (square showed ~53 mm) |
+
+**Decisions from the numbers**
+- The correction shifts both ways. Shifting only warmer (tried first, as "safer") caught 1 more
+  hot day but added 9 false alarms: models that run hot stayed hot. The gap between a forecast
+  square and a thermometer is handled by the work-heat levels instead.
+- The first unusual-rain line (wettest 1% of days, never below 50 mm) came out as 50 mm everywhere:
+  the floor hid the per-place idea. Now the wettest 0.5%, never below 30 mm.
+- The flood-guide replay score called Vijayawada a false alarm, because it only counted the Krishna
+  passing its flood level. It now also counts flood-level rain at the place.
+
+**Bug found on the way:** asked for one model, Open-Meteo's archive leaves the model name off its
+columns, so the live correction learned nothing and shifted by 0 without saying so. Fixed, and a
+correction with too little history now reports `no_history` instead of `on`.
+
+**Honest limits:** "false alarms" are judged against ERA5, itself a ~25 km average that runs cooler
+than stations on the hottest days, so some "danger" false alarms were likely real at ground level.
+Extreme local rain (Wayanad) is invisible to every global forecast square; official warnings
+cover it.

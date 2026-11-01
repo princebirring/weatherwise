@@ -45,12 +45,40 @@ class WeatherService:
         key = f"{cell.key}:{self.tz}:ehf:{eh['reference_first_year']}-{eh['reference_last_year']}"
 
         def compute() -> dict:
-            raw = self.fetch.fetch_historical_daily_mean(
-                cell, self.tz, eh["reference_first_year"], eh["reference_last_year"])
+            raw = self.fetch.fetch_historical_daily(
+                cell, self.tz, "temperature_2m_mean", eh["reference_first_year"], eh["reference_last_year"])
             means = [v for v in raw["daily"]["temperature_2m_mean"] if v is not None]
             return heat_climate(means, eh["heat_percentile"], eh["severe_percentile"])
 
         return cached(self.cache, "normals", key, compute)
+
+    def rain_climate(self, cell: GridCell, rules: dict) -> dict:
+        """This cell's unusual-rain line (a high percentile of its own daily rain)."""
+        from weatherwise.risk.heavy_rain import rain_climate  # pure function
+
+        ur = rules["unusual_rain"]
+        key = (f"{cell.key}:{self.tz}:rain:{ur['reference_first_year']}-{ur['reference_last_year']}"
+               f":p{ur['percentile']}:min{ur['min_mm']}")
+
+        def compute() -> dict:
+            raw = self.fetch.fetch_historical_daily(
+                cell, self.tz, "precipitation_sum", ur["reference_first_year"], ur["reference_last_year"])
+            rain = [v for v in raw["daily"]["precipitation_sum"] if v is not None]
+            return rain_climate(rain, ur["percentile"], ur["min_mm"])
+
+        return cached(self.cache, "normals", key, compute)
+
+    def recent_errors(self, cell: GridCell, today: date, rules: dict) -> dict:
+        """The live forecast model's day-ahead forecasts for the correction's training days,
+        and what happened on them: the raw inputs of the forecast correction."""
+        from weatherwise.weather.correction import training_window  # pure function
+
+        first, last = training_window(today, rules["forecast_correction"])
+        return cached(self.cache, "correction", f"{cell.key}:{self.tz}:{first}:{last}", lambda: {
+            "issued": self.fetch.fetch_heat_as_issued(cell, first, last, self.tz,
+                                                      models=(om.ENSEMBLE_MODEL,), max_previous_day=1),
+            "observed": self.fetch.fetch_observed_daily(cell, first, last, self.tz),
+        })
 
     def flood_level(self, lat: float, lon: float, rules: dict, last_year: int) -> float:
         """1-in-N-year flow from river history up to last_year (inclusive)."""
@@ -104,7 +132,7 @@ class WeatherService:
                              lambda: self.fetch.fetch_rain_as_issued(place, first, last, self.tz))
 
     def heat_as_issued(self, place, first: date, last: date) -> dict:
-        return self._archive("heat_as_issued", place, first, last,
+        return self._archive(f"heat_as_issued:{len(om.AS_ISSUED_MODELS)}models", place, first, last,
                              lambda: self.fetch.fetch_heat_as_issued(place, first, last, self.tz))
 
     def observed_daily(self, place, first: date, last: date) -> dict:

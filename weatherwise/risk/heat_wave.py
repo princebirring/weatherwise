@@ -1,4 +1,5 @@
-"""Flow 1 triggers: official heat-wave rules and our humid-heat rule (plan §5.2).
+"""Flow 1 triggers: official heat-wave rules, and our own heat rules: feels-like heat for
+outdoor work, and the Excess Heat Factor (plan §5.2).
 
 Each country names its official rule in [heat] rule = "..."; HEAT_WAVE_RULES maps
 that name to a function. A country with a different definition adds a function
@@ -101,32 +102,46 @@ def detect_heat_wave(
     return detections
 
 
-def detect_humid_heat(
+def detect_work_heat(
     area: Area, feels_like_tmax: EnsembleForecast, issue_date: date, rules: dict
 ) -> list[HazardDetection]:
-    """Our rule: feels-like heat in the danger band. Labelled as ours, not IMD's."""
-    share = share_of_runs_agreeing(
-        feels_like_tmax, lambda i, v: v >= rules["apparent_tmax_danger"]
-    )
-    agreed = [s >= rules["min_agreement"] for s in share]
+    """Our health line for outdoor work: feels-like heat (temperature and humidity) at or above
+    each level in rules["levels"] (lowest first). Labelled as ours: it is not IMD's heat-wave label.
+
+    One detection per span of days at the lowest level or above; its severity is the highest
+    level enough runs agree on for any day in the span.
+    """
+    levels = sorted(rules["levels"], key=lambda lv: lv["feels_like_c"])
+    shares = [share_of_runs_agreeing(feels_like_tmax, lambda i, v, c=lv["feels_like_c"]: v >= c)
+              for lv in levels]
+    agreed = [s >= rules["min_agreement"] for s in shares[0]]
 
     detections = []
     for start, end in consecutive_day_spans(agreed):
         if end - start + 1 < rules["min_consecutive_days"]:
             continue
+        top = max(k for k, share in enumerate(shares)
+                  if any(share[i] >= rules["min_agreement"] for i in range(start, end + 1)))
         detections.append(
             HazardDetection(
                 area_id=area.id,
-                hazard=Hazard.HUMID_HEAT,
-                severity="danger",
+                hazard=Hazard.WORK_HEAT,
+                severity=levels[top]["name"],
                 first_day=feels_like_tmax.dates[start],
                 last_day=feels_like_tmax.dates[end],
                 days_ahead=days_ahead(feels_like_tmax.dates[start], issue_date),
-                agreement=round(min(share[start : end + 1]), 2),
-                evidence={"rule": "ours", "threshold": rules["apparent_tmax_danger"]},
+                agreement=round(min(shares[0][start : end + 1]), 2),
+                evidence={"rule": "ours (feels-like heat for outdoor work)",
+                          "feels_like_c": levels[top]["feels_like_c"]},
             )
         )
     return detections
+
+
+def work_heat_level(feels_like_c: float, rules: dict) -> str | None:
+    """The highest work-heat level a feels-like temperature reaches (for scoring), or None."""
+    reached = [lv for lv in rules["levels"] if feels_like_c >= lv["feels_like_c"]]
+    return max(reached, key=lambda lv: lv["feels_like_c"])["name"] if reached else None
 
 
 # ---- Excess Heat Factor (ours) ---------------------------------------------------------

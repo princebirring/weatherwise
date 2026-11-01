@@ -16,6 +16,18 @@ last_day = "2024-08-05"
 reported = "River about 8 inches below the danger mark on Jul 24; crossed it on Jul 26. CONFIRM"
 
 [[replay]]
+id = "vijayawada_flood_2024_08"
+title = "Vijayawada floods, August 2024 (Budameru)"
+title_mr = "विजयवाडा पूर, ऑगस्ट 2024 (बुडमेरू)"
+title_hi = "विजयवाड़ा बाढ़, अगस्त 2024 (बुडमेरु)"
+name = "Vijayawada"
+lat = 16.51
+lon = 80.64
+first_day = "2024-08-24"
+last_day = "2024-09-05"
+reported = "Extreme rain on Aug 31; the Budameru stream flooded large parts of the city from Sep 1. CONFIRM"
+
+[[replay]]
 id = "vidarbha_heat_2026_04"
 title = "Vidarbha heat wave, April 2026 (Akola)"
 title_mr = "विदर्भ उष्णतेची लाट, एप्रिल 2026 (अकोला)"

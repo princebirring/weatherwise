@@ -101,11 +101,11 @@ Browser ──HTTPS──> [CloudFront + WAF]  (Phase 2)
   curl -s -o /dev/null -w "%{http_code}\n" $U/app/shelter            # 200 (website screens)
   curl -s "$U/api/official?lat=17.38&lon=78.48" | head -c 200         # status "ok" (not "unavailable")
   ```
-  Then in a phone browser: `/app` → choose मराठी → search "Akola" → Today → Safe place → Help; switch language in the header (every word changes); `/` → the three replays show charts.
+  Then in a phone browser: `/app` → choose मराठी → search "Akola" → Today → Safe place → Help; switch language in the header (every word changes); `/` → the four replays show charts.
 
-- [ ] **1.7 Warm the cache right after each deploy.** A new 25 km forecast area takes ~6 s the first time (much longer if Open-Meteo is rate-limiting); the replays take 5–35 s the first time. Run once:
+- [ ] **1.7 Warm the cache right after each deploy.** A new 25 km forecast area takes several seconds the first time (it also fetches its 30-year rain history once and 30 days of past forecasts each day, for the unusual-rain line and the forecast correction; much longer if Open-Meteo is rate-limiting); the replays take 5–35 s the first time. Run once:
   ```bash
-  for id in kolhapur_flood_2024_07 vidarbha_heat_2026_04 kharghar_heat_2023_04; do curl -s -o /dev/null -w "$id %{time_total}s\n" $U/api/replays/$id; done
+  for id in kolhapur_flood_2024_07 vijayawada_flood_2024_08 vidarbha_heat_2026_04 kharghar_heat_2023_04; do curl -s -o /dev/null -w "$id %{time_total}s\n" $U/api/replays/$id; done
   for p in "16.70&lon=74.24" "20.71&lon=77.00" "19.03&lon=73.07" "25.59&lon=85.14" "18.40&lon=76.56"; do curl -s -o /dev/null -w "%{time_total}s\n" "$U/api/place?lat=$p"; done
   ```
   **Check:** a second run of both loops answers in under 1 s each.

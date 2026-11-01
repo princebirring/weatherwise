@@ -26,6 +26,8 @@ heat = [
     { who = "Elderly, pregnant women, children, people who are ill", what = "Stay indoors from 12 to 4 pm." },
     { who = "Cattle and poultry", what = "Keep them in shade and give extra water." },
 ]
+# The first card for our work-heat levels ([work_heat] levels in rules/global.toml), by level name.
+work_heat = { take_care = "Hot for work in the sun. Rest in shade often and drink water before you feel thirsty.", danger = "Too hot to work in the sun at midday. Stop outdoor work from 12 to 4 pm, and check on anyone working alone." }
 heatstroke = "Heatstroke signs: confusion, no sweat, fainting. Cool the person with water and shade, then call 108."
 dry_spell = [
     { who = "If you have water (well, canal, drip)", what = "Give protective irrigation now, and mulch to keep the soil moist." },

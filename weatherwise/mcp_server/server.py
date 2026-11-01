@@ -55,9 +55,11 @@ def resolve_place(lat: float, lon: float) -> dict:
 
 @server.tool()
 def hazard_outlook(lat: float, lon: float, place_name: str | None = None) -> dict:
-    """Official warnings in force (always first), then our heat-wave, humid-heat, excess-heat,
-    heavy-rain, dry-spell, sowing and river-flood risk for the next days at a point, with how
-    many forecast runs agree, plus whether the flood guide should start (prepare or urgent).
+    """Official warnings in force (always first), then the next days' risk at a point: the
+    official heat-wave and heavy-rain rules, and our own (labelled "ours") work-heat levels
+    (feels-like heat for outdoor work), excess heat, unusual rain for this place, dry spell,
+    sowing and river flood, each with how many forecast runs agree; whether the flood guide
+    should start (prepare or urgent); and how the forecast was corrected for this place.
     Use this before writing any warning.
 
     Args:

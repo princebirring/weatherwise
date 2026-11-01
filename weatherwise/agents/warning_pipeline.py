@@ -29,7 +29,7 @@ from weatherwise.agents.orchestrator import SKILLS, fallback_message
 from weatherwise.agents.steering import SafetyRulesHandler, ToneHandler, context_from_tools
 from weatherwise.risk.models import Hazard
 
-HEAT_DRY = {Hazard.HEAT_WAVE.value, Hazard.HUMID_HEAT.value, Hazard.EXCESS_HEAT.value,
+HEAT_DRY = {Hazard.HEAT_WAVE.value, Hazard.WORK_HEAT.value, Hazard.EXCESS_HEAT.value,
             Hazard.DRY_SPELL.value, Hazard.SOWING_RISK.value}
 
 WRITER_PROMPT = """You write ONE early-warning message for a group of people who share a place,

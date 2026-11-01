@@ -80,6 +80,10 @@ These protect people who may act on a warning. A pull request that breaks one wi
    (NDMA, IMD, KVK, ICAR) and be checked by a native speaker. Mark unverified text `TODO` (falls back
    to English) or `DRAFT` / `CONFIRM` in a comment, and say so in the pull request.
 6. **Places we do not cover** must say so honestly and show no helpline numbers from another country.
+7. **Switch a rule off in `rules/`, never by deleting its code** (`[checks] enabled`,
+   `[flood_guide] prepare_signals`, `[forecast_correction] enabled`). Before changing a threshold or
+   a switch, replay the headline events (`uv run python scripts/backtest.py --headline`) and put the
+   before and after scores in the pull request.
 
 ## Reporting bugs and ideas
 

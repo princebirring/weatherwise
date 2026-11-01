@@ -18,16 +18,18 @@ SENDER_NAME = "WeatherWise (open source; not an official warning service; follow
 
 EVENT_NAMES = {
     Hazard.HEAT_WAVE: "Heat wave",
-    Hazard.HUMID_HEAT: "Dangerous humid heat",
+    Hazard.WORK_HEAT: "Heat too high for outdoor work",
     Hazard.EXCESS_HEAT: "Excess heat",
     Hazard.HEAVY_RAIN: "Heavy rain",
+    Hazard.UNUSUAL_RAIN: "Rain unusual for this place",
     Hazard.DRY_SPELL: "Dry spell",
     Hazard.SOWING_RISK: "Dry soil at sowing time",
     Hazard.RIVER_FLOOD: "River flood risk",
 }
 SEVERITY = {
     "extremely_heavy": "Severe", "severe": "Severe", "very_heavy": "Moderate",
-    "heat_wave": "Moderate", "heatwave": "Moderate", "danger": "Severe", "heavy": "Minor",
+    "heat_wave": "Moderate", "heatwave": "Moderate", "danger": "Severe", "take_care": "Minor",
+    "heavy": "Minor", "unusual": "Moderate",
     "above_flood_level": "Moderate", "dry_spell": "Moderate", "sow_or_wait": "Minor",
 }
 CATEGORY = {Hazard.DRY_SPELL: "Env", Hazard.SOWING_RISK: "Env"}  # everything else is "Met"

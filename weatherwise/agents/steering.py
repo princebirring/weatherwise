@@ -66,9 +66,9 @@ def context_from_tools(results: list) -> MessageContext:
             continue
         for d in r.get("detections", []):
             h = d.get("hazard", "")
-            if h in ("heat_wave", "humid_heat", "excess_heat"):
+            if h in ("heat_wave", "work_heat", "excess_heat"):
                 hazards.add("heat")
-            elif h == "heavy_rain":
+            elif h in ("heavy_rain", "unusual_rain"):
                 hazards.add("heavy_rain")
             elif h == "river_flood":
                 hazards.add("flood")

@@ -28,17 +28,22 @@ REQUIRED_KEYS = {
     "country": ["name", "default_languages"],
     "terrain": ["coast_max_km", "hills_min_elevation_m"],
     "helplines": ["emergency", "disaster"],
+    "checks": ["enabled"],
+    "forecast_correction": ["enabled", "training_days", "min_training_days", "observed_delay_days",
+                            "max_shift_c", "allow_cooling"],
     "heat": ["rule", "min_consecutive_days", "min_agreement", "first_warning_lead_days"],
-    "humid_heat": ["apparent_tmax_danger", "min_consecutive_days", "min_agreement"],
+    "work_heat": ["levels", "min_consecutive_days", "min_agreement"],
     "excess_heat": ["reference_first_year", "reference_last_year", "heat_percentile",
                     "severe_percentile", "min_agreement", "min_consecutive_days"],
     "heavy_rain": ["heavy", "very_heavy", "extremely_heavy", "min_agreement"],
+    "unusual_rain": ["reference_first_year", "reference_last_year", "percentile", "min_mm",
+                     "min_agreement"],
     "dry_spell": ["dry_day_max_mm", "min_dry_days", "min_agreement", "soil_moisture_dry"],
     "sowing": ["forecast_days", "max_total_rain_mm", "min_agreement"],
     "river_flood": ["flood_level_return_period_years", "history_first_year", "min_agreement"],
     "river_exposure": ["min_flood_flow_m3s", "screen_years"],
-    "flood_guide": ["prepare_within_days", "urgent_within_days", "prepare_rain_categories", "stay_on_quiet_days",
-                    "urgent_rain_category"],
+    "flood_guide": ["prepare_within_days", "urgent_within_days", "prepare_signals",
+                    "heavy_rain_days_in_a_row", "stay_on_quiet_days", "urgent_rain_category"],
     "seasons": ["rainfed_crop_seasons", "sowing_windows"],
     "messages": ["max_chars_reply", "max_chars_urgent", "no_links_in_floods", "required_numbers"],
     "delivery": ["send_from_hour", "send_until_hour", "max_warnings_per_month",
@@ -76,6 +81,18 @@ def validate_rules(rules: dict, country: str) -> None:
                if k not in rules.get(s, {})]
     if missing:
         raise ConfigError(f"rules for {country!r} are missing: {', '.join(missing)}")
+    # Switch names must exist, so a typo fails at startup instead of silently switching a check off.
+    from weatherwise.risk.area_scan import CHECKS  # local: area_scan imports this module
+    from weatherwise.risk.flood_guide_trigger import PREPARE_SIGNALS
+
+    unknown = [f"[checks] enabled: {n!r}" for n in rules["checks"]["enabled"] if n not in CHECKS] + [
+        f"[flood_guide] prepare_signals: {n!r}" for n in rules["flood_guide"]["prepare_signals"]
+        if n not in PREPARE_SIGNALS]
+    levels = rules["work_heat"]["levels"]
+    if not levels or any({"name", "feels_like_c"} - set(lv) for lv in levels):
+        unknown.append("[work_heat] levels: each needs a name and feels_like_c")
+    if unknown:
+        raise ConfigError(f"rules for {country!r} have unknown or bad values: {', '.join(unknown)}")
 
 
 def supported_countries(root: Path = RULES_ROOT) -> list[str]:
@@ -116,9 +133,14 @@ def _verified(text: str | None) -> str | None:
 
 
 def _verified_guidance(value):
-    """A guidance value (text, or a list of texts or {who, what} items) with no TODO anywhere."""
-    texts = [value] if isinstance(value, str) else [
-        t for item in value for t in (item.values() if isinstance(item, dict) else [item])]
+    """A guidance value (text; a table of texts, e.g. by level; or a list of texts or {who, what}
+    items) with no TODO anywhere."""
+    if isinstance(value, str):
+        texts = [value]
+    elif isinstance(value, dict):
+        texts = list(value.values())
+    else:
+        texts = [t for item in value for t in (item.values() if isinstance(item, dict) else [item])]
     return value if texts and all(_verified(t) for t in texts) else None
 
 

@@ -26,8 +26,10 @@ const SAME_IN_ALL = new Set<TextKey>(['brand.name', 'show.layer5b', 'show.layer3
 // Every English sentence the site or the safety advice could show (short words like "Heat" skipped).
 const ENGLISH_SENTENCES = [
   ...Object.entries(en).filter(([k]) => !SAME_IN_ALL.has(k as TextKey)).map(([, v]) => v),
-  ...Object.values(policy.guidance.en).flatMap((v) =>
-    typeof v === 'string' ? [v] : v.flatMap((x: string | { who: string; what: string }) => (typeof x === 'string' ? [x] : [x.who, x.what]))),
+  ...Object.values(policy.guidance.en).flatMap((v): string[] =>
+    typeof v === 'string' ? [v]
+      : Array.isArray(v) ? v.flatMap((x: string | { who: string; what: string }) => (typeof x === 'string' ? [x] : [x.who, x.what]))
+        : Object.values(v)), // a table of texts, e.g. work_heat by level
 ].map((s) => s.split('{name}')[0].trim()).filter((s) => s.length >= 12)
 
 const loaded = <T,>(data: T) => ({ data, error: null, loading: false, retry: () => {} })
@@ -137,6 +139,17 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expectOnlyLanguage(language)
   })
 
+  it('Too hot to work: the level advice comes first, in this language', async () => {
+    const data = outlook(false)
+    data.outlook.detections = [{ hazard: 'work_heat', severity: 'danger', first_day: '2026-04-24', last_day: '2026-04-24',
+      days_ahead: 2, agreement: 0.8, evidence: { rule: 'ours (feels-like heat for outdoor work)' } }]
+    show(language, <Todo index={0} data={loaded(data)} />)
+    expect(screen.getByText(g.work_heat.danger)).toBeTruthy()
+    screen.getByText(t('todo.next')).click()
+    expect(await screen.findByText(g.heat[0].what)).toBeTruthy()
+    expectOnlyLanguage(language)
+  })
+
   it('What to do: one card at a time, with the safety text in this language', () => {
     show(language, <Todo index={0} data={loaded(outlook(true))} />)
     expect(screen.getByText(g.heat[0].what)).toBeTruthy()
@@ -200,6 +213,16 @@ describe.each(LANGUAGES)('in %s', (language) => {
     await screen.findAllByText(events[0].titles[language])
     expect(screen.getAllByText(t('show.replayTitle')).length).toBeGreaterThan(0)
     await screen.findAllByText(new RegExp(t('show.far')))
+    expect(screen.getByText(t('show.riverAxis', '1,321'))).toBeTruthy()
+    expectOnlyLanguage(language)
+  })
+
+  it('Showcase: a flood from rain is charted as rain, against the place\'s own line', async () => {
+    const rainFlood = { ...replay, unusual_rain_mm: 44.6, timeline: replay.timeline.map((d, i) => ({
+      ...d, what_happened: i === 2 ? ['unusual_rain'] : [], observed: { ...d.observed, rain_mm: [3, 45, 186, 94][i] } })) }
+    stubApi({ '/api/replays/': [200, rainFlood] })
+    show(language, <Showcase />)
+    expect(await screen.findByText(t('show.rainAxis', 45))).toBeTruthy()
     expectOnlyLanguage(language)
   })
 })

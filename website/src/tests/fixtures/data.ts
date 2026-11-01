@@ -70,7 +70,7 @@ export const replay: Replay = {
   event: events[0], mode: 'as_issued', flood_level_m3s: 1321, notes: ['Official alerts are not archived.'],
   verification: {
     mode: 'as_issued', notes: ['Official alerts are not archived.'],
-    scores: { river_flood: { hazard: 'river_flood', hits: 1, misses: 0, false_alarms: 0, correct_negatives: 0,
+    scores: { flood_guide: { hazard: 'flood_guide', hits: 1, misses: 0, false_alarms: 0, correct_negatives: 0,
       event_lead_days: [['2024-07-26', 5]], pod: 1, far: 0 } },
   },
   timeline: ['2024-07-24', '2024-07-25', '2024-07-26', '2024-07-27'].map((day, i) => ({

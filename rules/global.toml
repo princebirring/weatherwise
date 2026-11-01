@@ -2,6 +2,34 @@
 # Official definitions (IMD, NWS, KMD...) belong in rules/countries/<iso-code>.toml, not here.
 # Supported countries = the files in rules/countries/ (named by ISO code, e.g. in.toml).
 
+[checks]
+# Every check the daily scan runs (live and in replays). Remove a name to switch that check off;
+# a country file can set its own list. The names are CHECKS in weatherwise/risk/area_scan.py.
+enabled = [
+    "heat_wave",      # official: the country's heat-wave rule ([heat] rule)
+    "work_heat",      # ours: feels-like heat too high for outdoor work ([work_heat])
+    "excess_heat",    # ours: hotter than this place's own climate ([excess_heat])
+    "heavy_rain",     # official: the country's mm/day rain categories ([heavy_rain])
+    "unusual_rain",   # ours: rain rare for this place ([unusual_rain])
+    "dry_spell",
+    "sowing_risk",
+    "river_flood",
+]
+
+[forecast_correction]
+# Ours (weatherwise/weather/correction.py). Each forecast model runs a little warm or cool at
+# each place: we compare its day-ahead forecasts for the last training_days days with what
+# happened (ERA5) and shift today's temperatures by the average difference. Rain is not shifted.
+enabled = true
+training_days = 30
+min_training_days = 20        # less history than this: no shift
+observed_delay_days = 6       # what happened (ERA5) is published about 5 days late
+max_shift_c = 3.0
+# Shift both ways. Measured on the Akola April 2026 replay: shifting only warmer caught 1 more
+# hot day but added 9 false alarms (models that run hot stay hot). The gap to a thermometer is
+# handled by the [work_heat] levels instead, so each setting does one job. false = warmer only.
+allow_cooling = true
+
 [river_exposure]
 # A point is a "large river" area if its nearest river's 1-in-5-year flow is at least this.
 # The global river model (GloFAS) is built for large catchments; smaller rivers and nalas are
@@ -21,10 +49,20 @@ min_consecutive_days = 2      # A single hot day alone does not trigger a warnin
 min_agreement = 0.70          # Share of forecast runs that must agree (plan §5.2)
 first_warning_lead_days = [3, 7]
 
-[humid_heat]
-apparent_tmax_danger = 41.0   # CONFIRM: heat-index "danger" band
-min_consecutive_days = 1      # Kharghar 2023 was a single day
+[work_heat]
+# Ours: a health line for working outdoors, not the official heat-wave label (which only the
+# national weather service declares). Judged on feels-like temperature (heat and humidity
+# together) from the corrected forecast, so humid 40 C on the coast counts like dry 44 C inland.
+# Set below the official heat-wave line on purpose: forecast squares (~25 km) run cooler than a
+# thermometer on the hottest days (Akola, April 2026: station 46.9 C, forecast square ~43.6 C).
+# Lowest level first; each level has its own advice on the website.
+# CONFIRM with the NDMA heat-wave guidelines, state/city Heat Action Plans and a public-health adviser.
 min_agreement = 0.70
+min_consecutive_days = 1      # Kharghar 2023 was a single day
+levels = [
+    { name = "take_care", feels_like_c = 40.0 },   # work early and late, water often
+    { name = "danger", feels_like_c = 43.0 },      # no work in the sun 11 am - 4 pm
+]
 
 [excess_heat]
 # Excess Heat Factor (Nairn & Fawcett 2015; used operationally by Australia's Bureau of
@@ -39,6 +77,19 @@ min_consecutive_days = 1      # EHF already averages 3 days
 
 [heavy_rain]
 min_agreement = 0.50          # Starting value, tuned on replays
+
+[unusual_rain]
+# Ours: rain rare for THIS place, judged by its own 1991-2020 daily rain (ERA5). The official
+# mm lines are national, and a ~25 km forecast square's rain is an average that seldom reaches
+# them even when real places in it flood (Kolhapur, July 2024: no 115.6 mm day in the square).
+# Only ever starts the flood guide's PREPARE mode, never "move now".
+reference_first_year = 1991
+reference_last_year = 2020
+# Measured on 1991-2020 forecast squares: Kolhapur's reached 115.6 mm on only 4 days in 30 years.
+# This line: Kolhapur ~43 mm, Patna ~45, Akola ~61, Mumbai ~85.
+percentile = 99.5             # of all days: the wettest ~2 days of an average year
+min_mm = 30.0                 # never below this, so dry places are not warned for ordinary showers
+min_agreement = 0.50          # Starting value, as for heavy rain
 
 [dry_spell]
 min_dry_days = 10             # Plan §5.2: about 10-15+ days
@@ -63,8 +114,16 @@ min_agreement = 0.50          # Starting value
 # URGENT ("move now") needs an official red alert or extremely heavy rain within urgent_within_days.
 prepare_within_days = 3
 urgent_within_days = 1
-prepare_rain_categories = ["very_heavy", "extremely_heavy"]
 urgent_rain_category = "extremely_heavy"
+# What starts PREPARE (PREPARE_SIGNALS in weatherwise/risk/flood_guide_trigger.py). Remove a
+# name to switch that signal off. An official orange alert always starts PREPARE as well.
+prepare_signals = [
+    "very_heavy_rain",            # official: very heavy or extremely heavy rain, here or upstream
+    "heavy_rain_days_in_a_row",   # official "heavy" rain on several days running at one place
+    "unusual_rain",               # ours: rain rare for this place ([unusual_rain])
+    "river_flood",                # ours: the large river passing its flood level
+]
+heavy_rain_days_in_a_row = 2  # Starting value: soaked ground and full streams after 2 heavy days
 # Ours: once PREPARE starts, the guide stays on until this many mornings in a row show no flood
 # signal. A household half-way through preparing must not see the guide vanish because one
 # forecast wobbled (Kolhapur 2024: signal on Jul 21, quiet forecasts Jul 22-25, flood Jul 26).
