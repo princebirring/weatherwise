@@ -150,3 +150,49 @@ correction with too little history now reports `no_history` instead of `on`.
 than stations on the hottest days, so some "danger" false alarms were likely real at ground level.
 Extreme local rain (Wayanad) is invisible to every global forecast square; official warnings
 cover it.
+
+## Nov 1: building the verified shelter list from district disaster plans
+
+**Why:** the shelter router (Part 2) worked but had no data: `data/shelters_in.csv` was empty,
+so every answer was "Call 1077". No government body publishes shelters or cooling centres as
+data. But every Indian district must publish a disaster management plan (Disaster Management Act
+2005, s.31), and some plans name their relief camps.
+
+**What shipped** (`weatherwise/shelter_data/`, `scripts/shelter_data.py`)
+- `find`: every district from OpenStreetMap boundaries plus its official website from Wikidata,
+  then the plan on that website. No district is typed anywhere. Website pages, government
+  domains and the words for "disaster / plan / district / shelter" in 11 languages live in
+  `rules/countries/in.toml [shelter_sources]` (words marked CONFIRM). Another country needs only
+  its own section; a made-up second country is covered by a test.
+- `fetch`: downloads the plans (not committed).
+- `extract`: only pages with shelter words go to Claude on Bedrock through a Strands agent, which
+  returns typed rows with the page number and the exact quote. Code drops any row whose quote is
+  not on that page, so the model cannot add a shelter. Map points must fall inside the district.
+- `approve`: a person approves each draft; only complete rows reach `shelters_in.csv`, stamped
+  with who checked them and `recheck_due` (`[shelters] recheck_days = 30`).
+- `coverage`: how far each step reached.
+
+**Measured across all 787 districts**
+| Step | Districts | Share |
+|---|---|---|
+| Official website listed | 680 | 86% |
+| Website loads | 543 | 69% |
+| Plan found on it | 147 | 19% |
+| Plan downloaded | 143 | 18% |
+| Plan has readable text (not a scan) | 136 | 17% |
+| Plan has pages that look like a named shelter list (English pattern, likely an undercount) | 30 | 4% |
+
+A random check of 30 districts found plans online *anywhere* (state disaster sites, other hosts)
+for 27–43%, so searching state sites would roughly double what is found.
+
+**What we learned**
+- Most plans describe shelter procedures ("identify temporary shelters") rather than naming
+  places. Plans are a real but small source: about 4–6% of districts today, perhaps 10–15% with
+  state sites. Full coverage needs officers adding shelters, or a schools layer.
+- District websites move (`.nic.in` to `.gov.in`) and list plans under local-language titles, so
+  address retries and multilingual words both mattered.
+- Around 1 in 5 automatic picks is another body's plan (a court, an oil-spill plan). Titles
+  naming the district are now preferred; review catches the rest.
+
+**Not done yet:** `extract` has not run live (it needs the Bedrock model ID). Nothing has been
+approved, so `shelters_in.csv` is still empty.
