@@ -1,7 +1,7 @@
 # WeatherWise: deployment to-do for DevOps
 
 **For:** Prince, and the Claude Code session he runs this with.
-**Goal:** a public HTTPS link judges can open, with live chat on Claude in Amazon Bedrock and the
+**Goal:** first place. Start with "Do this first" below, then a public HTTPS link judges can open, with live chat on Claude in Amazon Bedrock and the
 agents on Amazon Bedrock AgentCore.
 **Deadline:** judging deployment frozen **Nov 3, 6 PM IST** (submission Nov 4).
 
@@ -10,6 +10,77 @@ agents on Amazon Bedrock AgentCore.
 > money beyond what is listed, or changes the AWS account outside this project. Do not edit
 > `rules/` or `skills/` (safety text and official thresholds): if a step seems to need it, stop
 > and ask Prashant.
+
+---
+
+## Do this first: what we need to win (reviewed Oct 31 against the 12 entries posted)
+
+**Where we stand.** On ideas we lead: we're the only entry that covers all three parts of AWS's
+climate-resilience example, and the only one that replays real past disasters (Kolhapur flood
+2024: 9 days of warning). On proof we're behind: the two strongest rival entries both run their
+Strands agents live on Bedrock + AgentCore behind CloudFront, publish test results measured
+against the real model, and include a table showing results *with and without* their safety
+check. Our agents have **never run on Bedrock**. Judges score technical execution at 25%, so
+this is the gap that loses us first place. Everything below closes it, in order.
+
+| # | Who | By (IST) | Task |
+|---|---|---|---|
+| W1 | Prince | **Nov 1, 12 PM** | Bedrock access + a key for Prashant's laptop |
+| W2 | Prince | Nov 1, 6 PM | Run the scenario suite on the real model once |
+| W3 | Prince | Nov 2 | Phase 1 live link (below) |
+| W4 | Prince | Nov 3, 12 PM | Phase 2 on AgentCore + capture the evidence |
+| W5 | Claude (Prashant's session) | after W1 | Evaluator on/off comparison, Limits section, article, video |
+
+- [ ] **W1. Bedrock access today.** This blocks everything else.
+  1. In the Bedrock console, enable a current Claude model in `ap-south-1` (`us-east-1` if it isn't
+     offered in Mumbai). Note the **inference-profile ID** (decision 0.1).
+  2. Create an IAM user (or an SSO permission set) for Prashant with **only**
+     `bedrock:InvokeModel` and `bedrock:InvokeModelWithResponseStream` on that profile and the
+     foundation models behind it. Share the keys privately, never in the repo or chat logs. This
+     lets Claude run the agents and the comparison (W5) locally while you deploy.
+  3. Put a US$50 AWS Budget alarm on the account (decision 0.3).
+  **Check:**
+  ```bash
+  aws bedrock-runtime converse --region ap-south-1 --model-id <profile-id> \
+    --messages '[{"role":"user","content":[{"text":"Say OK"}]}]'
+  ```
+  answers, and from the repo `CLIMATE_AGENT_MODEL_ID=<profile-id> AWS_REGION=ap-south-1 uv run python -m weatherwise.api.server`
+  then `curl localhost:8080/api/status` shows `"agents_ready": true`.
+
+- [ ] **W2. First real-model scenario run** (30 cases, a few dollars at most):
+  ```bash
+  CLIMATE_AGENT_MODEL_ID=<profile-id> AWS_REGION=ap-south-1 uv run python evals/run_scenarios.py --judge
+  ```
+  The report is written to `evals/reports/`. Commit it on a branch and open a PR. **Don't fix
+  failures yourself:** send the report to Prashant; Claude fixes them on his side (prompts and
+  skills, not `rules/`).
+  **Check:** the report exists and lists a pass rate for each part (heat/drought, shelter, flood).
+
+- [ ] **W3. Live public link by Nov 2:** Phase 1 below. Judges click links: the two strongest
+  rivals both have one.
+
+- [ ] **W4. AgentCore + evidence by Nov 3, 12 PM:** Phase 2 below, then capture these for the
+  video and article (send them to Prashant):
+  1. **A screenshot of an AgentCore observability trace** (or the CloudWatch GenAI view) of one
+     Marathi chat ("उद्या अकोल्यात खूप ऊन असेल का?"), showing the Orchestrator → specialist →
+     Evaluator steps and the MCP tool calls.
+  2. **Timings from the public URL** (run after the 1.7 warm-up):
+     ```bash
+     U=https://<cloudfront-url>
+     for i in 1 2 3 4 5; do curl -s -o /dev/null -w "today %{time_total}s\n" "$U/api/place?lat=20.71&lon=77.00"; done
+     ```
+     plus five chat timings from the browser network tab (`/api/chat`).
+  3. **Cost per chat answer:** input and output tokens for 10 chats (CloudWatch Bedrock
+     invocation metrics) multiplied by the model price, in US$ per answer.
+  4. **The architecture as deployed:** a list of the AWS resources actually created
+     (CloudFront, WAF, App Runner/ECS, ECR, AgentCore Runtime, IAM roles, Budget), so the diagram
+     in the article is exactly what runs.
+
+- [ ] **W5. (Claude, not Prince.)** Once W1 works: add an "Evaluator off" switch to
+  `evals/run_scenarios.py` and publish the side-by-side table (unsafe or wrong advice caught with
+  vs without the Evaluator); add a "Limits" section to the README (for example: the 2024 Wayanad
+  landslide is missed, and we don't model cyclone wind); write the Builder Center article and
+  record the video with W4's evidence.
 
 ---
 
@@ -72,7 +143,7 @@ Browser ──HTTPS──> [CloudFront + WAF]  (Phase 2)
 
 - [ ] **1.2 Run the test suites once** (from the repo, not the image):
   ```bash
-  uv sync && uv run pytest -m "not live"      # expect 168 passed
+  uv sync && uv run pytest -m "not live"      # expect 227 passed
   uv run pytest -m live                        # real APIs; expect all passed
   ```
 
