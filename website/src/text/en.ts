@@ -78,6 +78,8 @@ export const en = {
   'today.alsoComing': 'Also coming',
   'today.floodGuide': 'Flood guide',
   'today.share': 'Send to family',
+  'listen.play': 'Listen',
+  'listen.stop': 'Stop',
   'today.ask': 'Ask a question',
   'today.checked': 'Checked {name} · Follow IMD warnings first',
   'today.week': 'Next 7 days',

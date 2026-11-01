@@ -1,6 +1,6 @@
 // Every screen, in every language: it renders, shows that language's words and safety text,
 // and (for Hindi and Marathi) shows no English sentence from the site or the safety advice.
-import { cleanup, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from '../App'
@@ -251,5 +251,47 @@ describe('the whole app', () => {
     expect(screen.queryByText(textFor('en')('today.whatToDo'))).toBeNull()
     expect(screen.getByText(textFor('mr')('tabs.help'))).toBeTruthy()
     expectOnlyLanguage('mr')
+  })
+})
+
+describe('Listen (the phone reads the card aloud)', () => {
+  // A phone's speech engine with the given voices; records what it is asked to say.
+  function fakePhone(voiceLangs: string[]) {
+    const said: SpeechSynthesisUtterance[] = []
+    const engine = {
+      getVoices: () => voiceLangs.map((lang) => ({ lang, name: lang }) as SpeechSynthesisVoice),
+      speak: vi.fn((u: SpeechSynthesisUtterance) => said.push(u)),
+      cancel: vi.fn(),
+      addEventListener: () => {}, removeEventListener: () => {},
+    }
+    vi.stubGlobal('speechSynthesis', engine)
+    vi.stubGlobal('SpeechSynthesisUtterance', class { text: string; voice = null; lang = ''; rate = 1; onend = null; onerror = null
+      constructor(text: string) { this.text = text } })
+    return { engine, said }
+  }
+
+  it('reads the warning in Marathi with a Marathi voice, and Stop stops it', () => {
+    const { engine, said } = fakePhone(['en-US', 'mr-IN'])
+    const t = textFor('mr')
+    show('mr', <Home place={place} official={idle} data={loaded(outlook(true))} status={status} onPlace={() => {}} />)
+    fireEvent.click(screen.getByRole('button', { name: t('listen.play') }))
+    expect(said).toHaveLength(1)
+    expect(said[0].text).toContain(t('hazard.heat_wave'))
+    expect(said[0].lang).toBe('mr-IN')
+    fireEvent.click(screen.getByRole('button', { name: t('listen.stop') }))
+    expect(engine.cancel).toHaveBeenCalled()
+    expect(screen.getByRole('button', { name: t('listen.play') })).toBeTruthy()
+    expectOnlyLanguage('mr')
+  })
+
+  it('no Marathi voice on the phone: no button, never Marathi read by an English voice', () => {
+    fakePhone(['en-IN', 'hi-IN'])
+    show('mr', <Home place={place} official={idle} data={loaded(outlook(true))} status={status} onPlace={() => {}} />)
+    expect(screen.queryByRole('button', { name: textFor('mr')('listen.play') })).toBeNull()
+  })
+
+  it('no speech engine at all (older browsers): no button', () => {
+    show('en', <Home place={place} official={idle} data={loaded(outlook(true))} status={status} onPlace={() => {}} />)
+    expect(screen.queryByRole('button', { name: 'Listen' })).toBeNull()
   })
 })
