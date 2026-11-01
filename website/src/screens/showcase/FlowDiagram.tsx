@@ -34,13 +34,13 @@ const STACK: [string, TextKey][] = [
 ]
 
 const STEP_MS = 3200
-const reducedMotion = () => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
 export function FlowDiagram() {
   const { t } = useLanguage()
   const [journey, setJourney] = useState<'today' | 'ask'>('today')
   const [step, setStep] = useState(0)
-  const [playing, setPlaying] = useState(() => !reducedMotion())
+  // Steps move on by themselves until the person clicks one; then it stays where they chose.
+  const [playing, setPlaying] = useState(true)
   const stages = JOURNEYS[journey]
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export function FlowDiagram() {
   }, [playing, stages.length])
 
   const label = (k: string) => (k.startsWith('show.') ? t(k as TextKey) : k)
-  const choose = (j: 'today' | 'ask') => { setJourney(j); setStep(0) }
+  const choose = (j: 'today' | 'ask') => { setJourney(j); setStep(0); setPlaying(true) }
 
   return (
     <div className="journey stack" style={{ gap: 16 }}>
@@ -59,9 +59,6 @@ export function FlowDiagram() {
           <button type="button" role="tab" aria-selected={journey === 'today'} onClick={() => choose('today')}>{t('show.flowToday')}</button>
           <button type="button" role="tab" aria-selected={journey === 'ask'} onClick={() => choose('ask')}>{t('show.flowAsk')}</button>
         </div>
-        <button type="button" className="btn secondary journey-play" onClick={() => setPlaying(!playing)} aria-pressed={playing}>
-          {playing ? t('show.pause') : t('show.play')}
-        </button>
         {journey === 'ask' && <span className="ai-key"><i />{t('show.aiStep')}</span>}
       </div>
 

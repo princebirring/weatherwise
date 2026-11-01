@@ -62,11 +62,10 @@ export function Showcase() {
               <Link href="/app" className="btn big">{t('show.tryLive')}</Link>
               <a href="#replay" className="btn big secondary">{t('show.replayCta')}</a>
             </div>
+            {events.data && <HeroProof events={events.data} />}
           </div>
           <PhoneDemo />
         </section>
-
-        {events.data && <ProofStrip events={events.data} />}
 
         <section id="why" className="wrap section">
           <SectionHead n="01" title={t('show.whyTitle')} lede={t('show.whyLede')} />
@@ -160,15 +159,15 @@ function SectionHead({ n, title, lede }: { n: string; title: string; lede?: stri
   )
 }
 
-/** Three numbers under the hero, computed from the replays' own scores. */
-function ProofStrip({ events }: { events: ReplayEvent[] }) {
+/** Three numbers beside the headline, computed from the replays' own scores. */
+function HeroProof({ events }: { events: ReplayEvent[] }) {
   const { t, language } = useLanguage()
   const all = useAsync(() => Promise.all(events.map((e) => api.replay(e.id))), events.map((e) => e.id).join(','))
   if (!all.data) return null
   const p = proofNumbers(events, all.data)
   return (
-    <section className="proof-strip" aria-label={t('show.proof')}>
-      <div className="wrap">
+    <section className="hero-proof" aria-label={t('show.proof')}>
+      <div>
         {p.best && (
           <a href="#replay"><b>{p.best.days}</b><span>{t(p.best.days === 1 ? 'show.leadOne' : 'show.lead', p.best.event.titles[language])}</span></a>
         )}

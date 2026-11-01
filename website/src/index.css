@@ -146,9 +146,9 @@ h1, h2, h3, p { margin: 0; }
 .site-header nav { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 16px; font-weight: 600; }
 .site-header nav a { color: var(--ink); text-decoration: none; padding: 8px 0; }
 .site-header .btn { margin-left: auto; min-height: 46px; font-size: 16px; }
-.hero { display: flex; flex-wrap: wrap; gap: 40px 56px; align-items: center; justify-content: center; padding: 56px 24px 48px; }
-.hero > :first-child { flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
-.hero > :last-child { flex: 0 1 320px; min-width: 0; }
+.hero { display: flex; flex-wrap: wrap; gap: 32px 56px; align-items: flex-start; justify-content: center; padding: 32px 24px 44px; }
+.hero > :first-child { flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 18px; padding-top: 40px; }
+.hero > :last-child { flex: 0 0 auto; min-width: 0; }
 .hero > :first-child h1 { font-size: clamp(36px, 6vw, 58px); line-height: 1.04; font-weight: 800; letter-spacing: -1px; }
 .hero > :first-child p { font-size: 19px; line-height: 1.5; color: var(--ink-2); max-width: 640px; }
 .stat { font-size: 42px; font-weight: 800; line-height: 1; }
@@ -292,10 +292,14 @@ h1, h2, h3, p { margin: 0; }
 .section-n { font-size: 14px; font-weight: 800; letter-spacing: 0.12em; color: var(--action); }
 .h-mid { font-size: 20px; font-weight: 800; }
 
-.phone-demo { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; }
-.phone { position: relative; width: 300px; height: 562px; border-radius: 46px; background: #0E1A15;
+.phone-demo { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.phone-tabs { display: flex; justify-content: center; gap: 6px; }
+.phone-tabs button { min-height: 36px; padding: 0 12px; white-space: nowrap; border-radius: 18px; border: 1.5px solid var(--line-strong); background: var(--surface);
+  font-size: 14px; font-weight: 700; }
+.phone-tabs button[aria-selected='true'] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
+.phone { position: relative; width: 258px; height: 480px; border-radius: 40px; background: #0E1A15;
   box-shadow: 0 30px 60px -20px rgba(11, 66, 63, 0.45), 0 0 0 1px #24352D inset; }
-.phone-screen { position: absolute; top: 12px; left: 12px; width: 390px; height: 760px; transform: scale(0.7077); transform-origin: 0 0;
+.phone-screen { position: absolute; top: 12px; left: 12px; width: 390px; height: 760px; transform: scale(0.6); transform-origin: 0 0;
   border-radius: 48px; overflow: hidden; background: var(--ground); display: flex; flex-direction: column; }
 .phone-status { display: flex; justify-content: space-between; align-items: center; padding: 14px 30px 2px; font-size: 16px; font-weight: 700; }
 .phone-notch { width: 120px; height: 30px; border-radius: 16px; background: #0E1A15; }
@@ -306,20 +310,13 @@ h1, h2, h3, p { margin: 0; }
   font-size: 16px; font-weight: 700; }
 .phone .tabbar span.on { color: var(--action); background: var(--action-soft); font-weight: 800; }
 .phone .tabbar span.tab-help { background: var(--red); color: #FFFFFF; font-weight: 800; }
-.phone-demo figcaption { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
-.phone-dots { display: flex; gap: 6px; }
-.phone-caption { max-width: 320px; min-height: 2.8em; text-align: center; font-size: 16px; line-height: 1.4; color: var(--ink); }
-.phone-caption b { color: var(--action); margin-right: 4px; }
-.phone-dots button { width: 10px; height: 10px; padding: 0; border: 0; border-radius: 5px; background: var(--line-strong); transition: width 0.25s; }
-.phone-dots button.on { width: 26px; background: var(--action); }
+.phone-caption { max-width: 300px; min-height: 2.8em; text-align: center; font-size: 16px; line-height: 1.4; color: var(--ink); }
 @keyframes phone-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
-.proof-strip { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.proof-strip .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-.proof-strip a { display: flex; align-items: center; gap: 16px; padding: 22px 12px; text-decoration: none; color: var(--ink); }
-.proof-strip a + a { border-left: 1px solid var(--line); }
-.proof-strip b { font-size: 46px; font-weight: 800; line-height: 1; color: var(--flood); white-space: nowrap; }
-.proof-strip span { font-size: 16px; line-height: 1.35; color: var(--ink-2); }
+.hero-proof > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-top: 22px; margin-top: 6px; border-top: 1px solid var(--line); }
+.hero-proof a { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--ink); }
+.hero-proof b { font-size: 40px; font-weight: 800; line-height: 1; color: var(--flood); white-space: nowrap; }
+.hero-proof span { font-size: 15px; line-height: 1.35; color: var(--ink-2); }
 
 .part-card { display: flex; flex-direction: column; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 22px; }
 .part-card h3 { font-size: 21px; line-height: 1.2; }
@@ -374,7 +371,6 @@ h1, h2, h3, p { margin: 0; }
 .journey-caption { font-size: 21px; line-height: 1.4; font-weight: 600; min-height: 3.2em; padding: 16px 20px; border-radius: 16px;
   background: var(--ground); border-left: 5px solid var(--action); }
 .journey-caption b { color: var(--action); }
-.journey-play { min-height: 46px; }
 .ai-key { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; color: var(--ink-2); margin-left: 6px; }
 .ai-key i { width: 16px; height: 16px; border-radius: 8px; background: #FFF1DC; border: 2px solid var(--orange); }
 .stack-strip { display: flex; flex-direction: column; gap: 10px; }
@@ -400,9 +396,10 @@ h1, h2, h3, p { margin: 0; }
   .site-header nav { display: none; }
 }
 @media (max-width: 640px) {
-  .proof-strip a + a { border-left: 0; border-top: 1px solid var(--line); }
-  .proof-strip b { font-size: 38px; }
-  .hero { padding-top: 32px; }
+  .hero-proof > div { grid-template-columns: 1fr; }
+  .hero { padding-top: 20px; }
+  .hero > :first-child { padding-top: 0; }
+  .phone-tabs { flex-wrap: wrap; }
 }
 @media (prefers-reduced-motion: reduce) {
   .phone-screen .app-main > *, .stage { animation: none; transition: none; }

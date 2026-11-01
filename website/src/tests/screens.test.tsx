@@ -227,6 +227,16 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expectOnlyLanguage(language)
   })
 
+  it('Showcase: the phone switches screens by its tabs, with the real advice text', () => {
+    show(language, <Showcase />)
+    expect(screen.getByText(t('hazard.work_heat:danger'))).toBeTruthy()
+    fireEvent.click(screen.getByRole('tab', { name: t('show.zoneUrgent') }))
+    expect(screen.getByText(g.flood_urgent)).toBeTruthy()
+    fireEvent.click(screen.getByRole('tab', { name: t('show.tabHeat') }))
+    fireEvent.click(screen.getByRole('button', { name: t('today.whatToDo') }))
+    expect(screen.getByText(g.work_heat.danger)).toBeTruthy()
+  })
+
   it('Showcase: the tech flow shows the Today journey, then the Ask journey', () => {
     show(language, <Showcase />)
     expect(screen.getByText(t('show.today4'))).toBeTruthy()
