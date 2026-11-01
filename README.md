@@ -15,9 +15,9 @@ The idea, as AWS worded it:
 ## The three parts
 | Part | What it does |
 |---|---|
-| **1. Heat-wave and drought early warning** | Warns farmers days ahead: IMD heat-wave rule, humid heat, an Excess Heat Factor rule (ours, labelled), dry spells and sow-or-wait. Advice fits the crop and water source |
+| **1. Heat-wave and drought early warning** | Warns farmers days ahead: IMD heat-wave rule; our own (labelled) feels-like heat levels for work in the sun ("take care", "danger") and Excess Heat Factor; dry spells and sow-or-wait. Forecasts are corrected per place from their recent errors. Advice fits the crop and water source |
 | **2. Cooling center / shelter router** | The nearest verified cooling center or shelter for the hazard, with the helpline. Says honestly when none is near. Never gives map routes in a flood |
-| **3. Flood-risk guide** | Prepare mode, one step at a time, days ahead. Urgent mode only on an official red alert or extremely heavy rain within a day. Always "away from rivers and hill slopes" |
+| **3. Flood-risk guide** | Prepare mode, one step at a time, days ahead: on very heavy rain, heavy rain two days running, rain unusual for that place, a large river near its flood level, or an official orange alert. Urgent mode only on an official red alert or extremely heavy rain within a day. Always "away from rivers and hill slopes" |
 
 ## How it works
 ```
@@ -43,13 +43,18 @@ Person (website / WhatsApp)              6 AM scheduled job (per forecast grid c
   flood, rain or cyclone alert starts the flood guide's urgent mode. Our own rules are labelled "ours".
 - **Location-agnostic.** A point goes in and everything else is derived. Work is cached per ~25 km forecast cell, so cost grows with cells, not people.
 - **Only what no API can provide is written down** (`rules/`): official definitions, helplines, our safety text per language.
+- **Every check is a switch.** `[checks] enabled`, `[flood_guide] prepare_signals`, `[work_heat] levels` and
+  `[forecast_correction] enabled` in `rules/global.toml` turn each piece on or off (a country can override);
+  live scans and replays use the same switches, so any change can be replayed before it ships.
 
 ## Measured results (forecasts as they were issued at the time)
 | Event | Result |
 |---|---|
-| Kolhapur flood, Jul 2024 | Flood guide started **5 days** before the river crossed its flood level; no false alarms |
-| Akola heat, Apr–May 2026 | Excess Heat Factor: caught 58% of heat-wave days, 22% false alarms |
-| Kharghar, Apr 16, 2023 | Real conditions met every heat rule, on a day with no official warning (conditions check only: no archived forecasts before 2024) |
+| Kolhapur flood, Jul 2024 | Flood guide started **9 days** before the river crossed its flood level (heavy rain two days running upstream in the Ghats); no false alarms. Old rules: 5 days |
+| Vijayawada flood, Aug–Sep 2024 | Flood guide started **2 days** before 186 mm fell (rain unusual for Vijayawada); no false alarms. Old rules: **never started** (IMD's national 115.6 mm line was never forecast in the ~25 km square) |
+| Akola heat, Apr–May 2026 | Excess Heat Factor: caught 8 of 12 days, 1 false alarm (old: 7, 2). "Too hot to work" level caught 3 of 5 days. IMD's station rule caught none on gridded data (station 46.9 °C, grid ~43.6 °C) |
+| Kharghar, Apr 16, 2023 | Real conditions met every heat rule, including "take care" for work, on a day with no official warning (conditions check only: no archived forecasts before 2024) |
+| Wayanad landslides, Jul 30, 2024 | **Missed** by our checks (forecast square showed ~53 mm; real local rain was far higher). Official warnings are the safety net there |
 
 Any place and dates since 2024 can be backtested the same way. Details and lessons: `docs/build-log.md`.
 

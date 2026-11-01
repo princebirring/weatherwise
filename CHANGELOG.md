@@ -13,9 +13,24 @@ All notable changes to this project are documented here. The format follows
   never shown as "none". An official red flood, rain or cyclone alert starts the flood guide's
   urgent mode, orange starts prepare. New MCP tool `official_alerts`; agents lead with them.
 - All HTTPS calls check certificates against Mozilla's list (certifi), the same on every machine.
+- Work-heat levels (ours): feels-like heat for working in the sun, "take care" (40 °C) and
+  "danger" (43 °C), each with its own first advice card, in every language. Replaces the single
+  humid-heat rule (`humid_heat` -> `work_heat`).
+- Unusual rain (ours): rain in each place's own wettest ~2 days a year (1991-2020), so towns
+  whose ~25 km forecast square never reaches IMD's national lines still get the flood guide.
+- Flood guide prepare signals: heavy rain two days running at one place, and unusual rain, beside
+  very heavy rain and the river. Each is named in `[flood_guide] prepare_signals`.
+- Forecast correction (ours): each model's temperatures shifted by its own error at the place
+  over the 30 days before each morning, capped at 3 °C; shown in `hazard_outlook` as
+  `forecast_correction`.
+- Switches: `[checks] enabled` lists every check; misspelt names fail at startup.
+- Vijayawada 2024 flood replay.
 
 ### Changed
 - "Safe to work today" replaced by "No danger found by our checks" (our checks cannot see every danger).
+- Replays run the live scan's own checks (`run_checks`) and correction, so switches mean the same in both.
+- The flood guide replay score (`flood_guide`, was `river_flood`) also counts flood-level rain
+  as a flood: towns flood from streams and drains, not only large rivers.
 
 - Risk engine for any place in India: IMD heat wave, humid heat, Excess Heat Factor (ours),
   dry spell, wait-before-sowing (monsoon sowing only), heavy rain (local and upstream), river flood.
