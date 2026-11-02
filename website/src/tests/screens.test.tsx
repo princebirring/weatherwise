@@ -1,6 +1,6 @@
 // Every screen, in every language: it renders, shows that language's words and safety text,
 // and (for Hindi and Marathi) shows no English sentence from the site or the safety advice.
-import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { ReactNode } from 'react'
@@ -377,6 +377,21 @@ describe.each(LANGUAGES)('in %s', (language) => {
     fireEvent.click(document.querySelector('.phone .tabbar .tab-help')!)
     expect(phone.getByRole('heading', { name: t('help.title') })).toBeTruthy()
     expect(window.location.pathname).toBe('/')
+  })
+
+  it('Landing: the phone plays its stories on its own, and stops when touched', () => {
+    vi.stubGlobal('matchMedia', () => ({ matches: false }))              // motion allowed
+    vi.useFakeTimers()
+    try {
+      at('/')
+      const selected = () => screen.getByRole('tab', { selected: true }).textContent
+      expect(selected()).toBe(t('show.tabHeat'))
+      act(() => { vi.advanceTimersByTime(5600) })
+      expect(selected()).toBe(t('show.tabAdvice'))                       // next story, by itself
+      fireEvent.pointerDown(screen.getByRole('region', { name: t('show.demoLabel') }))
+      act(() => { vi.advanceTimersByTime(12_000) })
+      expect(selected()).toBe(t('show.tabAdvice'))                       // a touch hands back control
+    } finally { vi.useRealTimers() }
   })
 
   it('How it works: the tech flow shows the Today journey, then the Ask journey', () => {

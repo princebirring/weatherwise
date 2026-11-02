@@ -368,3 +368,9 @@
   .site-foot-grid { grid-template-columns: minmax(0, 1fr); }
 }
 .phone-demo .phone-tabs:empty { height: 36px; }
+/* While the phone plays on its own, a thin line fills under the story on screen (same length as STORY_MS). */
+.phone-tabs.playing button[aria-selected='true'] { position: relative; overflow: hidden; }
+.phone-tabs.playing button[aria-selected='true']::after { content: ''; position: absolute; left: 0; bottom: 0; height: 3px; width: 100%;
+  background: var(--mint, #7FD1C7); transform-origin: left; animation: story-progress 5.5s linear both; }
+@keyframes story-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .phone-tabs.playing button::after { animation: none; } }
