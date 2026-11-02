@@ -3,7 +3,8 @@
     person --> Orchestrator --+-- find_place / resolve_place / hazard_outlook / find_shelters (MCP)
                               +-- warning_agent      (specialist, heat + drought skills)
                               +-- flood_guide_agent  (specialist, flood skills)
-    Every agent that writes a message carries the Evaluator (SafetyRules + Tone steering).
+    Every agent that writes a message carries the Evaluator's safety rules; the Orchestrator's
+    final reply also gets the Tone check.
 
 The model ID is configuration (CLIMATE_AGENT_MODEL_ID), confirmed from the Bedrock console on
 Day 0, never hard-coded (plan §10.2).
@@ -147,9 +148,9 @@ def build_team(
     language = language or policy["default_languages"][0]
     rules = MessageRules.from_policy(policy)
 
-    def evaluator() -> list:
+    def evaluator(tone: bool = False) -> list:
         handlers = [SafetyRulesHandler(rules)]
-        if with_tone_check:
+        if tone and with_tone_check:
             handlers.append(ToneHandler(model=tone_model))
         return handlers
 
@@ -193,7 +194,8 @@ def build_team(
         tools=[*_by_name(climate_tools, {"find_place", "resolve_place", "hazard_outlook", "official_alerts",
                                           "find_shelters"}),
                warning_agent, flood_guide_agent],
-        plugins=[AgentSkills(skills=[str(SKILLS / "sign-up"), str(SKILLS / "shelter-reply")]), *evaluator()],
+        # Tone is checked once, on the reply the person reads; specialists' drafts feed into it.
+        plugins=[AgentSkills(skills=[str(SKILLS / "sign-up"), str(SKILLS / "shelter-reply")]), *evaluator(tone=True)],
         hooks=[CostGuardHook(), step_log],
         conversation_manager=SlidingWindowConversationManager(window_size=20),
         callback_handler=None,

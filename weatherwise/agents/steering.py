@@ -4,13 +4,18 @@ SafetyRulesHandler (code): checks every final reply with check_message(); on a v
 returns Guide, so the model rewrites. After MAX_REWRITES it lets the reply through but marks
 agent.state "use_fallback", and the caller sends the region's safe pre-written message.
 
-ToneHandler (AI): a second model call judges calm tone, options-not-orders, never
-contradicting official warnings, and plain local language.
+ToneHandler (AI): one more model call on the final reply judges calm tone, options-not-orders,
+never contradicting official warnings, and plain local language. It runs after the reply is
+written, not before each tool call (Strands' LLMSteeringHandler does the latter: an extra model
+call per tool, judging tool calls against rules meant for replies).
 """
 
 import json
+from typing import Literal
 
-from strands.vended_plugins.steering import Guide, LLMSteeringHandler, Proceed, SteeringHandler
+from pydantic import BaseModel, Field
+from strands import Agent
+from strands.vended_plugins.steering import Guide, Proceed, SteeringHandler
 
 from weatherwise.agents.message_rules import MessageContext, MessageRules, check_message, collect_numbers
 
@@ -120,8 +125,33 @@ TONE_POLICY = """You review a reply to a farmer or household before it is sent. 
 If any rule is broken, say exactly what to change. Otherwise approve."""
 
 
-class ToneHandler(LLMSteeringHandler):
+MAX_TONE_REWRITES = 1
+
+
+class ToneVerdict(BaseModel):
+    decision: Literal["approve", "rewrite"] = Field(description="approve, or rewrite if any rule is broken")
+    reason: str = Field(description="If rewrite: exactly what to change")
+
+
+class ToneHandler(SteeringHandler):
     name = "evaluator-tone"
 
     def __init__(self, model=None):
-        super().__init__(system_prompt=TONE_POLICY, model=model)
+        super().__init__()
+        self.model = model
+
+    async def steer_after_model(self, *, agent, message, stop_reason, **kwargs):
+        if stop_reason != "end_turn":
+            return Proceed(reason="not a final reply")
+        rewrites = agent.state.get("tone_rewrites") or 0
+        if rewrites >= MAX_TONE_REWRITES:
+            agent.state.set("tone_rewrites", 0)
+            return Proceed(reason="tone rewrite limit reached; the safety rules still apply")
+        judge = Agent(system_prompt=TONE_POLICY, model=self.model or agent.model, callback_handler=None)
+        verdict = (await judge.invoke_async(f"The reply:\n{_text(message)}",
+                                            structured_output_model=ToneVerdict)).structured_output
+        if verdict.decision == "approve":
+            agent.state.set("tone_rewrites", 0)
+            return Proceed(reason="tone approved")
+        agent.state.set("tone_rewrites", rewrites + 1)
+        return Guide(reason="Rewrite the reply for tone: " + verdict.reason)
