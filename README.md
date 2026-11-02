@@ -10,7 +10,7 @@ The idea, as AWS worded it:
 > cooling center or shelter during extreme weather; a flood-risk guide that walks a household
 > through how to prepare.
 
-**Pilot:** Maharashtra, India. **Works for:** any place in India, with no per-village or per-state setup.
+**Live:** https://weatherwise.online · **Pilot:** Maharashtra, India. **Works for:** any place in India, with no per-village or per-state setup.
 
 ## The three parts
 | Part | What it does |
@@ -37,7 +37,7 @@ Person (website / WhatsApp)              6 AM scheduled job (per forecast grid c
 ```
 
 **Design rules:**
-- **Numbers come from data, never from the AI.** The Evaluator checks every message in code: helplines present, no "high ground" without slope safety, no map links in floods, no invented numbers.
+- **Numbers come from data, never from the AI.** The Evaluator checks every message in code: helplines present, no "high ground" without slope safety, no map links in floods, no invented numbers, never "you are safe".
 - **Official warnings always win.** Warnings from IMD and state disaster authorities (via NDMA's SACHET)
   show first on Today, in the person's language, even when our forecast is down; an official red
   flood, rain or cyclone alert starts the flood guide's urgent mode. Our own rules are labelled "ours".
@@ -47,16 +47,58 @@ Person (website / WhatsApp)              6 AM scheduled job (per forecast grid c
   `[forecast_correction] enabled` in `rules/global.toml` turn each piece on or off (a country can override);
   live scans and replays use the same switches, so any change can be replayed before it ships.
 
-## Measured results (forecasts as they were issued at the time)
+## Measured results
+All numbers below are produced by scripts in `evals/` and can be re-run.
+
+### Would it have warned before real disasters? (`evals/results/REPLAYS.md`)
+Each event is replayed day by day with the forecasts **as they were issued at the time**.
+
 | Event | Result |
 |---|---|
-| Kolhapur flood, Jul 2024 | Flood guide started **9 days** before the river crossed its flood level (heavy rain two days running upstream in the Ghats); no false alarms. Old rules: 5 days |
-| Vijayawada flood, Aug–Sep 2024 | Flood guide started **2 days** before 186 mm fell (rain unusual for Vijayawada); no false alarms. Old rules: **never started** (IMD's national 115.6 mm line was never forecast in the ~25 km square) |
-| Akola heat, Apr–May 2026 | Excess Heat Factor: caught 8 of 12 days, 1 false alarm (old: 7, 2). "Too hot to work" level caught 3 of 5 days. IMD's station rule caught none on gridded data (station 46.9 °C, grid ~43.6 °C) |
-| Kharghar, Apr 16, 2023 | Real conditions met every heat rule, including "take care" for work, on a day with no official warning (conditions check only: no archived forecasts before 2024) |
-| Wayanad landslides, Jul 30, 2024 | **Missed** by our checks (forecast square showed ~53 mm; real local rain was far higher). Official warnings are the safety net there |
+| Kolhapur floods, Jul 2024 | Flood guide on **9 days** before the river crossed its flood level; no false alarms |
+| Vijayawada floods, Aug 2024 | Flood guide on **2 days** before 186 mm fell. IMD's national 115.6 mm line was never forecast in the ~25 km square, so our old rules **never** started |
+| Delhi heat wave, May–Jun 2024 | Warned **4 days** before the heat began; every heat-wave day caught |
+| Phalodi 50 °C, May 2024 | Heat-wave warning **5 days** ahead |
+| Akola heat, Apr–May 2026 | First hot spell caught on the day, not ahead; a later one 3 days ahead |
+| Kharghar heatstroke, Apr 16, 2023 | Real conditions met every heat rule on a day with no official warning (no archived forecasts this early) |
+| Wayanad landslides, Jul 30, 2024 | **Missed**: the forecast square showed ~53 mm; real local rain was far higher |
+| Cyclone Fengal, Puducherry, Nov 30, 2024 | **Missed**: we do not model cyclones |
+| Assam floods, Jul 2024 · Punjab floods, Aug 2025 | **Missed**: river floods driven by rain far upstream (Punjab's second wave was flagged 7 days ahead) |
 
-Any place and dates since 2024 can be backtested the same way. Details and lessons: `docs/build-log.md`.
+Official warnings are shown first in the app and cover what our own checks miss. Any place and
+dates since 2024 can be replayed: `uv run python scripts/backtest.py --lat .. --lon .. --from .. --to ..`.
+
+### Does the safety check stop unsafe advice? (`evals/results/SAFETY.md`)
+| What | Result |
+|---|---|
+| Planted mistakes caught (made-up numbers, missing helplines, "high ground" without the slope warning, map links in floods, OTP or money requests, "it is safe"), English / Marathi / Hindi | **30/30** |
+| Correct drafts let through (the check does not block everything) | **15/15** |
+| Unsafe drafts that reached a person through the agent loop | **0 of 6** (rewritten, or the pre-written safe message in their language) |
+
+These use a scripted model, so they measure the code's guarantees, which hold whatever a real model writes.
+
+### What our tests caught while building
+- **"Safe to work today" during a cyclone.** On Oct 31 the app said this while a cyclone was in the
+  news: our checks do not see what forecasters see. Official warnings now come first, and neither
+  the website nor the agents ever say someone is safe.
+- **A national rain line that a forecast square never reaches.** IMD's 115.6 mm "very heavy rain"
+  line was never forecast for Vijayawada's square. Rain unusual *for that place* now starts the flood guide.
+- **Correcting forecasts in one direction only added 9 false alarms.** The correction is now two-way.
+- **Made-up numbers in Marathi and Hindi slipped through** ("47 अंश", "95 प्रतिशत"): the number check
+  knew only °C, mm and %. Unit words now come from each language file.
+- **The tone check never saw the reply.** It ran before every tool call (one extra model call each)
+  and judged tool calls instead. It now checks the final reply once: 10 model calls per answer became 7.
+
+### Limits
+- **The agents' live answers on Bedrock are still being measured.** The safety numbers above use a scripted model.
+- **Misses:** very local extreme rain (Wayanad), cyclone rain and wind, and river floods driven by
+  rain far upstream (Assam, Punjab). Official warnings are the safety net.
+- **The "danger" heat level for work over-warns**: about 6 in 10 of its alerts in Delhi and Phalodi 2024 were false alarms.
+- **Forecast squares are ~25 km**: the grid reads about 3 °C below a hot station (Akola 46.9 °C vs ~43.6 °C).
+- **Terrain is coarse**: a hill village can be read as "plains" (Meppadi, Wayanad).
+- **Hindi and Marathi text are drafts** until a native speaker checks them.
+- **Verified shelters** cover few districts so far (district plans list them for about 4–6%).
+- **Past official warnings are not archived**, so replays score only our own signals.
 
 ## Repository layout
 ```
@@ -68,7 +110,7 @@ data/                 shelters_in.csv (verified shelters; how it is built: data/
                       · shelter_sources_in.csv · review/ (drafts) · river_catchments_in.toml (pilot)
 skills/               SKILL.md procedures for the agents
 website/              the website: React + Vite + TypeScript (app + showcase)
-evals/                scenario suite (+ headline events) and runner
+evals/                safety evals, replay scorecard, scenario suite (+ events); results/ holds the reports
 tests/                unit, snapshot and live tests
 scripts/              developer tools
 docs/                 plan, build log, deployment-todo.md (AWS steps for DevOps)
@@ -83,7 +125,10 @@ uv run pytest -m "not live"                      # offline tests
 uv run pytest -m live                            # tests against the real APIs
 uv run python scripts/scan_today.py              # today's outlook for the test places
 uv run python scripts/scan_today.py --lat 25.59 --lon 85.14 --name Patna
-uv run python scripts/backtest.py --headline     # the three headline events
+uv run python scripts/backtest.py --headline     # the website's replay events
+uv run python -m evals.eval_safety               # safety evals -> evals/results/SAFETY.md
+uv run python -m evals.eval_replays              # replay scorecard -> evals/results/REPLAYS.md
+uv run python scripts/time_chat.py               # where one chat answer's time goes
 uv run python -m weatherwise.mcp_server.server          # MCP server (stdio)
 uv run python -m weatherwise.mcp_server.server --http   # MCP server (HTTP, port 8000)
 (cd website && npm install && npm run build)             # build the website once
@@ -99,10 +144,11 @@ The agents need Claude on Amazon Bedrock:
 Then run `uv run python evals/run_scenarios.py`.
 
 ## Status
-- **Built:** the core, the MCP server, the agents, the scheduled pipeline, backtests, tests, and the
-  website (app + showcase, Marathi / Hindi / English) with its API.
+- **Built and live** at https://weatherwise.online on AWS (ECS Fargate, deployed from `main` by GitHub Actions):
+  the core, the MCP server, the agents, the scheduled pipeline, backtests, evals, and the website
+  (app + showcase, Marathi / Hindi / English) with its API.
 - **Next:**
-  - deploy to AWS and run the agents live on Bedrock: step by step in `docs/deployment-todo.md`;
+  - the agents' chat on Bedrock through AgentCore, measured on the real model (`docs/deployment-todo.md`);
   - a native speaker checks the Hindi and Marathi drafts; verified shelters.
 
 The full plan is in `docs/planning-notes.md`.
