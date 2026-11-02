@@ -52,12 +52,13 @@ class FakeRuntimeBody:
 
 
 class FakeRuntimeClient:
-    def __init__(self):
+    def __init__(self, text="AgentCore reply"):
         self.calls = []
+        self.text = text
 
     def invoke_agent_runtime(self, **kwargs):
         self.calls.append(kwargs)
-        return {"response": FakeRuntimeBody({"text": "AgentCore reply", "used_fallback": False,
+        return {"response": FakeRuntimeBody({"text": self.text, "used_fallback": False,
                                                "violations": [], "steps": []})}
 
 
@@ -156,6 +157,16 @@ def test_chat_can_delegate_to_a_private_agentcore_runtime():
     payload = json.loads(call["payload"])
     assert payload["type"] == "chat" and payload["language"] == "mr"
     assert "saved place is Phagwara" in payload["message"]
+
+
+def test_agentcore_reasoning_tags_are_not_returned_to_the_browser():
+    runtime = FakeRuntimeClient("<thinking>private model notes</thinking><response>Safe public reply</response>")
+    backend = WeatherWiseApi(FakeTools(), AgentCoreTeamFactory(runtime, "arn:runtime/weatherwise"))
+    response = TestClient(build_app(backend)).post("/api/chat", json={
+        "session_id": SESSION, "message": "hi", "language": "en",
+    })
+
+    assert response.status_code == 200 and response.json()["text"] == "Safe public reply"
 
 
 def test_long_messages_are_refused_before_the_ai_runs():
