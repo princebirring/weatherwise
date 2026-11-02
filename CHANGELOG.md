@@ -7,6 +7,13 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Added
+- Safety evals (`evals/eval_safety.py` -> `evals/results/SAFETY.md`, run in the test suite): 30
+  planted mistakes in English / Marathi / Hindi all caught, 15 correct drafts all let through, and
+  no unsafe draft reaches a person through the agent loop.
+- Replay scorecard (`evals/eval_replays.py` -> `evals/results/REPLAYS.md`): ten real Indian
+  disasters replayed with forecasts as issued, misses included (new `evals/more_events.toml`).
+- `scripts/time_chat.py`: where one chat answer's time goes (our tools vs model calls).
+- README: measured results from the evals, "What our tests caught while building", and "Limits".
 - Judges' page rebuilt: a phone in the hero showing the real app (warning, advice, helplines) in
   the chosen language (a heat warning days ahead, what to do, the flood guide, "move now"); proof numbers computed from the replays (9 days of warning, 2 of 2 floods
   warned with no false alarms, 4 disasters replayed); "Why the people most at risk hear last" (the
@@ -41,6 +48,14 @@ All notable changes to this project are documented here. The format follows
   `forecast_correction`.
 - Switches: `[checks] enabled` lists every check; misspelt names fail at startup.
 - Vijayawada 2024 flood replay.
+
+### Fixed
+- The tone check now reviews the final reply once instead of running a model call before every
+  tool call (and never seeing the reply): 10 model calls per answer became 7.
+- Made-up numbers written with Marathi / Hindi unit words ("47 अंश", "95 प्रतिशत") are now caught;
+  unit words live in `rules/languages/`.
+- The agents can no longer tell someone they are safe ("safe to work", "धोका नाही", "कोई खतरा
+  नहीं"): new `claims_safe` rule, phrases in `rules/languages/`.
 
 ### Changed
 - Judges' page no longer mentions WhatsApp or 6 AM warnings (not built for judging); "1 days"

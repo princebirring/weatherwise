@@ -79,3 +79,19 @@ def test_collect_numbers_reads_nested_tool_results_and_percentages():
 ])
 def test_context_is_derived_from_tool_results(result, expected):
     assert context_from_tools([result]).hazards == expected
+
+
+def test_numbers_written_with_marathi_and_hindi_unit_words_must_come_from_the_tools():
+    rules = MessageRules.from_policy(message_policy("in"))
+    ctx = MessageContext(("heat",), False, frozenset({44.0}))
+    assert [v.rule for v in check_message("तापमान 47 अंश. 108.", ctx, rules)] == ["unsupported_number"]
+    assert [v.rule for v in check_message("तापमान 47 डिग्री. 108.", ctx, rules)] == ["unsupported_number"]
+    assert check_message("तापमान 44 अंश. 108.", ctx, rules) == []
+
+
+def test_never_tells_someone_they_are_safe():
+    rules = MessageRules.from_policy(message_policy("in"))
+    ctx = MessageContext(("heat",), False, frozenset())
+    for text in ("It is safe to work today. 108.", "आज काम करणे सुरक्षित आहे. 108.", "आज कोई खतरा नहीं. 108."):
+        assert "claims_safe" in [v.rule for v in check_message(text, ctx, rules)]
+    assert check_message("It is not safe to cross the river. 108.", ctx, rules) == []

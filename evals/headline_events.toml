@@ -2,9 +2,11 @@
 # not settings: any place and date can be backtested the same way.
 # title_mr / title_hi: DRAFT translations, CONFIRM with a native speaker.
 # "reported" is what public sources say happened; each claim needs a row in docs/sources.csv.
+# event_day (floods): the day the disaster happened; the replay scorecard measures warnings against it.
 
 [[replay]]
 id = "kolhapur_flood_2024_07"
+event_day = "2024-07-26"
 title = "Kolhapur-Sangli floods, July 2024"
 title_mr = "कोल्हापूर-सांगली पूर, जुलै 2024"
 title_hi = "कोल्हापुर-सांगली बाढ़, जुलाई 2024"
@@ -17,6 +19,7 @@ reported = "River about 8 inches below the danger mark on Jul 24; crossed it on 
 
 [[replay]]
 id = "vijayawada_flood_2024_08"
+event_day = "2024-08-31"
 title = "Vijayawada floods, August 2024 (Budameru)"
 title_mr = "विजयवाडा पूर, ऑगस्ट 2024 (बुडमेरू)"
 title_hi = "विजयवाड़ा बाढ़, अगस्त 2024 (बुडमेरु)"

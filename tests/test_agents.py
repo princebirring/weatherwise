@@ -94,3 +94,28 @@ def test_orchestrator_has_specialists_and_climate_tools():
     t, _ = team([])
     names = set(t.orchestrator.tool_names)
     assert {"hazard_outlook", "find_place", "warning_agent", "flood_guide_agent"} <= names
+
+
+APPROVE = {"decision": "approve", "reason": "calm and clear"}
+REWRITE = {"decision": "rewrite", "reason": "too alarming; give options"}
+
+
+def toned_team(script, tone_script):
+    model, tone = ScriptedModel(script), ScriptedModel(tone_script)
+    return build_team(model, TOOLS, POLICY, language="en", tone_model=tone), model, tone
+
+
+def test_tone_check_reviews_only_the_final_reply():
+    t, _, tone = toned_team([("tool", "hazard_outlook", {"lat": 20.7, "lon": 77.0}), SAFE], [APPROVE])
+    out = t.reply("Is a heat wave coming to Akola?")
+    assert out["text"] == SAFE
+    assert tone.calls == 1  # not once per tool call
+
+
+def test_tone_check_asks_for_one_rewrite_then_lets_the_safety_rules_decide():
+    calmer = SAFE.replace("Work before 10 am.", "You could work before 10 am.")
+    t, model, tone = toned_team([("tool", "hazard_outlook", {"lat": 20.7, "lon": 77.0}), SAFE, calmer],
+                                [REWRITE, REWRITE])
+    out = t.reply("Is a heat wave coming to Akola?")
+    assert out["text"] == calmer and model.calls == 3
+    assert tone.calls == 1  # the rewrite is accepted without a second tone call
