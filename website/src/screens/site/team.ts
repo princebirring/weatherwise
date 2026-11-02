@@ -14,6 +14,7 @@ export const TEAM: Member[] = [
   {
     name: 'Prashant Mahajan',
     initials: 'PM',
+    photo: '/team/prashant-mahajan.jpg',
     role: 'site.prashantRole',
     bio: 'site.prashantBio',
     links: [
