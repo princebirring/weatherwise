@@ -1,5 +1,7 @@
 # WeatherWise CloudFormation
 
+See [the architecture overview](../ARCHITECTURE.md) for the application, AWS, and delivery flow.
+
 `weatherwise-service.yaml` creates the production network, ALB, ECS Fargate service, log group, runtime IAM roles, and optional WAF. It does **not** create a database or persistent storage because the current app stores neither.
 
 ## Before deployment
