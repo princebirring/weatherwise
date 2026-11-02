@@ -303,9 +303,11 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: bedrock-agentcore:InvokeAgentRuntime
-                # InvokeAgentRuntime authorizes the runtime endpoint (DEFAULT today), not
-                # the parent runtime ARN. Keep the grant confined to this runtime's endpoints.
-                Resource: !Sub '${AgentRuntime.AgentRuntimeArn}/runtime-endpoint/*'
+                # AgentCore authorizes an invocation against both the parent runtime and its
+                # selected endpoint (DEFAULT today). Keep both grants confined to this runtime.
+                Resource:
+                  - !GetAtt AgentRuntime.AgentRuntimeArn
+                  - !Sub '${AgentRuntime.AgentRuntimeArn}/runtime-endpoint/*'
 
   AgentRuntimeRole:
     Type: AWS::IAM::Role
