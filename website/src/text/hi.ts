@@ -36,6 +36,8 @@ export const hi: Record<TextKey, string> = {
   'start.privacy': 'मुफ़्त. कोई रजिस्ट्रेशन नहीं. आपकी लोकेशन आपके फ़ोन पर ही रहती है.',
 
   'today.changePlace': 'जगह बदलें',
+  'today.change': 'बदलें',
+  'start.keep': '{name} ही रखें',
   'today.safeTitle': 'हमारी जाँच में कोई खतरा नहीं मिला',
   'today.missingBody': 'हम यह नहीं कह सकते कि कोई खतरा नहीं है. बाद में फिर देखें और IMD का पालन करें.',
   'official.title': 'आधिकारिक चेतावनी',

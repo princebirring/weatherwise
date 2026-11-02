@@ -41,6 +41,8 @@ export const en = {
 
   // today
   'today.changePlace': 'Change place',
+  'today.change': 'Change',
+  'start.keep': 'Keep {name}',
   'today.safeTitle': 'No danger found by our checks',
   'today.missingBody': 'We cannot say there is no risk. Check again later and follow IMD.',
   'official.title': 'Official warning',
