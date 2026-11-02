@@ -7,6 +7,9 @@ Parameters:
   ImageUri:
     Type: String
     Description: Immutable ECR image URI, for example ACCOUNT.dkr.ecr.us-east-2.amazonaws.com/weatherwise:SHA.
+  AgentRuntimeImageUri:
+    Type: String
+    Description: Immutable ECR image URI for the private Bedrock AgentCore Runtime.
   CertificateArn:
     Type: String
     Default: ''
@@ -141,6 +144,10 @@ Resources:
       SecurityGroups: [!Ref LoadBalancerSecurityGroup]
       Subnets: [!Ref PublicSubnetA, !Ref PublicSubnetB]
       Type: application
+      LoadBalancerAttributes:
+        # A first AgentCore session can take longer than the ALB default while its microVM starts.
+        - Key: idle_timeout.timeout_seconds
+          Value: '120'
 
   Certificate:
     Condition: HasCustomDomain
@@ -290,6 +297,90 @@ Resources:
                 Resource:
                   - !Sub arn:${AWS::Partition}:bedrock:*::foundation-model/*
                   - !Sub arn:${AWS::Partition}:bedrock:*:${AWS::AccountId}:inference-profile/*
+        - PolicyName: invoke-weatherwise-agentcore-only
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: bedrock-agentcore:InvokeAgentRuntime
+                Resource: !GetAtt AgentRuntime.AgentRuntimeArn
+
+  AgentRuntimeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: WeatherWiseAgentCoreRuntime
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: {Service: bedrock-agentcore.amazonaws.com}
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                'aws:SourceAccount': !Ref AWS::AccountId
+              ArnLike:
+                'aws:SourceArn': !Sub arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:runtime/*
+      Policies:
+        - PolicyName: run-weatherwise-agentcore-runtime
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: EcrImageAccess
+                Effect: Allow
+                Action: ["ecr:BatchGetImage", "ecr:GetDownloadUrlForLayer"]
+                Resource: !Sub arn:${AWS::Partition}:ecr:${AWS::Region}:${AWS::AccountId}:repository/weatherwise
+              - Sid: EcrTokenAccess
+                Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: '*'
+              - Sid: RuntimeLogs
+                Effect: Allow
+                Action: ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:DescribeLogGroups",
+                         "logs:DescribeLogStreams", "logs:PutLogEvents", "logs:PutResourcePolicy"]
+                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/runtimes/*
+              - Sid: RuntimeTracing
+                Effect: Allow
+                Action: ["xray:PutTraceSegments", "xray:PutTelemetryRecords", "xray:GetSamplingRules",
+                         "xray:GetSamplingTargets"]
+                Resource: '*'
+              - Sid: RuntimeMetrics
+                Effect: Allow
+                Action: cloudwatch:PutMetricData
+                Resource: '*'
+                Condition:
+                  StringEquals:
+                    'cloudwatch:namespace': bedrock-agentcore
+              - Sid: RuntimeWorkloadIdentity
+                Effect: Allow
+                Action: ["bedrock-agentcore:GetWorkloadAccessToken", "bedrock-agentcore:GetWorkloadAccessTokenForJWT",
+                         "bedrock-agentcore:GetWorkloadAccessTokenForUserId"]
+                Resource:
+                  - !Sub arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:workload-identity-directory/default
+                  - !Sub arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:workload-identity-directory/default/workload-identity/WeatherWiseAgentCore-*
+              - Sid: BedrockModelInvocation
+                Effect: Allow
+                Action: ["bedrock:InvokeModel", "bedrock:InvokeModelWithResponseStream"]
+                Resource:
+                  - !Sub arn:${AWS::Partition}:bedrock:*::foundation-model/*
+                  - !Sub arn:${AWS::Partition}:bedrock:*:${AWS::AccountId}:inference-profile/*
+
+  AgentRuntime:
+    Type: AWS::BedrockAgentCore::Runtime
+    Properties:
+      AgentRuntimeName: WeatherWiseAgentCore
+      Description: Private Strands agent runtime for WeatherWise chat.
+      AgentRuntimeArtifact:
+        ContainerConfiguration: {ContainerUri: !Ref AgentRuntimeImageUri}
+      EnvironmentVariables:
+        AWS_REGION: !Ref AWS::Region
+        CLIMATE_AGENT_MODEL_ID: !Ref ClimateAgentModelId
+        WEATHERWISE_CACHE_DIR: /tmp/weatherwise
+      LifecycleConfiguration:
+        # Short idle sessions avoid paying to retain a microVM after a one-off public chat.
+        IdleRuntimeSessionTimeout: 120
+        MaxLifetime: 3600
+      NetworkConfiguration: {NetworkMode: PUBLIC}
+      RoleArn: !GetAtt AgentRuntimeRole.Arn
 
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
@@ -311,6 +402,8 @@ Resources:
               Value: !Ref AWS::Region
             - Name: CLIMATE_AGENT_MODEL_ID
               Value: !Ref ClimateAgentModelId
+            - Name: WEATHERWISE_AGENT_RUNTIME_ARN
+              Value: !GetAtt AgentRuntime.AgentRuntimeArn
             - Name: WEATHERWISE_CACHE_DIR
               Value: /tmp/weatherwise
             - Name: WEATHERWISE_CHATS_PER_DAY
@@ -413,3 +506,6 @@ Outputs:
     Value: !Ref Certificate
   TaskRoleArn:
     Value: !GetAtt TaskRole.Arn
+  AgentRuntimeArn:
+    Description: Private AgentCore Runtime invoked by the ECS task for chat.
+    Value: !GetAtt AgentRuntime.AgentRuntimeArn

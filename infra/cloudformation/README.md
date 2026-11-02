@@ -2,14 +2,14 @@
 
 See [the architecture overview](../ARCHITECTURE.md) for the application, AWS, and delivery flow.
 
-`weatherwise-service.yaml` creates the production network, ALB, ECS Fargate service, log group, runtime IAM roles, and optional WAF. It does **not** create a database or persistent storage because the current app stores neither.
+`weatherwise-service.yaml` creates the production network, ALB, ECS Fargate service, private Bedrock AgentCore Runtime, log groups, runtime IAM roles, and optional WAF. It does **not** create a database or persistent storage because the current app stores neither.
 
 ## Before deployment
 
 1. Deploy `github-oidc-ecr-publisher.yaml` once. It creates the ECR repository, GitHub OIDC provider, and roles limited to publishing and deploying from this repository's `main` branch.
 2. Set its outputs as GitHub Actions repository variables: `AWS_ECR_PUBLISH_ROLE_ARN`, `AWS_CLOUDFORMATION_DEPLOY_ROLE_ARN`, and `AWS_CLOUDFORMATION_EXECUTION_ROLE_ARN`. Also set `AWS_REGION=us-east-2`.
 3. Create any paid-provider key in Secrets Manager. Put only the secret value in it; never put AWS credentials in a secret. The ECS task role supplies short-lived AWS credentials automatically.
-4. Merge a checked change into `main`; GitHub Actions builds, publishes an immutable ARM64 image, and deploys or updates the `weatherwise-prod` stack automatically.
+4. Merge a checked change into `main`; GitHub Actions builds immutable ARM64 API and AgentCore images, publishes them, and deploys or updates the `weatherwise-prod` stack automatically.
 
 The workflow supplies `ImageUri` automatically. For a manual deployment, use:
 
@@ -20,6 +20,7 @@ aws cloudformation deploy \
   --capabilities CAPABILITY_NAMED_IAM \
   --parameter-overrides \
     ImageUri=ACCOUNT.dkr.ecr.us-east-2.amazonaws.com/weatherwise:COMMIT_SHA \
+    AgentRuntimeImageUri=ACCOUNT.dkr.ecr.us-east-2.amazonaws.com/weatherwise:agentcore-COMMIT_SHA \
     ClimateAgentModelId=us.amazon.nova-micro-v1:0 \
     EnableWaf=true
 ```
@@ -52,4 +53,10 @@ AWS_CLOUDFORMATION_DEPLOY_ROLE_ARN=<CloudFormationDeployerRoleArn output>
 AWS_CLOUDFORMATION_EXECUTION_ROLE_ARN=<CloudFormationExecutionRoleArn output>
 ```
 
-The workflow uses OIDC, so it has no AWS access-key secret. It publishes both an immutable commit-SHA tag and the moving `main` tag only after the lint, test, website, image-build, and smoke-test jobs pass. It then deploys the same immutable image through CloudFormation.
+The workflow uses OIDC, so it has no AWS access-key secret. It publishes immutable commit-SHA API and AgentCore images after the lint, test, website, image-build, and smoke-test jobs pass. It then deploys those immutable images through CloudFormation.
+
+## AgentCore chat runtime
+
+The public ALB never exposes AgentCore. The ECS task receives the runtime ARN as `WEATHERWISE_AGENT_RUNTIME_ARN` and may invoke only that ARN; AgentCore runs the Strands team and calls Bedrock using its own execution role. Each web-chat session gets a private AgentCore microVM session with a two-minute idle timeout. AgentCore Memory and Gateway are deliberately not created: there is no authenticated user identity to retain, and the local MCP facts server is packaged with the runtime.
+
+The deployment creates CloudWatch/X-Ray permissions for AgentCore observability. To investigate a failed chat, inspect the runtime log group prefixed `/aws/bedrock-agentcore/runtimes/`, then its AgentCore trace, before changing prompts or model settings.

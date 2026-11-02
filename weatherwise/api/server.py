@@ -8,6 +8,8 @@ Settings (env):
                                 Without it the site still shows places, warnings, shelters and replays.
     AWS_REGION                  Bedrock region (default ap-south-1).
     CLIMATE_RISK_MCP_URL        A deployed Climate Risk MCP server; otherwise a local one is started.
+    WEATHERWISE_AGENT_RUNTIME_ARN  Optional private AgentCore Runtime ARN. When supplied,
+                                website chat runs there; facts remain in this API container.
     WEATHERWISE_CACHE_DIR       Downloads and cached forecasts (on Lambda: a folder under /tmp).
     WEATHERWISE_CHATS_PER_DAY   Daily chat cap, the AI-spend guard (default 100).
     WEATHERWISE_CHATS_PER_MINUTE  Per visitor (default 6).
@@ -40,7 +42,12 @@ def _connect() -> tuple[WeatherWiseApi, object]:
     client = climate_risk_client()
     client.start()
     team_factory = None
-    if os.environ.get("CLIMATE_AGENT_MODEL_ID"):
+    runtime_arn = os.environ.get("WEATHERWISE_AGENT_RUNTIME_ARN")
+    if runtime_arn:
+        from weatherwise.api.agentcore import AgentCoreTeamFactory, runtime_client
+
+        team_factory = AgentCoreTeamFactory(runtime_client(), runtime_arn)
+    elif os.environ.get("CLIMATE_AGENT_MODEL_ID"):
         tools, model = client.list_tools_sync(), bedrock_model()
         team_factory = lambda policy, language: build_team(model, tools, policy, language=language)  # noqa: E731
     limits = Limits(

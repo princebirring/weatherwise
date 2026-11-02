@@ -1,6 +1,7 @@
 """The WeatherWise API: facts through MCP tools, chat limits, and safe errors (plan §9.2)."""
 from starlette.testclient import TestClient
 
+from weatherwise.api.agentcore import AgentCoreTeamFactory
 from weatherwise.api.backend import Limits, WeatherWiseApi
 from weatherwise.api.server import build_app
 
@@ -35,6 +36,29 @@ class Clock:
 
     def __call__(self):
         return self.now
+
+
+class FakeRuntimeBody:
+    def __init__(self, result):
+        self.result, self.closed = result, False
+
+    def read(self):
+        import json
+
+        return json.dumps(self.result).encode()
+
+    def close(self):
+        self.closed = True
+
+
+class FakeRuntimeClient:
+    def __init__(self):
+        self.calls = []
+
+    def invoke_agent_runtime(self, **kwargs):
+        self.calls.append(kwargs)
+        return {"response": FakeRuntimeBody({"text": "AgentCore reply", "used_fallback": False,
+                                               "violations": [], "steps": []})}
 
 
 def client(team_factory="default", limits=None, clock=None):
@@ -115,6 +139,23 @@ def test_chat_uses_one_team_per_session_and_language_with_the_system_place():
     chat(c, "and tomorrow?")
     assert len(teams) == 1 and len(teams[0].messages) == 2
     assert teams[0].messages[0].startswith("[System: the person's saved place is Kolhapur")
+
+
+def test_chat_can_delegate_to_a_private_agentcore_runtime():
+    runtime = FakeRuntimeClient()
+    backend = WeatherWiseApi(FakeTools(), AgentCoreTeamFactory(runtime, "arn:runtime/weatherwise"))
+    c = TestClient(build_app(backend))
+    response = chat(c, place={"name": "Phagwara", "lat": 31.224, "lon": 75.773})
+
+    assert response.status_code == 200 and response.json()["text"] == "AgentCore reply"
+    call = runtime.calls[0]
+    assert call["agentRuntimeArn"] == "arn:runtime/weatherwise"
+    assert call["runtimeSessionId"]
+    import json
+
+    payload = json.loads(call["payload"])
+    assert payload["type"] == "chat" and payload["language"] == "mr"
+    assert "saved place is Phagwara" in payload["message"]
 
 
 def test_long_messages_are_refused_before_the_ai_runs():
