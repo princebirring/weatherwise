@@ -50,6 +50,11 @@ All notable changes to this project are documented here. The format follows
 - Vijayawada 2024 flood replay.
 
 ### Fixed
+- A runaway agent loop is now stopped, not just refused. On Nov 2, 2026 one live chat made about
+  1,900 Nova calls (23 million input tokens) in 12 minutes: the cost guard refused each tool call
+  over its limit, but the model kept asking, one paid model call per refusal, until Python's
+  recursion limit. Now 16 model calls or 12 tool requests (refused ones count) end the loop and the
+  person gets the pre-written safe message in their language.
 - The tone check now reviews the final reply once instead of running a model call before every
   tool call (and never seeing the reply): 10 model calls per answer became 7.
 - Made-up numbers written with Marathi / Hindi unit words ("47 अंश", "95 प्रतिशत") are now caught;
