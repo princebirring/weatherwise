@@ -122,27 +122,3 @@ function ScoreCards({ s }: { s: HazardScore }) {
     </>
   )
 }
-
-export interface ProofNumbers {
-  best: { days: number; event: ReplayEvent } | null
-  floodsWarned: number
-  floods: number
-  floodFalseAlarms: number
-}
-
-/** The headline numbers, computed from the replays' own scores (flood guide only). */
-export function proofNumbers(events: ReplayEvent[], replays: Replay[]): ProofNumbers {
-  let best: ProofNumbers['best'] = null
-  let floodsWarned = 0, floods = 0, floodFalseAlarms = 0
-  replays.forEach((r, i) => {
-    const s = r.verification.scores?.flood_guide
-    if (!s) return
-    if (s.hits + s.misses > 0) floods += 1
-    if (s.hits > 0) floodsWarned += 1
-    floodFalseAlarms += s.false_alarms
-    for (const [, lead] of s.event_lead_days) {
-      if (lead !== null && (!best || lead > best.days)) best = { days: lead, event: events[i] }
-    }
-  })
-  return { best, floodsWarned, floods, floodFalseAlarms }
-}

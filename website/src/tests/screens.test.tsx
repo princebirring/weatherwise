@@ -1,6 +1,8 @@
 // Every screen, in every language: it renders, shows that language's words and safety text,
 // and (for Hindi and Marathi) shows no English sentence from the site or the safety advice.
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import type { ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from '../App'
@@ -13,10 +15,12 @@ import { Home } from '../screens/Home'
 import { NotCovered } from '../screens/NotCovered'
 import { Shelter } from '../screens/Shelter'
 import { Showcase } from '../screens/Showcase'
+import { countOf, SAFETY, SCORECARD } from '../screens/site/results'
+import { TEAM } from '../screens/site/team'
 import { Todo } from '../screens/Todo'
 import { Welcome } from '../screens/Welcome'
 import { Ask } from '../screens/Ask'
-import type { Language, PlaceAndOutlook } from '../types'
+import type { Language } from '../types'
 import { events, outlook, place, policy, replay, rules, shelters, status, telanganaWatch } from './fixtures/data'
 
 const LANGUAGES: Language[] = ['en', 'hi', 'mr']
@@ -208,17 +212,48 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expectOnlyLanguage(language)
   })
 
-  it('Showcase: replay titles and scores in this language', async () => {
-    show(language, <Showcase />)
+  // The public site: each page at its own path.
+  const at = (path: string) => { window.history.pushState(null, '', path); return show(language, <Showcase />) }
+
+  it('Landing: the pitch, every replayed disaster with its misses, and the team', () => {
+    at('/')
+    expect(screen.getByText(t('show.headline'), { selector: 'h1' })).toBeTruthy()
+    for (const r of SCORECARD) expect(screen.getByText(r.titles[language])).toBeTruthy()
+    expect(screen.getAllByText(t('site.missed'))).toHaveLength(countOf('missed'))
+    for (const m of TEAM) expect(screen.getByRole('heading', { name: m.name })).toBeTruthy()
+    expectOnlyLanguage(language)
+  })
+
+  it('Landing: nothing is claimed that is not built (plans only in the roadmap)', () => {
+    at('/')
+    const roadmap = document.querySelector('.roadmap')!.textContent ?? ''
+    const rest = (document.body.textContent ?? '').replace(roadmap, '')
+    expect(rest).not.toMatch(/WhatsApp|SMS|6 AM/)
+    expect(document.body.textContent).not.toMatch(/\b1 days\b/)
+  })
+
+  it('Header links open the pages, and an unknown path shows the landing page', () => {
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {}) // jsdom has no scrolling
+    at('/nowhere')
+    expect(window.location.pathname).toBe('/')
+    fireEvent.click(screen.getAllByRole('link', { name: t('site.navProof') })[0])
+    expect(screen.getByText(t('site.proofTitle', SCORECARD.length), { selector: 'h1' })).toBeTruthy()
+    fireEvent.click(screen.getAllByRole('link', { name: t('site.navDevelopers') })[0])
+    expect(screen.getByText('hazard_outlook')).toBeTruthy()
+  })
+
+  it('Proof: replay titles and scores in this language', async () => {
+    at('/proof')
     await screen.findAllByText(events[0].titles[language])
     expect(screen.getAllByText(t('show.replayTitle')).length).toBeGreaterThan(0)
     await screen.findAllByText(new RegExp(t('show.far')))
     expect(screen.getByText(t('show.riverAxis', '1,321'))).toBeTruthy()
+    expect(screen.getByText(t('show.limit1'))).toBeTruthy()
     expectOnlyLanguage(language)
   })
 
-  it('Showcase: how a warning is decided, with every line from the rules file', async () => {
-    show(language, <Showcase />)
+  it('How it works: how a warning is decided, with every line from the rules file', async () => {
+    at('/how-it-works')
     await screen.findAllByText(new RegExp(t('show.markVeryHeavy')))
     const decide = document.getElementById('decide')!.textContent ?? ''
     for (const v of [rules.rain_mm.very_heavy, rules.rain_mm.extremely_heavy, rules.heat.absolute_c]) expect(decide).toContain(String(v))
@@ -227,8 +262,8 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expectOnlyLanguage(language)
   })
 
-  it('Showcase: the phone switches screens by its tabs, with the real advice text', () => {
-    show(language, <Showcase />)
+  it('Landing: the phone switches screens by its tabs, with the real advice text', () => {
+    at('/')
     expect(screen.getByText(t('hazard.work_heat:danger'))).toBeTruthy()
     fireEvent.click(screen.getByRole('tab', { name: t('show.zoneUrgent') }))
     expect(screen.getByText(g.flood_urgent)).toBeTruthy()
@@ -245,28 +280,45 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expect(screen.getByText(t('show.demoCall', '108'))).toBeTruthy()  // never dials from the page
   })
 
-  it('Showcase: the tech flow shows the Today journey, then the Ask journey', () => {
-    show(language, <Showcase />)
+  it('How it works: the tech flow shows the Today journey, then the Ask journey', () => {
+    at('/how-it-works')
     expect(screen.getByText(t('show.today4'))).toBeTruthy()
     fireEvent.click(screen.getByRole('tab', { name: t('show.flowAsk') }))
     expect(screen.getByText(t('show.ask6'))).toBeTruthy()
     expect(screen.queryByText(t('show.today4'))).toBeNull()
   })
 
-  it('Showcase: proof numbers come from the replays, and nothing is claimed that is not built', async () => {
-    show(language, <Showcase />)
-    await screen.findByText(t('show.statReplays'))
-    expect(document.body.textContent).not.toMatch(/WhatsApp|6 AM/)
-    expect(document.body.textContent).not.toMatch(/\b1 days\b/)
-  })
-
-  it('Showcase: a flood from rain is charted as rain, against the place\'s own line', async () => {
+  it('Proof: a flood from rain is charted as rain, against the place\'s own line', async () => {
     const rainFlood = { ...replay, unusual_rain_mm: 44.6, timeline: replay.timeline.map((d, i) => ({
       ...d, what_happened: i === 2 ? ['unusual_rain'] : [], observed: { ...d.observed, rain_mm: [3, 45, 186, 94][i] } })) }
     stubApi({ '/api/replays/': [200, rainFlood] })
-    show(language, <Showcase />)
+    at('/proof')
     expect(await screen.findByText(t('show.rainAxis', 45))).toBeTruthy()
     expectOnlyLanguage(language)
+  })
+})
+
+describe('the public site\'s numbers match the eval results', () => {
+  // The scorecard and safety numbers are copied into the site; these fail if a re-run changes them.
+  const replaysMd = readFileSync(resolve(process.cwd(), '../evals/results/REPLAYS.md'), 'utf8')
+  const safetyMd = readFileSync(resolve(process.cwd(), '../evals/results/SAFETY.md'), 'utf8')
+
+  it('every replayed event, with the same result', () => {
+    const rows = replaysMd.split('\n').filter((l) => /^\| .+ \| (heat|flood) \|/.test(l))
+    expect(rows).toHaveLength(SCORECARD.length)
+    for (const r of SCORECARD) {
+      const row = rows.find((l) => l.startsWith(`| ${r.titles.en.replace('°C', 'deg C')} | ${r.kind} |`))
+      expect(row, r.id).toBeTruthy()
+      const result = row!.split(' | ')[2]
+      if (r.outcome === 'ahead') expect(result).toBe(`**warned ${r.days} days ahead**`)
+      if (r.outcome === 'partly') expect(result).toMatch(new RegExp(`caught on the day.* ${r.days} days ahead`))
+      if (r.outcome === 'conditions') expect(result).toBe('conditions only')
+      if (r.outcome === 'missed') expect(result).toBe('**missed**')
+    }
+  })
+
+  it('the safety evals', () => {
+    for (const [a, b] of Object.values(SAFETY)) expect(safetyMd).toContain(`**${a}/${b}**`)
   })
 })
 
