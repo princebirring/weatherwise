@@ -2,7 +2,7 @@
 
 See [the architecture overview](../ARCHITECTURE.md) for the application, AWS, and delivery flow.
 
-`weatherwise-service.yaml` creates the production network, ALB, ECS Fargate service, private Bedrock AgentCore Runtime, log groups, runtime IAM roles, and optional WAF. It does **not** create a database or persistent storage because the current app stores neither.
+`weatherwise-service.yaml` creates the production network, ALB, ECS Fargate service, private Bedrock AgentCore Runtime, CloudWatch/X-Ray observability, log groups, runtime IAM roles, and optional WAF. It does **not** create a database or persistent storage because the current app stores neither.
 
 ## Before deployment
 
@@ -60,3 +60,5 @@ The workflow uses OIDC, so it has no AWS access-key secret. It publishes immutab
 The public ALB never exposes AgentCore. The ECS task receives the runtime ARN as `WEATHERWISE_AGENT_RUNTIME_ARN` and may invoke only that ARN; AgentCore runs the Strands team and calls Bedrock using its own execution role. Each web-chat session gets a private AgentCore microVM session with a two-minute idle timeout. AgentCore Memory and Gateway are deliberately not created: there is no authenticated user identity to retain, and the local MCP facts server is packaged with the runtime.
 
 The deployment creates CloudWatch/X-Ray permissions for AgentCore observability. To investigate a failed chat, inspect the runtime log group prefixed `/aws/bedrock-agentcore/runtimes/`, then its AgentCore trace, before changing prompts or model settings.
+
+The stack also enables the account-wide CloudWatch Transaction Search destination and indexes 1% of spans. This lets the AgentCore console display sessions, traces, and spans after a short ingestion delay. Transaction Search sends spans to the managed `aws/spans` CloudWatch Logs group, so it adds CloudWatch log-ingestion and storage charges; keep the default low retention and use the 1% index unless higher sampling is needed.

@@ -248,6 +248,37 @@ Resources:
       LogGroupName: /ecs/weatherwise
       RetentionInDays: 14
 
+  TransactionSearchLogResourcePolicy:
+    # Transaction Search is account-wide. This resource policy allows X-Ray to
+    # write all runtime spans to CloudWatch Logs' managed span log groups.
+    Type: AWS::Logs::ResourcePolicy
+    Properties:
+      PolicyName: weatherwise-transaction-search
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: TransactionSearchXRayAccess
+            Effect: Allow
+            Principal: {Service: xray.amazonaws.com}
+            Action: logs:PutLogEvents
+            Resource:
+              - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:aws/spans:*
+              - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/application-signals/data:*
+            Condition:
+              ArnLike:
+                'aws:SourceArn': !Sub arn:${AWS::Partition}:xray:${AWS::Region}:${AWS::AccountId}:*
+              StringEquals:
+                'aws:SourceAccount': !Ref AWS::AccountId
+
+  TransactionSearch:
+    # The first 1% of spans are indexed free of charge while all spans remain
+    # searchable in CloudWatch Logs. This is the minimum useful setting for a
+    # low-traffic public application.
+    Type: AWS::XRay::TransactionSearchConfig
+    DependsOn: TransactionSearchLogResourcePolicy
+    Properties:
+      IndexingPercentage: 1
+
   Cluster:
     Type: AWS::ECS::Cluster
     Properties:
