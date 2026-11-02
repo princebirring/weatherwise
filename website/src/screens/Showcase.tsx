@@ -62,7 +62,7 @@ export function Showcase() {
               <Link href="/app" className="btn big">{t('show.tryLive')}</Link>
               <a href="#replay" className="btn big secondary">{t('show.replayCta')}</a>
             </div>
-            {events.data && <HeroProof events={events.data} />}
+            {events.data ? <HeroProof events={events.data} /> : events.loading && <section className="hero-proof" aria-hidden="true" />}
           </div>
           <PhoneDemo />
         </section>
@@ -163,7 +163,8 @@ function SectionHead({ n, title, lede }: { n: string; title: string; lede?: stri
 function HeroProof({ events }: { events: ReplayEvent[] }) {
   const { t, language } = useLanguage()
   const all = useAsync(() => Promise.all(events.map((e) => api.replay(e.id))), events.map((e) => e.id).join(','))
-  if (!all.data) return null
+  // While loading, an empty block keeps the numbers' place (index.css .hero-proof).
+  if (!all.data) return all.loading ? <section className="hero-proof" aria-hidden="true" /> : null
   const p = proofNumbers(events, all.data)
   return (
     <section className="hero-proof" aria-label={t('show.proof')}>

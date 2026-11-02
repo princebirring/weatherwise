@@ -148,7 +148,7 @@ h1, h2, h3, p { margin: 0; }
 .site-header .btn { margin-left: auto; min-height: 46px; font-size: 16px; }
 .hero { display: flex; flex-wrap: wrap; gap: 32px 56px; align-items: flex-start; justify-content: center; padding: 32px 24px 44px; }
 .hero > :first-child { flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 18px; padding-top: 40px; }
-.hero > :last-child { flex: 0 0 auto; min-width: 0; }
+.hero > :last-child { flex: 0 1 auto; min-width: 0; max-width: 100%; } /* narrow phones: the phone demo shrinks, never widens the page */
 .hero > :first-child h1 { font-size: clamp(36px, 6vw, 58px); line-height: 1.04; font-weight: 800; letter-spacing: -1px; }
 .hero > :first-child p { font-size: 19px; line-height: 1.5; color: var(--ink-2); max-width: 640px; }
 .stat { font-size: 42px; font-weight: 800; line-height: 1; }
@@ -189,7 +189,7 @@ h1, h2, h3, p { margin: 0; }
 .screen-title { flex: 1; font-size: 21px; font-weight: 800; line-height: 1.2; }
 .round-btn { flex: none; width: 52px; height: 52px; border-radius: 26px; display: flex; align-items: center; justify-content: center;
   background: var(--surface); border: 2px solid #C9D3CD; color: var(--ink); }
-.lang-pick select { height: 46px; padding: 0 12px; border-radius: 23px; border: 2px solid var(--action); background: var(--surface);
+.lang-pick select { font: inherit; height: 46px; padding: 0 12px; border-radius: 23px; border: 2px solid var(--action); background: var(--surface);
   font-size: 18px; font-weight: 700; color: var(--action); }
 
 .btn.big { min-height: 66px; border-radius: 20px; font-size: 21px; font-weight: 800; line-height: 1.15; padding-top: 8px; padding-bottom: 8px; text-wrap: balance; }
@@ -292,7 +292,7 @@ h1, h2, h3, p { margin: 0; }
 .section-n { font-size: 14px; font-weight: 800; letter-spacing: 0.12em; color: var(--action); }
 .h-mid { font-size: 20px; font-weight: 800; }
 
-.phone-demo { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.phone-demo { margin: 0; max-width: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .phone-tabs { display: flex; justify-content: center; gap: 6px; }
 .phone-tabs button { min-height: 36px; padding: 0 12px; white-space: nowrap; border-radius: 18px; border: 1.5px solid var(--line-strong); background: var(--surface);
   font-size: 14px; font-weight: 700; }
@@ -317,6 +317,8 @@ h1, h2, h3, p { margin: 0; }
 .phone-caption { max-width: 300px; min-height: 2.8em; text-align: center; font-size: 16px; line-height: 1.4; color: var(--ink); }
 @keyframes phone-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
+/* Room kept for the proof numbers while the replays load, so the hero does not jump when they arrive. */
+.hero-proof { min-height: 116px; }
 .hero-proof > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-top: 22px; margin-top: 6px; border-top: 1px solid var(--line); }
 .hero-proof a { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--ink); }
 .hero-proof b { font-size: 40px; font-weight: 800; line-height: 1; color: var(--flood); white-space: nowrap; }
@@ -401,6 +403,7 @@ h1, h2, h3, p { margin: 0; }
 }
 @media (max-width: 640px) {
   .hero-proof > div { grid-template-columns: 1fr; }
+  .hero-proof { min-height: 300px; }
   .hero { padding-top: 20px; }
   .hero > :first-child { padding-top: 0; }
   .phone-tabs { flex-wrap: wrap; }
