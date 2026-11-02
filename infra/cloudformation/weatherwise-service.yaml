@@ -10,7 +10,15 @@ Parameters:
   CertificateArn:
     Type: String
     Default: ''
-    Description: Optional ACM certificate ARN for HTTPS. Leave blank until a custom domain is configured.
+    Description: Optional pre-existing ACM certificate ARN. DomainName and HostedZoneId are preferred.
+  DomainName:
+    Type: String
+    Default: ''
+    Description: Optional custom apex domain, for example weatherwise.online.
+  HostedZoneId:
+    Type: String
+    Default: ''
+    Description: Route 53 public hosted-zone ID for DomainName. Required with DomainName.
   ClimateAgentModelId:
     Type: String
     Default: us.amazon.nova-micro-v1:0
@@ -34,7 +42,11 @@ Parameters:
 
 Conditions:
   HasOpenMeteoSecret: !Not [!Equals [!Ref OpenMeteoSecretArn, '']]
-  HasCertificate: !Not [!Equals [!Ref CertificateArn, '']]
+  HasProvidedCertificate: !Not [!Equals [!Ref CertificateArn, '']]
+  HasCustomDomain: !And
+    - !Not [!Equals [!Ref DomainName, '']]
+    - !Not [!Equals [!Ref HostedZoneId, '']]
+  HasCertificate: !Or [!Condition HasProvidedCertificate, !Condition HasCustomDomain]
   UseWaf: !Equals [!Ref EnableWaf, 'true']
 
 Resources:
@@ -130,6 +142,19 @@ Resources:
       Subnets: [!Ref PublicSubnetA, !Ref PublicSubnetB]
       Type: application
 
+  Certificate:
+    Condition: HasCustomDomain
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref DomainName
+      SubjectAlternativeNames: [!Sub 'www.${DomainName}']
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName: !Ref DomainName
+          HostedZoneId: !Ref HostedZoneId
+        - DomainName: !Sub www.${DomainName}
+          HostedZoneId: !Ref HostedZoneId
+
   HttpListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
@@ -151,13 +176,53 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
       Certificates:
-        - CertificateArn: !Ref CertificateArn
+        - CertificateArn: !If [HasCustomDomain, !Ref Certificate, !Ref CertificateArn]
       LoadBalancerArn: !Ref ApplicationLoadBalancer
       Port: 443
       Protocol: HTTPS
       DefaultActions:
         - Type: forward
           TargetGroupArn: !Ref TargetGroup
+
+  WwwToApexRedirect:
+    Condition: HasCustomDomain
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !Ref HttpsListener
+      Priority: 1
+      Conditions:
+        - Field: host-header
+          HostHeaderConfig:
+            Values: [!Sub 'www.${DomainName}']
+      Actions:
+        - Type: redirect
+          RedirectConfig:
+            Host: !Ref DomainName
+            Protocol: HTTPS
+            Port: '443'
+            StatusCode: HTTP_301
+
+  ApexDnsRecord:
+    Condition: HasCustomDomain
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref DomainName
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt ApplicationLoadBalancer.DNSName
+        HostedZoneId: !GetAtt ApplicationLoadBalancer.CanonicalHostedZoneID
+
+  WwwDnsRecord:
+    Condition: HasCustomDomain
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Sub www.${DomainName}
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt ApplicationLoadBalancer.DNSName
+        HostedZoneId: !GetAtt ApplicationLoadBalancer.CanonicalHostedZoneID
 
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -339,8 +404,12 @@ Outputs:
     Value: !GetAtt ApplicationLoadBalancer.DNSName
   ServiceUrl:
     Value: !If
-      - HasCertificate
-      - !Sub https://${ApplicationLoadBalancer.DNSName}
+      - HasCustomDomain
+      - !Sub https://${DomainName}
       - !Sub http://${ApplicationLoadBalancer.DNSName}
+  CustomDomainCertificateArn:
+    Condition: HasCustomDomain
+    Description: ACM certificate managed by this stack.
+    Value: !Ref Certificate
   TaskRoleArn:
     Value: !GetAtt TaskRole.Arn

@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creates the public Route 53 hosted zone for the WeatherWise custom domain.
+
+Parameters:
+  DomainName:
+    Type: String
+    Default: weatherwise.online
+    Description: Registered apex domain, without https:// or a trailing dot.
+
+Resources:
+  PublicHostedZone:
+    Type: AWS::Route53::HostedZone
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Name: !Ref DomainName
+
+Outputs:
+  HostedZoneId:
+    Description: Set this as the ROUTE53_HOSTED_ZONE_ID GitHub repository variable.
+    Value: !Ref PublicHostedZone
+  NameServers:
+    Description: Replace the domain's nameservers at GoDaddy with these values.
+    Value: !Join [', ', !GetAtt PublicHostedZone.NameServers]
