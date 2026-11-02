@@ -1,4 +1,4 @@
-/* The public site (landing, proof, how it works, developers). Builds on the tokens in index.css:
+/* The public site (landing, how it works, impact, developers, about us). Builds on the tokens in index.css:
    colour still carries risk only (heat orange, flood blue, red for danger and misses); teal is for actions. */
 .site { --night: #0E1A15; --night-2: #15251E; --night-line: #24352D; --night-ink: #C9D3CD; --mint: #7FD1C7;
   min-height: 100vh; display: flex; flex-direction: column; background: var(--ground); }
@@ -116,12 +116,7 @@
 .safety span { font-size: 15px; line-height: 1.4; color: var(--night-ink, #C9D3CD); }
 .safety p { grid-column: 1 / -1; margin: 0; padding-top: 16px; border-top: 1px solid var(--night-line, #24352D); font-size: 14px; color: #9FB3A9; }
 
-/* ---- scale and roadmap ---- */
-.scale { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 44px; margin-top: 22px; padding: 30px 32px; border-radius: 24px; background: var(--action); color: #FFFFFF; }
-.scale-number { display: flex; flex-direction: column; gap: 4px; }
-.scale-number b { font-size: 60px; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
-.scale-number span { font-size: 16px; color: #D6EAE6; }
-.scale p { flex: 1 1 320px; font-size: 18px; line-height: 1.55; color: #E6F0EE; }
+/* ---- roadmap ---- */
 .roadmap { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; list-style: none; margin: 22px 0 0; padding: 0; }
 .roadmap li { display: flex; flex-direction: column; gap: 6px; padding: 22px; border-radius: 20px; background: var(--ground); border: 1.5px dashed var(--line-strong); }
 .roadmap li.now { border: 1.5px solid var(--action); background: var(--action-soft); }
@@ -141,6 +136,64 @@
 .person-links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px !important; }
 .person-links a { font-size: 16px; font-weight: 700; text-decoration: none; }
 .person-links a:hover { text-decoration: underline; }
+
+/* ---- impact: warned days ahead ---- */
+.leads { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; list-style: none; margin: 0; padding: 0; }
+.lead { display: flex; flex-direction: column; gap: 10px; padding: 24px; border-radius: 22px; background: var(--ground); border: 1px solid var(--line); }
+.lead-icon { width: 46px; height: 46px; border-radius: 23px; display: flex; align-items: center; justify-content: center; }
+.lead.t-flood .lead-icon { background: var(--flood-soft); color: var(--flood); }
+.lead.t-heat .lead-icon { background: #FDEBD8; color: var(--orange); }
+.lead b { font-size: 38px; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+.lead-bar { height: 10px; border-radius: 5px; background: var(--soft); overflow: hidden; }
+.lead-bar i { display: block; height: 100%; border-radius: 5px; }
+.lead.t-flood .lead-bar i { background: var(--flood); }
+.lead.t-heat .lead-bar i { background: var(--orange); }
+.lead-title { font-size: 16px; line-height: 1.4; font-weight: 600; color: var(--ink-2); }
+
+/* ---- built on AWS ---- */
+.l-aws .sec-title { margin-bottom: 36px; max-width: 900px; }
+.stack-flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; list-style: none; margin: 0; padding: 0; counter-reset: none; }
+.stack-flow li { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 20px 18px; border-radius: 18px; background: var(--night-2); border: 1px solid var(--night-line); }
+.stack-flow li.aws { border-color: var(--mint); box-shadow: 0 0 0 1px rgba(127, 209, 199, 0.25) inset; }
+.stack-flow li:not(:last-child)::after { content: '→'; position: absolute; right: -14px; top: 50%; transform: translate(50%, -50%); color: var(--mint); font-weight: 800; font-size: 18px; z-index: 1; }
+.sf-icon { width: 40px; height: 40px; border-radius: 20px; display: flex; align-items: center; justify-content: center; background: rgba(127, 209, 199, 0.14); color: var(--mint); margin-bottom: 4px; }
+.stack-flow b { font-size: 18px; font-weight: 800; line-height: 1.2; color: #FFFFFF; }
+.stack-flow span:not(.sf-icon) { font-size: 15px; line-height: 1.4; color: var(--night-ink); }
+.stack-also { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 16px 0 0; padding: 14px 18px; border-radius: 14px; border: 1.5px dashed var(--night-line); font-size: 16px; }
+.stack-also svg { color: var(--mint); }
+.stack-also b { color: #FFFFFF; }
+.pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+.pillars article { padding: 26px; border-radius: 22px; background: var(--night-2); border: 1px solid var(--night-line); }
+.pillars h3 { font-size: 21px; font-weight: 800; line-height: 1.2; color: #FFFFFF; margin-bottom: 10px; }
+.pillars p { font-size: 17px; line-height: 1.55; }
+.l-aws .safety { background: var(--night-2); border: 1px solid var(--night-line); margin-top: 16px; }
+.l-aws .safety .safety-head { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; padding: 0; border: 0; font-size: 18px; font-weight: 800; color: #FFFFFF; }
+.l-aws .safety-head svg { color: var(--mint); }
+.l-aws .l-ctas { margin-top: 30px; }
+.l-aws .btn.outline:hover { background: rgba(255, 255, 255, 0.1); color: #FFFFFF; }
+
+/* ---- coverage ---- */
+.cover { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 32px 64px; align-items: center; }
+.globe { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.globe img { width: 100%; max-width: 520px; height: auto; }
+.globe figcaption { display: flex; gap: 22px; font-size: 16px; font-weight: 700; }
+.globe figcaption span { display: inline-flex; align-items: center; gap: 8px; }
+.globe figcaption i { width: 14px; height: 14px; border-radius: 7px; }
+.globe .now i { background: #0B5F5A; }
+.globe .next i { background: #6FA8A2; }
+.cover .sec-title { margin-bottom: 24px; }
+.cover-list { display: flex; flex-direction: column; gap: 14px; list-style: none; margin: 0; padding: 0; }
+.cover-list li { display: flex; gap: 16px; align-items: flex-start; padding: 20px 22px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); }
+.cover-list li.now { border-color: var(--action); }
+.cover-list li.next { border-style: dashed; border-color: var(--line-strong); }
+.cover-list .trust-icon { flex: none; margin: 0; width: 44px; height: 44px; }
+.cover-list span:last-child { display: flex; flex-direction: column; gap: 4px; font-size: 17px; line-height: 1.5; color: var(--ink-2); }
+.cover-list b { font-size: 20px; font-weight: 800; color: var(--ink); }
+
+/* ---- team on the landing page, and about us ---- */
+.person.short { align-items: center; }
+.person.short .person-photo { width: 88px; height: 88px; }
+.person.short .person-links { margin-top: 6px !important; }
 
 /* ---- last call to action ---- */
 .l-final { background: var(--night, #0E1A15); color: #FFFFFF; padding: 72px 0; }
@@ -180,7 +233,11 @@
 
 /* ---- smaller screens ---- */
 @media (max-width: 960px) {
-  .l-hero-grid, .l-gap, .dev-grid, .l-final-grid { grid-template-columns: minmax(0, 1fr); }
+  .l-hero-grid, .l-gap, .dev-grid, .l-final-grid, .cover { grid-template-columns: minmax(0, 1fr); }
+  .stack-flow { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .stack-flow li:not(:last-child)::after { content: '↓'; right: 50%; top: auto; bottom: -11px; transform: translate(50%, 50%); }
+  .pillars { grid-template-columns: minmax(0, 1fr); }
+  .globe img { max-width: 380px; }
   .l-hero-grid > .phone-demo { justify-self: center; }
   .site-top-row { flex-wrap: wrap; padding-top: 10px; }
   .site-nav { order: 3; width: 100%; overflow-x: auto; gap: 22px; padding-bottom: 4px; scrollbar-width: none; }
@@ -205,9 +262,15 @@
   .qr { display: none; }
   .page-head { padding: 44px 0 40px; }
   .gap-fig { padding: 20px; }
+  .stack-flow { gap: 14px; }
+  .stack-flow li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 2px 14px; padding: 14px 16px; }
+  .stack-flow li .sf-icon { grid-row: span 2; margin: 0; }
+  .stack-flow li:not(:last-child)::after { bottom: -7px; font-size: 14px; }
+  .pillars article { padding: 22px; }
 }
 @media (max-width: 520px) {
   .site-top-actions .btn { display: none; } /* the hero's big button is right below */
+  .site-nav { gap: 16px; font-size: 15px; }
   .site-foot-grid { grid-template-columns: minmax(0, 1fr); }
 }
 .phone-demo .phone-tabs:empty { height: 36px; }

@@ -8,7 +8,7 @@ import { REPO, TEAM } from './team'
 import './site.css'
 
 export const NAV: [string, TextKey][] = [
-  ['/proof', 'site.navProof'], ['/how-it-works', 'site.navHow'], ['/developers', 'site.navDevelopers'], ['/#team', 'site.navTeam'],
+  ['/how-it-works', 'site.navHow'], ['/impact', 'site.navImpact'], ['/developers', 'site.navDevelopers'], ['/about', 'site.navAbout'],
 ]
 
 /** The frame of every public page: one header with the pages, one footer with the people and sources. */
@@ -44,7 +44,7 @@ function SiteFooter() {
       <div className="wrap site-foot-grid">
         <div className="site-foot-brand">
           <span className="site-brand"><Logo size={30} /><b>{t('brand.name')}</b></span>
-          <p>{t('show.headline')}</p>
+          <p>{t('site.headline')}</p>
           <p className="site-foot-safety"><b>{t('show.footerNotOfficial')}</b> {t('show.footerFollow')}</p>
         </div>
         <nav aria-label={t('site.footProduct')}>
@@ -52,8 +52,8 @@ function SiteFooter() {
           <Link href="/app">{t('site.openApp')}</Link>
           {NAV.slice(0, 3).map(([href, key]) => <Link key={href} href={href}>{t(key)}</Link>)}
         </nav>
-        <nav aria-label={t('site.navTeam')}>
-          <b>{t('site.navTeam')}</b>
+        <nav aria-label={t('site.navAbout')}>
+          <b>{t('site.navAbout')}</b>
           {TEAM.map((m) => <a key={m.name} href={m.links[0].href} target="_blank" rel="noreferrer">{m.name}</a>)}
           <a href={REPO} target="_blank" rel="noreferrer">{t('site.sourceCode')}</a>
           <span>{t('site.license')}</span>

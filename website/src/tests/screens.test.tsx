@@ -1,6 +1,6 @@
 // Every screen, in every language: it renders, shows that language's words and safety text,
 // and (for Hindi and Marathi) shows no English sentence from the site or the safety advice.
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { ReactNode } from 'react'
@@ -279,35 +279,58 @@ describe.each(LANGUAGES)('in %s', (language) => {
   // The public site: each page at its own path.
   const at = (path: string) => { window.history.pushState(null, '', path); return show(language, <Showcase />) }
 
-  it('Landing: the pitch, every replayed disaster with its misses, and the team', () => {
+  it('Landing: the pitch, the warnings ahead (misses on Impact), the AWS stack, coverage and the team', () => {
     at('/')
-    expect(screen.getByText(t('show.headline'), { selector: 'h1' })).toBeTruthy()
-    for (const r of SCORECARD) expect(screen.getByText(r.titles[language])).toBeTruthy()
-    expect(screen.getAllByText(t('site.missed'))).toHaveLength(countOf('missed'))
+    expect(screen.getByText(t('site.headline'), { selector: 'h1' })).toBeTruthy()
+    for (const r of SCORECARD) {
+      if (r.outcome === 'ahead') expect(screen.getByText(r.titles[language])).toBeTruthy()
+      else expect(screen.queryByText(r.titles[language])).toBeNull()
+    }
+    expect(screen.getByRole('link', { name: new RegExp(t('site.impactAll', SCORECARD.length)) })).toBeTruthy()
+    for (const name of ['Strands Agents', 'Amazon Bedrock AgentCore', 'Climate Risk MCP server']) expect(screen.getByRole('heading', { name })).toBeTruthy()
+    expect(screen.getByAltText(t('site.globeAlt'))).toBeTruthy()
     for (const m of TEAM) expect(screen.getByRole('heading', { name: m.name })).toBeTruthy()
     expectOnlyLanguage(language)
   })
 
-  it('Landing: nothing is claimed that is not built (plans only in the roadmap)', () => {
+  it('Impact: every replayed disaster, misses included', () => {
+    at('/impact')
+    for (const r of SCORECARD) expect(screen.getByText(r.titles[language])).toBeTruthy()
+    expect(screen.getAllByText(t('site.missed'))).toHaveLength(countOf('missed'))
+  })
+
+  it('Nothing is claimed that is not built (plans only in the About roadmap)', () => {
     at('/')
-    const roadmap = document.querySelector('.roadmap')!.textContent ?? ''
-    const rest = (document.body.textContent ?? '').replace(roadmap, '')
-    expect(rest).not.toMatch(/WhatsApp|SMS|6 AM/)
+    expect(document.body.textContent).not.toMatch(/WhatsApp|SMS|6 AM/)
     expect(document.body.textContent).not.toMatch(/\b1 days\b/)
+    cleanup()
+    at('/about')
+    const roadmap = document.querySelector('.roadmap')!.textContent ?? ''
+    expect((document.body.textContent ?? '').replace(roadmap, '')).not.toMatch(/WhatsApp|SMS|6 AM/)
+    for (const m of TEAM) expect(screen.getByRole('heading', { name: m.name })).toBeTruthy()
   })
 
   it('Header links open the pages, and an unknown path shows the landing page', () => {
     vi.spyOn(window, 'scrollTo').mockImplementation(() => {}) // jsdom has no scrolling
     at('/nowhere')
     expect(window.location.pathname).toBe('/')
-    fireEvent.click(screen.getAllByRole('link', { name: t('site.navProof') })[0])
+    fireEvent.click(screen.getAllByRole('link', { name: t('site.navImpact') })[0])
     expect(screen.getByText(t('site.proofTitle', SCORECARD.length), { selector: 'h1' })).toBeTruthy()
+    expect(window.location.pathname).toBe('/impact')
     fireEvent.click(screen.getAllByRole('link', { name: t('site.navDevelopers') })[0])
     expect(screen.getByText('hazard_outlook')).toBeTruthy()
+    fireEvent.click(screen.getAllByRole('link', { name: t('site.navAbout') })[0])
+    expect(screen.getByText(t('site.aboutTitle'), { selector: 'h1' })).toBeTruthy()
   })
 
-  it('Proof: replay titles and scores in this language', async () => {
+  it('An old /proof link opens Impact, at its new address', () => {
     at('/proof')
+    expect(window.location.pathname).toBe('/impact')
+    expect(screen.getByText(t('site.proofTitle', SCORECARD.length), { selector: 'h1' })).toBeTruthy()
+  })
+
+  it('Impact: replay titles and scores in this language', async () => {
+    at('/impact')
     await screen.findAllByText(events[0].titles[language])
     expect(screen.getAllByText(t('show.replayTitle')).length).toBeGreaterThan(0)
     await screen.findAllByText(new RegExp(t('show.far')))
@@ -326,22 +349,21 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expectOnlyLanguage(language)
   })
 
-  it('Landing: the phone switches screens by its tabs, with the real advice text', () => {
+  it('Landing: the phone runs the real app screens; taps move the phone, never the page', () => {
     at('/')
-    expect(screen.getByText(t('hazard.work_heat:danger'))).toBeTruthy()
+    const phone = within(screen.getByRole('region', { name: t('show.demoLabel') }))
+    expect(phone.getByText(t('hazard.work_heat:danger'))).toBeTruthy()      // Today, with a heat warning
+    fireEvent.click(phone.getByRole('link', { name: new RegExp(t('today.whatToDo')) }))
+    expect(phone.getByText(g.work_heat.danger)).toBeTruthy()                 // the heat page's real advice
+    fireEvent.click(phone.getByRole('link', { name: t('todo.call108') }))
+    expect(phone.getByText(t('show.demoCall', '108'))).toBeTruthy()          // never dials from the page
     fireEvent.click(screen.getByRole('tab', { name: t('show.zoneUrgent') }))
-    expect(screen.getByText(g.flood_urgent)).toBeTruthy()
-    fireEvent.click(screen.getByRole('tab', { name: t('show.tabHeat') }))
-    fireEvent.click(screen.getByRole('button', { name: t('today.whatToDo') }))
-    expect(screen.getByText(g.work_heat.danger)).toBeTruthy()
-    fireEvent.click(screen.getByRole('button', { name: t('todo.next') }))
-    expect(screen.getByText(g.heat[0].what)).toBeTruthy()            // the next real advice card
+    expect(phone.getByText(g.flood_urgent)).toBeTruthy()
     fireEvent.click(screen.getByRole('tab', { name: t('today.floodGuide') }))
-    fireEvent.click(screen.getByRole('button', { name: t('todo.next') }))
-    expect(screen.getByText(g.flood_village[1])).toBeTruthy()        // flood guide, step 2
-    fireEvent.click(screen.getByRole('button', { name: new RegExp(t('help.title')) }))
-    fireEvent.click(screen.getByRole('button', { name: new RegExp(t('help.ambulance')) }))
-    expect(screen.getByText(t('show.demoCall', '108'))).toBeTruthy()  // never dials from the page
+    expect(phone.getByText(g.flood_village[1])).toBeTruthy()                 // the flood checklist
+    fireEvent.click(document.querySelector('.phone .tabbar .tab-help')!)
+    expect(phone.getByRole('heading', { name: t('help.title') })).toBeTruthy()
+    expect(window.location.pathname).toBe('/')
   })
 
   it('How it works: the tech flow shows the Today journey, then the Ask journey', () => {
@@ -352,11 +374,11 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expect(screen.queryByText(t('show.today4'))).toBeNull()
   })
 
-  it('Proof: a flood from rain is charted as rain, against the place\'s own line', async () => {
+  it('Impact: a flood from rain is charted as rain, against the place\'s own line', async () => {
     const rainFlood = { ...replay, unusual_rain_mm: 44.6, timeline: replay.timeline.map((d, i) => ({
       ...d, what_happened: i === 2 ? ['unusual_rain'] : [], observed: { ...d.observed, rain_mm: [3, 45, 186, 94][i] } })) }
     stubApi({ '/api/replays/': [200, rainFlood] })
-    at('/proof')
+    at('/impact')
     expect(await screen.findByText(t('show.rainAxis', 45))).toBeTruthy()
     expectOnlyLanguage(language)
   })

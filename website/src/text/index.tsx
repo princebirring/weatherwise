@@ -8,7 +8,7 @@ const TEXT: Record<Language, Record<TextKey, string>> = { en, hi, mr }
 
 // Names shown on the language buttons, each in its own script.
 export const LANGUAGE_NAMES: Record<Language, string> = { mr: 'मराठी', hi: 'हिंदी', en: 'English' }
-export const LANGUAGES: Language[] = ['mr', 'hi', 'en']
+export const LANGUAGES: Language[] = ['en', 'hi', 'mr']
 
 export function textFor(language: Language) {
   return (key: TextKey, value?: string | number) => {
