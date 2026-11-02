@@ -26,7 +26,7 @@ Until a domain is added, omit `CertificateArn`; the output is an HTTP ALB URL. S
 
 ## GitHub publishing role
 
-Deploy `github-oidc-ecr-publisher.yaml` once with `CAPABILITY_NAMED_IAM`. It creates the ECR repository, GitHub OIDC provider, a minimal image-publishing role, and a CloudFormation deployer/execution-role pair restricted to workflows from `princebirring/weatherwise` on `main`. The execution role has the permissions needed to create this stack's AWS resources, so protect `main` with review and required checks. If a prior failed deployment retained an ECR repository, supply its name in `ExistingEcrRepositoryName` to reuse it. If the AWS account already has the GitHub OIDC provider, do not deploy this template unchanged; reuse the existing provider in a small adjusted template instead.
+Deploy `github-oidc-ecr-publisher.yaml` once with `CAPABILITY_NAMED_IAM`. It creates the ECR repository, GitHub OIDC provider, a minimal image-publishing role, and a CloudFormation deployer/execution-role pair restricted to workflows from `princebirring/weatherwise` on `main`. The default `GitHubOidcSubject` is the repository's immutable GitHub OIDC subject, which is more resistant to repository-name changes. The execution role has the permissions needed to create this stack's AWS resources, so protect `main` with review and required checks. If a prior failed deployment retained an ECR repository, supply its name in `ExistingEcrRepositoryName` to reuse it. If the AWS account already has the GitHub OIDC provider, do not deploy this template unchanged; reuse the existing provider in a small adjusted template instead.
 
 Set these GitHub Actions repository variables after it finishes:
 
