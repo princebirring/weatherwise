@@ -1,0 +1,75 @@
+# More real events for the replay scorecard (evals/eval_replays.py), across India, including
+# known misses. Scored only; the website's replays stay in headline_events.toml.
+# "reported" is what public sources say happened; CONFIRM each against a source before quoting.
+# kind: the hazard the event is about ("heat" or "flood"); the scorecard reads those signals.
+# event_day (floods): the day the disaster happened; the warning is measured against that day.
+
+[[replay]]
+id = "wayanad_landslides_2024_07"
+event_day = "2024-07-30"
+title = "Wayanad landslides, July 30, 2024 (Kerala)"
+kind = "flood"
+name = "Meppadi"
+lat = 11.55
+lon = 76.13
+first_day = "2024-07-20"
+last_day = "2024-08-03"
+reported = "Extreme overnight rain triggered landslides at Mundakkai and Chooralmala on Jul 30; over 200 dead. CONFIRM"
+
+[[replay]]
+id = "delhi_heat_2024_05"
+title = "Delhi heat wave, May-June 2024"
+kind = "heat"
+name = "Delhi"
+lat = 28.61
+lon = 77.21
+first_day = "2024-05-10"
+last_day = "2024-06-20"
+reported = "Long heat wave from mid-May to mid-June; Safdarjung near 47 deg C at the end of May. CONFIRM"
+
+[[replay]]
+id = "phalodi_heat_2024_05"
+title = "Phalodi 50 deg C, May 2024 (Rajasthan)"
+kind = "heat"
+name = "Phalodi"
+lat = 27.13
+lon = 72.36
+first_day = "2024-05-15"
+last_day = "2024-06-01"
+reported = "Phalodi recorded 50.0 deg C on May 25, 2024. CONFIRM"
+
+[[replay]]
+id = "assam_flood_2024_07"
+event_day = "2024-07-01"
+title = "Assam floods, July 2024 (Guwahati)"
+kind = "flood"
+name = "Guwahati"
+lat = 26.14
+lon = 91.74
+first_day = "2024-06-20"
+last_day = "2024-07-12"
+reported = "Brahmaputra floods in early July affected millions across Assam; Guwahati waterlogged. CONFIRM"
+
+[[replay]]
+id = "puducherry_fengal_2024_11"
+event_day = "2024-11-30"
+title = "Cyclone Fengal rain, Nov 30-Dec 1, 2024 (Puducherry)"
+kind = "flood"
+name = "Puducherry"
+lat = 11.93
+lon = 79.83
+first_day = "2024-11-24"
+last_day = "2024-12-05"
+reported = "Cyclone Fengal crossed the coast on Nov 30; record rain of about 46 cm in 24 hours. CONFIRM"
+
+[[replay]]
+id = "punjab_flood_2025_08"
+event_day = "2025-08-26"
+title = "Punjab floods, Aug-Sep 2025 (Gurdaspur)"
+kind = "flood"
+name = "Gurdaspur"
+lat = 32.04
+lon = 75.40
+first_day = "2025-08-15"
+last_day = "2025-09-05"
+reported = "Ravi and other rivers flooded large parts of Gurdaspur district from late August. CONFIRM"
