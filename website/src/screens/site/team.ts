@@ -26,7 +26,6 @@ export const TEAM: Member[] = [
   {
     name: 'Prince Birring',
     initials: 'PB',
-    photo: '/team/prince-birring.jpg',
     role: 'site.princeRole',
     bio: 'site.princeBio',
     links: [
