@@ -3,13 +3,13 @@ import { Link } from '../../router'
 import { useLanguage } from '../../text'
 import type { TextKey } from '../../text/en'
 import { PhoneDemo } from '../showcase/PhoneDemo'
-import { Scorecard } from './Scorecard'
+import { Person } from './People'
 import { BEST_LEAD, SAFETY, SCORECARD } from './results'
 import { SectionTitle } from './SiteLayout'
-import { REPO, TEAM, type Member } from './team'
+import { REPO, TEAM } from './team'
 
 // The pitch, in the order a first-time visitor needs it: what it is, why it is needed, what it
-// does, whether it works, whether to trust it, who it is for, and who is behind it.
+// does, whether it works, what it is built on, where it runs, and who is behind it.
 
 const BUILT_WITH = ['Strands Agents', 'Amazon Bedrock', 'Bedrock AgentCore', 'Amazon ECS', 'MCP', 'IMD · SACHET']
 
@@ -23,26 +23,35 @@ const JOBS: { icon: IconName; tone: string; title: TextKey; body: TextKey; part:
 ]
 const PERKS: TextKey[] = ['site.perk1', 'site.perk2', 'site.perk3', 'site.perk4']
 
-const TRUST: { icon: IconName; title: TextKey; body: TextKey }[] = [
-  { icon: 'check', title: 'show.rule1b', body: 'site.trust1' },
-  { icon: 'shield', title: 'show.rule2b', body: 'site.trust2' },
-  { icon: 'clock', title: 'site.trust3b', body: 'site.trust3' },
-]
+// The disasters it warned about ahead of time, longest warning first. All ten, misses included, are on /impact.
+const AHEAD = SCORECARD.filter((r) => r.outcome === 'ahead').sort((a, b) => (b.days ?? 0) - (a.days ?? 0))
+const MAX_DAYS = BEST_LEAD.days ?? 9
 
-const AUDIENCES: { icon: IconName; title: TextKey; body: TextKey; cta: TextKey; href: string }[] = [
-  { icon: 'plant', title: 'site.forFamilies', body: 'site.forFamiliesBody', cta: 'site.openApp', href: '/app' },
-  { icon: 'shield', title: 'site.forPartners', body: 'site.forPartnersBody', cta: 'site.talkToUs', href: '/#team' },
-  { icon: 'send', title: 'site.forDevelopers', body: 'site.forDevelopersBody', cta: 'site.seeTools', href: '/developers' },
+// How a question becomes an answer, left to right (AWS parts marked), and who else can plug in.
+const FLOW: { icon: IconName; title?: TextKey; name?: string; body: TextKey; aws?: boolean }[] = [
+  { icon: 'phone', title: 'site.flowPhoneT', body: 'site.flowPhoneB' },
+  { icon: 'home', name: 'Amazon ECS', body: 'site.flowApiB', aws: true },
+  { icon: 'chat', name: 'Bedrock AgentCore', body: 'site.flowCoreB', aws: true },
+  { icon: 'shield', name: 'Climate Risk MCP', body: 'site.flowMcpB', aws: true },
+  { icon: 'sun', title: 'site.flowDataT', body: 'site.flowDataB' },
+]
+const PILLARS: { name: string; body: TextKey }[] = [
+  { name: 'Strands Agents', body: 'site.pillarStrands' },
+  { name: 'Amazon Bedrock AgentCore', body: 'site.pillarCore' },
+  { name: 'Climate Risk MCP server', body: 'site.pillarMcp' },
 ]
 
 // India's land (about 2.97 million km²) in 25 km forecast squares (625 km² each), rounded.
-const INDIA_SQUARES = '~5,000'
-
-const ROADMAP: [TextKey, TextKey][] = [['site.now', 'site.nowBody'], ['site.next', 'site.nextBody'], ['site.later', 'site.laterBody']]
+const INDIA_SQUARES = '5,000'
+const COVER: { icon: IconName; title: TextKey; body: TextKey; tone: string }[] = [
+  { icon: 'pin', title: 'site.coverIndiaT', body: 'site.coverIndia', tone: 'now' },
+  { icon: 'send', title: 'site.coverAfricaT', body: 'site.coverAfrica', tone: 'next' },
+  { icon: 'check', title: 'site.coverCostT', body: 'site.coverCost', tone: '' },
+]
 
 export function Landing() {
   const { t, language, policy } = useLanguage()
-  const pos =(v: number) => `${((v - GAP.low) / (GAP.high - GAP.low)) * 100}%`
+  const pos = (v: number) => `${((v - GAP.low) / (GAP.high - GAP.low)) * 100}%`
 
   return (
     <>
@@ -50,16 +59,16 @@ export function Landing() {
         <div className="wrap l-hero-grid">
           <div className="l-hero-copy">
             <span className="eyebrow">{t('show.kicker')}</span>
-            <h1>{t('show.headline')}</h1>
+            <h1>{t('site.headline')}</h1>
             <p className="l-lede">{t('site.lede')}</p>
             <div className="l-ctas">
               <Link href="/app" className="btn big">{t('site.openApp')}</Link>
-              <Link href="/proof" className="btn big secondary">{t('site.seeProof')}</Link>
+              <Link href="/how-it-works" className="btn big secondary">{t('site.navHow')}</Link>
             </div>
             <dl className="l-stats">
               <div><dt>{t('site.statLeadValue', BEST_LEAD.days ?? 0)}</dt><dd>{t('site.statLead', BEST_LEAD.titles[language])}</dd></div>
-              <div><dt>{SCORECARD.length}</dt><dd>{t('site.statReplays')}</dd></div>
               <div><dt>0</dt><dd>{t('site.statNumbers')}</dd></div>
+              <div><dt>3</dt><dd>{t('site.statLanguages')}</dd></div>
             </dl>
           </div>
           {/* The demo needs the safety advice from the API; until then an empty phone keeps the hero's shape. */}
@@ -112,65 +121,85 @@ export function Landing() {
         </div>
       </section>
 
-      <section className="l-section l-band" id="proof">
+      <section className="l-section l-band" id="impact">
         <div className="wrap">
-          <SectionTitle kicker={t('site.proofKicker')} title={t('site.proofTitle', SCORECARD.length)} lede={t('show.replayLede')} />
-          <Scorecard />
-          <Link href="/proof" className="more">{t('site.replayDayByDay')} <Icon name="send" size={18} /></Link>
+          <SectionTitle kicker={t('site.navImpact')} title={t('site.impactTitle')} lede={t('site.impactLede')} />
+          <ol className="leads">
+            {AHEAD.map((r) => (
+              <li key={r.id} className={`lead t-${r.kind}`}>
+                <span className="lead-icon"><Icon name={r.kind === 'flood' ? 'waves' : 'heat'} size={26} /></span>
+                <b>{t('site.impactDays', r.days ?? 0)}</b>
+                <span className="lead-bar" aria-hidden="true"><i style={{ width: `${((r.days ?? 0) / MAX_DAYS) * 100}%` }} /></span>
+                <span className="lead-title">{r.titles[language]}</span>
+              </li>
+            ))}
+          </ol>
+          <Link href="/impact" className="more">{t('site.impactAll', SCORECARD.length)} <Icon name="send" size={18} /></Link>
         </div>
       </section>
 
-      <section className="l-section">
+      <section className="l-dark l-aws" id="built">
         <div className="wrap">
-          <SectionTitle kicker={t('site.trustKicker')} title={t('site.trustTitle')} lede={t('show.builtLede')} />
-          <div className="trust">
-            {TRUST.map((x) => (
-              <article key={x.title}>
-                <span className="trust-icon"><Icon name={x.icon} size={24} /></span>
-                <h3>{t(x.title)}</h3>
-                <p>{t(x.body)}</p>
+          <SectionTitle kicker={t('site.awsKicker')} title={t('site.awsTitle')} lede={t('site.awsLede')} />
+          <ol className="stack-flow">
+            {FLOW.map((n) => (
+              <li key={n.body} className={n.aws ? 'aws' : ''}>
+                <span className="sf-icon"><Icon name={n.icon} size={22} /></span>
+                <b lang={n.name ? 'en' : undefined}>{n.name ?? t(n.title!)}</b>
+                <span>{t(n.body)}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="stack-also"><Icon name="send" size={18} /><b>{t('site.flowYoursT')}</b>{t('site.flowYoursB')} → <span lang="en">Climate Risk MCP</span></p>
+          <div className="pillars">
+            {PILLARS.map((p) => (
+              <article key={p.name}>
+                <h3 lang="en">{p.name}</h3>
+                <p>{t(p.body)}</p>
               </article>
             ))}
           </div>
           <div className="safety">
+            <p className="safety-head"><Icon name="shield" size={20} />{t('site.safetyStrip')}</p>
             <div><b>{SAFETY.mistakesCaught.join(' / ')}</b><span>{t('site.safety1')}</span></div>
             <div><b>{SAFETY.goodDraftsPassed.join(' / ')}</b><span>{t('site.safety2')}</span></div>
             <div><b>{SAFETY.unsafeNeverSent.join(' / ')}</b><span>{t('site.safety3')}</span></div>
-            <p>{t('site.safetyNote')}</p>
           </div>
-          <Link href="/how-it-works" className="more">{t('site.howDecided')} <Icon name="send" size={18} /></Link>
+          <div className="l-ctas">
+            <Link href="/how-it-works" className="btn big">{t('site.howDecided')}</Link>
+            <Link href="/developers" className="btn big outline">{t('site.plugIn')}</Link>
+          </div>
         </div>
       </section>
 
-      <section className="l-section l-band">
-        <div className="wrap">
-          <SectionTitle kicker={t('site.whoKicker')} title={t('site.whoTitle')} />
-          <div className="audiences">
-            {AUDIENCES.map((a) => (
-              <article key={a.title}>
-                <span className="trust-icon"><Icon name={a.icon} size={24} /></span>
-                <h3>{t(a.title)}</h3>
-                <p>{t(a.body)}</p>
-                <Link href={a.href} className="more">{t(a.cta)} <Icon name="send" size={18} /></Link>
-              </article>
-            ))}
+      <section className="l-section" id="coverage">
+        <div className="wrap cover">
+          <figure className="globe">
+            <img src="/coverage-globe.svg" width={640} height={640} alt={t('site.globeAlt')} />
+            <figcaption>
+              <span className="now"><i />{t('site.legendIndia')}</span>
+              <span className="next"><i />{t('site.legendAfrica')}</span>
+            </figcaption>
+          </figure>
+          <div>
+            <SectionTitle kicker={t('site.coverKicker')} title={t('site.coverTitle')} />
+            <ul className="cover-list">
+              {COVER.map((c) => (
+                <li key={c.title} className={c.tone}>
+                  <span className="trust-icon"><Icon name={c.icon} size={22} /></span>
+                  <span><b>{t(c.title)}</b>{t(c.body, INDIA_SQUARES)}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="scale">
-            <div className="scale-number"><b>{INDIA_SQUARES}</b><span>{t('site.scaleUnit')}</span></div>
-            <p>{t('site.scaleBody')}</p>
-          </div>
-          <ol className="roadmap">
-            {ROADMAP.map(([when, what], i) => (
-              <li key={when} className={i === 0 ? 'now' : ''}><b>{t(when)}</b><span>{t(what)}</span></li>
-            ))}
-          </ol>
         </div>
       </section>
 
       <section className="l-section" id="team">
         <div className="wrap">
-          <SectionTitle kicker={t('site.navTeam')} title={t('site.teamTitle')} lede={t('site.teamLede')} />
-          <div className="team">{TEAM.map((m) => <Person key={m.name} m={m} />)}</div>
+          <SectionTitle kicker={t('site.navAbout')} title={t('site.teamTitle')} />
+          <div className="team">{TEAM.map((m) => <Person key={m.name} m={m} short />)}</div>
+          <Link href="/about" className="more">{t('site.aboutMore')} <Icon name="send" size={18} /></Link>
         </div>
       </section>
 
@@ -191,24 +220,5 @@ export function Landing() {
         </div>
       </section>
     </>
-  )
-}
-
-function Person({ m }: { m: Member }) {
-  const { t } = useLanguage()
-  return (
-    <article className="person">
-      {m.photo
-        ? <img className="person-photo" src={m.photo} width={112} height={112} alt={m.name} />
-        : <span className="person-photo initials" aria-hidden="true">{m.initials}</span>}
-      <div>
-        <h3>{m.name}</h3>
-        <p className="person-role">{t(m.role)}</p>
-        <p>{t(m.bio)}</p>
-        <p className="person-links">
-          {m.links.map((l) => <a key={l.href} href={l.href} target="_blank" rel="noreferrer" lang="en">{l.label} ↗</a>)}
-        </p>
-      </div>
-    </article>
   )
 }

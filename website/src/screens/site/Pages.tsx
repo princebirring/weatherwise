@@ -1,5 +1,5 @@
 import { api } from '../../api'
-import { Icon } from '../../components/Icon'
+import { Icon, type IconName } from '../../components/Icon'
 import { ErrorBox, Loading } from '../../components/Shell'
 import { useAsync } from '../../components/useAsync'
 import { Link } from '../../router'
@@ -11,17 +11,18 @@ import { RulesDiagram } from '../showcase/RulesDiagram'
 import { Scorecard } from './Scorecard'
 import { SAFETY, SCORECARD } from './results'
 import { PageHead, SectionTitle } from './SiteLayout'
-import { REPO } from './team'
+import { Person } from './People'
+import { REPO, TEAM } from './team'
 
 const LIMITS: TextKey[] = ['show.limit1', 'show.limit2', 'show.limit3', 'show.limit4']
 
-/** /proof: the whole scorecard, the day-by-day replays, the safety evals, and what it misses. */
-export function ProofPage() {
+/** /impact: the whole scorecard, the day-by-day replays, the safety evals, and what it misses. */
+export function ImpactPage() {
   const { t } = useLanguage()
   const events = useAsync(() => api.replays(), 'replays')
   return (
     <>
-      <PageHead kicker={t('site.navProof')} title={t('site.proofTitle', SCORECARD.length)} lede={t('show.replayLede')} />
+      <PageHead kicker={t('site.navImpact')} title={t('site.proofTitle', SCORECARD.length)} lede={t('show.replayLede')} />
       <section className="l-section">
         <div className="wrap"><Scorecard /></div>
       </section>
@@ -135,6 +136,58 @@ uv run python -m weatherwise.mcp_server.server --http`}</pre>
           <div className="stack" style={{ gap: 10 }}>
             <h3><Icon name="chat" size={20} /> {t('site.connectClaude')}</h3>
             <pre className="code mono" lang="en">{CLAUDE_CONFIG}</pre>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}
+
+// Who it is for, each with the way in.
+const AUDIENCES: { icon: IconName; title: TextKey; body: TextKey; cta: TextKey; href: string }[] = [
+  { icon: 'plant', title: 'site.forFamilies', body: 'site.forFamiliesBody', cta: 'site.openApp', href: '/app' },
+  { icon: 'shield', title: 'site.forPartners', body: 'site.forPartnersBody', cta: 'site.talkToUs', href: TEAM[0].links[0].href },
+  { icon: 'send', title: 'site.forDevelopers', body: 'site.forDevelopersBody', cta: 'site.seeTools', href: '/developers' },
+]
+
+const ROADMAP: [TextKey, TextKey][] = [['site.now', 'site.nowBody'], ['site.next', 'site.nextBody'], ['site.later', 'site.laterBody']]
+
+/** /about: who is building it and why, where it goes next, and how to work with us. */
+export function AboutPage() {
+  const { t } = useLanguage()
+  return (
+    <>
+      <PageHead kicker={t('site.navAbout')} title={t('site.aboutTitle')} lede={t('site.teamLede')} />
+      <section className="l-section">
+        <div className="wrap">
+          <SectionTitle kicker={t('site.navAbout')} title={t('site.teamTitle')} />
+          <div className="team">{TEAM.map((m) => <Person key={m.name} m={m} />)}</div>
+        </div>
+      </section>
+      <section className="l-section l-band">
+        <div className="wrap">
+          <SectionTitle kicker={t('site.coverKicker')} title={t('site.roadmapTitle')} />
+          <ol className="roadmap">
+            {ROADMAP.map(([when, what], i) => (
+              <li key={when} className={i === 0 ? 'now' : ''}><b>{t(when)}</b><span>{t(what)}</span></li>
+            ))}
+          </ol>
+        </div>
+      </section>
+      <section className="l-section">
+        <div className="wrap">
+          <SectionTitle kicker={t('site.workWithUs')} title={t('site.whoTitle')} />
+          <div className="audiences">
+            {AUDIENCES.map((a) => (
+              <article key={a.title}>
+                <span className="trust-icon"><Icon name={a.icon} size={24} /></span>
+                <h3>{t(a.title)}</h3>
+                <p>{t(a.body)}</p>
+                {a.href.startsWith('/')
+                  ? <Link href={a.href} className="more">{t(a.cta)} <Icon name="send" size={18} /></Link>
+                  : <a href={a.href} target="_blank" rel="noreferrer" className="more">{t(a.cta)} <Icon name="send" size={18} /></a>}
+              </article>
+            ))}
           </div>
         </div>
       </section>

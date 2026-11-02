@@ -1,7 +1,13 @@
 // A small path router: the site has a handful of fixed screens, so no library is needed.
-import { useEffect, useState, type AnchorHTMLAttributes, type MouseEvent } from 'react'
+import { createContext, useContext, useEffect, useState, type AnchorHTMLAttributes, type MouseEvent } from 'react'
 
 const listeners = new Set<() => void>()
+
+/** The app shown inside the landing page's phone keeps its own path, so its links and tabs move
+ *  the phone, never the page around it. */
+interface Embedded { path: string; go: (path: string) => void }
+const EmbeddedContext = createContext<Embedded | null>(null)
+export const EmbeddedRouter = EmbeddedContext.Provider
 
 /** Go to a screen. `replace` swaps the current history entry (old links, so Back does not loop). */
 export function navigate(path: string, { replace = false } = {}): void {
@@ -22,6 +28,7 @@ export function navigate(path: string, { replace = false } = {}): void {
 }
 
 export function usePath(): string {
+  const embedded = useContext(EmbeddedContext)
   const [path, setPath] = useState(window.location.pathname)
   useEffect(() => {
     const update = () => setPath(window.location.pathname)
@@ -32,16 +39,18 @@ export function usePath(): string {
       window.removeEventListener('popstate', update)
     }
   }, [])
-  return path
+  return embedded?.path ?? path
 }
 
 export function Link({ href, onClick, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) {
+  const embedded = useContext(EmbeddedContext)
   const handle = (e: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(e)
     if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
     if (!href.startsWith('/')) return
     e.preventDefault()
-    navigate(href)
+    if (embedded) embedded.go(href)
+    else navigate(href)
   }
   return <a href={href} onClick={handle} {...rest} />
 }
