@@ -21,6 +21,7 @@ these limits are the defence: they cap chat, the only part that costs money per 
 """
 
 import argparse
+import logging
 import os
 from contextlib import asynccontextmanager
 
@@ -34,6 +35,7 @@ from starlette.staticfiles import StaticFiles
 from weatherwise.api.backend import ROOT, AgentsOffline, BadRequest, DemoBusy, Limits, NotCovered, WeatherWiseApi
 
 PAGE_DIR = ROOT / "website" / "dist"
+LOG = logging.getLogger(__name__)
 
 
 def _connect() -> tuple[WeatherWiseApi, object]:
@@ -104,6 +106,9 @@ def build_app(backend: WeatherWiseApi | None = None) -> Starlette:
             except DemoBusy as e:
                 return JSONResponse({"error": "demo_busy", "message": str(e)}, status_code=429)
             except Exception:
+                # Keep browser errors generic. Log only the route and traceback: request bodies
+                # may contain a person's message and saved location.
+                LOG.exception("Unhandled API error on %s", request.url.path)
                 return JSONResponse({"error": "failed", "message": "Something went wrong. "
                                      "For emergencies call 112. For disaster help call 1077."}, status_code=502)
         return endpoint
