@@ -206,6 +206,14 @@
 .ap-dark .ap-link { color: var(--mint); }
 .ap-link:hover { text-decoration: underline; text-underline-offset: 4px; }
 .ap-hero .phone-demo { margin: 0 auto; text-align: left; }
+/* Laptops: words left, phone right, so the whole phone fits on the first screen even at 720 px tall. */
+@media (min-width: 961px) {
+  .ap-hero { padding: 48px 0 40px; text-align: left; }
+  .ap-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 56px; align-items: center; }
+  .ap-hero h1 { font-size: clamp(48px, 5.4vw, 76px); margin-left: 0; }
+  .ap-hero .ap-sub { margin: 0; }
+  .ap-hero .ap-ctas { justify-content: flex-start; margin: 32px 0 0; }
+}
 .ap-hero .phone-tabs { margin-top: 6px; }
 .ap-hero .phone-tabs button { min-height: 32px; font-size: 13px; border-color: var(--line); background: transparent; }
 .ap-hero .phone-tabs button[aria-selected='true'] { background: var(--ink); border-color: var(--ink); }
