@@ -35,7 +35,7 @@ export function Help({ place, flood }: { place: SavedPlace; flood: boolean }) {
             <a href={`tel:${nearest.contact || shelters.data?.helpline.disaster || '1077'}`} className="btn">{t('shelter.callFirst')}</a>
           </article>
         )}
-        <Link href={`/app/shelter?kind=${kind}`} className="btn big secondary"><Icon name="home" size={26} />{t('help.seeSafePlaces')}</Link>
+        <Link href={`/app/${kind}`} className="btn big secondary"><Icon name="home" size={26} />{t('help.seeSafePlaces')}</Link>
       </section>
 
       <button type="button" className="btn big share" onClick={sendLocation}><Icon name="pin" size={26} />{t('help.sendLocation')}</button>

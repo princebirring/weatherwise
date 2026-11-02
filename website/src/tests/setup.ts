@@ -11,3 +11,5 @@ class MemoryStorage implements Storage {
 }
 
 Object.defineProperty(globalThis, 'localStorage', { value: new MemoryStorage(), configurable: true })
+// jsdom has no scrolling; the router scrolls to the top on every screen change.
+window.scrollTo = () => {}

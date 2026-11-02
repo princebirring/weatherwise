@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import type { ApiError } from '../api'
+import { shortDate } from '../hazards'
 import { Link, usePath } from '../router'
 import { LANGUAGE_NAMES, LANGUAGES, useLanguage } from '../text'
 import type { Language, SavedPlace } from '../types'
@@ -44,13 +45,14 @@ export function LanguagePicker() {
   )
 }
 
-export function AppHeader({ place }: { place: SavedPlace }) {
-  const { t } = useLanguage()
+/** The place (tap to change it) and when its forecast was checked. */
+export function AppHeader({ place, checked }: { place: SavedPlace; checked?: string }) {
+  const { t, language } = useLanguage()
   return (
     <header className="app-header">
       <Link href="/app/place" className="place" aria-label={`${place.name}. ${t('today.changePlace')}`}>
         <b>{place.name}</b>
-        <span>{place.label || t('today.changePlace')}</span>
+        <span>{checked ? t('today.checked', shortDate(checked, language)) : place.label || t('today.changePlace')}</span>
       </Link>
       <LanguagePicker />
     </header>
@@ -69,16 +71,18 @@ export function ScreenHeader({ back, title }: { back: string; title: string }) {
   )
 }
 
-const TABS: { href: string; icon: IconName; key: 'tabs.today' | 'tabs.safePlace' | 'tabs.help'; help?: boolean }[] = [
+// Three tabs: what is coming (and each danger's page under it), a question, and help now.
+const TABS: { href: string; icon: IconName; key: 'tabs.today' | 'tabs.ask' | 'tabs.help'; help?: boolean }[] = [
   { href: '/app', icon: 'sun', key: 'tabs.today' },
-  { href: '/app/shelter', icon: 'home', key: 'tabs.safePlace' },
+  { href: '/app/ask', icon: 'chat', key: 'tabs.ask' },
   { href: '/app/help', icon: 'phone', key: 'tabs.help', help: true },
 ]
 
 export function TabBar() {
   const { t } = useLanguage()
   const path = usePath()
-  const active = (href: string) => (href === '/app' ? path === '/app' || path.startsWith('/app/todo') : path.startsWith(href))
+  const today = path === '/app' || ['/app/heat', '/app/flood', '/app/dry'].includes(path)
+  const active = (href: string) => (href === '/app' ? today : path.startsWith(href))
   return (
     <nav className="tabbar" aria-label={t('tabs.label')}>
       {TABS.map((tab) => (

@@ -47,6 +47,7 @@ export interface DayRow {
   feels_like_max_c: number | null
   rain_mm: number | null
   river_m3s: number | null
+  rainy_day?: boolean | null // the country's "rainy day" line (IMD: 2.5 mm); null when rain is unknown
   hazards: string[]
 }
 

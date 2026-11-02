@@ -44,7 +44,7 @@ export function outlook(withDanger: boolean, floodMode: 'prepare' | 'urgent' | n
       flood_guide: { mode: floodMode, reasons: [] },
       data_missing: [],
       days: days.map((day, i) => ({
-        day, tmax_c: tmax[i], normal_tmax_c: 41, feels_like_max_c: tmax[i] + 2, rain_mm: 0, river_m3s: null,
+        day, tmax_c: tmax[i], normal_tmax_c: 41, feels_like_max_c: tmax[i] + 2, rain_mm: i === 5 ? 12 : 0, rainy_day: i === 5, river_m3s: null,
         hazards: withDanger && i >= 2 && i <= 4 ? ['heat_wave:heat_wave'] : [],
       })),
       flood_level_m3s: null,

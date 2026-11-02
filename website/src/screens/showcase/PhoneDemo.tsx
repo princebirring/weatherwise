@@ -146,7 +146,7 @@ export function PhoneDemo() {
           {note && <p className="phone-note" role="status">{note}</p>}
           <nav className="tabbar">
             <button type="button" className={screen === 'heat' || screen === 'advice' ? 'on' : ''} onClick={() => go('heat')}><Icon name="sun" size={26} />{t('tabs.today')}</button>
-            <button type="button" onClick={() => setNote(t('show.demoSafe'))}><Icon name="home" size={26} />{t('tabs.safePlace')}</button>
+            <button type="button" onClick={() => setNote(t('show.demoAsk'))}><Icon name="chat" size={26} />{t('tabs.ask')}</button>
             <button type="button" className={`tab-help ${screen === 'help' ? 'on' : ''}`} onClick={() => go('help')}><Icon name="phone" size={26} />{t('tabs.help')}</button>
           </nav>
         </div>
