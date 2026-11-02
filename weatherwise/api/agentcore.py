@@ -2,6 +2,7 @@
 
 import json
 import os
+import re
 from uuid import uuid4
 
 
@@ -40,7 +41,16 @@ class AgentCoreTeam:
         result = json.loads(raw.decode() if isinstance(raw, bytes) else raw)
         if not isinstance(result, dict) or not isinstance(result.get("text"), str):
             raise RuntimeError("AgentCore returned an invalid chat response")
+        result["text"] = public_response_text(result["text"])
         return result
+
+
+def public_response_text(text: str) -> str:
+    """Return only the answer when a model wraps private reasoning and response in tags."""
+    response = re.search(r"<response>\s*(.*?)\s*</response>", text, flags=re.IGNORECASE | re.DOTALL)
+    if response:
+        return response.group(1).strip()
+    return re.sub(r"<thinking>.*?</thinking>\s*", "", text, flags=re.IGNORECASE | re.DOTALL).strip()
 
 
 class AgentCoreTeamFactory:
