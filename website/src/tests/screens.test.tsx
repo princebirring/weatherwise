@@ -295,11 +295,11 @@ describe.each(LANGUAGES)('in %s', (language) => {
     at('/')
     expect(screen.getByText(t('site.headline'), { selector: 'h1' })).toBeTruthy()
     for (const r of SCORECARD) {
-      if (r.outcome === 'ahead') expect(screen.getByText(r.titles[language])).toBeTruthy()
-      else expect(screen.queryByText(r.titles[language])).toBeNull()
+      if (r.outcome === 'ahead') expect(document.body.textContent).toContain(r.titles[language])
+      else expect(document.body.textContent).not.toContain(r.titles[language])
     }
     expect(screen.getByRole('link', { name: new RegExp(t('site.impactAll', SCORECARD.length)) })).toBeTruthy()
-    for (const name of ['Strands Agents', 'Amazon Bedrock AgentCore', 'Climate Risk MCP server']) expect(screen.getByRole('heading', { name })).toBeTruthy()
+    for (const name of ['Amazon ECS', 'Bedrock AgentCore', 'Climate Risk MCP']) expect(screen.getByText(name, { selector: '.stack-flow b' })).toBeTruthy()
     expect(screen.getByAltText(t('site.globeAlt'))).toBeTruthy()
     for (const m of TEAM) expect(screen.getByRole('heading', { name: m.name })).toBeTruthy()
     expectOnlyLanguage(language)
@@ -353,6 +353,7 @@ describe.each(LANGUAGES)('in %s', (language) => {
 
   it('How it works: how a warning is decided, with every line from the rules file', async () => {
     at('/how-it-works')
+    for (const name of ['Strands Agents', 'Amazon Bedrock AgentCore', 'Climate Risk MCP server']) expect(screen.getByRole('heading', { name })).toBeTruthy()
     await screen.findAllByText(new RegExp(t('show.markVeryHeavy')))
     const decide = document.getElementById('decide')!.textContent ?? ''
     for (const v of [rules.rain_mm.very_heavy, rules.rain_mm.extremely_heavy, rules.heat.absolute_c]) expect(decide).toContain(String(v))

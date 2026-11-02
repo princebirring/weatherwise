@@ -165,10 +165,10 @@
 .pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
 .pillars article { padding: 26px; border-radius: 22px; background: var(--night-2); border: 1px solid var(--night-line); }
 .pillars h3 { font-size: 21px; font-weight: 800; line-height: 1.2; color: #FFFFFF; margin-bottom: 10px; }
-.pillars p { font-size: 17px; line-height: 1.55; }
+.pillars p { font-size: 17px; line-height: 1.55; color: var(--night-ink); }
 .l-aws .safety { background: var(--night-2); border: 1px solid var(--night-line); margin-top: 16px; }
-.l-aws .safety .safety-head { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; padding: 0; border: 0; font-size: 18px; font-weight: 800; color: #FFFFFF; }
-.l-aws .safety-head svg { color: var(--mint); }
+.safety .safety-head { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; padding: 0; border: 0; font-size: 18px; font-weight: 800; color: #FFFFFF; }
+.safety-head svg { color: var(--mint); }
 .l-aws .l-ctas { margin-top: 30px; }
 .l-aws .btn.outline:hover { background: rgba(255, 255, 255, 0.1); color: #FFFFFF; }
 
@@ -194,6 +194,66 @@
 .person.short { align-items: center; }
 .person.short .person-photo { width: 88px; height: 88px; }
 .person.short .person-links { margin-top: 6px !important; }
+
+/* ---- Apple-style landing: one idea per screen, centred, big type, few words ---- */
+.ap-hero { padding: 72px 0 40px; text-align: center;
+  background: radial-gradient(1100px 520px at 50% 100%, #DCEBE7 0%, rgba(220, 235, 231, 0) 70%), var(--ground); }
+.ap-hero .eyebrow { font-size: 15px; }
+.ap-hero h1 { font-size: clamp(42px, 6.6vw, 84px); line-height: 1.02; font-weight: 800; letter-spacing: -0.035em; margin: 14px auto 18px; max-width: 980px; text-wrap: balance; }
+.ap-sub { font-size: clamp(19px, 2vw, 24px); line-height: 1.45; color: var(--ink-2); max-width: 720px; margin: 0 auto; text-wrap: balance; }
+.ap-ctas { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 32px; margin: 32px 0 44px; }
+.ap-link { display: inline-flex; align-items: center; gap: 8px; font-size: 19px; font-weight: 800; color: var(--action); text-decoration: none; }
+.ap-dark .ap-link { color: var(--mint); }
+.ap-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.ap-hero .phone-demo { margin: 0 auto; text-align: left; }
+.ap-hero .phone-tabs { margin-top: 6px; }
+.ap-hero .phone-tabs button { min-height: 32px; font-size: 13px; border-color: var(--line); background: transparent; }
+.ap-hero .phone-tabs button[aria-selected='true'] { background: var(--ink); border-color: var(--ink); }
+
+.ap-section { padding: 120px 0; text-align: center; }
+.ap-soft { background: var(--surface); }
+.ap-dark { background: var(--night); color: #FFFFFF; }
+.ap-dark .eyebrow { color: var(--mint); }
+.ap-title { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 0 auto 48px; max-width: 900px; }
+.ap-title h2 { font-size: clamp(34px, 5vw, 64px); line-height: 1.04; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance; }
+.ap-title p { font-size: 21px; line-height: 1.5; color: var(--ink-2); max-width: 680px; }
+.ap-note { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 36px auto 0; max-width: 760px; font-size: 19px; line-height: 1.5; color: var(--ink-2); text-wrap: balance; }
+.ap-dark .ap-note { color: var(--night-ink); }
+.ap-dark .ap-note svg { flex: none; color: var(--mint); }
+.ap-section .ap-link { margin-top: 36px; }
+.ap-section .ap-ctas { margin: 8px 0 0; }
+
+.ap-section .globe img { max-width: 560px; }
+.ap-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; max-width: 900px; margin: 44px auto 0; }
+.ap-stats div { display: flex; flex-direction: column; gap: 6px; }
+.ap-stats dt { font-size: clamp(40px, 5vw, 60px); font-weight: 800; line-height: 1; letter-spacing: -0.02em; color: var(--action); }
+.ap-stats dd { margin: 0; font-size: 17px; line-height: 1.4; color: var(--ink-2); }
+
+.ap-dark .gap-fig { max-width: 760px; margin: 0 auto; text-align: left; }
+
+.ap-huge { font-size: clamp(96px, 16vw, 200px); font-weight: 800; line-height: 0.9; letter-spacing: -0.05em; color: var(--flood); margin: 0; }
+.ap-huge-sub { font-size: 21px; color: var(--ink-2); margin: 16px 0 52px; }
+.ap-leads { display: flex; flex-direction: column; gap: 18px; max-width: 760px; margin: 0 auto; padding: 0; list-style: none; text-align: left; }
+.ap-leads li { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 4px 20px; align-items: center; }
+.ap-leads b { font-size: 22px; font-weight: 800; }
+.ap-leads .lead-bar { height: 12px; }
+.ap-leads li > span:last-child { grid-column: 2; font-size: 15px; color: var(--muted); }
+.ap-leads .t-flood b { color: var(--flood); }
+.ap-leads .t-heat b { color: var(--orange); }
+.ap-leads .t-flood .lead-bar i { background: var(--flood); }
+.ap-leads .t-heat .lead-bar i { background: var(--orange); }
+
+.ap-jobs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; max-width: 1080px; margin: 0 auto; }
+.ap-jobs article { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.ap-job-icon { width: 76px; height: 76px; border-radius: 38px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; }
+.ap-jobs .t-heat .ap-job-icon { background: #FDEBD8; color: var(--orange); }
+.ap-jobs .t-action .ap-job-icon { background: var(--action-soft); color: var(--action); }
+.ap-jobs .t-flood .ap-job-icon { background: var(--flood-soft); color: var(--flood); }
+.ap-jobs h3 { font-size: 23px; line-height: 1.2; font-weight: 800; text-wrap: balance; }
+.ap-jobs p { font-size: 18px; line-height: 1.5; color: var(--ink-2); max-width: 320px; }
+
+.ap-dark .stack-flow { text-align: left; }
+.ap-section .team { max-width: 920px; margin: 0 auto; text-align: left; }
 
 /* ---- last call to action ---- */
 .l-final { background: var(--night, #0E1A15); color: #FFFFFF; padding: 72px 0; }
@@ -247,6 +307,13 @@
 }
 @media (max-width: 720px) {
   .l-section, .l-dark { padding: 64px 0; }
+  .ap-section { padding: 80px 0; }
+  .ap-hero { padding-top: 40px; }
+  .ap-title { margin-bottom: 32px; }
+  .ap-stats, .ap-jobs { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .ap-leads li { grid-template-columns: 112px minmax(0, 1fr); gap: 2px 14px; }
+  .ap-leads b { font-size: 18px; }
+  .ap-note { flex-direction: column; }
   .l-hero { padding-top: 28px; }
   .wrap { padding: 0 16px; }
   .l-built { margin-top: 36px; padding: 18px 16px 20px; }

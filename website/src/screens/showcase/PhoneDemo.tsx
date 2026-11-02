@@ -10,12 +10,12 @@ import { Help } from '../Help'
 import { Home } from '../Home'
 import { demoData, demoPlace, NO_OFFICIAL, type Story } from './demo'
 
-// The tabs above the phone: a story and the app screen it opens on, and one line saying what it shows.
-const TABS: { story: Story; path: string; tab: TextKey; caption: TextKey }[] = [
-  { story: 'heat', path: '/app', tab: 'show.tabHeat', caption: 'show.demo1' },
-  { story: 'heat', path: '/app/heat', tab: 'show.tabAdvice', caption: 'show.demo2' },
-  { story: 'flood', path: '/app/flood', tab: 'today.floodGuide', caption: 'show.demo3' },
-  { story: 'urgent', path: '/app', tab: 'show.zoneUrgent', caption: 'show.demo4' },
+// The stories under the phone, each with the app screen it opens on.
+const TABS: { story: Story; path: string; tab: TextKey }[] = [
+  { story: 'heat', path: '/app', tab: 'show.tabHeat' },
+  { story: 'heat', path: '/app/heat', tab: 'show.tabAdvice' },
+  { story: 'flood', path: '/app/flood', tab: 'today.floodGuide' },
+  { story: 'urgent', path: '/app', tab: 'show.zoneUrgent' },
 ]
 const NOTE_MS = 2600
 
@@ -64,15 +64,9 @@ export function PhoneDemo() {
   if (group) screen = <HazardPage key={group} group={group} place={place} data={data} />
   else if (path === '/app/help') screen = <Help place={place} flood={story !== 'heat'} />
   else screen = <Home place={place} data={data} official={loaded(NO_OFFICIAL)} offline={false} install={null} />
-  const caption = path === '/app/help' ? 'show.demoHelp' : TABS[tab].caption
 
   return (
     <figure className="phone-demo">
-      <div className="phone-tabs" role="tablist" aria-label={t('show.demoLabel')}>
-        {TABS.map((x, i) => (
-          <button key={x.tab} type="button" role="tab" aria-selected={i === tab} onClick={() => pick(i)}>{t(x.tab)}</button>
-        ))}
-      </div>
       <div className="phone" role="region" aria-label={t('show.demoLabel')}>
         <EmbeddedRouter value={{ path, go }}>
           <div className="phone-screen" onClickCapture={intercept}>
@@ -86,7 +80,11 @@ export function PhoneDemo() {
           </div>
         </EmbeddedRouter>
       </div>
-      <figcaption className="phone-caption">{t(caption)}</figcaption>
+      <div className="phone-tabs" role="tablist" aria-label={t('show.demoLabel')}>
+        {TABS.map((x, i) => (
+          <button key={x.tab} type="button" role="tab" aria-selected={i === tab} onClick={() => pick(i)}>{t(x.tab)}</button>
+        ))}
+      </div>
     </figure>
   )
 }
