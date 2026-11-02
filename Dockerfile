@@ -15,6 +15,8 @@ WORKDIR /website
 COPY website/package.json website/package-lock.json ./
 RUN npm ci
 COPY website/ ./
+# The site's proof numbers are tested against the eval results.
+COPY evals/results/ /evals/results/
 RUN npm test && npm run build
 
 # ---- 2. The Python app ----
