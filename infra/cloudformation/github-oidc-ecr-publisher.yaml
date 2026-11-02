@@ -6,6 +6,10 @@ Parameters:
     Type: String
     Default: princebirring/weatherwise
     Description: GitHub owner/repository, without https://github.com/.
+  GitHubOidcSubject:
+    Type: String
+    Default: repo:princebirring@29962862/weatherwise@1439088592:ref:refs/heads/main
+    Description: Immutable GitHub OIDC subject for this repository's main branch.
   ExistingEcrRepositoryName:
     Type: String
     Default: ''
@@ -44,7 +48,7 @@ Resources:
             Condition:
               StringEquals:
                 'token.actions.githubusercontent.com:aud': sts.amazonaws.com
-                'token.actions.githubusercontent.com:sub': !Sub 'repo:${GitHubRepository}:ref:refs/heads/main'
+                'token.actions.githubusercontent.com:sub': !Ref GitHubOidcSubject
       Policies:
         - PolicyName: push-weatherwise-images-only
           PolicyDocument:
@@ -56,6 +60,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - ecr:BatchCheckLayerAvailability
+                  - ecr:BatchGetImage
                   - ecr:CompleteLayerUpload
                   - ecr:InitiateLayerUpload
                   - ecr:PutImage
@@ -94,7 +99,7 @@ Resources:
             Condition:
               StringEquals:
                 'token.actions.githubusercontent.com:aud': sts.amazonaws.com
-                'token.actions.githubusercontent.com:sub': !Sub 'repo:${GitHubRepository}:ref:refs/heads/main'
+                'token.actions.githubusercontent.com:sub': !Ref GitHubOidcSubject
       Policies:
         - PolicyName: deploy-weatherwise-cloudformation
           PolicyDocument:
