@@ -3,7 +3,7 @@
 import type { IconName } from './components/Icon'
 import type { T } from './text'
 import { en, type TextKey } from './text/en'
-import type { DayRow, Detection, Language } from './types'
+import type { DayRow, Detection, Language, Outlook } from './types'
 
 export type Level = 'red' | 'orange' | 'yellow'
 
@@ -30,6 +30,37 @@ const OFFICIAL_HAZARDS = new Set(['heat_wave', 'heavy_rain'])
 
 export const HEAT_HAZARDS = new Set(['heat_wave', 'work_heat', 'excess_heat'])
 export const FLOOD_HAZARDS = new Set(['heavy_rain', 'unusual_rain', 'river_flood'])
+export const DRY_HAZARDS = new Set(['dry_spell', 'sowing_risk'])
+
+/** The three things WeatherWise checks, as a farmer sees them: heat, rain and flood, dry spells. */
+export type HazardGroup = 'heat' | 'flood' | 'dry'
+export const GROUPS: HazardGroup[] = ['heat', 'flood', 'dry']
+export const GROUP_ICONS: Record<HazardGroup, IconName> = { heat: 'heat', flood: 'waves', dry: 'dry' }
+
+export function groupOf(hazard: string): HazardGroup {
+  if (HEAT_HAZARDS.has(hazard)) return 'heat'
+  if (DRY_HAZARDS.has(hazard)) return 'dry'
+  return 'flood'
+}
+
+export interface GroupStatus {
+  level: Level | null
+  detections: Detection[] // most serious first
+  missing: boolean // a check in this group could not run
+}
+
+/** One group's state for the week. The flood guide's mode counts too: prepare is IMD's orange
+ *  ("be prepared"), urgent is red, even when the trigger was an official alert, not our check. */
+export function groupStatus(group: HazardGroup, outlook: Outlook): GroupStatus {
+  const detections = sortDetections(outlook.detections).filter((d) => groupOf(d.hazard) === group)
+  let level: Level | null = detections.length ? levelOf(detections[0]) : null
+  if (group === 'flood') {
+    const mode = outlook.flood_guide.mode
+    if (mode === 'urgent') level = 'red'
+    else if (mode === 'prepare' && (!level || RANK[level] < RANK.orange)) level = 'orange'
+  }
+  return { level, detections, missing: outlook.data_missing.some((h) => groupOf(h) === group) }
+}
 
 export const levelOf = (d: Detection): Level => LEVELS[`${d.hazard}:${d.severity}`] ?? 'yellow'
 export const levelOfKey = (hazardKey: string): Level => LEVELS[hazardKey] ?? 'yellow'
@@ -121,6 +152,13 @@ export function chipsOf(d: Detection, rows: DayRow[], placeName: string, t: T): 
   return chips
 }
 
+/** Good days to spray: no rain expected (below the country's "rainy day" line) and no warning
+ *  that day, so a "too hot to work" day is never called good for field work. */
+export function dryDays(rows: DayRow[]): DayRow[] | null {
+  if (rows.some((r) => r.rainy_day === null || r.rainy_day === undefined)) return null
+  return rows.filter((r) => !r.rainy_day && r.hazards.length === 0)
+}
+
 /** Day colour for the 7-day strip: the most serious hazard covering that day. */
 export function dayLevel(row: DayRow): Level | null {
   let best: Level | null = null
@@ -152,4 +190,50 @@ export function officialTitle(event: string, language: Language, t: T): string {
   if (language === 'en') return event
   const match = OFFICIAL_EVENTS.find(([pattern]) => pattern.test(event))
   return t(match ? match[1] : 'official.title')
+}
+
+export interface DayLine {
+  icon: IconName
+  text: string
+}
+
+const listDays = (rows: DayRow[], language: Language) => rows.map((r) => weekday(r.day, language)).join(', ')
+
+/** "Your day": plain sentences for the farm week, from the forecast rows only (no new thresholds:
+ *  a day is rainy by the country's own line, a warning day is never called good for field work). */
+export function yourDay(rows: DayRow[], language: Language, t: T): DayLine[] {
+  const lines: DayLine[] = []
+  const rainKnown = rows.length > 0 && rows.every((r) => r.rainy_day === true || r.rainy_day === false)
+
+  if (rainKnown) {
+    const good = rows.map((r) => !r.rainy_day && r.hazards.length === 0)
+    const firstBad = good.indexOf(false)
+    const goodRows = rows.filter((_, i) => good[i])
+    let spray: string
+    if (firstBad === -1) spray = t('day.sprayAll', longDay(rows[rows.length - 1].day, language))
+    // Dry now, then rain for the rest of the week: get the work done before it.
+    else if (firstBad > 0 && rows[firstBad].rainy_day && good.slice(firstBad).every((g) => !g)) spray = t('day.sprayBy', longDay(rows[firstBad - 1].day, language))
+    else if (goodRows.length) spray = t('week.sprayDays', listDays(goodRows, language))
+    else spray = t('week.sprayNone')
+    lines.push({ icon: 'plant', text: spray })
+
+    const rainy = rows.map((r, i) => (r.rainy_day ? i : -1)).filter((i) => i >= 0)
+    if (rainy.length) {
+      const together = rainy[rainy.length - 1] - rainy[0] === rainy.length - 1
+      const when = rainy.length === 1 ? longDay(rows[rainy[0]].day, language)
+        : together ? `${longDay(rows[rainy[0]].day, language)} – ${longDay(rows[rainy[rainy.length - 1]].day, language)}`
+          : listDays(rainy.map((i) => rows[i]), language)
+      const most = Math.max(...rainy.map((i) => rows[i].rain_mm ?? 0))
+      lines.push({ icon: 'drop', text: `${t('day.rain', when)} ${t('day.rainUpTo', Math.round(most))}` })
+    }
+  }
+
+  const top = (xs: (number | null)[]) => {
+    const v = xs.filter((x): x is number => x !== null)
+    return v.length ? Math.round(Math.max(...v)) : null
+  }
+  const hot = top(rows.map((r) => r.tmax_c))
+  const feels = top(rows.map((r) => r.feels_like_max_c))
+  if (hot !== null) lines.push({ icon: 'sun', text: `${t('day.hot', hot)}${feels !== null && feels > hot ? ` ${t('day.feels', feels)}` : ''}` })
+  return lines
 }

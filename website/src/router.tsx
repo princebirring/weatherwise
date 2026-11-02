@@ -3,11 +3,22 @@ import { useEffect, useState, type AnchorHTMLAttributes, type MouseEvent } from 
 
 const listeners = new Set<() => void>()
 
-export function navigate(path: string): void {
-  if (path === window.location.pathname) return
-  window.history.pushState(null, '', path)
-  window.scrollTo(0, 0)
-  listeners.forEach((l) => l())
+/** Go to a screen. `replace` swaps the current history entry (old links, so Back does not loop). */
+export function navigate(path: string, { replace = false } = {}): void {
+  const [target, hash] = path.split('#')
+  const here = window.location.pathname + window.location.search
+  if (target !== here || replace) {
+    if (replace) window.history.replaceState(null, '', path)
+    else window.history.pushState(null, '', path)
+    window.scrollTo(0, 0)
+    listeners.forEach((l) => l())
+  } else if (hash) {
+    window.history.pushState(null, '', path)
+  } else {
+    return
+  }
+  // "/#team": scroll to that section once the new page has drawn.
+  if (hash) requestAnimationFrame(() => document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' }))
 }
 
 export function usePath(): string {

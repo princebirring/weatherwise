@@ -28,8 +28,16 @@ export const saved = {
   setLanguage: (l: Language) => write('language', l),
   place: () => read<SavedPlace | null>('place', null),
   setPlace: (p: SavedPlace | null) => write('place', p),
-  floodStep: (key: string) => read<number>(`flood_step.${key}`, 0),
-  setFloodStep: (key: string, step: number) => write(`flood_step.${key}`, step),
+  // "Add to home screen" is offered from the second visit, until the person says "not now".
+  visits: () => read<number>('visits', 0),
+  setVisits: (n: number) => write('visits', n),
+  installDismissed: () => read<boolean>('install_dismissed', false),
+  setInstallDismissed: () => write('install_dismissed', true),
+  floodHome: () => read<'village' | 'city'>('flood_home', 'village'),
+  setFloodHome: (home: 'village' | 'city') => write('flood_home', home),
+  // Flood steps ticked, by place and home type: the household can stop and come back.
+  floodDone: (key: string) => read<number[]>(`flood_done.${key}`, []),
+  setFloodDone: (key: string, done: number[]) => write(`flood_done.${key}`, done),
   chatSession: () => {
     let id = read<string | null>('chat_session', null)
     if (!id) {

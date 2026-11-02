@@ -160,17 +160,21 @@ def _middle_run(forecast: EnsembleForecast | None, i: int) -> float | None:
     return round(median(valid), 1) if valid else None
 
 
-def daily_outlook(weather: AreaWeather, detections: list[HazardDetection], days: int = 7) -> list[dict]:
+def daily_outlook(weather: AreaWeather, detections: list[HazardDetection], days: int = 7,
+                  rainy_day_mm: float | None = None) -> list[dict]:
     """One row per forecast day for the website's 7-day strip: middle-run values plus the hazards
-    that cover the day. Display only; the warnings themselves come from scan_area."""
+    that cover the day. Display only; the warnings themselves come from scan_area.
+    rainy_day is the country's "rainy day" line (IMD: 2.5 mm), so farmers can pick dry days to spray."""
     rows = []
     for i, day in enumerate(weather.tmax.dates[:days]):
+        rain = _middle_run(weather.rainfall, i)
         rows.append({
             "day": day.isoformat(),
             "tmax_c": _middle_run(weather.tmax, i),
             "normal_tmax_c": weather.normal_tmax.get(day.strftime("%m-%d")),
             "feels_like_max_c": _middle_run(weather.feels_like_tmax, i),
-            "rain_mm": _middle_run(weather.rainfall, i),
+            "rain_mm": rain,
+            "rainy_day": None if rain is None or rainy_day_mm is None else rain >= rainy_day_mm,
             "river_m3s": _middle_run(weather.river_discharge, i),
             "hazards": sorted({f"{d.hazard.value}:{d.severity}" for d in detections
                                if d.first_day <= day <= d.last_day}),
