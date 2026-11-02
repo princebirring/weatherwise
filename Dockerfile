@@ -15,6 +15,8 @@ WORKDIR /website
 COPY website/package.json website/package-lock.json ./
 RUN npm ci
 COPY website/ ./
+# The site's tests check its scorecard against these.
+COPY evals/results/REPLAYS.md evals/results/SAFETY.md /evals/results/
 RUN npm test && npm run build
 
 # ---- 2. The Python app ----
