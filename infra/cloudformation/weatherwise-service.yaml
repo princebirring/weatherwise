@@ -236,11 +236,20 @@ Resources:
     Properties:
       HealthCheckPath: /api/status
       HealthCheckProtocol: HTTP
+      # A new task is healthy after 2 checks 10 s apart (~20 s), not the default 5 x 30 s.
+      HealthCheckIntervalSeconds: 10
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
       Matcher: {HttpCode: '200'}
       Port: 8080
       Protocol: HTTP
       TargetType: ip
       VpcId: !Ref Vpc
+      TargetGroupAttributes:
+        # An old task drains for as long as the longest request (the ALB idle timeout, for a
+        # slow first AgentCore chat), not the default 300 s, so a deploy finishes minutes sooner.
+        - Key: deregistration_delay.timeout_seconds
+          Value: '120'
 
   LogGroup:
     Type: AWS::Logs::LogGroup
