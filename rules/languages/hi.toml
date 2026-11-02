@@ -8,6 +8,10 @@
 high_ground = ["ऊंची जगह", "ऊँची जगह"]
 slope_safety_words = ["ढलान", "पहाड़"]
 never_say = ["पैसे भेजें", "ओटीपी"]   # we never ask for money or OTPs, never claim to be official
+# Never tell someone they are safe: our checks can miss what officials see (Oct 31 cyclone).
+claims_safe = ["सुरक्षित है", "कोई खतरा नहीं", "चिंता की कोई बात नहीं"]
+# Words for units: a number followed by one of these must come from the tool data, like °C or mm.
+unit_words = ["डिग्री", "अंश", "मिमी", "मि.मी.", "किमी", "कि.मी.", "प्रतिशत", "फीसदी"]
 
 # DRAFT Hindi (written Oct 29, 2026): CONFIRM every line with a native speaker before launch.
 [safe_messages]

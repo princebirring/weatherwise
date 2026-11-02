@@ -168,6 +168,8 @@ def message_policy(country: str, root: Path = RULES_ROOT) -> dict:
             "high_ground_phrases": union("high_ground"),
             "slope_safety_words": union("slope_safety_words"),
             "never_say": union("never_say"),
+            "claims_safe": union("claims_safe"),
+            "unit_words": union("unit_words"),
         },
         "delivery": rules["delivery"],
         "safe_messages": {

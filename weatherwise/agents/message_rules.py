@@ -7,7 +7,7 @@ final gate in the scheduled pipeline, outside any agent.
 import re
 from dataclasses import dataclass, field
 
-NUMBER = re.compile(r"(?<![\w.])(\d+(?:\.\d+)?)\s*(°\s*c|°|deg|mm|km|%|m3/s)", re.IGNORECASE)
+UNITS = ["°\\s*c", "°", "deg", "mm", "km", "%", "m3/s"]  # regex; per-language unit words come from rules/
 
 
 @dataclass(frozen=True)
@@ -33,6 +33,12 @@ class MessageRules:
     unless_with: list[str]
     banned_in_flood: list[str]
     banned_always: list[str] = field(default_factory=list)
+    claims_safe: list[str] = field(default_factory=list)
+    unit_words: list[str] = field(default_factory=list)
+
+    def __post_init__(self):
+        words = sorted((re.escape(w) for w in self.unit_words), key=len, reverse=True)
+        self.number = re.compile(r"(?<![\w.])(\d+(?:\.\d+)?)\s*(" + "|".join(words + UNITS) + ")", re.IGNORECASE)
 
     @classmethod
     def from_policy(cls, policy: dict) -> "MessageRules":
@@ -46,12 +52,16 @@ class MessageRules:
             unless_with=m["slope_safety_words"],
             banned_in_flood=m["no_links_in_floods"],
             banned_always=m["never_say"],
+            claims_safe=m.get("claims_safe", []),
+            unit_words=m.get("unit_words", []),
         )
 
 
-def numbers_in(text: str) -> list[float]:
-    """Numbers that carry a weather or distance unit (deg C, mm, km, %, m3/s)."""
-    return [float(m.group(1)) for m in NUMBER.finditer(text)]
+def numbers_in(text: str, rules: "MessageRules | None" = None) -> list[float]:
+    """Numbers that carry a weather or distance unit (deg C, mm, km, %, m3/s, or a unit word
+    such as "अंश" or "प्रतिशत" from the language files)."""
+    pattern = (rules or _DEFAULT).number
+    return [float(m.group(1)) for m in pattern.finditer(text)]
 
 
 def _close_to_allowed(n: float, allowed: frozenset[float]) -> bool:
@@ -87,11 +97,19 @@ def check_message(text: str, ctx: MessageContext, rules: MessageRules) -> list[V
         if p.lower() in low:
             found.append(Violation("banned_phrase", repr(p)))
 
-    for n in numbers_in(text):
+    for p in rules.claims_safe:
+        if p.lower() in low:
+            found.append(Violation("claims_safe", f"never tell someone they are safe ({p!r}); "
+                                                  "give the facts and what they could do"))
+
+    for n in numbers_in(text, rules):
         if not _close_to_allowed(n, ctx.allowed_numbers):
             found.append(Violation("unsupported_number",
                                    f"{n:g} does not come from the tool data"))
     return found
+
+
+_DEFAULT = MessageRules(0, 0, {}, [], [], [])
 
 
 def collect_numbers(value) -> set[float]:
