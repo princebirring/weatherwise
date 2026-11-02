@@ -48,7 +48,7 @@ h1, h2, h3, p { margin: 0; }
 .app-header { display: flex; align-items: center; gap: 10px; padding: 16px 16px 8px; }
 .app-header .place { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
 .app-header .place b { font-size: 20px; }
-.app-header .place span { font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-header .place span { font-size: 13px; color: var(--muted); }
 .text-link { font-size: 15px; font-weight: 600; padding: 10px 4px; text-decoration: none; background: none; border: 0; color: var(--action); }
 
 .tabbar {
@@ -66,8 +66,8 @@ h1, h2, h3, p { margin: 0; }
 .stack { display: flex; flex-direction: column; gap: 10px; }
 .row { display: flex; align-items: center; gap: 10px; }
 .kicker { font-size: 13px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
-.small { font-size: 13px; color: var(--muted); }
-.fine { font-size: 12px; line-height: 1.4; color: var(--muted); }
+.small { font-size: 15px; color: #3F4F47; }
+.fine { font-size: 14px; line-height: 1.4; color: #3F4F47; }
 
 .btn { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 18px;
   border-radius: 14px; border: 0; background: var(--action); color: #FFFFFF; text-decoration: none;
@@ -211,7 +211,7 @@ h1, h2, h3, p { margin: 0; }
 .or span { flex: 1; height: 1px; background: #C9D3CD; }
 
 .hero-card { display: flex; flex-direction: column; align-items: center; gap: 10px; border-radius: 28px; padding: 24px 20px; text-align: center; }
-.hero-card h1 { font-size: 32px; line-height: 1.1; font-weight: 800; }
+.hero-card h1, .hero-card h2 { font-size: 32px; line-height: 1.1; font-weight: 800; }
 .hero-card p { font-size: 19px; line-height: 1.35; }
 .hero-card .when { font-size: 22px; font-weight: 700; }
 .hero-icon { width: 96px; height: 96px; border-radius: 48px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.2); }
@@ -283,7 +283,82 @@ h1, h2, h3, p { margin: 0; }
   border: 1px solid var(--line); font-size: 16px; color: var(--ink-2); }
 .official-note.warn { background: var(--yellow-soft); border-color: #E8C94A; color: var(--yellow-ink); }
 .hero-card.quiet { padding: 16px 18px; }
-.hero-card.quiet h1 { font-size: 22px; }
+.hero-card.quiet h1, .hero-card.quiet h2 { font-size: 22px; }
+.hero-card .row { gap: 10px; flex-wrap: wrap; }
+.hero-card.compact { padding: 18px 16px; gap: 8px; }
+.hero-card.compact h1, .hero-card.compact h2 { font-size: 28px; }
+
+/* ---- Today: "your day" (calm sentences) and "danger watch" (three lights) ---- */
+.section-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.label { font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--action); }
+.label.muted { color: #3F4F47; margin-top: 6px; }
+.listen-round { flex: none; width: 48px; height: 48px; border-radius: 24px; border: 2px solid var(--action); background: var(--surface);
+  color: var(--action); display: flex; align-items: center; justify-content: center; padding: 0; }
+.listen-round[aria-pressed='true'] { background: var(--action); color: #FFFFFF; }
+.day-card { background: var(--surface); border: 2px solid var(--line); border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+.day-line { display: flex; gap: 14px; align-items: flex-start; font-size: 21px; line-height: 1.25; font-weight: 700; }
+.day-line > span { flex: none; width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center;
+  background: var(--action-soft); color: var(--action); }
+.day-line.plant > span { background: #E3F1E6; color: #1E7A3C; }
+.day-line.drop > span { background: var(--flood-soft); color: var(--flood); }
+.day-line.sun > span { background: var(--yellow-soft); color: #8A6100; }
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.tile { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 14px 4px; border-radius: 20px; text-decoration: none;
+  text-align: center; color: inherit; min-height: 112px; }
+.tile:hover { color: inherit; filter: brightness(0.97); }
+.tile.calm { background: var(--surface); border: 2px solid var(--line); color: var(--ink); }
+.tile.calm svg { color: var(--muted); }
+.tile b { font-size: 18px; font-weight: 800; line-height: 1.15; }
+.tile span { font-size: 15px; line-height: 1.2; font-weight: 600; }
+.tile.calm span { color: #3F4F47; font-weight: 400; }
+.danger-banner { display: flex; flex-direction: column; gap: 6px; border-radius: 22px; padding: 16px; }
+.danger-banner h2 { font-size: 26px; line-height: 1.1; font-weight: 800; gap: 10px; }
+.danger-banner .when { font-size: 19px; font-weight: 700; }
+.danger-banner .btn { margin-top: 8px; background: #FFFFFF; color: var(--ink); }
+.danger-banner.lv-yellow .btn { background: var(--action); color: #FFFFFF; }
+.official .when-small { font-size: 16px; font-weight: 700; }
+.official details summary { cursor: pointer; font-size: 16px; font-weight: 700; text-decoration: underline; min-height: 32px; display: flex; align-items: center; }
+.official h2.official-title { font-size: 21px; }
+
+/* ---- an official red alert or flood "move now": the whole screen is one message ---- */
+.app-main.emergency { background: var(--red); color: #FFFFFF; margin: 0; padding: 18px 16px 24px; gap: 14px; }
+.emergency h1 { font-size: 32px; line-height: 1.05; font-weight: 800; gap: 10px; }
+.emergency .when { font-size: 18px; font-weight: 700; }
+.emergency .big { font-size: 26px; line-height: 1.2; font-weight: 800; }
+.emergency .listen { background: #FFFFFF; color: #8A1C15; border: 0; }
+.emergency .btn.outline { color: #FFFFFF; }
+.call-white, .call-outline { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 72px; border-radius: 18px;
+  text-decoration: none; font-size: 16px; font-weight: 700; line-height: 1.1; }
+.call-white b, .call-outline b { font-size: 30px; }
+.call-white { background: #FFFFFF; color: #8A1C15; }
+.call-outline { border: 2px solid #FFFFFF; color: #FFFFFF; }
+.call-white:hover { color: #8A1C15; } .call-outline:hover { color: #FFFFFF; }
+.emergency-official { margin-top: 8px; background: rgba(0, 0, 0, 0.22); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+.emergency-official p { font-size: 16px; line-height: 1.45; }
+.emergency .fine-on { font-size: 13px; color: #FBE9E7; }
+.spray { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 16px; background: #E3F1E6;
+  border: 1px solid #A9D3B4; color: #0F3D1D; font-size: 17px; line-height: 1.35; }
+.spray > svg { flex: none; margin-top: 2px; }
+.spray .small { color: #24502F; }
+.install p { font-size: 17px; }
+
+/* ---- a danger's page: advice as a plain list, flood steps as a checklist ---- */
+.advice { display: flex; gap: 14px; align-items: flex-start; background: var(--surface); border: 2px solid var(--line); border-radius: 20px; padding: 14px; }
+.advice-icon { flex: none; width: 60px; height: 60px; border-radius: 30px; display: flex; align-items: center; justify-content: center;
+  background: var(--action-soft); color: var(--action); }
+.advice.warn { border-color: #E7B4AE; }
+.advice.warn .advice-icon { background: #FBE9E7; color: var(--red); }
+.advice-label { font-size: 16px; font-weight: 700; color: #3F4F47; }
+.advice-text { font-size: 20px; line-height: 1.3; font-weight: 700; }
+.advice .btn { margin-top: 8px; align-self: flex-start; }
+.checklist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.checklist label { display: flex; gap: 14px; align-items: flex-start; padding: 14px; border-radius: 18px; background: var(--surface);
+  border: 2px solid var(--line); font-size: 19px; line-height: 1.3; font-weight: 600; cursor: pointer; }
+.checklist input { flex: none; width: 28px; height: 28px; margin: 0; accent-color: var(--action); }
+.checklist label.done { background: var(--action-soft); border-color: #9CC4C0; }
+.checklist label.done span { text-decoration: line-through; text-decoration-thickness: 2px; color: #3F4F47; }
+.urgent .big-note { font-size: 17px; }
+.urgent .listen { background: #FFFFFF; color: #8A1C15; border: 0; }
 
 /* ---- judges' page: hero phone, proof strip, sections ---- */
 .section-head { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; max-width: 820px; }

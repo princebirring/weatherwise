@@ -41,3 +41,10 @@ def test_hazards_are_listed_only_on_the_days_they_cover():
                          [detection(Hazard.HEAT_WAVE, 1, 2)])
     assert [r["hazards"] for r in rows] == [[], ["heat_wave:warning"], ["heat_wave:warning"], [], []]
     assert rows[0]["river_m3s"] == 900.0
+
+
+def test_rainy_day_uses_the_countrys_line_and_is_unknown_without_rain_data():
+    rows = daily_outlook(weather([40.0] * 4, [0.0, 2.4, 2.5, 30.0]), [], rainy_day_mm=2.5)
+    assert [r["rainy_day"] for r in rows] == [False, False, True, True]
+    assert daily_outlook(weather([40.0] * 2, [[None] * 10, 0.0]), [], rainy_day_mm=2.5)[0]["rainy_day"] is None
+    assert daily_outlook(weather([40.0] * 2, [5.0, 5.0]), [])[0]["rainy_day"] is None

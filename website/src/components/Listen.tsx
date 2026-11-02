@@ -33,8 +33,9 @@ function useVoice(lang: string) {
   return voiceFor(voices, lang)
 }
 
-/** "Listen" button for one card. `lang` is the language the text is written in. */
-export function Listen({ text, lang }: { text: string; lang?: string }) {
+/** "Listen" button for one card. `lang` is the language the text is written in.
+ *  `round`: a small speaker button beside a heading, for screens that should stay quiet. */
+export function Listen({ text, lang, round = false }: { text: string; lang?: string; round?: boolean }) {
   const { t, language } = useLanguage()
   const voice = useVoice(lang ?? language)
   // Which text is being read: a new card is never shown as "speaking".
@@ -56,6 +57,14 @@ export function Listen({ text, lang }: { text: string; lang?: string }) {
     u.onend = u.onerror = () => setReading(null)
     s.speak(u)
     setReading(text)
+  }
+  if (round) {
+    return (
+      <button type="button" className="listen-round" onClick={toggle} aria-pressed={speaking}
+        aria-label={speaking ? t('listen.stop') : t('listen.play')}>
+        <Icon name="speaker" size={24} />
+      </button>
+    )
   }
   return (
     <button type="button" className="btn big secondary listen" onClick={toggle} aria-pressed={speaking}>

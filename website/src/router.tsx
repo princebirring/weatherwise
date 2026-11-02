@@ -3,10 +3,13 @@ import { useEffect, useState, type AnchorHTMLAttributes, type MouseEvent } from 
 
 const listeners = new Set<() => void>()
 
-export function navigate(path: string): void {
-  const [pathname, hash] = path.split('#')
-  if (pathname !== window.location.pathname) {
-    window.history.pushState(null, '', path)
+/** Go to a screen. `replace` swaps the current history entry (old links, so Back does not loop). */
+export function navigate(path: string, { replace = false } = {}): void {
+  const [target, hash] = path.split('#')
+  const here = window.location.pathname + window.location.search
+  if (target !== here || replace) {
+    if (replace) window.history.replaceState(null, '', path)
+    else window.history.pushState(null, '', path)
     window.scrollTo(0, 0)
     listeners.forEach((l) => l())
   } else if (hash) {

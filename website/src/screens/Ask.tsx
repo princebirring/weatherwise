@@ -54,8 +54,9 @@ export function Ask({ place, status }: { place: SavedPlace; status: Status | nul
             <p style={{ fontSize: 15 }}>{t('ask.offlineBody')}</p>
             <div className="row" style={{ flexWrap: 'wrap' }}>
               <Link href="/app" className="pill">{t('tabs.today')}</Link>
-              <Link href="/app/shelter" className="pill">{t('tabs.safePlace')}</Link>
-              <Link href="/app/flood" className="pill">{t('today.floodGuide')}</Link>
+              <Link href="/app/heat" className="pill">{t('group.heat')}</Link>
+              <Link href="/app/flood" className="pill">{t('group.flood')}</Link>
+              <Link href="/app/dry" className="pill">{t('group.dry')}</Link>
             </div>
           </section>
         )}
