@@ -24,7 +24,20 @@ aws cloudformation deploy \
     EnableWaf=true
 ```
 
-Until a domain is added, omit `CertificateArn`; the output is an HTTP ALB URL. Supplying a regional ACM certificate ARN later adds an HTTPS listener and redirects HTTP to HTTPS. The ALB must use two subnets. Tasks receive public IPs for outbound weather-data calls, but their security group accepts port 8080 only from the ALB; the service cannot be reached directly. This avoids NAT Gateway charges for the hackathon.
+Until a domain is added, omit `DomainName` and `HostedZoneId`; the output is an HTTP ALB URL. The ALB must use two subnets. Tasks receive public IPs for outbound weather-data calls, but their security group accepts port 8080 only from the ALB; the service cannot be reached directly. This avoids NAT Gateway charges for the hackathon.
+
+## Custom domain and HTTPS
+
+`weatherwise-domain.yaml` creates a Route 53 public hosted zone only. Deploy it once for `weatherwise.online`, then replace the GoDaddy nameservers with its `NameServers` output. Domain registration stays at GoDaddy. Do not delete the hosted zone after delegation.
+
+Once GoDaddy shows the Route 53 nameservers, set these GitHub repository variables:
+
+```text
+WEATHERWISE_DOMAIN_NAME=weatherwise.online
+ROUTE53_HOSTED_ZONE_ID=<HostedZoneId output>
+```
+
+The next merge to `main` automatically updates `weatherwise-prod`: it creates a DNS-validated ACM certificate in `us-east-2`, creates Route 53 Alias records for `weatherwise.online` and `www.weatherwise.online`, serves HTTPS, redirects HTTP to HTTPS, and redirects `www` to the apex domain. Keep the ACM validation records; ACM needs them to renew the certificate automatically.
 
 ## GitHub publishing role
 

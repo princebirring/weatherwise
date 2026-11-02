@@ -4,7 +4,8 @@ WeatherWise is a single-container climate-safety application deployed to Amazon 
 
 ```mermaid
 flowchart LR
-    U[People using a browser] --> WAF[AWS WAF\nmanaged rules + API rate limit]
+    U[People using a browser] --> DNS[Route 53\nweatherwise.online]
+    DNS --> WAF[AWS WAF\nmanaged rules + API rate limit]
     WAF --> ALB[Application Load Balancer\nHTTP]
     ALB --> ECS[ECS Fargate task\nWeatherWise container :8080]
 
@@ -34,7 +35,7 @@ The application serves the website and `/api/*` endpoints from port `8080`. A ch
 
 ## AWS boundary
 
-CloudFormation creates a VPC, two public subnets, an internet-facing ALB, Fargate service, CloudWatch log group, runtime IAM roles, and WAF. The ALB accepts public traffic; the task security group accepts port `8080` only from the ALB. Tasks have public egress for weather-data calls, avoiding a NAT Gateway. The optional Open-Meteo key is injected from Secrets Manager; AWS access keys are never stored in the task or GitHub.
+CloudFormation creates a VPC, two public subnets, an internet-facing ALB, Fargate service, CloudWatch log group, runtime IAM roles, and WAF. Once the Route 53 hosted zone is delegated, it also creates and renews a DNS-validated ACM certificate in `us-east-2`, Alias records for the apex and `www` hostnames, and redirects HTTP plus `www` traffic to the HTTPS apex URL. The task security group accepts port `8080` only from the ALB. Tasks have public egress for weather-data calls, avoiding a NAT Gateway. The optional Open-Meteo key is injected from Secrets Manager; AWS access keys are never stored in the task or GitHub.
 
 ## Delivery path
 
