@@ -3,6 +3,7 @@
 import time
 
 from strands.hooks import (
+    AfterModelCallEvent,
     AfterToolCallEvent,
     BeforeInvocationEvent,
     BeforeToolCallEvent,
@@ -12,28 +13,41 @@ from strands.hooks import (
 
 
 class CostGuardHook(HookProvider):
-    """Caps calls per tool and total tool calls per request, so a runaway loop cannot run up
-    the Bedrock bill. Over the limit, the call is cancelled and the model is told why."""
+    """Caps model calls, calls per tool and total tool calls per request, so a runaway loop cannot
+    run up the Bedrock bill. Over a tool's limit, the call is cancelled and the model is told why.
+    Over the total tool limit or the model-call limit, the loop is stopped: a model that ignores
+    "do not call it again" would otherwise keep paying for one model call per refused tool call
+    (on Nov 2, 2026 one chat made ~940 Nova calls this way until Python's recursion limit)."""
 
-    def __init__(self, max_calls_per_tool: int = 3, max_total_calls: int = 12):
+    def __init__(self, max_calls_per_tool: int = 3, max_total_calls: int = 12, max_model_calls: int = 16):
         self.max_per_tool = max_calls_per_tool
         self.max_total = max_total_calls
+        self.max_model_calls = max_model_calls
         self.counts: dict[str, int] = {}
+        self.model_calls = 0
 
     def register_hooks(self, registry: HookRegistry) -> None:
         registry.add_callback(BeforeInvocationEvent, self.reset)
         registry.add_callback(BeforeToolCallEvent, self.check)
+        registry.add_callback(AfterModelCallEvent, self.count_model_call)
 
     def reset(self, event: BeforeInvocationEvent) -> None:
         self.counts = {}
+        self.model_calls = 0
 
     def check(self, event: BeforeToolCallEvent) -> None:
         name = event.tool_use["name"]
         self.counts[name] = self.counts.get(name, 0) + 1
-        if self.counts[name] > self.max_per_tool:
+        if sum(self.counts.values()) > self.max_total:  # refused calls count too
+            event.cancel_tool = "Tool-call limit for this request reached."
+            event.agent.cancel(after_current_tools=True)
+        elif self.counts[name] > self.max_per_tool:
             event.cancel_tool = f"'{name}' reached its limit of {self.max_per_tool} calls. Do not call it again."
-        elif sum(self.counts.values()) > self.max_total:
-            event.cancel_tool = "Tool-call limit for this request reached. Answer with what you have."
+
+    def count_model_call(self, event: AfterModelCallEvent) -> None:
+        self.model_calls += 1
+        if self.model_calls >= self.max_model_calls:
+            event.agent.cancel(after_current_tools=True)  # no further model call this request
 
 
 class StepLogHook(HookProvider):

@@ -122,7 +122,8 @@ class AgentTeam:
         """One turn: the reply text, whether the safe fallback was used, and the agent steps."""
         self.orchestrator.state.set("use_fallback", False)
         result = self.orchestrator(message)
-        used_fallback = bool(self.orchestrator.state.get("use_fallback"))
+        # Stopped by the cost guard: the last message may be a tool call or an unchecked draft.
+        used_fallback = bool(self.orchestrator.state.get("use_fallback")) or result.stop_reason == "cancelled"
         text = fallback_message(self.policy, "general", self.language) if used_fallback else str(result).strip()
         return {"text": text, "used_fallback": used_fallback,
                 "violations": self.orchestrator.state.get("evaluator_violations") or [],
