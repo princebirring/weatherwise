@@ -50,7 +50,9 @@ USER weatherwise
 # public listener; only the ECS task role may invoke it through the AgentCore data-plane API.
 FROM app-base AS agentcore
 EXPOSE 8080
-CMD [".venv/bin/python", "-m", "weatherwise.runtime"]
+# ADOT auto-instruments Strands, Bedrock calls, MCP tools, and HTTP work. The runtime's
+# CloudFormation environment limits the exported fields and keeps chat content out of spans.
+CMD [".venv/bin/opentelemetry-instrument", ".venv/bin/python", "-m", "weatherwise.runtime"]
 
 FROM app-base AS api
 EXPOSE 8080

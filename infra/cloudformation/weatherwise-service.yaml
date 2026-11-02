@@ -248,6 +248,14 @@ Resources:
       LogGroupName: /ecs/weatherwise
       RetentionInDays: 14
 
+  AgentObservabilityLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      # A stable destination lets ADOT emit structured spans without depending
+      # on AgentCore's generated runtime-log-group suffix.
+      LogGroupName: /aws/bedrock-agentcore/runtimes/weatherwise-observability
+      RetentionInDays: 14
+
   TransactionSearchLogResourcePolicy:
     # Transaction Search is account-wide. This resource policy allows X-Ray to
     # write all runtime spans to CloudWatch Logs' managed span log groups.
@@ -264,6 +272,7 @@ Resources:
             Resource:
               - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:aws/spans:*
               - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/application-signals/data:*
+              - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/runtimes/weatherwise-observability:*
             Condition:
               ArnLike:
                 'aws:SourceArn': !Sub arn:${AWS::Partition}:xray:${AWS::Region}:${AWS::AccountId}:*
@@ -372,7 +381,9 @@ Resources:
                 Effect: Allow
                 Action: ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:DescribeLogGroups",
                          "logs:DescribeLogStreams", "logs:PutLogEvents", "logs:PutResourcePolicy"]
-                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/runtimes/*
+                Resource:
+                  - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/runtimes/*
+                  - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/runtimes/*:*
               - Sid: RuntimeTracing
                 Effect: Allow
                 Action: ["xray:PutTraceSegments", "xray:PutTelemetryRecords", "xray:GetSamplingRules",
@@ -410,6 +421,18 @@ Resources:
         AWS_REGION: !Ref AWS::Region
         CLIMATE_AGENT_MODEL_ID: !Ref ClimateAgentModelId
         WEATHERWISE_CACHE_DIR: /tmp/weatherwise
+        # AgentCore requires ADOT instrumentation for the Sessions, Traces,
+        # and Spans views. Do not capture model prompts, user messages, or tool
+        # payloads in telemetry from this public application.
+        AGENT_OBSERVABILITY_ENABLED: 'true'
+        AWS_GENAI_CONTENT_EXTRACTION_OPT_OUT: 'true'
+        OTEL_PYTHON_DISTRO: aws_distro
+        OTEL_PYTHON_CONFIGURATOR: aws_configurator
+        OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+        OTEL_TRACES_EXPORTER: otlp
+        OTEL_RESOURCE_ATTRIBUTES: !Sub 'service.name=WeatherWiseAgentCore,aws.log.group.names=${AgentObservabilityLogGroup}'
+        OTEL_EXPORTER_OTLP_LOGS_HEADERS: !Sub 'x-aws-log-group=${AgentObservabilityLogGroup},x-aws-log-stream=runtime-logs,x-aws-metric-namespace=bedrock-agentcore'
+        OTEL_EXPORTER_OTLP_TRACES_HEADERS: !Sub 'x-aws-log-group=${AgentObservabilityLogGroup},x-aws-log-stream=spans'
       LifecycleConfiguration:
         # Short idle sessions avoid paying to retain a microVM after a one-off public chat.
         IdleRuntimeSessionTimeout: 120
