@@ -69,13 +69,13 @@ export function HowPage() {
       <PageHead kicker={t('site.navHow')} title={t('site.howTitle')} lede={t('site.howLede')} />
       <section className="l-section" id="decide">
         <div className="wrap">
-          <SectionTitle kicker="01" title={t('show.decideTitle')} lede={t('show.decideLede')} />
+          <SectionTitle kicker={t('site.decideKicker')} title={t('show.decideTitle')} lede={t('show.decideLede')} />
           <RulesDiagram />
         </div>
       </section>
       <section className="l-section l-band" id="built">
         <div className="wrap stack" style={{ gap: 22 }}>
-          <SectionTitle kicker="02" title={t('show.builtTitle')} lede={t('show.builtLede')} />
+          <SectionTitle kicker={t('site.awsKicker')} title={t('show.builtTitle')} lede={t('show.builtLede')} />
           <FlowDiagram />
           <div className="stack" style={{ gap: 10 }}>
             <h3 className="h-mid">{t('show.strandsTitle')}</h3>
@@ -119,7 +119,7 @@ export function DevelopersPage() {
       </PageHead>
       <section className="l-section">
         <div className="wrap">
-          <SectionTitle kicker="MCP" title={t('site.toolsTitle')} />
+          <SectionTitle kicker={t('site.toolsKicker')} title={t('site.toolsTitle')} />
           <ul className="tools">
             {TOOLS.map(([name, desc]) => <li key={name}><b className="mono" lang="en">{name}</b><span>{t(desc)}</span></li>)}
           </ul>
@@ -160,13 +160,13 @@ export function AboutPage() {
       <PageHead kicker={t('site.navAbout')} title={t('site.aboutTitle')} lede={t('site.teamLede')} />
       <section className="l-section">
         <div className="wrap">
-          <SectionTitle kicker={t('site.navAbout')} title={t('site.teamTitle')} />
+          <SectionTitle kicker={t('site.teamKicker')} title={t('site.teamTitle')} />
           <div className="team">{TEAM.map((m) => <Person key={m.name} m={m} />)}</div>
         </div>
       </section>
       <section className="l-section l-band">
         <div className="wrap">
-          <SectionTitle kicker={t('site.coverKicker')} title={t('site.roadmapTitle')} />
+          <SectionTitle kicker={t('site.roadmapKicker')} title={t('site.roadmapTitle')} />
           <ol className="roadmap">
             {ROADMAP.map(([when, what], i) => (
               <li key={when} className={i === 0 ? 'now' : ''}><b>{t(when)}</b><span>{t(what)}</span></li>
