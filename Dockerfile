@@ -18,7 +18,7 @@ COPY website/ ./
 RUN npm test && npm run build
 
 # ---- 2. The Python app ----
-FROM python:3.13-slim
+FROM python:3.13-slim AS app-base
 ENV PYTHONUNBUFFERED=1 \
     UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
@@ -43,5 +43,13 @@ Coastline(Path('/app/geodata/ne_10m_coastline.geojson'))._load()"
 
 RUN useradd --create-home weatherwise
 USER weatherwise
+
+# AgentCore invokes the SDK-decorated entrypoint on its default HTTP port. This target has no
+# public listener; only the ECS task role may invoke it through the AgentCore data-plane API.
+FROM app-base AS agentcore
+EXPOSE 8080
+CMD [".venv/bin/python", "-m", "weatherwise.runtime"]
+
+FROM app-base AS api
 EXPOSE 8080
 CMD [".venv/bin/python", "-m", "weatherwise.api.server", "--host", "0.0.0.0", "--port", "8080"]
