@@ -111,17 +111,21 @@ export function Landing() {
       <section className="ap-section" id="impact">
         <div className="wrap">
           <Title kicker={t('site.navImpact')} title={t('site.impactTitle')} />
-          <p className="ap-huge">{t('site.statLeadValue', BEST_LEAD.days ?? 0)}</p>
-          <p className="ap-huge-sub">{t('site.statLead', BEST_LEAD.titles[language])}</p>
-          <ol className="ap-leads">
-            {AHEAD.map((r) => (
-              <li key={r.id} className={`t-${r.kind}`}>
-                <b>{t('site.impactDays', r.days ?? 0)}</b>
-                <span className="lead-bar" aria-hidden="true"><i style={{ width: `${((r.days ?? 0) / MAX_DAYS) * 100}%` }} /></span>
-                <span>{r.titles[language]}</span>
-              </li>
-            ))}
-          </ol>
+          <div className="ap-impact">
+            <div className="ap-card ap-feature t-flood">
+              <p className="ap-huge">{t('site.statLeadValue', BEST_LEAD.days ?? 0)}</p>
+              <p className="ap-huge-sub">{t('site.statLead', BEST_LEAD.titles[language])}</p>
+            </div>
+            <ol className="ap-card ap-leads">
+              {AHEAD.map((r) => (
+                <li key={r.id} className={`t-${r.kind}`}>
+                  <b>{t('site.impactDays', r.days ?? 0)}</b>
+                  <span className="lead-bar" aria-hidden="true"><i style={{ width: `${((r.days ?? 0) / MAX_DAYS) * 100}%` }} /></span>
+                  <span>{r.titles[language]}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
           <Link href="/impact" className="ap-link">{t('site.impactAll', SCORECARD.length)} <Icon name="send" size={18} /></Link>
         </div>
       </section>
@@ -153,7 +157,7 @@ export function Landing() {
               </li>
             ))}
           </ol>
-          <p className="ap-note"><Icon name="shield" size={20} /> {t('site.awsSafety', SAFETY.mistakesCaught.join(' / '))}</p>
+          <p className="ap-note ap-pill"><Icon name="shield" size={20} /> {t('site.awsSafety', SAFETY.mistakesCaught.join(' / '))}</p>
           <div className="ap-ctas">
             <Link href="/how-it-works" className="ap-link">{t('site.howDecided')} <Icon name="send" size={18} /></Link>
             <Link href="/developers" className="ap-link">{t('site.plugIn')} <Icon name="send" size={18} /></Link>
