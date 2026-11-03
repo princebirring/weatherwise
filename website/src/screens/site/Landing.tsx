@@ -58,7 +58,7 @@ export function Landing() {
         <div className="ap-sky" aria-hidden="true"><i /><i /><i /></div>
         <div className="wrap ap-hero-grid">
           <div className="ap-hero-copy">
-            <span className="eyebrow">{t('brand.name')}</span>
+            <a href={REPO} target="_blank" rel="noreferrer" className="ap-badge"><Icon name="github" size={16} /> {t('site.openNote')}</a>
             <h1>{t('site.headline')}</h1>
             <p className="ap-sub">{t('site.lede')}</p>
             <div className="ap-ctas">
@@ -161,9 +161,11 @@ export function Landing() {
             ))}
           </ol>
           <p className="ap-note ap-pill"><Icon name="shield" size={20} /> {t('site.awsSafety', SAFETY.mistakesCaught.join(' / '))}</p>
+          <p className="ap-note ap-pill"><Icon name="check" size={20} /> {t('site.awsProd')}</p>
           <div className="ap-ctas">
             <Link href="/how-it-works" className="ap-link">{t('site.howDecided')} <Icon name="send" size={18} /></Link>
             <Link href="/developers" className="ap-link">{t('site.plugIn')} <Icon name="send" size={18} /></Link>
+            <a href={REPO} target="_blank" rel="noreferrer" className="ap-link"><Icon name="github" size={18} /> {t('site.githubRepo')}</a>
           </div>
         </div>
       </section>
@@ -183,7 +185,7 @@ export function Landing() {
             <p>{t('site.finalBody')}</p>
             <div className="l-ctas">
               <Link href="/app" className="btn big">{t('site.openApp')}</Link>
-              <a href={REPO} target="_blank" rel="noreferrer" className="btn big outline">{t('site.readCode')}</a>
+              <a href={REPO} target="_blank" rel="noreferrer" className="btn big outline"><Icon name="github" size={24} /> {t('site.openSourceGithub')}</a>
             </div>
           </div>
           <figure className="qr">

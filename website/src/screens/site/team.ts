@@ -37,3 +37,6 @@ export const TEAM: Member[] = [
 ]
 
 export const REPO = 'https://github.com/princebirring/weatherwise'
+export const LICENSE_URL = `${REPO}/blob/main/LICENSE`
+// The replay and checker results the site's numbers come from.
+export const RESULTS_URL = `${REPO}/tree/main/evals/results`

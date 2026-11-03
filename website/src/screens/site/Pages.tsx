@@ -13,7 +13,7 @@ import { Scorecard } from './Scorecard'
 import { SAFETY, SCORECARD } from './results'
 import { PageHead, SectionTitle } from './SiteLayout'
 import { Person } from './People'
-import { REPO, TEAM } from './team'
+import { REPO, RESULTS_URL, TEAM } from './team'
 
 const LIMITS: TextKey[] = ['show.limit1', 'show.limit2', 'show.limit3', 'show.limit4']
 
@@ -24,7 +24,9 @@ export function ImpactPage() {
   const events = useAsync(() => api.replays(), 'replays')
   return (
     <>
-      <PageHead kicker={t('site.navImpact')} title={t('site.proofTitle', SCORECARD.length)} lede={t('show.replayLede')} />
+      <PageHead kicker={t('site.navImpact')} title={t('site.proofTitle', SCORECARD.length)} lede={t('show.replayLede')}>
+        <a href={RESULTS_URL} target="_blank" rel="noreferrer" className="ap-link raw-link"><Icon name="github" size={18} /> {t('site.rawResults')}</a>
+      </PageHead>
       <section className="l-section" id="live">
         <div className="wrap"><LiveRun /></div>
       </section>
@@ -102,6 +104,7 @@ export function HowPage() {
             <div><b>{SAFETY.goodDraftsPassed.join(' / ')}</b><span>{t('site.safety2')}</span></div>
             <div><b>{SAFETY.unsafeNeverSent.join(' / ')}</b><span>{t('site.safety3')}</span></div>
           </div>
+          <a href={RESULTS_URL} target="_blank" rel="noreferrer" className="ap-link"><Icon name="github" size={18} /> {t('site.rawResults')}</a>
           <FlowDiagram />
           <div className="stack" style={{ gap: 10 }}>
             <h3 className="h-mid">{t('show.strandsTitle')}</h3>
@@ -139,7 +142,7 @@ export function DevelopersPage() {
     <>
       <PageHead kicker={t('site.navDevelopers')} title={t('show.devTitle')} lede={t('show.devBody')}>
         <div className="l-ctas">
-          <a href={REPO} target="_blank" rel="noreferrer" className="btn big">{t('site.readCode')}</a>
+          <a href={REPO} target="_blank" rel="noreferrer" className="btn big"><Icon name="github" size={24} /> {t('site.githubRepo')}</a>
           <Link href="/how-it-works" className="btn big secondary">{t('site.navHow')}</Link>
         </div>
       </PageHead>
@@ -155,13 +158,16 @@ export function DevelopersPage() {
         <div className="wrap dev-grid">
           <div className="stack" style={{ gap: 10 }}>
             <h3><Icon name="send" size={20} /> {t('site.runIt')}</h3>
-            <pre className="code mono" lang="en">{`uv run python -m weatherwise.mcp_server.server
+            <pre className="code mono" lang="en">{`git clone ${REPO}
+cd weatherwise
+uv run python -m weatherwise.mcp_server.server
 # or over HTTP
 uv run python -m weatherwise.mcp_server.server --http`}</pre>
           </div>
           <div className="stack" style={{ gap: 10 }}>
             <h3><Icon name="chat" size={20} /> {t('site.connectClaude')}</h3>
             <pre className="code mono" lang="en">{CLAUDE_CONFIG}</pre>
+            <p className="dev-note">{t('site.connectNote')}</p>
           </div>
         </div>
       </section>

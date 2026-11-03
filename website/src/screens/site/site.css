@@ -29,6 +29,8 @@
 .site-nav a:hover { color: var(--action); }
 .site-nav a[aria-current='page'] { color: var(--action); border-bottom-color: var(--action); }
 .site-top-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.site-gh { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 23px; color: var(--ink-2); }
+.site-gh:hover { color: var(--action); background: var(--soft); }
 .site-top-actions .btn { min-height: 46px; font-size: 16px; padding: 0 18px; border-radius: 23px; white-space: nowrap; }
 
 /* ---- hero: the promise, the proof numbers and the app, all on the first screen ---- */
@@ -242,6 +244,12 @@
 .ap-pill { width: fit-content; padding: 16px 24px; border-radius: 20px; background: var(--night-2); border: 1px solid var(--mint); color: #FFFFFF !important; }
 .ap-dark .ap-note svg { flex: none; color: var(--mint); }
 .ap-section .ap-link { margin-top: 36px; }
+/* Open source, as a small badge above the headline (the logo already says the name). */
+.ap-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--line); font-size: 14px; font-weight: 700; line-height: 1.3; color: var(--action); text-decoration: none; margin-bottom: 4px; }
+.ap-badge:hover { border-color: var(--action); }
+.page-head .raw-link { margin-top: 20px; }
+.dev-note { font-size: var(--fs-small); line-height: 1.45; color: #D5E0D9; }
 .ap-section .ap-ctas { margin: 8px 0 0; }
 
 .ap-section .globe img { max-width: 560px; }
@@ -366,7 +374,7 @@
   .pillars article { padding: 22px; }
 }
 @media (max-width: 520px) {
-  .site-top-actions .btn { display: none; } /* the hero's big button is right below */
+  .site-top-actions .btn, .site-gh { display: none; } /* the hero's big button is right below; GitHub is in the hero badge */
   .site-nav { gap: 16px; font-size: var(--fs-small); }
   .site-foot-grid { grid-template-columns: minmax(0, 1fr); }
 }
