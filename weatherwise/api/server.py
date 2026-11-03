@@ -11,6 +11,8 @@ Settings (env):
     WEATHERWISE_AGENT_RUNTIME_ARN  Optional private AgentCore Runtime ARN. When supplied,
                                 website chat runs there; facts remain in this API container.
     WEATHERWISE_CACHE_DIR       Downloads and cached forecasts (on Lambda: a folder under /tmp).
+    WEATHERWISE_CACHE_BUCKET    Optional S3 bucket behind that folder, shared with the agents on
+                                AgentCore and kept across deploys.
     WEATHERWISE_CHATS_PER_DAY   Daily chat cap, the AI-spend guard (default 100).
     WEATHERWISE_CHATS_PER_MINUTE  Per visitor (default 6).
     WEATHERWISE_TRUSTED_PROXY_HOPS  Our proxies in front, e.g. 1 behind the ECS load balancer.

@@ -11,6 +11,7 @@ Day 0, never hard-coded (plan §10.2).
 """
 
 import os
+import re
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -124,10 +125,23 @@ class AgentTeam:
         result = self.orchestrator(message)
         # Stopped by the cost guard: the last message may be a tool call or an unchecked draft.
         used_fallback = bool(self.orchestrator.state.get("use_fallback")) or result.stop_reason == "cancelled"
-        text = fallback_message(self.policy, "general", self.language) if used_fallback else str(result).strip()
+        text = fallback_message(self.policy, "general", self.language) if used_fallback else public_text(str(result))
         return {"text": text, "used_fallback": used_fallback,
                 "violations": self.orchestrator.state.get("evaluator_violations") or [],
                 "steps": list(self.step_log.steps)}
+
+
+# What a model sometimes writes around the answer: its private reasoning, or a note that this is
+# a rewrite ("Here's the revised response:"). The person should see only the answer.
+_THINKING = re.compile(r"<thinking>.*?</thinking>\s*", re.IGNORECASE | re.DOTALL)
+_REWRITE_NOTE = re.compile(
+    r"^\s*(here(?:'s| is)|below is|this is)\s+(?:the|a|my|an)\s+(?:\w+\s+){0,2}"
+    r"(?:revised|rewritten|updated|improved|corrected|new)\s+(?:\w+\s+){0,2}"
+    r"(?:response|reply|message|version|answer)\b[^\n:]*:\s*", re.IGNORECASE)
+
+
+def public_text(text: str) -> str:
+    return _REWRITE_NOTE.sub("", _THINKING.sub("", text)).strip()
 
 
 def _by_name(tools: list, names: set[str]) -> list:
