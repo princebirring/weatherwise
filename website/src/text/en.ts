@@ -448,7 +448,7 @@ export const en = {
   'site.laterBody': 'Countries in Africa, each starting with its own rules file and official warning feed.',
   'site.teamTitle': 'The people building it.',
   'site.teamLede': 'Two engineers who build data systems for a living, pointing that work at the people who hear about a heat wave or a flood last.',
-  'site.prashantRole': 'Product and domain',
+  'site.prashantRole': 'Engineering and product',
   'site.prashantBio': 'Engineering manager in data and AI, with over ten years building large-scale data products. Leads the product, the safety rules and the proof.',
   'site.princeRole': 'AWS and infrastructure',
   'site.princeBio': 'DevOps engineer with over eight years building data-intensive applications. Runs the AWS stack, the deployment and the agent runtime.',
