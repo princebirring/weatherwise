@@ -75,7 +75,7 @@ export function Landing() {
         <div className="wrap">
           <Title kicker={t('site.coverKicker')} title={t('site.coverTitle')} />
           <figure className="globe">
-            <img src="/coverage-globe.svg" width={640} height={640} alt={t('site.globeAlt')} />
+            <img src="/coverage-globe.svg" width={680} height={680} alt={t('site.globeAlt')} />
             <figcaption>
               <span className="now"><i />{t('site.legendIndia')}</span>
               <span className="next"><i />{t('site.legendAfrica')}</span>
