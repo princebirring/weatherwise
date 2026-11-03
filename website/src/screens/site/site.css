@@ -231,7 +231,7 @@
 
 .ap-section { padding: 120px 0; text-align: center; }
 .ap-soft { background: var(--surface); }
-.ap-dark { background: var(--night); color: #FFFFFF; }
+.ap-dark { background: url('/isobars.svg') center / cover no-repeat, var(--night); color: #FFFFFF; } /* weather-map pressure lines */
 .ap-dark .eyebrow { color: var(--mint); }
 .ap-title { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 0 auto 48px; max-width: 900px; }
 .ap-title h2 { font-size: var(--fs-h2); line-height: 1.1; font-weight: 700; letter-spacing: -0.015em; text-wrap: balance; }
@@ -374,3 +374,20 @@
   background: var(--mint, #7FD1C7); transform-origin: left; animation: story-progress 5.5s linear both; }
 @keyframes story-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @media (prefers-reduced-motion: reduce) { .phone-tabs.playing button::after { animation: none; } }
+
+/* ---- weather feel: a morning sky in the hero (colour still only means risk, so no orange or blue here) ---- */
+.ap-hero { position: relative; overflow: hidden;
+  background: radial-gradient(560px 400px at 78% 40%, rgba(255, 238, 200, 0.75), rgba(255, 238, 200, 0) 70%),
+              linear-gradient(180deg, #D9EAF1 0%, #E9F2EF 55%, var(--ground) 100%); }
+.ap-hero > .wrap { position: relative; z-index: 1; }
+.ap-sky { position: absolute; inset: 0; pointer-events: none; }
+.ap-sky i { position: absolute; left: 0; background: url('/cloud.svg') center / contain no-repeat; opacity: 0.5; animation: cloud-drift 140s linear infinite; }
+/* Clouds keep to the open sky: above the words, and under the buttons; never across them. */
+.ap-sky i:nth-child(1) { top: 14px; width: 180px; height: 74px; animation-delay: -40s; }
+.ap-sky i:nth-child(2) { top: 92px; width: 110px; height: 45px; opacity: 0.35; animation-duration: 190s; animation-delay: -120s; }
+.ap-sky i:nth-child(3) { bottom: 18px; width: 220px; height: 90px; opacity: 0.4; animation-duration: 230s; animation-delay: -70s; }
+@keyframes cloud-drift { from { transform: translateX(-300px); } to { transform: translateX(110vw); } }
+@media (prefers-reduced-motion: reduce) {
+  .ap-sky i { animation: none; }
+  .ap-sky i:nth-child(1) { left: 6%; } .ap-sky i:nth-child(2) { left: 46%; } .ap-sky i:nth-child(3) { left: 30%; }
+}

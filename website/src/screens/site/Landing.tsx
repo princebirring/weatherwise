@@ -54,6 +54,8 @@ export function Landing() {
   return (
     <>
       <section className="ap-hero">
+        {/* A morning sky: soft light behind the phone and a few slow clouds. Decoration only. */}
+        <div className="ap-sky" aria-hidden="true"><i /><i /><i /></div>
         <div className="wrap ap-hero-grid">
           <div className="ap-hero-copy">
             <span className="eyebrow">{t('brand.name')}</span>
