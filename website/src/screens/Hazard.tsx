@@ -33,6 +33,14 @@ const list = (key: keyof typeof ICONS, items: AdviceItem[]): Card[] =>
 // A long phone number in an advice line (e.g. the Kisan Call Centre, 1800-180-1551) becomes a call button.
 const phoneIn = (text: string) => text.match(/\b1800[-\s]?\d{3}[-\s]?\d{4}\b|\b\d{3,5}[-\s]\d{3}[-\s]\d{4}\b/)?.[0] ?? null
 
+/** Advice text with its phone number kept on one line ("1800-180-1551", not "1800-" then "180-1551"). */
+function NoBreakNumber({ text }: { text: string }) {
+  const number = phoneIn(text)
+  if (!number) return <>{text}</>
+  const at = text.indexOf(number)
+  return <>{text.slice(0, at)}<span className="nowrap">{number}</span>{text.slice(at + number.length)}</>
+}
+
 function adviceFor(group: HazardGroup, detections: Detection[], g: Guidance): Card[] {
   if (group === 'heat') {
     const work = detections.find((d) => d.hazard === 'work_heat')
@@ -63,7 +71,7 @@ export function HazardPage({ group, place, data }: { group: HazardGroup; place: 
 
   const { outlook } = data.data
   if (group === 'flood' && outlook.flood_guide.mode === 'urgent') {
-    return <>{header}<main className="app-main"><UrgentFlood guidance={guidance} /><NearestPlaces place={place} kind="flood" /><Helplines /></main></>
+    return <>{header}<main className="app-main"><UrgentFlood guidance={guidance} /><NearestPlaces place={place} kind="flood" danger /><Helplines /></main></>
   }
 
   const status = groupStatus(group, outlook)
@@ -98,7 +106,7 @@ export function HazardPage({ group, place, data }: { group: HazardGroup; place: 
               <span className="advice-icon"><Icon name={c.icon} size={34} /></span>
               <span className="stack" style={{ gap: 2 }}>
                 {c.label && <span className="advice-label">{c.label}</span>}
-                <span className="advice-text">{c.text}</span>
+                <span className="advice-text"><NoBreakNumber text={c.text} /></span>
                 {c.call108 && <a href="tel:108" className="btn danger">{t('todo.call108')}</a>}
                 {!c.call108 && phoneIn(c.text) && <a href={`tel:${phoneIn(c.text)!.replace(/\D/g, '')}`} className="btn secondary">{t('advice.call', phoneIn(c.text)!)}</a>}
               </span>
@@ -113,7 +121,7 @@ export function HazardPage({ group, place, data }: { group: HazardGroup; place: 
 
         <Week outlook={outlook} />
         {group === 'flood' && <FloodSteps place={place} mode={outlook.flood_guide.mode} guidance={guidance} />}
-        {group !== 'dry' && <NearestPlaces place={place} kind={group === 'heat' ? 'heat' : 'flood'} />}
+        {group !== 'dry' && <NearestPlaces place={place} kind={group === 'heat' ? 'heat' : 'flood'} danger={danger || (group === 'flood' && !!outlook.flood_guide.mode)} />}
         {danger && <ShareButton d={status.detections[0]} place={place} />}
         {/* The red Help tab is always there; the numbers repeat here only when there is a warning. */}
         {danger && <Helplines />}
@@ -219,8 +227,9 @@ function FloodSteps({ place, mode, guidance }: { place: SavedPlace; mode: Outloo
   )
 }
 
-/** The nearest checked cooling place (heat) or shelter (flood). Floods: names only, never a route. */
-function NearestPlaces({ place, kind }: { place: SavedPlace; kind: 'heat' | 'flood' }) {
+/** The nearest checked cooling place (heat) or shelter (flood). Floods: names only, never a route.
+ *  On a calm day it stays quiet: no flood orders, and the helpline is a plain button, not a loud one. */
+function NearestPlaces({ place, kind, danger }: { place: SavedPlace; kind: 'heat' | 'flood'; danger: boolean }) {
   const { t, language } = useLanguage()
   const guidance = useGuidance()
   const result = useAsync(() => api.shelters(place.lat, place.lon, kind), `${place.lat},${place.lon},${kind}`)
@@ -230,7 +239,7 @@ function NearestPlaces({ place, kind }: { place: SavedPlace; kind: 'heat' | 'flo
   return (
     <section className="stack" style={{ gap: 10 }} aria-labelledby="places-heading">
       <h2 id="places-heading" className="h-mid">{kind === 'heat' ? t('todo.findCooling') : t('flood.shelterNames')}</h2>
-      {kind === 'flood' && guidance && <p className="alert-box blue big-note"><b>{guidance.flood_safety_line}</b></p>}
+      {kind === 'flood' && danger && guidance && <p className="alert-box blue big-note"><b>{guidance.flood_safety_line}</b></p>}
       {result.loading && <Loading label={t('state.loadingShelters')} />}
       {result.error && <ErrorBox error={result.error} retry={result.retry} />}
       {r && (
@@ -256,7 +265,7 @@ function NearestPlaces({ place, kind }: { place: SavedPlace; kind: 'heat' | 'flo
           {r.places.length === 0 && (
             <div className="card stack">
               <p className="big-note">{t(kind === 'heat' ? 'shelter.noneNearHeat' : 'shelter.noneNearFlood', Math.round(r.search_km))}</p>
-              <a href={`tel:${disaster}`} className="btn">{t('flood.call1077')}</a>
+              <a href={`tel:${disaster}`} className={danger ? 'btn' : 'btn secondary'}>{t('flood.call1077')}</a>
             </div>
           )}
           {kind === 'flood' && <p className="big-note">{t('shelter.noRoute')}</p>}

@@ -29,9 +29,11 @@ export function Home({ place, data, official, offline, install, onDismissInstall
   if (red.length || floodUrgent) return <Emergency alert={red[0]} floodUrgent={floodUrgent} timezone={timezone} />
 
   const title = <h1 className="sr-only">{t('today.screenTitle', place.name)}</h1>
+  // The official answer always comes first: a warning, "could not check", or "none in force".
   const officialTop = (
     <>
       {officialNow?.status === 'unavailable' && <p className="official-note warn" role="status"><Icon name="alert" size={22} />{t('official.unavailable')}</p>}
+      {officialNow?.status === 'ok' && alerts.length === 0 && <p className="official-note calm" role="status"><Icon name="shield" size={22} />{t('official.none')}</p>}
       {alerts.map((a) => <OfficialBanner key={a.id} alert={a} timezone={timezone} />)}
     </>
   )
@@ -98,16 +100,16 @@ export function Home({ place, data, official, offline, install, onDismissInstall
 
       {outlook.days.length > 0 && <Week outlook={outlook} />}
 
-      {officialNow?.status === 'ok' && alerts.length === 0 && <p className="small" style={{ textAlign: 'center' }}>{t('official.none')}</p>}
-
+      {/* A convenience, so it stays small and last: it must never outweigh the safety answers above. */}
       {install && (
-        <section className="card stack install">
-          <b className="h-mid">{t('install.title')}</b>
-          <p>{t('install.body')}</p>
-          <div className="pair">
-            <button type="button" className="btn big secondary" onClick={onDismissInstall}>{t('install.later')}</button>
-            <button type="button" className="btn big" onClick={() => void install.prompt()}>{t('install.button')}</button>
-          </div>
+        <section className="install" aria-label={t('install.title')}>
+          <span className="install-icon"><Icon name="home" size={20} /></span>
+          <span className="install-text">
+            <b>{t('install.title')}</b>
+            <span>{t('install.body')}</span>
+            <button type="button" className="text-link install-add" onClick={() => void install.prompt()}>{t('install.button')}</button>
+          </span>
+          <button type="button" className="install-close" aria-label={t('install.later')} onClick={onDismissInstall}>✕</button>
         </section>
       )}
     </main>
