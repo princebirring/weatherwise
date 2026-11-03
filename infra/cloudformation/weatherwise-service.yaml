@@ -429,18 +429,15 @@ Resources:
         AWS_REGION: !Ref AWS::Region
         CLIMATE_AGENT_MODEL_ID: !Ref ClimateAgentModelId
         WEATHERWISE_CACHE_DIR: /tmp/weatherwise
-        # AgentCore requires ADOT instrumentation for the Sessions, Traces,
-        # and Spans views. Do not capture model prompts, user messages, or tool
-        # payloads in telemetry from this public application.
+        # AgentCore derives the runtime service identity and native CloudWatch
+        # trace destination. ADOT supplies framework spans; do not override
+        # those AgentCore-managed values with external-compute OTLP settings.
         AGENT_OBSERVABILITY_ENABLED: 'true'
         AWS_GENAI_CONTENT_EXTRACTION_OPT_OUT: 'true'
+        UNIFIED_TRACES_DESTINATION_ENABLED: 'true'
         OTEL_PYTHON_DISTRO: aws_distro
         OTEL_PYTHON_CONFIGURATOR: aws_configurator
         OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
-        OTEL_TRACES_EXPORTER: otlp
-        OTEL_RESOURCE_ATTRIBUTES: !Sub 'service.name=WeatherWiseAgentCore,aws.log.group.names=${AgentObservabilityLogGroup}'
-        OTEL_EXPORTER_OTLP_LOGS_HEADERS: !Sub 'x-aws-log-group=${AgentObservabilityLogGroup},x-aws-log-stream=runtime-logs,x-aws-metric-namespace=bedrock-agentcore'
-        OTEL_EXPORTER_OTLP_TRACES_HEADERS: !Sub 'x-aws-log-group=${AgentObservabilityLogGroup},x-aws-log-stream=spans'
       LifecycleConfiguration:
         # Short idle sessions avoid paying to retain a microVM after a one-off public chat.
         IdleRuntimeSessionTimeout: 120
