@@ -94,9 +94,25 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expect(tiles.map((x) => x.getAttribute('href'))).toEqual(['/app/heat', '/app/flood', '/app/dry'])
     for (const x of tiles) expect(x.textContent).toContain(t('watch.quiet'))
     expect(document.querySelector('.danger-banner')).toBeNull()
-    expect(screen.getByText(t('official.none'))).toBeTruthy() // SACHET checked: nothing in force
+    // SACHET checked, nothing in force: said first, above the day, where a warning would be.
+    const none = screen.getByText(t('official.none'))
+    expect(none.compareDocumentPosition(screen.getByText(t('day.title'))) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     // Never an all-clear: our checks do not see cyclones or official alerts, so IMD is one tap away.
     expect(document.body.textContent).not.toMatch(/safe to work|काम करणे सुरक्षित|काम करना सुरक्षित/i)
+    expectOnlyLanguage(language)
+  })
+
+  it('Add to home screen is a small last row: add, or close for now', () => {
+    const prompt = vi.fn(async () => {})
+    const dismiss = vi.fn()
+    show(language, <Home place={place} official={idle} data={loaded(outlook(false))} offline={false}
+      install={{ prompt }} onDismissInstall={dismiss} />)
+    const box = screen.getByRole('region', { name: t('install.title') })
+    expect(box.parentElement!.lastElementChild).toBe(box) // after everything about the weather
+    fireEvent.click(within(box).getByRole('button', { name: t('install.button') }))
+    fireEvent.click(within(box).getByRole('button', { name: t('install.later') }))
+    expect(prompt).toHaveBeenCalledOnce()
+    expect(dismiss).toHaveBeenCalledOnce()
     expectOnlyLanguage(language)
   })
 

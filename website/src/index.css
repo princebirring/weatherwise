@@ -309,6 +309,8 @@ h1, h2, h3, p { margin: 0; }
 .official-note { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 16px; background: var(--surface);
   border: 1px solid var(--line); font-size: 16px; color: var(--ink-2); }
 .official-note.warn { background: var(--yellow-soft); border-color: #E8C94A; color: var(--yellow-ink); }
+.official-note.calm { background: var(--action-soft); border-color: transparent; color: var(--action-dark); font-weight: 600; line-height: 1.35; }
+.official-note svg { flex: none; }
 .hero-card.quiet { padding: 16px 18px; }
 .hero-card.quiet h1, .hero-card.quiet h2 { font-size: 22px; }
 .hero-card .row { gap: 10px; flex-wrap: wrap; }
@@ -368,7 +370,13 @@ h1, h2, h3, p { margin: 0; }
   border: 1px solid #A9D3B4; color: #0F3D1D; font-size: 17px; line-height: 1.35; }
 .spray > svg { flex: none; margin-top: 2px; }
 .spray .small { color: #24502F; }
-.install p { font-size: 17px; }
+.install { display: flex; align-items: flex-start; gap: 10px; padding: 12px 8px 4px 14px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.install-icon { flex: none; width: 34px; height: 34px; border-radius: 17px; display: flex; align-items: center; justify-content: center; background: var(--soft); color: var(--action); }
+.install-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; font-size: 14px; line-height: 1.35; color: var(--ink-2); }
+.install-text b { font-size: 15px; color: var(--ink); }
+.install-add { align-self: flex-start; min-height: 44px; padding-left: 0; font-size: 15px; font-weight: 800; }
+.install-close { flex: none; width: 44px; height: 44px; border: 0; background: none; color: var(--muted); font-size: 18px; cursor: pointer; border-radius: 22px; }
+.install-close:hover { background: var(--soft); }
 
 /* ---- a danger's page: advice as a plain list, flood steps as a checklist ---- */
 .advice { display: flex; gap: 14px; align-items: flex-start; background: var(--surface); border: 2px solid var(--line); border-radius: 20px; padding: 14px; }
