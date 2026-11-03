@@ -1,5 +1,6 @@
-/* The public site (landing, how it works, impact, developers, about us). Builds on the tokens in index.css:
-   colour still carries risk only (heat orange, flood blue, red for danger and misses); teal is for actions. */
+/* The public site (landing, how it works, impact, developers, about us). Builds on the tokens in index.css.
+   Colour = how serious (IMD: yellow be aware, orange be prepared, red take action; red also marks misses).
+   Icon = what kind of weather. Teal is the brand and actions; it never means a hazard type. */
 .site {
   /* One type scale: every size on the public site is one of these. */
   --fs-display: clamp(40px, 4.4vw, 60px); /* page headline */
@@ -81,8 +82,8 @@
 .jobs { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; }
 .job { --tone: var(--action); --tone-soft: var(--action-soft); display: flex; flex-direction: column; gap: 10px; padding: 28px; border-radius: 24px;
   background: var(--surface); border: 1px solid var(--line); border-top: 6px solid var(--tone); }
-.job.t-heat { --tone: var(--orange); --tone-soft: #FBEBDD; }
-.job.t-flood { --tone: var(--flood); --tone-soft: var(--flood-soft); }
+.job.t-heat { --tone: var(--action); --tone-soft: var(--action-soft); }
+.job.t-flood { --tone: var(--action); --tone-soft: var(--action-soft); }
 .job-icon { width: 58px; height: 58px; border-radius: 29px; display: flex; align-items: center; justify-content: center; background: var(--tone-soft); color: var(--tone); margin-bottom: 6px; }
 .job-part { font-size: var(--fs-label); font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tone); }
 .job h3 { font-size: 23px; line-height: 1.2; font-weight: 800; }
@@ -104,8 +105,8 @@
 .score-row { display: grid; grid-template-columns: 40px minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 0.9fr); align-items: center; gap: 18px;
   padding: 14px 0; border-bottom: 1px solid var(--line); }
 .score-kind { width: 38px; height: 38px; border-radius: 19px; display: flex; align-items: center; justify-content: center; }
-.score-kind.k-heat { background: #FBEBDD; color: var(--orange); }
-.score-kind.k-flood { background: var(--flood-soft); color: var(--flood); }
+.score-kind.k-heat { background: var(--action-soft); color: var(--action); }
+.score-kind.k-flood { background: var(--action-soft); color: var(--action); }
 .score-title { font-size: 17px; line-height: 1.3; }
 .score-bar { display: block; height: 14px; border-radius: 7px; background: var(--soft); overflow: hidden; }
 .score-bar i { height: 100%; border-radius: 7px; }
@@ -152,13 +153,13 @@
 .leads { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; list-style: none; margin: 0; padding: 0; }
 .lead { display: flex; flex-direction: column; gap: 10px; padding: 24px; border-radius: 22px; background: var(--ground); border: 1px solid var(--line); }
 .lead-icon { width: 46px; height: 46px; border-radius: 23px; display: flex; align-items: center; justify-content: center; }
-.lead.t-flood .lead-icon { background: var(--flood-soft); color: var(--flood); }
-.lead.t-heat .lead-icon { background: #FDEBD8; color: var(--orange); }
+.lead.t-flood .lead-icon { background: var(--action-soft); color: var(--action); }
+.lead.t-heat .lead-icon { background: var(--action-soft); color: var(--action); }
 .lead b { font-size: 38px; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
 .lead-bar { height: 10px; border-radius: 5px; background: var(--soft); overflow: hidden; }
 .lead-bar i { display: block; height: 100%; border-radius: 5px; }
-.lead.t-flood .lead-bar i { background: var(--flood); }
-.lead.t-heat .lead-bar i { background: var(--orange); }
+.lead .lead-bar i { background: var(--action); }
+
 .lead-title { font-size: 16px; line-height: 1.4; font-weight: 600; color: var(--ink-2); }
 
 /* ---- built on AWS ---- */
@@ -191,7 +192,7 @@
 .globe figcaption span { display: inline-flex; align-items: center; gap: 8px; }
 .globe figcaption i { width: 14px; height: 14px; border-radius: 7px; }
 .globe .now i { background: #0B5F5A; }
-.globe .next i { background: #6FA8A2; }
+.globe .next i { background: #5FA39B; }
 .cover .sec-title { margin-bottom: 24px; }
 .cover-list { display: flex; flex-direction: column; gap: 14px; list-style: none; margin: 0; padding: 0; }
 .cover-list li { display: flex; gap: 16px; align-items: flex-start; padding: 20px 22px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); }
@@ -231,7 +232,7 @@
 
 .ap-section { padding: 120px 0; text-align: center; }
 .ap-soft { background: var(--surface); }
-.ap-dark { background: var(--night); color: #FFFFFF; }
+.ap-dark { background: url('/isobars.svg') center / cover no-repeat, var(--night); color: #FFFFFF; } /* weather-map pressure lines */
 .ap-dark .eyebrow { color: var(--mint); }
 .ap-title { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 0 auto 48px; max-width: 900px; }
 .ap-title h2 { font-size: var(--fs-h2); line-height: 1.1; font-weight: 700; letter-spacing: -0.015em; text-wrap: balance; }
@@ -251,28 +252,29 @@
 
 .ap-dark .gap-fig { max-width: 760px; margin: 0 auto; text-align: left; }
 
-.ap-huge { font-size: var(--fs-hero-number); font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: var(--flood); margin: 0; }
+.ap-huge { font-size: var(--fs-hero-number); font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: var(--action); margin: 0; }
 .ap-huge-sub { font-size: var(--fs-body); line-height: 1.45; color: var(--ink-2); }
 .ap-card { border-radius: 24px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(20, 32, 25, 0.04), 0 12px 32px -18px rgba(11, 66, 63, 0.25); }
 .ap-impact { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 18px; max-width: 1040px; margin: 0 auto; }
-.ap-feature { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 36px 28px; background: var(--flood-soft); border-color: #C9DAF0; }
+.ap-feature { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 36px 28px; background: var(--action-soft); border-color: #BFDAD5; }
+.ap-feature-icon { width: 56px; height: 56px; border-radius: 28px; display: flex; align-items: center; justify-content: center; background: var(--surface); color: var(--action); margin-bottom: 8px; }
 .ap-feature .ap-huge-sub { margin: 10px 0 0; max-width: 340px; }
 .ap-leads { display: flex; flex-direction: column; justify-content: center; gap: 22px; margin: 0; padding: 32px 30px; list-style: none; text-align: left; }
-.ap-leads li { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 4px 20px; align-items: center; }
+.ap-leads li { display: grid; grid-template-columns: 196px minmax(0, 1fr); gap: 4px 20px; align-items: center; }
 .ap-leads b { font-size: var(--fs-h3); font-weight: 800; }
 .ap-leads .lead-bar { height: 12px; }
 .ap-leads li > span:last-child { grid-column: 2; font-size: var(--fs-small); color: var(--muted); }
-.ap-leads .t-flood b { color: var(--flood); }
-.ap-leads .t-heat b { color: var(--orange); }
-.ap-leads .t-flood .lead-bar i { background: var(--flood); }
-.ap-leads .t-heat .lead-bar i { background: var(--orange); }
+.ap-leads b { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); white-space: nowrap; }
+.ap-leads b svg { color: var(--action); }
+
+.ap-leads .lead-bar i { background: var(--action); }
 
 .ap-jobs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; max-width: 1080px; margin: 0 auto; }
 .ap-jobs article { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .ap-job-icon { width: 76px; height: 76px; border-radius: 38px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; }
-.ap-jobs .t-heat .ap-job-icon { background: #FDEBD8; color: var(--orange); }
-.ap-jobs .t-action .ap-job-icon { background: var(--action-soft); color: var(--action); }
-.ap-jobs .t-flood .ap-job-icon { background: var(--flood-soft); color: var(--flood); }
+
+.ap-job-icon { background: var(--action-soft); color: var(--action); }
+
 .ap-jobs h3 { font-size: var(--fs-h3); line-height: 1.2; font-weight: 800; text-wrap: balance; }
 .ap-jobs p { font-size: var(--fs-body); line-height: 1.5; color: var(--ink-2); max-width: 320px; }
 
@@ -338,7 +340,8 @@
   .ap-jobs { gap: 36px; }
   .ap-leads { padding: 24px 20px; }
   .ap-pill { width: auto; }
-  .ap-leads li { grid-template-columns: 112px minmax(0, 1fr); gap: 2px 14px; }
+  .ap-leads li { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .ap-leads li > span:last-child { grid-column: 1; }
   .ap-leads b { font-size: 18px; }
   .ap-note { flex-direction: column; }
   .l-hero { padding-top: 28px; }
@@ -374,3 +377,20 @@
   background: var(--mint, #7FD1C7); transform-origin: left; animation: story-progress 5.5s linear both; }
 @keyframes story-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @media (prefers-reduced-motion: reduce) { .phone-tabs.playing button::after { animation: none; } }
+
+/* ---- weather feel: a morning sky in the hero (colour still only means risk, so no orange or blue here) ---- */
+.ap-hero { position: relative; overflow: hidden;
+  background: radial-gradient(560px 400px at 78% 40%, rgba(255, 238, 200, 0.75), rgba(255, 238, 200, 0) 70%),
+              linear-gradient(180deg, #D9EAF1 0%, #E9F2EF 55%, var(--ground) 100%); }
+.ap-hero > .wrap { position: relative; z-index: 1; }
+.ap-sky { position: absolute; inset: 0; pointer-events: none; }
+.ap-sky i { position: absolute; left: 0; background: url('/cloud.svg') center / contain no-repeat; opacity: 0.5; animation: cloud-drift 140s linear infinite; }
+/* Clouds keep to the open sky: above the words, and under the buttons; never across them. */
+.ap-sky i:nth-child(1) { top: 14px; width: 180px; height: 74px; animation-delay: -40s; }
+.ap-sky i:nth-child(2) { top: 92px; width: 110px; height: 45px; opacity: 0.35; animation-duration: 190s; animation-delay: -120s; }
+.ap-sky i:nth-child(3) { bottom: 18px; width: 220px; height: 90px; opacity: 0.4; animation-duration: 230s; animation-delay: -70s; }
+@keyframes cloud-drift { from { transform: translateX(-300px); } to { transform: translateX(110vw); } }
+@media (prefers-reduced-motion: reduce) {
+  .ap-sky i { animation: none; }
+  .ap-sky i:nth-child(1) { left: 6%; } .ap-sky i:nth-child(2) { left: 46%; } .ap-sky i:nth-child(3) { left: 30%; }
+}

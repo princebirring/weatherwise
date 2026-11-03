@@ -1,6 +1,6 @@
 // How warnings are shown: IMD colours, order, likelihood and day pictures. Display only.
 import { describe, expect, it } from 'vitest'
-import { chipsOf, dayIcon, dayLevel, dryDays, groupStatus, longDay, yourDay, levelOf, likelihood, officialTitle, sortDetections, titleOf, weekday, whenOf } from '../hazards'
+import { chipsOf, dayIcon, dayLevel, dryDays, groupStatus, longDay, yourDay, levelOf, likelihood, officialIcon, officialTitle, sortDetections, titleOf, weekday, whenOf } from '../hazards'
 import { textFor } from '../text'
 import type { DayRow, Detection } from '../types'
 
@@ -9,6 +9,17 @@ const det = (hazard: string, severity: string, days_ahead = 1, agreement = 0.8, 
 })
 const row = (day: string, tmax: number, hazards: string[] = [], rain = 0): DayRow => ({
   day, tmax_c: tmax, normal_tmax_c: 41, feels_like_max_c: tmax + 2, rain_mm: rain, river_m3s: null, hazards,
+})
+
+describe('official alert icons: the kind of weather, not how serious', () => {
+  it('picks the weather icon from the event name', () => {
+    expect(officialIcon('Heavy Rain')).toBe('rain')
+    expect(officialIcon('Thunderstorm & Lightning')).toBe('storm')
+    expect(officialIcon('Flood')).toBe('waves')
+    expect(officialIcon('Cyclone')).toBe('wind')
+    expect(officialIcon('Heat Wave')).toBe('heat')
+    expect(officialIcon('Something new')).toBe('alert')
+  })
 })
 
 describe('warning display', () => {
@@ -65,7 +76,7 @@ describe('warning display', () => {
   it('colours and pictures each day by its most serious hazard', () => {
     expect(dayLevel(row('2026-04-24', 45, ['dry_spell:dry_spell', 'heat_wave:severe']))).toBe('red')
     expect(dayLevel(row('2026-04-24', 30))).toBeNull()
-    expect(dayIcon(row('2026-04-24', 30, [], 12))).toBe('drop')
+    expect(dayIcon(row('2026-04-24', 30, [], 12))).toBe('rain')
     expect(dayIcon(row('2026-04-24', 30))).toBe('sun')
   })
 })
