@@ -61,6 +61,13 @@ const FEATURES: [string, TextKey][] = [
   ['Evals', 'show.featEvals'], ['AgentCore Runtime', 'show.featRuntime'],
 ]
 
+// The three AWS-side parts, one card each (moved here from the landing page).
+const PILLARS: { name: string; body: TextKey }[] = [
+  { name: 'Strands Agents', body: 'site.pillarStrands' },
+  { name: 'Amazon Bedrock AgentCore', body: 'site.pillarCore' },
+  { name: 'Climate Risk MCP server', body: 'site.pillarMcp' },
+]
+
 /** /how-it-works: how a warning is decided (live from rules/), then how the system is built. */
 export function HowPage() {
   const { t } = useLanguage()
@@ -76,6 +83,20 @@ export function HowPage() {
       <section className="l-section l-band" id="built">
         <div className="wrap stack" style={{ gap: 22 }}>
           <SectionTitle kicker={t('site.awsKicker')} title={t('show.builtTitle')} lede={t('show.builtLede')} />
+          <div className="pillars">
+            {PILLARS.map((p) => (
+              <article key={p.name}>
+                <h3 lang="en">{p.name}</h3>
+                <p>{t(p.body)}</p>
+              </article>
+            ))}
+          </div>
+          <div className="safety">
+            <p className="safety-head"><Icon name="shield" size={20} />{t('site.safetyStrip')}</p>
+            <div><b>{SAFETY.mistakesCaught.join(' / ')}</b><span>{t('site.safety1')}</span></div>
+            <div><b>{SAFETY.goodDraftsPassed.join(' / ')}</b><span>{t('site.safety2')}</span></div>
+            <div><b>{SAFETY.unsafeNeverSent.join(' / ')}</b><span>{t('site.safety3')}</span></div>
+          </div>
           <FlowDiagram />
           <div className="stack" style={{ gap: 10 }}>
             <h3 className="h-mid">{t('show.strandsTitle')}</h3>
