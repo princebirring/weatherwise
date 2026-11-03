@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { api } from '../api'
-import { chipsOf, GROUP_ICONS, groupStatus, iconOf, levelOf, shortDate, titleOf, whenOf, type HazardGroup } from '../hazards'
+import { chipsOf, groupStatus, iconOf, levelOf, shortDate, titleOf, whenOf, type HazardGroup } from '../hazards'
 import { Icon, type IconName } from '../components/Icon'
 import { Listen } from '../components/Listen'
 import { ErrorBox, Helplines, Loading, ScreenHeader } from '../components/Shell'
@@ -29,6 +29,9 @@ const list = (key: keyof typeof ICONS, items: AdviceItem[]): Card[] =>
   items.map((a, i) => ({ icon: ICONS[key][i] ?? 'check', label: a.who, text: a.what }))
 
 /** The advice for a group, most urgent first: the work-heat level line, or sowing when that is the risk. */
+// A long phone number in an advice line (e.g. the Kisan Call Centre, 1800-180-1551) becomes a call button.
+const phoneIn = (text: string) => text.match(/\b1800[-\s]?\d{3}[-\s]?\d{4}\b|\b\d{3,5}[-\s]\d{3}[-\s]\d{4}\b/)?.[0] ?? null
+
 function adviceFor(group: HazardGroup, detections: Detection[], g: Guidance): Card[] {
   if (group === 'heat') {
     const work = detections.find((d) => d.hazard === 'work_heat')
@@ -77,15 +80,18 @@ export function HazardPage({ group, place, data }: { group: HazardGroup; place: 
         {danger
           ? status.detections.map((d, i) => <Warning key={`${d.hazard}-${d.first_day}`} d={d} outlook={outlook} place={place} main={i === 0} />)
           : (
-            <section className={`hero-card quiet ${status.missing ? 'lv-missing' : 'lv-calm'}`} role="status">
-              <h2 className="row" style={{ justifyContent: 'center' }}><Icon name={status.missing ? 'alert' : GROUP_ICONS[group]} size={30} />{t('today.safeTitle')}</h2>
-              <p>{statusLines[0]}</p>
-            </section>
+            // A calm week is one quiet line, not a card that looks like an alert.
+            <p className={`calm-line ${status.missing ? 'missing' : ''}`} role="status">
+              <Icon name={status.missing ? 'alert' : 'check'} size={22} />
+              <b>{statusLines[0]}</b>
+            </p>
           )}
-        <Listen text={[...statusLines, adviceTitle, ...cards.map((c) => [c.label, c.text].filter(Boolean).join(': '))].join('. ')} />
 
         <section className="stack" style={{ gap: 10 }} aria-labelledby="advice-heading">
-          <h2 id="advice-heading" className="h-mid">{adviceTitle}</h2>
+          <div className="section-row">
+            <h2 id="advice-heading" className="h-mid">{adviceTitle}</h2>
+            <Listen round text={[...statusLines, adviceTitle, ...cards.map((c) => [c.label, c.text].filter(Boolean).join(': '))].join('. ')} />
+          </div>
           {cards.map((c) => (
             <article key={c.text} className={`advice ${c.call108 ? 'warn' : ''}`}>
               <span className="advice-icon"><Icon name={c.icon} size={34} /></span>
@@ -93,6 +99,7 @@ export function HazardPage({ group, place, data }: { group: HazardGroup; place: 
                 {c.label && <span className="advice-label">{c.label}</span>}
                 <span className="advice-text">{c.text}</span>
                 {c.call108 && <a href="tel:108" className="btn danger">{t('todo.call108')}</a>}
+                {!c.call108 && phoneIn(c.text) && <a href={`tel:${phoneIn(c.text)!.replace(/\D/g, '')}`} className="btn secondary">{t('advice.call', phoneIn(c.text)!)}</a>}
               </span>
             </article>
           ))}
@@ -102,7 +109,8 @@ export function HazardPage({ group, place, data }: { group: HazardGroup; place: 
         {group === 'flood' && <FloodSteps place={place} mode={outlook.flood_guide.mode} guidance={guidance} />}
         {group !== 'dry' && <NearestPlaces place={place} kind={group === 'heat' ? 'heat' : 'flood'} />}
         {danger && <ShareButton d={status.detections[0]} place={place} />}
-        <Helplines />
+        {/* The red Help tab is always there; the numbers repeat here only when there is a warning. */}
+        {danger && <Helplines />}
       </main>
     </>
   )
@@ -174,9 +182,14 @@ function FloodSteps({ place, mode, guidance }: { place: SavedPlace; mode: Outloo
   }
   const pickHome = (h: Home) => { saved.setFloodHome(h); setHome(h) }
 
+  // Open when the guide is in prepare mode; on a calm week, folded to one line with the progress.
   return (
-    <section className="stack" style={{ gap: 10 }} aria-labelledby="steps-heading">
-      <h2 id="steps-heading" className="h-mid">{t('flood.stepsTitle')}</h2>
+    <details className="steps" open={mode === 'prepare'}>
+      <summary className="steps-head">
+        <h2 id="steps-heading" className="h-mid">{t('flood.stepsTitle')}</h2>
+        <span className="steps-count">{t('flood.stepsDone', `${ticked.size} / ${steps.length}`)}</span>
+      </summary>
+      <div className="stack" style={{ gap: 10, marginTop: 10 }}>
       <p className="big-note">{mode === 'prepare' ? t('flood.prepareBody') : t('flood.calmBody')}</p>
       <div className="segmented" role="group" aria-label={t('flood.where')}>
         <button type="button" aria-pressed={home === 'village'} onClick={() => pickHome('village')}>{t('flood.village')}</button>
@@ -195,7 +208,8 @@ function FloodSteps({ place, mode, guidance }: { place: SavedPlace; mode: Outloo
       {ticked.size === steps.length && <p className="card big-note" role="status"><b>{t('flood.allDone')}</b></p>}
       <p className="big-note"><b>{guidance.flood_always}</b></p>
       <p className="small">{t('flood.progress')}</p>
-    </section>
+      </div>
+    </details>
   )
 }
 

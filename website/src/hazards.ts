@@ -244,3 +244,42 @@ export function yourDay(rows: DayRow[], language: Language, t: T): DayLine[] {
   if (hot !== null) lines.push({ icon: 'sun', text: `${t('day.hot', hot)}${feels !== null && feels > hot ? ` ${t('day.feels', feels)}` : ''}` })
   return lines
 }
+
+export interface Glance {
+  key: 'spray' | 'rain' | 'heat'
+  icon: IconName
+  value: string // the answer, a few words
+  sub?: string
+  ok?: boolean // for spraying: a tick or a cross
+}
+
+/** "Your day" as three answers a farmer reads at a glance: can I spray, will it rain, how hot.
+ *  The same rules as yourDay (the full sentences stay for Listen). */
+export function dayGlance(rows: DayRow[], language: Language, t: T): Glance[] {
+  const out: Glance[] = []
+  const rainKnown = rows.length > 0 && rows.every((r) => r.rainy_day === true || r.rainy_day === false)
+  if (rainKnown) {
+    const good = rows.map((r) => !r.rainy_day && r.hazards.length === 0)
+    const firstBad = good.indexOf(false)
+    const goodRows = rows.filter((_, i) => good[i])
+    if (firstBad === -1) out.push({ key: 'spray', icon: 'plant', ok: true, value: t('glance.sprayAll') })
+    else if (firstBad > 0 && rows[firstBad].rainy_day && good.slice(firstBad).every((g) => !g)) {
+      out.push({ key: 'spray', icon: 'plant', ok: true, value: t('glance.sprayUntil', weekday(rows[firstBad - 1].day, language)) })
+    } else if (goodRows.length) out.push({ key: 'spray', icon: 'plant', ok: true, value: listDays(goodRows, language) })
+    else out.push({ key: 'spray', icon: 'plant', ok: false, value: t('glance.sprayWait'), sub: t('glance.sprayWaitWhy') })
+
+    const rainy = rows.filter((r) => r.rainy_day)
+    const most = Math.max(0, ...rainy.map((r) => r.rain_mm ?? 0))
+    out.push(rainy.length
+      ? { key: 'rain', icon: 'rain', value: t('glance.rainDays', rainy.length), sub: t('glance.rainUpTo', Math.round(most)) }
+      : { key: 'rain', icon: 'rain', value: t('glance.rainNone') })
+  }
+  const top = (xs: (number | null)[]) => {
+    const v = xs.filter((x): x is number => x !== null)
+    return v.length ? Math.round(Math.max(...v)) : null
+  }
+  const hot = top(rows.map((r) => r.tmax_c))
+  const feels = top(rows.map((r) => r.feels_like_max_c))
+  if (hot !== null) out.push({ key: 'heat', icon: 'heat', value: `${hot}°`, sub: feels !== null && feels > hot ? t('glance.feels', feels) : undefined })
+  return out
+}

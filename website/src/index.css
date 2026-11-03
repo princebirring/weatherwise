@@ -243,9 +243,13 @@ h1, h2, h3, p { margin: 0; }
 .week li { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 0; border-radius: 14px;
   background: var(--surface); border: 1px solid var(--line); color: #8A6100; }
 .week li .wd, .week li b { color: var(--ink); }
-.week .wd { font-size: 13px; font-weight: 700; }
-.week b { font-size: 17px; font-weight: 800; }
-.week .rain { font-size: 12px; font-weight: 700; color: var(--flood); }
+.week .wd { font-size: 14px; font-weight: 700; }
+.week b { font-size: 18px; font-weight: 800; }
+.week .rainbar { width: 10px; height: 28px; margin-top: 2px; border-radius: 5px; background: var(--soft); display: flex; align-items: flex-end; overflow: hidden; }
+.week .rainbar i { display: block; width: 100%; border-radius: 5px; background: #5B8DB8; }
+.week .rain { font-size: 13px; font-weight: 700; color: var(--ink-2); min-height: 1.2em; }
+.week li.orange .rainbar, .week li.red .rainbar { background: rgba(255, 255, 255, 0.35); }
+.week li.orange .rainbar i, .week li.red .rainbar i { background: #FFFFFF; }
 .week li.orange .rain, .week li.red .rain { color: #FFFFFF; }
 .week li.orange { background: var(--orange); border-color: var(--orange); }
 .week li.red { background: var(--red); border-color: var(--red); }
@@ -312,7 +316,7 @@ h1, h2, h3, p { margin: 0; }
   color: var(--action); display: flex; align-items: center; justify-content: center; padding: 0; }
 .listen-round[aria-pressed='true'] { background: var(--action); color: #FFFFFF; }
 .day-card { background: var(--surface); border: 2px solid var(--line); border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 16px; }
-.day-line { display: flex; gap: 14px; align-items: flex-start; font-size: 21px; line-height: 1.25; font-weight: 700; }
+.day-line { display: flex; gap: 14px; align-items: flex-start; font-size: 20px; line-height: 1.3; font-weight: 600; }
 .day-line > span { flex: none; width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center;
   background: var(--action-soft); color: var(--action); }
 .day-line.plant > span { background: #E3F1E6; color: #1E7A3C; }
@@ -326,7 +330,8 @@ h1, h2, h3, p { margin: 0; }
 .tile.calm svg { color: var(--muted); }
 .tile b { font-size: 18px; font-weight: 800; line-height: 1.15; }
 .tile span { font-size: 15px; line-height: 1.2; font-weight: 600; }
-.tile.calm span { color: #3F4F47; font-weight: 400; }
+.tile.calm span { color: #3F4F47; font-weight: 600; display: inline-flex; align-items: center; gap: 3px; }
+.tile.calm span svg { color: var(--action); }
 .danger-banner { display: flex; flex-direction: column; gap: 6px; border-radius: 22px; padding: 16px; }
 .danger-banner h2 { font-size: 26px; line-height: 1.1; font-weight: 800; gap: 10px; }
 .danger-banner .when { font-size: 19px; font-weight: 700; }
@@ -365,7 +370,7 @@ h1, h2, h3, p { margin: 0; }
 .advice.warn { border-color: #E7B4AE; }
 .advice.warn .advice-icon { background: #FBE9E7; color: var(--red); }
 .advice-label { font-size: 16px; font-weight: 700; color: #3F4F47; }
-.advice-text { font-size: 20px; line-height: 1.3; font-weight: 700; }
+.advice-text { font-size: 19px; line-height: 1.35; font-weight: 500; }
 .advice .btn { margin-top: 8px; align-self: flex-start; }
 .checklist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .checklist label { display: flex; gap: 14px; align-items: flex-start; padding: 14px; border-radius: 18px; background: var(--surface);
@@ -497,3 +502,33 @@ h1, h2, h3, p { margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   .phone-scroll .app-main > *, .stage { animation: none; transition: none; }
 }
+
+/* ---- glanceable Today: three answers instead of sentences ---- */
+.glance { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.glance-tile { display: flex; flex-direction: column; gap: 4px; padding: 12px 10px; border-radius: 18px; background: var(--surface); border: 2px solid var(--line); min-width: 0; }
+.glance-head { display: flex; align-items: center; gap: 5px; font-size: 14px; font-weight: 700; color: var(--muted); }
+.glance-head svg { flex: none; color: var(--action); }
+.glance-tile b { font-size: 18px; line-height: 1.15; font-weight: 800; overflow-wrap: anywhere; }
+.glance-sub { font-size: 14px; line-height: 1.3; color: var(--ink-2); }
+.glance-mark { flex: none; margin-left: auto; width: 22px; height: 22px; border-radius: 11px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; }
+.glance-mark.yes { background: var(--action-soft); color: var(--action); }
+.glance-mark.no { background: var(--soft); color: var(--ink); }
+.g-heat b { font-size: 26px; }
+
+/* ---- danger pages: a calm week is one quiet line; the flood steps fold away ---- */
+.calm-line { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 16px; background: var(--action-soft); color: var(--action-dark); font-size: 17px; line-height: 1.35; }
+.calm-line svg { flex: none; margin-top: 1px; }
+.calm-line .small { color: var(--ink-2); font-weight: 400; }
+.calm-line.missing { background: var(--soft); color: var(--ink); }
+.steps { background: var(--surface); border: 2px solid var(--line); border-radius: 20px; padding: 14px; }
+.steps-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; list-style: none; }
+.steps-head::-webkit-details-marker { display: none; }
+.steps-head::after { content: '›'; font-size: 26px; line-height: 1; color: var(--action); transition: transform 0.2s; }
+.steps[open] .steps-head::after { transform: rotate(90deg); }
+.steps-count { margin-left: auto; font-size: 14px; font-weight: 700; color: var(--action); white-space: nowrap; }
+
+/* ---- welcome: say what the app does in the open space ---- */
+.start-what { display: flex; flex-direction: column; gap: 14px; padding: 18px; border-radius: 20px; background: var(--surface); border: 2px solid var(--line); }
+.start-what p { font-size: 18px; line-height: 1.4; }
+.start-icons { display: flex; gap: 10px; }
+.start-icons span { width: 48px; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; background: var(--action-soft); color: var(--action); }

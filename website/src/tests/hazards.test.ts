@@ -1,6 +1,6 @@
 // How warnings are shown: IMD colours, order, likelihood and day pictures. Display only.
 import { describe, expect, it } from 'vitest'
-import { chipsOf, dayIcon, dayLevel, dryDays, groupStatus, longDay, yourDay, levelOf, likelihood, officialIcon, officialTitle, sortDetections, titleOf, weekday, whenOf } from '../hazards'
+import { chipsOf, dayGlance, dayIcon, dayLevel, dryDays, groupStatus, longDay, yourDay, levelOf, likelihood, officialIcon, officialTitle, sortDetections, titleOf, weekday, whenOf } from '../hazards'
 import { textFor } from '../text'
 import type { DayRow, Detection } from '../types'
 
@@ -19,6 +19,22 @@ describe('official alert icons: the kind of weather, not how serious', () => {
     expect(officialIcon('Cyclone')).toBe('wind')
     expect(officialIcon('Heat Wave')).toBe('heat')
     expect(officialIcon('Something new')).toBe('alert')
+  })
+})
+
+describe('dayGlance: the farm week as three answers', () => {
+  const t = textFor('en')
+  const wet = (day: string, mm: number) => ({ day, tmax_c: 30, normal_tmax_c: 30, feels_like_max_c: 33, rain_mm: mm, river_m3s: null, rainy_day: mm >= 2.5, hazards: [] })
+  it('says wait when it rains every day, and how much', () => {
+    const g = dayGlance(['2026-11-03', '2026-11-04', '2026-11-05'].map((d) => wet(d, 17)), 'en', t)
+    expect(g[0]).toMatchObject({ key: 'spray', ok: false, value: 'Wait' })
+    expect(g[1]).toMatchObject({ key: 'rain', value: 'On 3 days', sub: 'Up to 17 mm' })
+    expect(g[2]).toMatchObject({ key: 'heat', value: '30°', sub: 'Feels 33°' })
+  })
+  it('says good all week when it stays dry', () => {
+    const g = dayGlance(['2026-11-03', '2026-11-04'].map((d) => wet(d, 0)), 'en', t)
+    expect(g[0]).toMatchObject({ ok: true, value: 'Good all week' })
+    expect(g[1]).toMatchObject({ key: 'rain', value: 'None this week' })
   })
 })
 

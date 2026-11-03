@@ -80,14 +80,16 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expectOnlyLanguage(language)
   })
 
-  it('Today on a calm day: your day in plain sentences, and three quiet danger lights', () => {
+  it('Today on a calm day: your day as three answers, three quiet danger lights, and the week', () => {
     show(language, <Home place={place} official={idle} data={loaded(outlook(false))} offline={false} install={null} />)
     const days = outlook(false).outlook.days
-    const day = document.querySelector('.day-card')!.textContent ?? ''
+    const day = document.querySelector('.glance')!.textContent ?? ''
     const dryDays = days.filter((d) => !d.rainy_day).map((d) => weekday(d.day, language)).join(', ')
-    expect(day).toContain(t('week.sprayDays', dryDays))                 // every day but the rainy one
-    expect(day).toContain(t('day.rainUpTo', 12))                        // the one rainy day
-    expect(day).toContain(t('day.hot', 45))
+    expect(document.querySelector('.g-spray')!.textContent).toContain(dryDays) // every day but the rainy one
+    expect(day).toContain(t('glance.rainDays', 1))                     // the one rainy day
+    expect(day).toContain(t('glance.rainUpTo', 12))
+    expect(document.querySelector('.g-heat')!.textContent).toContain('45°')
+    expect(document.querySelectorAll('.week li')).toHaveLength(days.length) // the week is on Today too
     const tiles = [...document.querySelectorAll('a.tile')]
     expect(tiles.map((x) => x.getAttribute('href'))).toEqual(['/app/heat', '/app/flood', '/app/dry'])
     for (const x of tiles) expect(x.textContent).toContain(t('watch.quiet'))
@@ -110,7 +112,7 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expect(dry.textContent).toContain(t('level.yellow'))
     // A heat-wave day is never called good for spraying.
     const days = outlook(true).outlook.days
-    expect(document.querySelector('.day-card')!.textContent).not.toContain(weekday(days[3].day, language))
+    expect(document.querySelector('.g-spray')!.textContent).not.toContain(weekday(days[3].day, language))
     expectOnlyLanguage(language)
   })
 
@@ -132,7 +134,7 @@ describe.each(LANGUAGES)('in %s', (language) => {
     const alerts = { status: 'ok' as const, alerts: [telanganaWatch], source: 'SACHET' }
     show(language, <Home place={place} official={idle} data={loaded(outlook(false, null, alerts))} offline={false} install={null} />)
     const card = document.querySelector('article.official')!
-    expect(card.compareDocumentPosition(document.querySelector('.day-card')!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(card.compareDocumentPosition(document.querySelector('.glance')!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     expect(card.querySelector('h2')?.textContent).toBe(language === 'en' ? telanganaWatch.event : t('event.thunderstorm'))
     expect(card.textContent).toContain(t('official.kicker', 'Telangana SDMA'))
     expect(card.textContent).toContain(t('official.level.yellow'))
@@ -221,7 +223,16 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expect(screen.getByText(t('page.calm.heat'))).toBeTruthy()
     expect(screen.getByText(t('page.when.heat'))).toBeTruthy()
     expect(screen.queryByText(t('today.share'))).toBeNull()
+    expect(document.querySelector('.calm-line')!.textContent).toBe(t('page.calm.heat')) // one quiet line
+    expect(document.querySelector('.helplines')).toBeNull()             // the Help tab has them; no warning, no repeat
     expectOnlyLanguage(language)
+  })
+
+  it('A danger page repeats the helplines, and a phone number in advice is a call button', () => {
+    show(language, <HazardPage group="dry" place={place} data={loaded(outlook(true))} />)
+    expect(document.querySelector('.helplines')).toBeTruthy()
+    const kisan = g.dry_spell.concat(g.sowing).find((a) => a.what.includes('1800'))
+    if (kisan) expect(document.querySelector('a[href="tel:18001801551"]')).toBeTruthy()
   })
 
   it('Dry page: the dry spell and its advice', () => {
@@ -236,6 +247,7 @@ describe.each(LANGUAGES)('in %s', (language) => {
     show(language, <HazardPage group="flood" place={place} data={loaded(outlook(false))} />)
     expect(screen.getByText(t('page.calm.flood'))).toBeTruthy()
     expect(screen.getByText(t('flood.calmBody'))).toBeTruthy()
+    expect(document.querySelector('details.steps')!.hasAttribute('open')).toBe(false) // calm week: folded to one line
     const first = screen.getByText(g.flood_village[0])
     fireEvent.click(first)
     expect((first.previousSibling as HTMLInputElement).checked).toBe(true)

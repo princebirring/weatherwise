@@ -1,15 +1,17 @@
-import { dayIcon, dayLevel, dryDays, weekday } from '../hazards'
+import { dayIcon, dayLevel, weekday } from '../hazards'
 import { useLanguage } from '../text'
 import type { Outlook } from '../types'
 import { Icon } from './Icon'
 
 // Rain worth showing on the week strip: a whole millimetre or more (a display choice, not a warning line).
 const wet = (mm: number | null) => mm !== null && Math.round(mm) >= 1
+// The rain bars share one scale, at least 20 mm, so a drizzle never looks like a downpour.
+const BAR_MM = 20
 
-/** The 7-day strip, coloured by warning level, with the days that are good for spraying. */
+/** The 7-day strip: icon, high temperature and a rain bar per day, coloured by warning level. */
 export function Week({ outlook }: { outlook: Outlook }) {
   const { t, language } = useLanguage()
-  const dry = dryDays(outlook.days)
+  const scale = Math.max(BAR_MM, ...outlook.days.map((d) => d.rain_mm ?? 0))
   return (
     <section className="stack" style={{ gap: 8 }} aria-labelledby="week-heading">
       <h2 id="week-heading" className="h-mid">{t('today.week')}</h2>
@@ -21,20 +23,12 @@ export function Week({ outlook }: { outlook: Outlook }) {
               <span className="wd">{weekday(d.day, language)}</span>
               <Icon name={dayIcon(d)} size={26} />
               <b>{d.tmax_c === null ? '–' : `${Math.round(d.tmax_c)}°`}</b>
-              {wet(d.rain_mm) && <span className="rain">{t('today.rainMm', Math.round(d.rain_mm as number))}</span>}
+              <span className="rainbar" aria-hidden="true"><i style={{ height: `${wet(d.rain_mm) ? Math.max(12, ((d.rain_mm as number) / scale) * 100) : 0}%` }} /></span>
+              <span className="rain">{wet(d.rain_mm) ? t('today.rainMm', Math.round(d.rain_mm as number)) : ' '}</span>
             </li>
           )
         })}
       </ol>
-      {dry && (
-        <p className="spray">
-          <Icon name="plant" size={24} />
-          <span>
-            {dry.length ? t('week.sprayDays', dry.map((d) => weekday(d.day, language)).join(', ')) : t('week.sprayNone')}
-            {' '}<span className="small">{t('week.sprayWhy')}</span>
-          </span>
-        </p>
-      )}
     </section>
   )
 }

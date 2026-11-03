@@ -1,6 +1,7 @@
-import { GROUP_ICONS, GROUPS, groupOf, groupStatus, iconOf, levelOf, LOCALES, officialIcon, officialTitle, shortDate, sortDetections, titleOf, whenOf, yourDay } from '../hazards'
+import { dayGlance, GROUP_ICONS, GROUPS, groupOf, groupStatus, iconOf, levelOf, LOCALES, officialIcon, officialTitle, shortDate, sortDetections, titleOf, whenOf, yourDay } from '../hazards'
 import { Icon } from '../components/Icon'
 import { Listen } from '../components/Listen'
+import { Week } from '../components/Week'
 import { ErrorBox, Loading } from '../components/Shell'
 import type { Async } from '../components/useAsync'
 import type { InstallPrompt } from '../components/useInstallPrompt'
@@ -45,6 +46,8 @@ export function Home({ place, data, official, offline, install, onDismissInstall
     ? [{ icon: 'alert' as const, text: t('today.missingBody') }]
     : yourDay(outlook.days, language, t)
   const tiles = GROUPS.map((g) => ({ group: g, ...tileOf(g, outlook, t) }))
+  // The farm week as three answers (spraying, rain, heat); the full sentences stay for Listen.
+  const glance = outlook.days.length ? dayGlance(outlook.days, language, t) : []
 
   return (
     <main className="app-main">
@@ -58,11 +61,26 @@ export function Home({ place, data, official, offline, install, onDismissInstall
           <h2 id="day-heading" className="label">{t('day.title')}</h2>
           <Listen round text={[...lines.map((l) => l.text), ...tiles.map((x) => `${t(`tile.${x.group}`)}: ${x.word}`)].join('. ')} />
         </div>
-        <div className="day-card">
-          {lines.map((l) => (
-            <p key={l.text} className={`day-line ${l.icon}`}><span><Icon name={l.icon} size={24} /></span>{l.text}</p>
-          ))}
-        </div>
+        {glance.length ? (
+          <div className="glance">
+            {glance.map((g) => (
+              <div key={g.key} className={`glance-tile g-${g.key}`}>
+                <span className="glance-head">
+                  <Icon name={g.icon} size={20} />{t(`glance.${g.key}`)}
+                  {g.ok !== undefined && <span className={`glance-mark ${g.ok ? 'yes' : 'no'}`} aria-hidden="true">{g.ok ? '✓' : '✕'}</span>}
+                </span>
+                <b>{g.value}</b>
+                {g.sub && <span className="glance-sub">{g.sub}</span>}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="day-card">
+            {lines.map((l) => (
+              <p key={l.text} className={`day-line ${l.icon}`}><span><Icon name={l.icon} size={24} /></span>{l.text}</p>
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="stack" style={{ gap: 8 }} aria-labelledby="watch-heading">
@@ -72,11 +90,13 @@ export function Home({ place, data, official, offline, install, onDismissInstall
             <Link key={x.group} href={`/app/${x.group}`} className={`tile ${x.className}`}>
               <Icon name={GROUP_ICONS[x.group]} size={30} />
               <b>{t(`tile.${x.group}`)}</b>
-              <span>{x.word}</span>
+              <span>{x.className === 'calm' && <Icon name="check" size={14} />}{x.word}</span>
             </Link>
           ))}
         </div>
       </section>
+
+      {outlook.days.length > 0 && <Week outlook={outlook} />}
 
       {officialNow?.status === 'ok' && alerts.length === 0 && <p className="small" style={{ textAlign: 'center' }}>{t('official.none')}</p>}
 
