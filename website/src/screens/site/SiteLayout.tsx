@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react'
-import { Logo } from '../../components/Icon'
+import { Icon, Logo } from '../../components/Icon'
 import { LanguagePicker } from '../../components/Shell'
 import { Link, usePath } from '../../router'
 import { useLanguage } from '../../text'
 import type { TextKey } from '../../text/en'
-import { REPO, TEAM } from './team'
+import { LICENSE_URL, REPO, TEAM } from './team'
 import './site.css'
 
 export const NAV: [string, TextKey][] = [
@@ -27,6 +27,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           </nav>
           <div className="site-top-actions">
             <LanguagePicker />
+            <a href={REPO} target="_blank" rel="noreferrer" className="site-gh" aria-label={t('site.githubAria')} title={t('site.githubAria')}>
+              <Icon name="github" size={22} />
+            </a>
             <Link href="/app" className="btn">{t('site.openApp')}</Link>
           </div>
         </div>
@@ -56,7 +59,7 @@ function SiteFooter() {
           <b>{t('site.navAbout')}</b>
           {TEAM.map((m) => <a key={m.name} href={m.links[0].href} target="_blank" rel="noreferrer">{m.name}</a>)}
           <a href={REPO} target="_blank" rel="noreferrer">{t('site.sourceCode')}</a>
-          <span>{t('site.license')}</span>
+          <a href={LICENSE_URL} target="_blank" rel="noreferrer">{t('site.license')}</a>
         </nav>
       </div>
       <div className="wrap site-foot-credits">{t('show.footerSources')}</div>

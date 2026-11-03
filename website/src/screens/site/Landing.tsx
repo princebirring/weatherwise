@@ -65,6 +65,7 @@ export function Landing() {
               <Link href="/app" className="btn big">{t('site.openApp')}</Link>
               <Link href="/how-it-works" className="ap-link">{t('site.navHow')} <Icon name="send" size={18} /></Link>
             </div>
+            <a href={REPO} target="_blank" rel="noreferrer" className="ap-open"><Icon name="github" size={18} /> {t('site.openNote')}</a>
           </div>
           {/* The real app, tappable. It needs the safety advice from the API; until then an empty phone keeps the shape. */}
           {policy ? <PhoneDemo /> : <figure className="phone-demo" aria-hidden="true"><div className="phone" /><div className="phone-tabs" /></figure>}
@@ -161,9 +162,11 @@ export function Landing() {
             ))}
           </ol>
           <p className="ap-note ap-pill"><Icon name="shield" size={20} /> {t('site.awsSafety', SAFETY.mistakesCaught.join(' / '))}</p>
+          <p className="ap-note ap-pill"><Icon name="check" size={20} /> {t('site.awsProd')}</p>
           <div className="ap-ctas">
             <Link href="/how-it-works" className="ap-link">{t('site.howDecided')} <Icon name="send" size={18} /></Link>
             <Link href="/developers" className="ap-link">{t('site.plugIn')} <Icon name="send" size={18} /></Link>
+            <a href={REPO} target="_blank" rel="noreferrer" className="ap-link"><Icon name="github" size={18} /> {t('site.githubRepo')}</a>
           </div>
         </div>
       </section>
@@ -183,7 +186,7 @@ export function Landing() {
             <p>{t('site.finalBody')}</p>
             <div className="l-ctas">
               <Link href="/app" className="btn big">{t('site.openApp')}</Link>
-              <a href={REPO} target="_blank" rel="noreferrer" className="btn big outline">{t('site.readCode')}</a>
+              <a href={REPO} target="_blank" rel="noreferrer" className="btn big outline"><Icon name="github" size={24} /> {t('site.openSourceGithub')}</a>
             </div>
           </div>
           <figure className="qr">

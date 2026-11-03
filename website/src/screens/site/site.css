@@ -29,6 +29,8 @@
 .site-nav a:hover { color: var(--action); }
 .site-nav a[aria-current='page'] { color: var(--action); border-bottom-color: var(--action); }
 .site-top-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.site-gh { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 23px; color: var(--ink-2); }
+.site-gh:hover { color: var(--action); background: var(--soft); }
 .site-top-actions .btn { min-height: 46px; font-size: 16px; padding: 0 18px; border-radius: 23px; white-space: nowrap; }
 
 /* ---- hero: the promise, the proof numbers and the app, all on the first screen ---- */
@@ -224,6 +226,7 @@
   .ap-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 56px; align-items: center; }
   .ap-hero h1 { margin-left: 0; }
   .ap-hero .ap-sub { margin: 0; }
+  .ap-open { justify-content: flex-start; }
   .ap-hero .ap-ctas { justify-content: flex-start; margin: 32px 0 0; }
 }
 .ap-hero .phone-tabs { margin-top: 6px; }
@@ -242,6 +245,11 @@
 .ap-pill { width: fit-content; padding: 16px 24px; border-radius: 20px; background: var(--night-2); border: 1px solid var(--mint); color: #FFFFFF !important; }
 .ap-dark .ap-note svg { flex: none; color: var(--mint); }
 .ap-section .ap-link { margin-top: 36px; }
+/* The open-source line under the hero buttons. */
+.ap-open { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 22px; font-size: var(--fs-small); font-weight: 700; color: var(--muted); text-decoration: none; }
+.ap-open:hover { color: var(--action); text-decoration: underline; text-underline-offset: 4px; }
+.page-head .raw-link { margin-top: 20px; }
+.dev-note { font-size: var(--fs-small); line-height: 1.45; color: #D5E0D9; }
 .ap-section .ap-ctas { margin: 8px 0 0; }
 
 .ap-section .globe img { max-width: 560px; }
