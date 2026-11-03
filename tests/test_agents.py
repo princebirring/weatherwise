@@ -81,6 +81,22 @@ def test_cost_guard_stops_a_runaway_loop():
     assert statuses == ["success"] * 3 + ["error"] * 2  # 4th and 5th calls cancelled by the hook
 
 
+def test_cost_guard_stops_a_model_that_ignores_the_tool_limit():
+    # Nov 2, 2026: Nova Micro kept calling tools after every refusal, one paid model call each.
+    script = [("tool", "find_place", {"name": "Akola"}), ("tool", "hazard_outlook", {"lat": 20.7, "lon": 77.0})] * 50
+    t, model = team(script)
+    out = t.reply("Akola")
+    assert model.calls == 13  # the 13th tool request (refused ones count) stops the loop
+    assert out["used_fallback"] and out["text"] == fallback_message(POLICY, "general", "en")
+
+
+def test_cost_guard_caps_model_calls_even_without_tools():
+    t, model = team([UNSAFE] * 50)  # a model that never writes a safe reply and never stops
+    out = t.reply("Is a heat wave coming to Akola?")
+    assert model.calls <= 16
+    assert out["used_fallback"]
+
+
 def test_untranslated_fallback_uses_verified_english():
     assert fallback_message(POLICY, "flood", "ta").startswith("Flood risk")  # no Tamil file yet
 
