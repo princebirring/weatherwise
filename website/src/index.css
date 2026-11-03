@@ -20,7 +20,7 @@
   --flood-soft: #E8F0FA;
   --radius: 16px;
   --font: Mukta, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  color-scheme: light;
+  color-scheme: only light; /* never recoloured by forced dark modes (see index.html) */
 }
 
 * { box-sizing: border-box; }
