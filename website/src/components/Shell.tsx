@@ -51,7 +51,7 @@ export function AppHeader({ place, checked }: { place: SavedPlace; checked?: str
   return (
     <header className="app-header">
       <Link href="/app/place" className="place" aria-label={`${place.name}. ${t('today.changePlace')}`}>
-        <b>{place.name}</b>
+        <b>{place.name}<span className="change-chip" aria-hidden="true"><Icon name="pin" size={15} />{t('today.change')}</span></b>
         <span>{checked ? t('today.checked', shortDate(checked, language)) : place.label || t('today.changePlace')}</span>
       </Link>
       <LanguagePicker />

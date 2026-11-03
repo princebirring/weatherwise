@@ -18,6 +18,7 @@ import { Showcase } from '../screens/Showcase'
 import { countOf, SAFETY, SCORECARD } from '../screens/site/results'
 import { TEAM } from '../screens/site/team'
 import { Welcome } from '../screens/Welcome'
+import { AppHeader } from '../components/Shell'
 import { Ask } from '../screens/Ask'
 import type { Language } from '../types'
 import { events, outlook, place, policy, replay, rules, shelters, status, telanganaWatch } from './fixtures/data'
@@ -261,6 +262,17 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expect(screen.getByText(t('help.sendLocation'))).toBeTruthy()
     await waitFor(() => expect(fetch).toHaveBeenCalled())
     expectOnlyLanguage(language)
+  })
+
+  it('The saved place shows a Change button, and changing it has a way back', () => {
+    show(language, <AppHeader place={place} checked="2026-11-02" />)
+    expect(screen.getByRole('link', { name: new RegExp(t('today.changePlace')) }).textContent).toContain(t('today.change'))
+    cleanup()
+    show(language, <Welcome onPlace={() => {}} current={place} />)
+    expect(screen.getByRole('link', { name: t('start.keep', place.name) }).getAttribute('href')).toBe('/app')
+    cleanup()
+    show(language, <Welcome onPlace={() => {}} />)
+    expect(screen.queryByRole('link', { name: t('start.keep', place.name) })).toBeNull() // first visit: nothing to keep
   })
 
   it('Ask while chat is not connected: says so plainly', () => {

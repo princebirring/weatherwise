@@ -36,6 +36,8 @@ export const mr: Record<TextKey, string> = {
   'start.privacy': 'मोफत. नोंदणी नाही. तुमचे ठिकाण तुमच्या फोनवरच राहते.',
 
   'today.changePlace': 'ठिकाण बदला',
+  'today.change': 'बदला',
+  'start.keep': '{name} च ठेवा',
   'today.safeTitle': 'आमच्या तपासणीत धोका आढळला नाही',
   'today.missingBody': 'धोका नाही असे आम्ही सांगू शकत नाही. नंतर पुन्हा तपासा आणि IMD चे पालन करा.',
   'official.title': 'अधिकृत इशारा',

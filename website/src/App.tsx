@@ -104,7 +104,7 @@ export default function App() {
   if (!place || path === '/app/place') {
     return (
       <LanguageProvider {...context}>
-        <div className="app"><Welcome onPlace={setPlace} /></div>
+        <div className="app"><Welcome onPlace={setPlace} current={place} /></div>
       </LanguageProvider>
     )
   }

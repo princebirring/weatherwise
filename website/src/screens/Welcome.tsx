@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react'
 import { api, ApiError } from '../api'
 import { Icon, Logo } from '../components/Icon'
 import { ErrorBox } from '../components/Shell'
-import { navigate } from '../router'
+import { Link, navigate } from '../router'
 import { LANGUAGE_NAMES, LANGUAGES, useLanguage } from '../text'
 import type { PlaceCandidate, SavedPlace } from '../types'
 
 const SEARCH_DELAY_MS = 400 // wait for a pause in typing before asking the server
 
 /** Start: choose a language, then search the village (matches appear as you type) or use location. */
-export function Welcome({ onPlace }: { onPlace: (p: SavedPlace) => void }) {
+/** First visit: choose a language and a place. Later, "Change" opens it again, with a way back. */
+export function Welcome({ onPlace, current }: { onPlace: (p: SavedPlace) => void; current?: SavedPlace | null }) {
   const { t, language, setLanguage } = useLanguage()
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<{ query: string; candidates: PlaceCandidate[] } | null>(null)
@@ -56,6 +57,9 @@ export function Welcome({ onPlace }: { onPlace: (p: SavedPlace) => void }) {
   return (
     <main className="app-main start">
       <div className="row"><Logo size={44} /><b style={{ fontSize: 28, fontWeight: 800 }}>{t('brand.name')}</b></div>
+      {current && (
+        <Link href="/app" className="btn big secondary"><Icon name="back" size={24} />{t('start.keep', current.name)}</Link>
+      )}
 
       <section className="stack" aria-labelledby="lang-heading">
         <h2 id="lang-heading" className="h-big">{t('start.chooseLanguage')}</h2>
