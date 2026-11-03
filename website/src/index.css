@@ -282,7 +282,14 @@ h1, h2, h3, p { margin: 0; }
 .urgent .btn.outline { background: transparent; }
 
 /* ---- official warnings (always first) ---- */
-.official { display: flex; flex-direction: column; gap: 8px; border-radius: 22px; padding: 18px; }
+.official { display: flex; flex-direction: column; gap: 8px; border-radius: 18px; padding: 12px 14px; }
+.official-row { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; list-style: none; }
+.official-row::-webkit-details-marker { display: none; }
+.official-icon { flex: none; width: 40px; height: 40px; border-radius: 20px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.55); }
+.official-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.official-meta { font-size: 14px; line-height: 1.35; }
+.official-open { flex: none; align-self: center; transform: rotate(180deg); transition: transform 0.2s; opacity: 0.8; }
+.official details[open] .official-open { transform: rotate(-90deg); }
 .official-title { display: flex; align-items: center; gap: 10px; font-size: 24px; line-height: 1.15; font-weight: 800; }
 .official .chips { justify-content: flex-start; }
 .official-message { font-size: 18px; line-height: 1.45; }
@@ -309,7 +316,7 @@ h1, h2, h3, p { margin: 0; }
 .day-line > span { flex: none; width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center;
   background: var(--action-soft); color: var(--action); }
 .day-line.plant > span { background: #E3F1E6; color: #1E7A3C; }
-.day-line.drop > span { background: var(--flood-soft); color: var(--flood); }
+.day-line.rain > span { background: var(--flood-soft); color: var(--flood); }
 .day-line.sun > span { background: var(--yellow-soft); color: #8A6100; }
 .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .tile { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 14px 4px; border-radius: 20px; text-decoration: none;
@@ -326,8 +333,8 @@ h1, h2, h3, p { margin: 0; }
 .danger-banner .btn { margin-top: 8px; background: #FFFFFF; color: var(--ink); }
 .danger-banner.lv-yellow .btn { background: var(--action); color: #FFFFFF; }
 .official .when-small { font-size: 16px; font-weight: 700; }
-.official details summary { cursor: pointer; font-size: 16px; font-weight: 700; text-decoration: underline; min-height: 32px; display: flex; align-items: center; }
-.official h2.official-title { font-size: 21px; }
+.official details summary { cursor: pointer; }
+.official h2.official-title { font-size: 19px; line-height: 1.2; }
 
 /* ---- an official red alert or flood "move now": the whole screen is one message ---- */
 .app-main.emergency { background: var(--red); color: #FFFFFF; margin: 0; padding: 18px 16px 24px; gap: 14px; }

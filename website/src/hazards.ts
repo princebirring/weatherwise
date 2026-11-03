@@ -82,7 +82,7 @@ export function likelihood(d: Detection, t: T): string {
 }
 
 export function iconOf(hazard: string): IconName {
-  if (hazard === 'heavy_rain' || hazard === 'unusual_rain') return 'drop'
+  if (hazard === 'heavy_rain' || hazard === 'unusual_rain') return 'rain'
   if (hazard === 'river_flood') return 'waves'
   if (hazard === 'dry_spell' || hazard === 'sowing_risk') return 'dry'
   return 'heat'
@@ -172,7 +172,7 @@ export function dayLevel(row: DayRow): Level | null {
 /** Picture for a day: the hazard covering it, else rain if it rains, else sun. */
 export function dayIcon(row: DayRow): IconName {
   if (row.hazards.length) return iconOf(row.hazards[0].split(':')[0])
-  return row.rain_mm !== null && row.rain_mm >= 2.5 ? 'drop' : 'sun'
+  return row.rain_mm !== null && row.rain_mm >= 2.5 ? 'rain' : 'sun'
 }
 
 // SACHET's event types, matched by keyword, most specific first, to our own translated names.
@@ -183,6 +183,13 @@ const OFFICIAL_EVENTS: [RegExp, TextKey][] = [
   [/hail/i, 'event.hail'], [/dust/i, 'event.dust'], [/wind|squall/i, 'event.wind'], [/heat/i, 'event.heat'],
   [/cold/i, 'event.cold'], [/fog/i, 'event.fog'],
 ]
+
+// The icon for an official alert's event: what kind of weather it is (its colour says how serious).
+const OFFICIAL_ICONS: [RegExp, IconName][] = [
+  [/flood|inundation|storm surge|tsunami/i, 'waves'], [/rain|cloudburst/i, 'rain'], [/thunder|lightning|hail/i, 'storm'],
+  [/cyclone|depression|wind|squall|dust/i, 'wind'], [/heat/i, 'heat'],
+]
+export const officialIcon = (event: string): IconName => OFFICIAL_ICONS.find(([pattern]) => pattern.test(event))?.[1] ?? 'alert'
 
 /** An official alert's title in the chosen language: the issuer's own words in English,
  *  otherwise our translation of the event type (or "Official warning" if unknown). */
@@ -224,7 +231,7 @@ export function yourDay(rows: DayRow[], language: Language, t: T): DayLine[] {
         : together ? `${longDay(rows[rainy[0]].day, language)} – ${longDay(rows[rainy[rainy.length - 1]].day, language)}`
           : listDays(rainy.map((i) => rows[i]), language)
       const most = Math.max(...rainy.map((i) => rows[i].rain_mm ?? 0))
-      lines.push({ icon: 'drop', text: `${t('day.rain', when)} ${t('day.rainUpTo', Math.round(most))}` })
+      lines.push({ icon: 'rain', text: `${t('day.rain', when)} ${t('day.rainUpTo', Math.round(most))}` })
     }
   }
 

@@ -114,14 +114,15 @@ export function Landing() {
         <div className="wrap">
           <Title kicker={t('site.navImpact')} title={t('site.impactTitle')} />
           <div className="ap-impact">
-            <div className="ap-card ap-feature t-flood">
+            <div className="ap-card ap-feature">
+              <span className="ap-feature-icon"><Icon name={BEST_LEAD.kind === 'flood' ? 'waves' : 'heat'} size={30} /></span>
               <p className="ap-huge">{t('site.statLeadValue', BEST_LEAD.days ?? 0)}</p>
               <p className="ap-huge-sub">{t('site.statLead', BEST_LEAD.titles[language])}</p>
             </div>
             <ol className="ap-card ap-leads">
               {AHEAD.map((r) => (
                 <li key={r.id} className={`t-${r.kind}`}>
-                  <b>{t('site.impactDays', r.days ?? 0)}</b>
+                  <b><Icon name={r.kind === 'flood' ? 'waves' : 'heat'} size={20} />{t('site.impactDays', r.days ?? 0)}</b>
                   <span className="lead-bar" aria-hidden="true"><i style={{ width: `${((r.days ?? 0) / MAX_DAYS) * 100}%` }} /></span>
                   <span>{r.titles[language]}</span>
                 </li>

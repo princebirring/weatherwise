@@ -1,4 +1,4 @@
-import { GROUP_ICONS, GROUPS, groupOf, groupStatus, iconOf, levelOf, LOCALES, officialTitle, shortDate, sortDetections, titleOf, whenOf, yourDay } from '../hazards'
+import { GROUP_ICONS, GROUPS, groupOf, groupStatus, iconOf, levelOf, LOCALES, officialIcon, officialTitle, shortDate, sortDetections, titleOf, whenOf, yourDay } from '../hazards'
 import { Icon } from '../components/Icon'
 import { Listen } from '../components/Listen'
 import { ErrorBox, Loading } from '../components/Shell'
@@ -140,12 +140,19 @@ function OfficialBanner({ alert: a, timezone }: { alert: OfficialAlert; timezone
   const own = a.translations[language]
   return (
     <article className={`official lv-${a.level === 'green' ? 'calm' : a.level}`} role="alert">
-      <span className="kicker">{t('official.kicker', a.source)} · {t(`official.level.${a.level}` as TextKey)}</span>
-      <h2 className="official-title"><Icon name="shield" size={26} />{officialTitle(a.event, language, t)}</h2>
-      <p className="when-small">{t('official.until', untilOf(a.ends, language, timezone))}</p>
+      {/* Compact: the weather's icon, what it is, how serious, who says so and until when; one tap opens the message. */}
       <details>
-        <summary>{t('official.more')}</summary>
-        <div className="stack" style={{ gap: 8, marginTop: 8 }}>
+        <summary className="official-row">
+          <span className="official-icon"><Icon name={officialIcon(a.event)} size={26} /></span>
+          <span className="official-main">
+            <h2 className="official-title">{officialTitle(a.event, language, t)}</h2>
+            <span className="official-meta"><b>{t(`official.level.${a.level}` as TextKey)}</b> · {t('official.until', untilOf(a.ends, language, timezone))}</span>
+            <span className="official-meta">{t('official.kicker', a.source)}</span>
+          </span>
+          <span className="official-open" aria-hidden="true"><Icon name="back" size={20} /></span>
+          <span className="sr-only">{t('official.more')}</span>
+        </summary>
+        <div className="stack" style={{ gap: 8, marginTop: 10 }}>
           <p className="official-message" lang={own ? language : a.language}>{own ?? a.message}</p>
           <Listen text={own ?? a.message} lang={own ? language : a.language} />
           <OfficialSource alert={a} />
