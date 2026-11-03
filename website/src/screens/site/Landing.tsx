@@ -64,6 +64,7 @@ export function Landing() {
             <div className="ap-ctas">
               <Link href="/app" className="btn big">{t('site.openApp')}</Link>
               <Link href="/how-it-works" className="ap-link">{t('site.navHow')} <Icon name="send" size={18} /></Link>
+              <a href={REPO} target="_blank" rel="noreferrer" className="ap-link">{t('site.readCode')} <Icon name="send" size={18} /></a>
             </div>
           </div>
           {/* The real app, tappable. It needs the safety advice from the API; until then an empty phone keeps the shape. */}
