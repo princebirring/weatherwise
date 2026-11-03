@@ -77,10 +77,10 @@ export const en = {
   'today.share': 'Send to family',
   'listen.play': 'Listen',
   'listen.stop': 'Stop',
-  'today.checked': 'Checked {name} · Follow IMD warnings first',
+  'today.checked': 'Checked {name}',
   'today.week': 'Next 7 days',
   'today.danger': 'Danger',
-  'today.noDanger': 'No danger',
+  'today.noDanger': 'No danger found',
   'today.rainMm': '{name} mm',
 
   // how likely, from how many forecast runs agree
@@ -509,7 +509,7 @@ export const en = {
   'day.hot': 'Afternoons up to {name}°.',
   'day.feels': 'Feels like up to {name}°.',
   'watch.title': 'Danger watch',
-  'watch.quiet': 'No danger',
+  'watch.quiet': 'None found',
   'watch.missing': 'Not checked',
   'tile.heat': 'Heat',
   'tile.flood': 'Flood',

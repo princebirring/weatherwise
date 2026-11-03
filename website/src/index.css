@@ -67,6 +67,7 @@ h1, h2, h3, p { margin: 0; }
 .row { display: flex; align-items: center; gap: 10px; }
 .kicker { font-size: 13px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
 .small { font-size: 15px; color: #3F4F47; }
+.nowrap { white-space: nowrap; }
 .fine { font-size: 14px; line-height: 1.4; color: #3F4F47; }
 
 .btn { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 18px;

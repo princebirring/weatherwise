@@ -92,7 +92,7 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expect(document.querySelectorAll('.week li')).toHaveLength(days.length) // the week is on Today too
     const tiles = [...document.querySelectorAll('a.tile')]
     expect(tiles.map((x) => x.getAttribute('href'))).toEqual(['/app/heat', '/app/flood', '/app/dry'])
-    for (const x of tiles) expect(x.textContent).toContain(t('watch.quiet'))
+    for (const x of tiles) expect(x.textContent).toContain(t('watch.quiet')) // "none found", never an all-clear
     expect(document.querySelector('.danger-banner')).toBeNull()
     // SACHET checked, nothing in force: said first, above the day, where a warning would be.
     const none = screen.getByText(t('official.none'))
@@ -271,9 +271,36 @@ describe.each(LANGUAGES)('in %s', (language) => {
     fireEvent.click(screen.getByRole('button', { name: t('flood.city') }))
     expect(screen.getByText(g.flood_city[0])).toBeTruthy()
     await screen.findByText(t('shelter.noRoute'))
-    expect(screen.getByText(g.flood_safety_line)).toBeTruthy()
+    expect(screen.queryByText(g.flood_safety_line)).toBeNull() // calm week: no flood orders
     expect(screen.queryByText(t('shelter.showWay'))).toBeNull()
     expectOnlyLanguage(language)
+  })
+
+  it('Calm day vs danger: the 1077 button is plain when nothing is found, solid with a warning; flood orders only with the guide on', async () => {
+    show(language, <HazardPage group="heat" place={place} data={loaded(outlook(false))} />)
+    expect((await screen.findByRole('link', { name: t('flood.call1077') })).className).toContain('secondary')
+    cleanup()
+    show(language, <HazardPage group="heat" place={place} data={loaded(outlook(true))} />)
+    expect((await screen.findByRole('link', { name: t('flood.call1077') })).className).not.toContain('secondary')
+    cleanup()
+    show(language, <HazardPage group="flood" place={place} data={loaded(outlook(false, 'prepare'))} />)
+    expect(await screen.findByText(g.flood_safety_line)).toBeTruthy()
+  })
+
+  it('A phone number in advice never breaks across lines', () => {
+    show(language, <HazardPage group="dry" place={place} data={loaded(outlook(true))} />)
+    const kisan = [...document.querySelectorAll('.advice-text .nowrap')].map((e) => e.textContent)
+    expect(kisan).toContain('1800-180-1551')
+  })
+
+  it('A dry week has no empty rain bars; a week with rain keeps them', () => {
+    const dry = outlook(false)
+    dry.outlook.days = dry.outlook.days.map((d) => ({ ...d, rain_mm: 0, rainy_day: false }))
+    show(language, <HazardPage group="heat" place={place} data={loaded(dry)} />)
+    expect(document.querySelectorAll('.week .rainbar')).toHaveLength(0)
+    cleanup()
+    show(language, <HazardPage group="heat" place={place} data={loaded(outlook(false))} />)
+    expect(document.querySelectorAll('.week .rainbar')).toHaveLength(outlook(false).outlook.days.length)
   })
 
   it('Flood page in urgent mode: one short message and the calls', () => {

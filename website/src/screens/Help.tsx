@@ -25,7 +25,7 @@ export function Help({ place, flood }: { place: SavedPlace; flood: boolean }) {
       <Helplines big />
 
       <section className="stack" style={{ gap: 10 }}>
-        <h2 className="h-mid">{t('help.nearest')}</h2>
+        {nearest && <h2 className="h-mid">{t('help.nearest')}</h2>}
         {nearest && (
           <article className="place-card">
             <div className="row">

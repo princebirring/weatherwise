@@ -12,6 +12,8 @@ const BAR_MM = 20
 export function Week({ outlook }: { outlook: Outlook }) {
   const { t, language } = useLanguage()
   const scale = Math.max(BAR_MM, ...outlook.days.map((d) => d.rain_mm ?? 0))
+  // In a dry week the bars would be seven empty tracks: leave them out.
+  const anyRain = outlook.days.some((d) => wet(d.rain_mm))
   return (
     <section className="stack" style={{ gap: 8 }} aria-labelledby="week-heading">
       <h2 id="week-heading" className="h-mid">{t('today.week')}</h2>
@@ -23,8 +25,8 @@ export function Week({ outlook }: { outlook: Outlook }) {
               <span className="wd">{weekday(d.day, language)}</span>
               <Icon name={dayIcon(d)} size={26} />
               <b>{d.tmax_c === null ? '–' : `${Math.round(d.tmax_c)}°`}</b>
-              <span className="rainbar" aria-hidden="true"><i style={{ height: `${wet(d.rain_mm) ? Math.max(12, ((d.rain_mm as number) / scale) * 100) : 0}%` }} /></span>
-              <span className="rain">{wet(d.rain_mm) ? t('today.rainMm', Math.round(d.rain_mm as number)) : ' '}</span>
+              {anyRain && <span className="rainbar" aria-hidden="true"><i style={{ height: `${wet(d.rain_mm) ? Math.max(12, ((d.rain_mm as number) / scale) * 100) : 0}%` }} /></span>}
+              {anyRain && <span className="rain">{wet(d.rain_mm) ? t('today.rainMm', Math.round(d.rain_mm as number)) : ' '}</span>}
             </li>
           )
         })}
