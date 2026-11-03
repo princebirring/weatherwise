@@ -226,7 +226,6 @@
   .ap-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 56px; align-items: center; }
   .ap-hero h1 { margin-left: 0; }
   .ap-hero .ap-sub { margin: 0; }
-  .ap-open { justify-content: flex-start; }
   .ap-hero .ap-ctas { justify-content: flex-start; margin: 32px 0 0; }
 }
 .ap-hero .phone-tabs { margin-top: 6px; }
@@ -245,9 +244,10 @@
 .ap-pill { width: fit-content; padding: 16px 24px; border-radius: 20px; background: var(--night-2); border: 1px solid var(--mint); color: #FFFFFF !important; }
 .ap-dark .ap-note svg { flex: none; color: var(--mint); }
 .ap-section .ap-link { margin-top: 36px; }
-/* The open-source line under the hero buttons. */
-.ap-open { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 22px; font-size: var(--fs-small); font-weight: 700; color: var(--muted); text-decoration: none; }
-.ap-open:hover { color: var(--action); text-decoration: underline; text-underline-offset: 4px; }
+/* Open source, as a small badge above the headline (the logo already says the name). */
+.ap-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--line); font-size: 14px; font-weight: 700; line-height: 1.3; color: var(--action); text-decoration: none; margin-bottom: 4px; }
+.ap-badge:hover { border-color: var(--action); }
 .page-head .raw-link { margin-top: 20px; }
 .dev-note { font-size: var(--fs-small); line-height: 1.45; color: #D5E0D9; }
 .ap-section .ap-ctas { margin: 8px 0 0; }
@@ -374,7 +374,7 @@
   .pillars article { padding: 22px; }
 }
 @media (max-width: 520px) {
-  .site-top-actions .btn { display: none; } /* the hero's big button is right below */
+  .site-top-actions .btn, .site-gh { display: none; } /* the hero's big button is right below; GitHub is in the hero badge */
   .site-nav { gap: 16px; font-size: var(--fs-small); }
   .site-foot-grid { grid-template-columns: minmax(0, 1fr); }
 }

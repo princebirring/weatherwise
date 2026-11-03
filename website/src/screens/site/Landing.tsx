@@ -58,14 +58,13 @@ export function Landing() {
         <div className="ap-sky" aria-hidden="true"><i /><i /><i /></div>
         <div className="wrap ap-hero-grid">
           <div className="ap-hero-copy">
-            <span className="eyebrow">{t('brand.name')}</span>
+            <a href={REPO} target="_blank" rel="noreferrer" className="ap-badge"><Icon name="github" size={16} /> {t('site.openNote')}</a>
             <h1>{t('site.headline')}</h1>
             <p className="ap-sub">{t('site.lede')}</p>
             <div className="ap-ctas">
               <Link href="/app" className="btn big">{t('site.openApp')}</Link>
               <Link href="/how-it-works" className="ap-link">{t('site.navHow')} <Icon name="send" size={18} /></Link>
             </div>
-            <a href={REPO} target="_blank" rel="noreferrer" className="ap-open"><Icon name="github" size={18} /> {t('site.openNote')}</a>
           </div>
           {/* The real app, tappable. It needs the safety advice from the API; until then an empty phone keeps the shape. */}
           {policy ? <PhoneDemo /> : <figure className="phone-demo" aria-hidden="true"><div className="phone" /><div className="phone-tabs" /></figure>}
