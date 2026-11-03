@@ -105,3 +105,26 @@ def test_internal_text_never_reaches_a_person():
         assert "internal_text" in [v.rule for v in check_message(leak, ctx, RULES)]
     clean = "कागदपत्रे प्लास्टिक पिशवीत ठेवा. नद्यांपासून आणि डोंगर उतारांपासून दूर रहा. 112 / 1077"
     assert "internal_text" not in [v.rule for v in check_message(clean, ctx, RULES)]
+
+
+@pytest.mark.parametrize("text", [
+    "Official red alert. Consider moving to a sturdy building. Helplines: 1077, 112.",  # Vijayawada, Nov 3 2026
+    "Flood risk. Stay away from rivers. Call 112 / 1077.",
+])
+def test_a_flood_warning_must_say_rivers_and_flowing_water(text):
+    assert "missing_flood_safety" in rules_broken(text, hazards=["flood"])
+
+
+@pytest.mark.parametrize("text", [
+    "Flood risk. Move away from rivers and hill slopes. Never cross flowing water. Call 112 / 1077.",
+    "बाढ़ का खतरा. नदी से दूर रहें. बहते पानी को कभी पार न करें. 112 / 1077 पर कॉल करें.",
+    "पुराचा धोका. नदीपासून दूर राहा. वाहत्या पाण्यातून कधीही जाऊ नका. 112 / 1077 वर कॉल करा.",
+])
+def test_flood_safety_lines_pass_in_every_language(text):
+    assert "missing_flood_safety" not in rules_broken(text, hazards=["flood"])
+
+
+def test_every_safe_flood_message_has_the_flood_safety_lines():
+    policy = message_policy("in")
+    for language, messages in policy["safe_messages"].items():
+        assert "missing_flood_safety" not in rules_broken(messages["flood"], hazards=["flood"]), language

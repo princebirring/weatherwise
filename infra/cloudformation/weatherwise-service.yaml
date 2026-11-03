@@ -572,9 +572,9 @@ Resources:
           SecurityGroups: [!Ref ServiceSecurityGroup]
           Subnets: [!Ref PublicSubnetA, !Ref PublicSubnetB]
 
-  # ---- The morning run: every day at 7 AM IST the agent on AgentCore writes a warning for each
-  # place in data/daily_watch.toml (weatherwise/daily_run.py); results go to S3 daily/ for the
-  # website. One short Fargate task, the same image as the website with another command.
+  # ---- The morning run: every day at 3 AM IST, before people leave for work, the agent on
+  # AgentCore writes a warning for each place in data/daily_watch.toml (weatherwise/daily_run.py);
+  # results go to S3 daily/ for the website. One short Fargate task, the same image as the website with another command.
   DailyRunTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
@@ -642,7 +642,7 @@ Resources:
     Properties:
       Name: weatherwise-morning-run
       Description: The agent writes this morning's warning for each watched place.
-      ScheduleExpression: cron(0 7 * * ? *)
+      ScheduleExpression: cron(0 3 * * ? *)
       ScheduleExpressionTimezone: Asia/Kolkata
       FlexibleTimeWindow: {Mode: 'OFF'}
       Target:

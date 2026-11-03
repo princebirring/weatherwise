@@ -35,6 +35,7 @@ class MessageRules:
     banned_always: list[str] = field(default_factory=list)
     claims_safe: list[str] = field(default_factory=list)
     unit_words: list[str] = field(default_factory=list)
+    flood_must_say: dict[str, list[str]] = field(default_factory=dict)  # each line: any one of its words
 
     def __post_init__(self):
         words = sorted((re.escape(w) for w in self.unit_words), key=len, reverse=True)
@@ -54,6 +55,7 @@ class MessageRules:
             banned_always=m["never_say"],
             claims_safe=m.get("claims_safe", []),
             unit_words=m.get("unit_words", []),
+            flood_must_say=m.get("flood_must_say", {}),
         )
 
 
@@ -95,6 +97,11 @@ def check_message(text: str, ctx: MessageContext, rules: MessageRules) -> list[V
     ):
         found.append(Violation("unsafe_high_ground",
                                "'high ground' needs 'away from hill slopes' in the same message"))
+
+    if "flood" in ctx.hazards:
+        for line, words in rules.flood_must_say.items():
+            if not any(w.lower() in low for w in words):
+                found.append(Violation("missing_flood_safety", f"a flood warning must say: {line}"))
 
     if {"flood", "heavy_rain"} & set(ctx.hazards):
         for p in rules.banned_in_flood:

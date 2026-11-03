@@ -116,7 +116,7 @@ CORRECT = [
          "Flood risk this week. Keep documents in a plastic bag. If water rises, use the high road, away from rivers "
          "and away from hill slopes. Never cross flowing water. Call 112 / 1077.", None),
     Case("high ground with slope warning", "en", FLOOD,
-         "Go to high ground away from hill slopes. Never cross flowing water. Call 112 / 1077.", None),
+         "Go to high ground away from rivers and hill slopes. Never cross flowing water. Call 112 / 1077.", None),
     Case("heavy rain", "en", RAIN, "Heavy rain likely tomorrow, about 62 mm. Keep children away from streams. "
          "Disaster help: 1077.", None),
     Case("shelter", "en", SHELTER, "Nearest shelter: Zilla Parishad School, 1.4 km. Call 1077 to confirm it is open.",
@@ -134,7 +134,7 @@ CORRECT = [
     Case("heat advice, in words", "hi", HEAT, "शनिवार को तापमान लगभग 44 डिग्री. लू लगे तो 108 पर फोन करें.", None),
     Case("flood guide step", "hi", FLOOD, "बाढ़ का खतरा. नदी और पहाड़ की ढलान से दूर ऊंची जगह जाएं. बहते पानी को "
          "पार न करें. 112 / 1077 पर फोन करें.", None),
-    Case("not safe to cross", "en", FLOOD, "It is not safe to cross the river. Wait for the water to go down. "
+    Case("not safe to cross", "en", FLOOD, "It is not safe to cross the river or any flowing water. Wait for the water to go down. "
          "Call 112 / 1077.", None),
 ]
 

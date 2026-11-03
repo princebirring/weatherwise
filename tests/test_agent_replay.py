@@ -14,7 +14,7 @@ from weatherwise.rules import message_policy
 EVENT = {"id": "kolhapur_flood_2024_07", "name": "Kolhapur", "lat": 16.70, "lon": 74.24,
          "event_day": "2024-07-26"}
 SAFE = ("Heavy rain is likely for several days. Keep documents and medicines in a waterproof bag. "
-        "Stay away from rivers and away from hill slopes. Help: 112 / 1077.")
+        "Stay away from rivers and away from hill slopes. Never cross flowing water. Help: 112 / 1077.")
 UNSAFE = "Rain of 400 mm is coming. Go to high ground."
 
 
