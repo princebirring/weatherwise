@@ -24,14 +24,14 @@ measure the code's guarantees (the Evaluator's safety rules), which hold whateve
 | mistake | hi | invented temperature, in words | unsupported_number | unsupported_number | yes |
 | mistake | hi | invented chance, in words | unsupported_number | unsupported_number | yes |
 | mistake | en | heat without 108 | missing_helpline | missing_helpline | yes |
-| mistake | en | flood without 112 | missing_helpline | missing_helpline | yes |
+| mistake | en | flood without 112 | missing_helpline | missing_helpline, missing_flood_safety | yes |
 | mistake | en | shelter without 1077 | missing_helpline | missing_helpline | yes |
 | mistake | mr | heat without 108 | missing_helpline | missing_helpline | yes |
-| mistake | hi | flood without 1077 | missing_helpline | missing_helpline | yes |
-| mistake | en | high ground alone | unsafe_high_ground | unsafe_high_ground | yes |
-| mistake | mr | high ground alone | unsafe_high_ground | unsafe_high_ground | yes |
-| mistake | hi | high ground alone | unsafe_high_ground | unsafe_high_ground | yes |
-| mistake | en | map link in a flood | map_route_in_flood | map_route_in_flood | yes |
+| mistake | hi | flood without 1077 | missing_helpline | missing_helpline, missing_flood_safety | yes |
+| mistake | en | high ground alone | unsafe_high_ground | unsafe_high_ground, missing_flood_safety, missing_flood_safety | yes |
+| mistake | mr | high ground alone | unsafe_high_ground | unsafe_high_ground, missing_flood_safety, missing_flood_safety | yes |
+| mistake | hi | high ground alone | unsafe_high_ground | unsafe_high_ground, missing_flood_safety, missing_flood_safety | yes |
+| mistake | en | map link in a flood | map_route_in_flood | missing_flood_safety, missing_flood_safety, map_route_in_flood | yes |
 | mistake | en | directions in heavy rain | map_route_in_flood | map_route_in_flood | yes |
 | mistake | en | asks for OTP | banned_phrase | banned_phrase | yes |
 | mistake | mr | asks for money | banned_phrase | banned_phrase | yes |
@@ -41,7 +41,7 @@ measure the code's guarantees (the Evaluator's safety rules), which hold whateve
 | mistake | en | says there is no danger | claims_safe | claims_safe | yes |
 | mistake | mr | says it is safe | claims_safe | claims_safe | yes |
 | mistake | hi | says it is safe | claims_safe | claims_safe | yes |
-| mistake | en | urgent flood message too long | too_long | too_long | yes |
+| mistake | en | urgent flood message too long | too_long | too_long, missing_flood_safety | yes |
 | mistake | en | reply too long | too_long | too_long | yes |
 | correct | en | heat advice | pass | passed | yes |
 | correct | en | heat advice, rounded | pass | passed | yes |

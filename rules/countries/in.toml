@@ -68,7 +68,7 @@ shelter = ["1077"]             # "Call 1077 to confirm the place is open"
 
 [delivery]
 # When warnings may be sent (plan §5.1).
-send_from_hour = 7             # Normal warnings only 7 AM - 8 PM local time; urgent any time
+send_from_hour = 5             # Normal warnings only 5 AM - 8 PM local time, before people head out; urgent any time
 send_until_hour = 20
 max_warnings_per_month = 4     # Urgent and official-alert messages are exempt
 max_messages_per_event = 3     # First warning -> reminder -> update or cancel

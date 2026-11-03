@@ -77,7 +77,7 @@ def main() -> None:
         f"Model: `{model_id}` on Amazon Bedrock. Run {date.today()} with `uv run python -m evals.eval_agent_replays`.",
         "Each morning gets only the forecasts issued then. Plain code decides whether to warn; the agent",
         "writes the message; the Evaluator checks it and sends unsafe drafts back; delivery rules decide",
-        "what one household would have received (normal warnings 7 AM-8 PM, at most 3 per event, 4 a month).",
+        "what one household would have received (normal warnings 5 AM-8 PM, at most 3 per event, 4 a month).",
         "Every message is in `evals/results/agent_replays/<event>.json`.",
         "",
         "| Event | Language | First warning | Mornings flagged by code / with a checked message | Messages a household got "

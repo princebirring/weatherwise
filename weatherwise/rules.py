@@ -167,6 +167,8 @@ def message_policy(country: str, root: Path = RULES_ROOT) -> dict:
                                                   "no_links_in_floods", "required_numbers")},
             "high_ground_phrases": union("high_ground"),
             "slope_safety_words": union("slope_safety_words"),
+            "flood_must_say": {"away from rivers": union("flood_rivers"),
+                               "never cross flowing water": union("flood_flowing_water")},
             "never_say": union("never_say"),
             "claims_safe": union("claims_safe"),
             "unit_words": union("unit_words"),
