@@ -12,6 +12,16 @@ The idea, as AWS worded it:
 
 **Live:** https://weatherwise.online · **Pilot:** Maharashtra, India. **Works for:** any place in India, with no per-village or per-state setup.
 
+## For judges: check it in two minutes
+| What | Where |
+|---|---|
+| **The agent at work today** | [weatherwise.online/impact#live](https://weatherwise.online/impact#live): every morning at 7 AM IST, EventBridge Scheduler starts [`daily_run.py`](weatherwise/daily_run.py); for 25 places across India the warning Graph runs on **AgentCore Runtime**, and the page shows every message, what the checker sent back, the model calls and the cost |
+| **Memory** | **AgentCore Memory** ([`place_memory.py`](weatherwise/agents/place_memory.py)) keeps what the agent told each place, so the next morning it writes an update instead of a repeat, or an all-clear when the risk has eased (never "you are safe") |
+| **Strands features** | [Graph](weatherwise/agents/warning_pipeline.py) (code risk scan → agent writers → code safety gate → delivery rules) · [MCP server](weatherwise/mcp_server/server.py) (8 tools) · [agents as tools](weatherwise/agents/orchestrator.py) · [Skills](skills/) · [hooks and Evaluator steering](weatherwise/agents/steering.py) · [evals](evals/) |
+| **Proof on past disasters** | [Scorecard of every replayed event, misses included](evals/results/REPLAYS.md) (forecasts as issued then) · [the same events through the real model](evals/results/AGENT_REPLAYS.md) · [safety evals](evals/results/SAFETY.md) |
+| **Deployment** | One CloudFormation stack ([`weatherwise-service.yaml`](infra/cloudformation/weatherwise-service.yaml)): ECS Fargate, AgentCore Runtime + Memory + Observability, EventBridge Scheduler, S3; deployed by GitHub Actions on merge |
+| **Tests** | Offline tests in CI for the agents, rules, API and website (en / hi / mr) |
+
 ## The three parts
 | Part | What it does |
 |---|---|
