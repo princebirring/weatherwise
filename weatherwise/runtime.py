@@ -9,7 +9,7 @@
         history (the earlier turns, kept by the caller) rebuilds the conversation when this
         session's microVM was stopped after sitting idle; a running session ignores it.
     {"type": "warning", "group": {...}}
-        from the scheduled Lambda (EventBridge, 6 AM local time).
+        from the morning run (EventBridge Scheduler, 3 AM IST: weatherwise/daily_run.py).
 
 Config (env): CLIMATE_AGENT_MODEL_ID (Bedrock model / inference profile), AWS_REGION,
 CLIMATE_RISK_MCP_URL (remote MCP server; local stdio if unset), WEATHERWISE_MEMORY_ID (AgentCore
