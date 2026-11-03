@@ -289,13 +289,12 @@ Resources:
                 'aws:SourceAccount': !Ref AWS::AccountId
 
   TransactionSearch:
-    # The first 1% of spans are indexed free of charge while all spans remain
-    # searchable in CloudWatch Logs. This is the minimum useful setting for a
-    # low-traffic public application.
+    # Index every span so the AgentCore Observability dashboard shows each
+    # production request while WeatherWise is being validated.
     Type: AWS::XRay::TransactionSearchConfig
     DependsOn: TransactionSearchLogResourcePolicy
     Properties:
-      IndexingPercentage: 1
+      IndexingPercentage: 100
 
   Cluster:
     Type: AWS::ECS::Cluster
