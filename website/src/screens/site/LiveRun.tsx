@@ -75,6 +75,7 @@ function Place({ p }: { p: DailyPlace }) {
         <span>{t(kind.label)}</span>
         {earlier && p.hazard_kind !== 'all_clear' && <span className="live-tag">{t('site.liveUpdate', earlier.day)}</span>}
       </div>
+      {p.place.why && <p className="live-check">{p.place.why}</p>}
       {p.hazard_kind === 'flood' && !!p.flood_guide?.reasons.length && (
         <p className="live-check">{t('site.liveWhy', p.flood_guide.reasons.join(', '))}</p>
       )}
