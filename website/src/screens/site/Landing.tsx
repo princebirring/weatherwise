@@ -197,7 +197,7 @@ export function Landing() {
 
       <section className="l-section" id="team">
         <div className="wrap">
-          <SectionTitle kicker={t('site.navAbout')} title={t('site.teamTitle')} />
+          <SectionTitle kicker={t('site.teamKicker')} title={t('site.teamTitle')} />
           <div className="team">{TEAM.map((m) => <Person key={m.name} m={m} short />)}</div>
           <Link href="/about" className="more">{t('site.aboutMore')} <Icon name="send" size={18} /></Link>
         </div>
