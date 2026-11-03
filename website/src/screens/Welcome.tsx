@@ -103,6 +103,15 @@ export function Welcome({ onPlace, current }: { onPlace: (p: SavedPlace) => void
         {note && <p role="status" className="big-note">{note}</p>}
       </section>
 
+      {!current && (
+        <section className="start-what">
+          <div className="start-icons" aria-hidden="true">
+            <span><Icon name="heat" size={26} /></span><span><Icon name="rain" size={26} /></span><span><Icon name="dry" size={26} /></span>
+          </div>
+          <p>{t('start.what')}</p>
+        </section>
+      )}
+
       <p className="small" style={{ marginTop: 'auto', textAlign: 'center', fontSize: 16 }}>{t('start.privacy')}</p>
     </main>
   )
