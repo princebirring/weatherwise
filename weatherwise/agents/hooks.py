@@ -1,6 +1,7 @@
 """Hooks (workshop Module 2): limits in code, not in prompts (plan §8.8.2)."""
 
 import time
+from collections.abc import Callable
 
 from strands.hooks import (
     AfterModelCallEvent,
@@ -52,11 +53,13 @@ class CostGuardHook(HookProvider):
 
 class StepLogHook(HookProvider):
     """Records each tool call (name, duration, ok/error) for the website's "how this answer was made"
-    panel and CloudWatch. Tool inputs are not logged: they may contain a person's location."""
+    panel and CloudWatch. Tool inputs are not logged: they may contain a person's location.
+    `on_step`, when set, hears each tool start and finish ("done"), so the chat can show progress."""
 
     def __init__(self):
         self.steps: list[dict] = []
         self._started: dict[str, float] = {}
+        self.on_step: Callable[[dict], None] | None = None
 
     def register_hooks(self, registry: HookRegistry) -> None:
         registry.add_callback(BeforeInvocationEvent, lambda e: self.steps.clear())
@@ -65,6 +68,9 @@ class StepLogHook(HookProvider):
 
     def before(self, event: BeforeToolCallEvent) -> None:
         self._started[event.tool_use["toolUseId"]] = time.monotonic()
+        if self.on_step is not None:
+            self.on_step({"agent": getattr(event.agent, "name", None) or "agent", "tool": event.tool_use["name"],
+                          "done": False})
 
     def after(self, event: AfterToolCallEvent) -> None:
         started = self._started.pop(event.tool_use["toolUseId"], time.monotonic())
@@ -75,3 +81,5 @@ class StepLogHook(HookProvider):
             "status": status,
             "seconds": round(time.monotonic() - started, 2),
         })
+        if self.on_step is not None:
+            self.on_step({**self.steps[-1], "done": True})

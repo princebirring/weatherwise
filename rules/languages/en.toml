@@ -17,6 +17,7 @@ unit_words = ["degrees", "degree", "percent", "per cent", "millimetres", "millim
 general = "We could not prepare your answer right now. For emergencies call 112. For disaster help call 1077. Please try again in a few minutes."
 heat = "Heat warning for your area. Work before 10 am and after 5 pm, drink water often, rest in shade. Signs of heatstroke: confusion, no sweat, fainting: cool the person and call 108. Disaster help: 1077."
 flood = "Flood risk for your area. Move to a safe place away from rivers and away from hill slopes. Never cross flowing water. Call 112 / 1077."
+all_clear = "The weather risk we warned you about has eased in the latest forecasts. Keep following IMD and local officials. If water is still standing or someone is unwell, call 112 / 1077."
 
 [footer]
 text = "Not an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No"

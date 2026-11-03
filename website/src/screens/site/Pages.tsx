@@ -8,6 +8,7 @@ import type { TextKey } from '../../text/en'
 import { FlowDiagram } from '../showcase/FlowDiagram'
 import { Replays } from '../showcase/Replays'
 import { RulesDiagram } from '../showcase/RulesDiagram'
+import { LiveRun } from './LiveRun'
 import { Scorecard } from './Scorecard'
 import { SAFETY, SCORECARD } from './results'
 import { PageHead, SectionTitle } from './SiteLayout'
@@ -16,14 +17,18 @@ import { REPO, TEAM } from './team'
 
 const LIMITS: TextKey[] = ['show.limit1', 'show.limit2', 'show.limit3', 'show.limit4']
 
-/** /impact: the whole scorecard, the day-by-day replays, the safety evals, and what it misses. */
+/** /impact: this morning's live run, the whole scorecard, the day-by-day replays, the safety
+ *  evals, and what it misses. */
 export function ImpactPage() {
   const { t } = useLanguage()
   const events = useAsync(() => api.replays(), 'replays')
   return (
     <>
       <PageHead kicker={t('site.navImpact')} title={t('site.proofTitle', SCORECARD.length)} lede={t('show.replayLede')} />
-      <section className="l-section">
+      <section className="l-section" id="live">
+        <div className="wrap"><LiveRun /></div>
+      </section>
+      <section className="l-section l-band">
         <div className="wrap"><Scorecard /></div>
       </section>
       <section className="l-section l-band" id="replay">

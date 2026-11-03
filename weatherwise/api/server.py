@@ -12,7 +12,8 @@ Settings (env):
                                 website chat runs there; facts remain in this API container.
     WEATHERWISE_CACHE_DIR       Downloads and cached forecasts (on Lambda: a folder under /tmp).
     WEATHERWISE_CACHE_BUCKET    Optional S3 bucket behind that folder, shared with the agents on
-                                AgentCore and kept across deploys.
+                                AgentCore and kept across deploys. The morning run (daily/) lives here too.
+    WEATHERWISE_DAILY_DIR       Without the bucket: a folder from `weatherwise.daily_run --local`.
     WEATHERWISE_CHATS_PER_DAY   Daily chat cap, the AI-spend guard (default 100).
     WEATHERWISE_CHATS_PER_MINUTE  Per visitor (default 6).
     WEATHERWISE_TRUSTED_PROXY_HOPS  Our proxies in front, e.g. 1 behind the ECS load balancer.
@@ -23,6 +24,8 @@ these limits are the defence: they cap chat, the only part that costs money per 
 """
 
 import argparse
+import asyncio
+import json
 import logging
 import os
 from contextlib import asynccontextmanager
@@ -30,7 +33,7 @@ from contextlib import asynccontextmanager
 from starlette.applications import Starlette
 from starlette.concurrency import run_in_threadpool
 from starlette.requests import Request
-from starlette.responses import FileResponse, JSONResponse
+from starlette.responses import FileResponse, JSONResponse, Response, StreamingResponse
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
@@ -59,7 +62,32 @@ def _connect() -> tuple[WeatherWiseApi, object]:
         chats_per_minute_per_visitor=int(os.environ.get("WEATHERWISE_CHATS_PER_MINUTE",
                                                         Limits.chats_per_minute_per_visitor)),
     )
-    return WeatherWiseApi(mcp_tool_caller(client), team_factory, limits), client
+    return WeatherWiseApi(mcp_tool_caller(client), team_factory, limits, daily_store=daily_store()), client
+
+
+def daily_store():
+    """Where the morning run's results are read from: S3 in production, a folder in development."""
+    import json
+    from pathlib import Path
+
+    bucket, folder = os.environ.get("WEATHERWISE_CACHE_BUCKET"), os.environ.get("WEATHERWISE_DAILY_DIR")
+    if bucket:
+        import boto3
+
+        s3 = boto3.client("s3")
+
+        def read(name: str):
+            try:
+                return json.loads(s3.get_object(Bucket=bucket, Key=f"daily/{name}.json")["Body"].read())
+            except s3.exceptions.NoSuchKey:
+                return None
+        return read
+    if folder:
+        def read_file(name: str):
+            path = Path(folder) / f"{name}.json"
+            return json.loads(path.read_text()) if path.is_file() else None
+        return read_file
+    return None
 
 
 def visitor_of(request: Request) -> str:
@@ -96,23 +124,11 @@ def build_app(backend: WeatherWiseApi | None = None) -> Starlette:
     def handler(fn):
         async def endpoint(request: Request):
             try:
-                return JSONResponse(await fn(request, state["backend"]))
-            except NotCovered as e:  # no helpline numbers: ours belong to the countries we cover
-                return JSONResponse({"error": "not_covered", "message": "This place is not covered yet.",
-                                     "country_code": e.country_code, "covered_countries": e.covered_countries},
-                                    status_code=422)
-            except BadRequest as e:
-                return JSONResponse({"error": "bad_request", "message": str(e)}, status_code=400)
-            except AgentsOffline as e:
-                return JSONResponse({"error": "agents_offline", "message": str(e)}, status_code=503)
-            except DemoBusy as e:
-                return JSONResponse({"error": "demo_busy", "message": str(e)}, status_code=429)
-            except Exception:
-                # Keep browser errors generic. Log only the route and traceback: request bodies
-                # may contain a person's message and saved location.
-                LOG.exception("Unhandled API error on %s", request.url.path)
-                return JSONResponse({"error": "failed", "message": "Something went wrong. "
-                                     "For emergencies call 112. For disaster help call 1077."}, status_code=502)
+                result = await fn(request, state["backend"])
+                return result if isinstance(result, Response) else JSONResponse(result)
+            except Exception as e:
+                body, status = error_body(e, request)
+                return JSONResponse(body, status_code=status)
         return endpoint
 
     def run(method, *args):
@@ -120,8 +136,11 @@ def build_app(backend: WeatherWiseApi | None = None) -> Starlette:
 
     async def chat(request: Request, b: WeatherWiseApi):
         body = await request.json()
-        return await run(b.chat, visitor_of(request), body.get("session_id"),
-                         body.get("message"), body.get("language", "en"), body.get("place"))
+        args = (visitor_of(request), body.get("session_id"), body.get("message"),
+                body.get("language", "en"), body.get("place"))
+        if "application/x-ndjson" not in request.headers.get("accept", ""):
+            return await run(b.chat, *args)
+        return await chat_stream(request, b, args)
 
     q = lambda r, k: r.query_params.get(k)  # noqa: E731
     routes = [
@@ -134,6 +153,9 @@ def build_app(backend: WeatherWiseApi | None = None) -> Starlette:
         Route("/api/rules", handler(lambda r, b: run(b.rules))),
         Route("/api/replays", handler(lambda r, b: run(b.replays))),
         Route("/api/replays/{replay_id}", handler(lambda r, b: run(b.replay, r.path_params["replay_id"]))),
+        Route("/api/daily", handler(lambda r, b: run(b.daily))),
+        Route("/api/agent-replays", handler(lambda r, b: run(b.agent_replays))),
+        Route("/api/agent-replays/{replay_id}", handler(lambda r, b: run(b.agent_replay, r.path_params["replay_id"]))),
         Route("/api/chat", handler(chat), methods=["POST"]),
     ]
     if PAGE_DIR.exists():
@@ -141,6 +163,62 @@ def build_app(backend: WeatherWiseApi | None = None) -> Starlette:
         routes.append(Mount("/assets", StaticFiles(directory=PAGE_DIR / "assets")))
         routes.append(Route("/{path:path}", _page))
     return Starlette(routes=routes, lifespan=lifespan)
+
+
+def error_body(e: Exception, request: Request) -> tuple[dict, int]:
+    """What the browser is told about a failure, and the status code."""
+    if isinstance(e, NotCovered):  # no helpline numbers: ours belong to the countries we cover
+        return {"error": "not_covered", "message": "This place is not covered yet.",
+                "country_code": e.country_code, "covered_countries": e.covered_countries}, 422
+    if isinstance(e, BadRequest):
+        return {"error": "bad_request", "message": str(e)}, 400
+    if isinstance(e, AgentsOffline):
+        return {"error": "agents_offline", "message": str(e)}, 503
+    if isinstance(e, DemoBusy):
+        return {"error": "demo_busy", "message": str(e)}, 429
+    # Keep browser errors generic. Log only the route and traceback: request bodies
+    # may contain a person's message and saved location.
+    LOG.error("Unhandled API error on %s", request.url.path, exc_info=e)
+    return {"error": "failed", "message": "Something went wrong. "
+            "For emergencies call 112. For disaster help call 1077."}, 502
+
+
+async def chat_stream(request: Request, b: WeatherWiseApi, args: tuple):
+    """Chat as one JSON line per event: {"type": "step", ...} while the agents work, then
+    {"type": "reply", ...} or {"type": "error", ...}. A refusal (bad input, limits, agents off)
+    comes before any step, so it still gets its own status code and plain JSON body."""
+    loop = asyncio.get_running_loop()
+    events: asyncio.Queue = asyncio.Queue()
+
+    def on_step(step: dict) -> None:  # called from the chat's worker thread
+        loop.call_soon_threadsafe(events.put_nowait, ("step", step))
+
+    async def run_chat() -> None:
+        try:
+            reply = await run_in_threadpool(b.chat, *args, on_step)
+            loop.call_soon_threadsafe(events.put_nowait, ("reply", reply))  # after any queued steps
+        except Exception as e:  # reported to the browser below
+            loop.call_soon_threadsafe(events.put_nowait, ("error", e))
+
+    task = asyncio.create_task(run_chat())
+    first = await events.get()
+    if first[0] == "error":
+        raise first[1]
+
+    async def lines():
+        kind, value = first
+        while True:
+            if kind == "error":
+                body, _ = error_body(value, request)
+                yield json.dumps({"type": "error", **body}) + "\n"
+                break
+            yield json.dumps({"type": kind, **value}) + "\n"
+            if kind == "reply":
+                break
+            kind, value = await events.get()
+        await task
+
+    return StreamingResponse(lines(), media_type="application/x-ndjson", headers={"cache-control": "no-cache"})
 
 
 async def _page(request: Request):

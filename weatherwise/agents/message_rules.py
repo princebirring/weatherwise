@@ -68,9 +68,18 @@ def _close_to_allowed(n: float, allowed: frozenset[float]) -> bool:
     return any(abs(n - a) <= max(0.51, abs(a) * 0.01) for a in allowed)  # rounding allowed
 
 
+# Our own words that must never reach a person: tool and skill names (snake_case), the model's
+# notes to itself, markup. Found in Nova Pro's Marathi replay drafts ("find_shelters हा आदेश वापरा").
+INTERNAL_TEXT = re.compile(r"<\s*/?\s*[a-z_]+\s*>|\b[a-z]+_[a-z_]+\b|\bskills?\b", re.IGNORECASE)
+
+
 def check_message(text: str, ctx: MessageContext, rules: MessageRules) -> list[Violation]:
     low = text.lower()
     found: list[Violation] = []
+
+    leaked = INTERNAL_TEXT.search(text)
+    if leaked:
+        found.append(Violation("internal_text", f"remove {leaked.group(0)!r}: write only what the person reads"))
 
     limit = rules.max_chars_urgent if ctx.urgent else rules.max_chars_reply
     if len(text) > limit:

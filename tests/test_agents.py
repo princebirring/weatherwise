@@ -143,3 +143,23 @@ def test_rewrite_notes_and_reasoning_never_reach_the_person():
                 "<thinking>check the tools</thinking> " + SAFE, SAFE]:
         assert public_text(raw) == SAFE
     assert public_text("Here is what to do: drink water.") == "Here is what to do: drink water."
+
+
+def test_progress_is_reported_as_each_tool_starts():
+    t, _ = team([("tool", "hazard_outlook", {"lat": 20.7, "lon": 77.0}), SAFE])
+    heard = []
+    out = t.reply("Is a heat wave coming to Akola?", on_step=heard.append)
+    assert [(h["tool"], h["done"]) for h in heard] == [("hazard_outlook", False), ("hazard_outlook", True)]
+    assert heard[1]["status"] == "success"
+    assert out["text"] == SAFE  # progress never changes what is checked and sent
+    t.reply("And tomorrow?")  # the listener belonged to that one turn only
+    assert len(heard) == 2
+
+
+def test_a_new_team_picks_up_an_earlier_conversation():
+    t, _ = team([SAFE])
+    t.remember([{"role": "user", "text": "Is a heat wave coming to Akola?"},
+                {"role": "assistant", "text": "Yes, from Saturday."}])
+    t.reply("What about my cows?")
+    texts = [m["content"][0]["text"] for m in t.orchestrator.messages if m["content"] and "text" in m["content"][0]]
+    assert texts[:3] == ["Is a heat wave coming to Akola?", "Yes, from Saturday.", "What about my cows?"]

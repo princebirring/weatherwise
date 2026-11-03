@@ -24,7 +24,7 @@ Parameters:
     Description: Route 53 public hosted-zone ID for DomainName. Required with DomainName.
   ClimateAgentModelId:
     Type: String
-    Default: us.amazon.nova-micro-v1:0
+    Default: us.amazon.nova-pro-v1:0
     Description: Bedrock foundation-model or inference-profile ID used by the service.
   OpenMeteoSecretArn:
     Type: String
@@ -385,6 +385,21 @@ Resources:
               - Effect: Allow
                 Action: ['s3:GetObject', 's3:PutObject']
                 Resource: !Sub '${CacheBucket.Arn}/cache/*'
+        - PolicyName: read-write-morning-run
+          # The morning job writes daily/; the website reads it. ListBucket on that prefix only,
+          # so a missing file reads as "not found" rather than "access denied".
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ['s3:GetObject', 's3:PutObject']
+                Resource: !Sub '${CacheBucket.Arn}/daily/*'
+              - Effect: Allow
+                Action: s3:ListBucket
+                Resource: !GetAtt CacheBucket.Arn
+                Condition:
+                  StringLike:
+                    's3:prefix': ['daily/*']
 
   AgentRuntimeRole:
     Type: AWS::IAM::Role
@@ -450,12 +465,26 @@ Resources:
                 Effect: Allow
                 Action: ["s3:GetObject", "s3:PutObject"]
                 Resource: !Sub '${CacheBucket.Arn}/cache/*'
+              - Sid: PlaceMemory
+                Effect: Allow
+                Action: ["bedrock-agentcore:CreateEvent", "bedrock-agentcore:ListEvents"]
+                Resource: !GetAtt PlaceMemory.MemoryArn
+
+  # What the morning warning agent told each watched place (weatherwise/agents/place_memory.py):
+  # short-term events only, no extraction strategies and nothing about people, so no execution
+  # role. The next morning's run reads them to write an update or an all-clear.
+  PlaceMemory:
+    Type: AWS::BedrockAgentCore::Memory
+    Properties:
+      Name: WeatherWisePlaceMemory
+      Description: What the morning warning agent told each place, for updates and all-clears.
+      EventExpiryDuration: 30
 
   AgentRuntime:
     Type: AWS::BedrockAgentCore::Runtime
     Properties:
       AgentRuntimeName: WeatherWiseAgentCore
-      Description: Private Strands agent runtime for WeatherWise chat.
+      Description: Private Strands agent runtime for WeatherWise chat and morning warnings.
       AgentRuntimeArtifact:
         ContainerConfiguration: {ContainerUri: !Ref AgentRuntimeImageUri}
       EnvironmentVariables:
@@ -463,6 +492,7 @@ Resources:
         CLIMATE_AGENT_MODEL_ID: !Ref ClimateAgentModelId
         WEATHERWISE_CACHE_DIR: /tmp/weatherwise
         WEATHERWISE_CACHE_BUCKET: !Ref CacheBucket
+        WEATHERWISE_MEMORY_ID: !GetAtt PlaceMemory.MemoryId
         # AgentCore derives the runtime service identity and native CloudWatch
         # trace destination. ADOT supplies framework spans; do not override
         # those AgentCore-managed values with external-compute OTLP settings.
@@ -542,6 +572,93 @@ Resources:
           SecurityGroups: [!Ref ServiceSecurityGroup]
           Subnets: [!Ref PublicSubnetA, !Ref PublicSubnetB]
 
+  # ---- The morning run: every day at 7 AM IST the agent on AgentCore writes a warning for each
+  # place in data/daily_watch.toml (weatherwise/daily_run.py); results go to S3 daily/ for the
+  # website. One short Fargate task, the same image as the website with another command.
+  DailyRunTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: weatherwise-daily-run
+      Cpu: '512'
+      Memory: '1024'
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      RuntimePlatform: {CpuArchitecture: ARM64, OperatingSystemFamily: LINUX}
+      ExecutionRoleArn: !GetAtt ExecutionRole.Arn
+      TaskRoleArn: !GetAtt TaskRole.Arn
+      ContainerDefinitions:
+        - Name: daily-run
+          Image: !Ref ImageUri
+          Essential: true
+          Command: ['.venv/bin/python', '-m', 'weatherwise.daily_run']
+          Environment:
+            - Name: AWS_REGION
+              Value: !Ref AWS::Region
+            - Name: CLIMATE_AGENT_MODEL_ID
+              Value: !Ref ClimateAgentModelId
+            - Name: WEATHERWISE_AGENT_RUNTIME_ARN
+              Value: !GetAtt AgentRuntime.AgentRuntimeArn
+            - Name: WEATHERWISE_CACHE_BUCKET
+              Value: !Ref CacheBucket
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref LogGroup
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: daily-run
+
+  DailyRunSchedulerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: {Service: scheduler.amazonaws.com}
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                'aws:SourceAccount': !Ref AWS::AccountId
+      Policies:
+        - PolicyName: start-the-morning-run
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ecs:RunTask
+                Resource: !Sub arn:${AWS::Partition}:ecs:${AWS::Region}:${AWS::AccountId}:task-definition/weatherwise-daily-run:*
+                Condition:
+                  ArnEquals:
+                    'ecs:cluster': !GetAtt Cluster.Arn
+              - Effect: Allow
+                Action: iam:PassRole
+                Resource: [!GetAtt ExecutionRole.Arn, !GetAtt TaskRole.Arn]
+                Condition:
+                  StringEquals:
+                    'iam:PassedToService': ecs-tasks.amazonaws.com
+
+  DailyRunSchedule:
+    Type: AWS::Scheduler::Schedule
+    Properties:
+      Name: weatherwise-morning-run
+      Description: The agent writes this morning's warning for each watched place.
+      ScheduleExpression: cron(0 7 * * ? *)
+      ScheduleExpressionTimezone: Asia/Kolkata
+      FlexibleTimeWindow: {Mode: 'OFF'}
+      Target:
+        Arn: !GetAtt Cluster.Arn
+        RoleArn: !GetAtt DailyRunSchedulerRole.Arn
+        RetryPolicy: {MaximumRetryAttempts: 0}
+        EcsParameters:
+          TaskDefinitionArn: !Ref DailyRunTaskDefinition
+          LaunchType: FARGATE
+          TaskCount: 1
+          NetworkConfiguration:
+            AwsvpcConfiguration:
+              AssignPublicIp: ENABLED
+              SecurityGroups: [!Ref ServiceSecurityGroup]
+              Subnets: [!Ref PublicSubnetA, !Ref PublicSubnetB]
+
   WebAcl:
     Condition: UseWaf
     Type: AWS::WAFv2::WebACL
@@ -605,6 +722,12 @@ Outputs:
     Value: !Ref Certificate
   TaskRoleArn:
     Value: !GetAtt TaskRole.Arn
+  DailyRunTaskDefinitionArn:
+    Description: Start the morning run by hand with ecs run-task (same network as the service).
+    Value: !Ref DailyRunTaskDefinition
+  PlaceMemoryId:
+    Description: AgentCore Memory holding what the morning agent told each place.
+    Value: !GetAtt PlaceMemory.MemoryId
   AgentRuntimeArn:
     Description: Private AgentCore Runtime invoked by the ECS task for chat.
     Value: !GetAtt AgentRuntime.AgentRuntimeArn

@@ -1,0 +1,490 @@
+{
+ "event_id": "kolhapur_flood_2024_07",
+ "place": {
+  "name": "Kolhapur",
+  "district": "Kolhapur",
+  "state": "Maharashtra"
+ },
+ "language": "mr",
+ "model_id": "us.amazon.nova-pro-v1:0",
+ "event_day": "2024-07-26",
+ "summary": {
+  "mornings": 22,
+  "mornings_code_flagged": 11,
+  "mornings_with_checked_message": 11,
+  "messages_delivered": 4,
+  "first_warning_day": "2024-07-17",
+  "days_warned_before_event": 9,
+  "drafts_sent_back_by_evaluator": 12,
+  "safe_fallbacks_used": 0,
+  "model_failures": 0,
+  "model_calls": 44,
+  "input_tokens": 38587,
+  "output_tokens": 3597,
+  "slowest_morning_seconds": 12.01,
+  "cost_usd": 0.04238
+ },
+ "mornings": [
+  {
+   "day": "2024-07-15",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-16",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-17",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "दो दिवसांच्या आत कोल्हापूरमध्ये प्रचंड पाऊस पडण्याची शक्यता आहे. कृपया सुरक्षित ठिकाणी जाऊन, आपले वस्तू सुरक्षित ठेवा. पाऊस आणि पूरविषयी अधिक माहितीसाठी 1077 किंवा 112 यावर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
+   "draft": "दो दिवसांच्या आत कोल्हापूरमध्ये प्रचंड पाऊस पडण्याची शक्यता आहे. कृपया सुरक्षित ठिकाणी जाऊन, आपले वस्तू सुरक्षित ठेवा. पाऊस आणि पूरविषयी अधिक माहितीसाठी 1077 किंवा 112 यावर संपर्क साधा.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline",
+     "missing_helpline",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 3.73,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 3976,
+    "output_tokens": 319,
+    "model_seconds": 3.71
+   }
+  },
+  {
+   "day": "2024-07-18",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "कोल्हापुरात 2024-07-19 रोजी भारी पाऊस पडण्याची शक्यता आहे. कृपया सुरक्षित ठिकाणी रहा, आपल्याला मदत हवी असेल तर 1077 किंवा 112 या नंबरवर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
+   "draft": "कोल्हापुरात 2024-07-19 रोजी भारी पाऊस पडण्याची शक्यता आहे. कृपया सुरक्षित ठिकाणी रहा, आपल्याला मदत हवी असेल तर 1077 किंवा 112 या नंबरवर संपर्क साधा.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline",
+     "missing_helpline",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 3.2,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 3681,
+    "output_tokens": 255,
+    "model_seconds": 3.19
+   }
+  },
+  {
+   "day": "2024-07-19",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "आज कोल्हापुरात 64.5 मिमी पर्यंत पाऊस पडण्याची शक्यता आहे. कृपया आपल्याला आवश्यक असलेल्या सर्व मदतीसाठी 1077 आणि 112 या हेल्पलाईन्सवर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
+   "draft": "आज कोल्हापुरात 64.5 मिमी पर्यंत पाऊस पडण्याची शक्यता आहे. कृपया आपल्याला आवश्यक असलेल्या सर्व मदतीसाठी 1077 आणि 112 या हेल्पलाईन्सवर संपर्क साधा.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline",
+     "missing_helpline",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 4.58,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 3935,
+    "output_tokens": 382,
+    "model_seconds": 4.56
+   }
+  },
+  {
+   "day": "2024-07-20",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "कोल्हापूरमध्ये पूर होण्याची शक्यता आहे. कृपया आपल्या घराची तयारी करा. आपल्याला मदत हवी असल्यास 1077 किंवा 112 हे हेल्पलाईन क्रमांकांवर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
+   "draft": "कोल्हापूरमध्ये पूर होण्याची शक्यता आहे. कृपया आपल्या घराची तयारी करा. आपल्याला मदत हवी असल्यास 1077 किंवा 112 हे हेल्पलाईन क्रमांकांवर संपर्क साधा.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 3.61,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 3442,
+    "output_tokens": 279,
+    "model_seconds": 3.59
+   }
+  },
+  {
+   "day": "2024-07-21",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "कोल्हापूरमध्ये नदीची पूरची धोका आहे. कृपया आपले घराच्या बाहेरचे मालमत्ता सुरक्षित ठिकाणी ठेवा, आपल्याला आवश्यक असलेल्या वस्तू गोळा करा आणि आपल्याला आवश्यक असलेल्या सर्व मदतीसाठी 1077 किंवा 112 या नंबरवर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
+   "draft": "कोल्हापूरमध्ये नदीची पूरची धोका आहे. कृपया आपले घराच्या बाहेरचे मालमत्ता सुरक्षित ठिकाणी ठेवा, आपल्याला आवश्यक असलेल्या वस्तू गोळा करा आणि आपल्याला आवश्यक असलेल्या सर्व मदतीसाठी 1077 किंवा 112 या नंबरवर संपर्क साधा.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 2.73,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3030,
+    "output_tokens": 249,
+    "model_seconds": 2.71
+   }
+  },
+  {
+   "day": "2024-07-22",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "कोल्हापूरमध्ये 25 जुलै 2024 रोजी 64.5 मिमी पेक्षा जास्त पाऊस पडण्याची शक्यता आहे. हेवी रेनचे धोकेबाजी प्रमाण 0.57 आहे. कृपया सुरक्षित ठिकाणी जा आणि आपल्या घराची तयारी करा. मदतसाठी 1077 किंवा 112 या नंबरवर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
+   "draft": "कोल्हापूरमध्ये 25 जुलै 2024 रोजी 64.5 मिमी पेक्षा जास्त पाऊस पडण्याची शक्यता आहे. हेवी रेनचे धोकेबाजी प्रमाण 0.57 आहे. कृपया सुरक्षित ठिकाणी जा आणि आपल्या घराची तयारी करा. मदतसाठी 1077 किंवा 112 या नंबरवर संपर्क साधा.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline",
+     "missing_helpline",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 4.43,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 3716,
+    "output_tokens": 370,
+    "model_seconds": 4.41
+   }
+  },
+  {
+   "day": "2024-07-23",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "कोल्हापूरमध्ये पूर होण्याची शक्यता आहे. कृपया आपल्याला आवश्यक असलेल्या सुरक्षित ठिकाणी जाण्यासाठी तयार रहा. आपल्याला मदत हवी असल्यास 1077 किंवा 112 यावर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
+   "draft": "कोल्हापूरमध्ये पूर होण्याची शक्यता आहे. कृपया आपल्याला आवश्यक असलेल्या सुरक्षित ठिकाणी जाण्यासाठी तयार रहा. आपल्याला मदत हवी असल्यास 1077 किंवा 112 यावर संपर्क साधा.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 3.92,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 3479,
+    "output_tokens": 388,
+    "model_seconds": 3.9
+   }
+  },
+  {
+   "day": "2024-07-24",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "कोल्हापूरमध्ये पूर टाळण्यासाठी तयारी करा. आपले घराचे शेवटचे बांधकाम तपासा. आपल्या घरातील आवश्यक वस्तू वर ठेवा. आपल्याला मदत हवी असल्यास, कृपया 1077 किंवा 112 हे हेल्पलाइन नंबर डायल करा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
+   "draft": "कोल्हापूरमध्ये पूर टाळण्यासाठी तयारी करा. आपले घराचे शेवटचे बांधकाम तपासा. आपल्या घरातील आवश्यक वस्तू वर ठेवा. आपल्याला मदत हवी असल्यास, कृपया 1077 किंवा 112 हे हेल्पलाइन नंबर डायल करा.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 3.51,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 2741,
+    "output_tokens": 252,
+    "model_seconds": 3.49
+   }
+  },
+  {
+   "day": "2024-07-25",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "कोल्हापूरमध्ये पूर येण्याची शक्यता आहे. कृपया आपले घराचे आवश्यक वस्तू, औषधे आणि मूल्यवान वस्तू सुरक्षित ठेवा. आपल्याला मदत हवी असल्यास 1077 किंवा 112 या नंबरवर संपर्क करा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
+   "draft": "कोल्हापूरमध्ये पूर येण्याची शक्यता आहे. कृपया आपले घराचे आवश्यक वस्तू, औषधे आणि मूल्यवान वस्तू सुरक्षित ठेवा. आपल्याला मदत हवी असल्यास 1077 किंवा 112 या नंबरवर संपर्क करा.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 3.79,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 2445,
+    "output_tokens": 262,
+    "model_seconds": 3.77
+   }
+  },
+  {
+   "day": "2024-07-26",
+   "code_flagged": "flood",
+   "what_happened": [
+    "river_above_flood_level"
+   ],
+   "message": "कोल्हापूरमध्ये पूर येण्याची शक्यता आहे. कृपया आपल्या घराची तयारी करा. 1077 आणि 112 हे हेल्पलाईन नंबर आपल्याकडे ठेवा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
+   "draft": "कोल्हापूरमध्ये पूर येण्याची शक्यता आहे. कृपया आपल्या घराची तयारी करा. 1077 आणि 112 हे हेल्पलाईन नंबर आपल्याकडे ठेवा.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 3.5,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 3444,
+    "output_tokens": 314,
+    "model_seconds": 3.48
+   }
+  },
+  {
+   "day": "2024-07-27",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "2024-07-27 रोजी कोल्हापूरमध्ये पूर येण्याची शक्यता आहे. कृपया आपले घर तयार करा: 1) घराभोवतीचे पाणी बाहेर काढा. 2) महत्वपूर्ण कागदपत्रे आणि वस्तू वरच्या मजल्यावर ठेवा. 3) आपल्याला सुरक्षित जागा शोधण्यासाठी 1077 किंवा 112 वर मदत मिळू शकते. अधिक माहितीसाठी अधिकृत चेतावणी तपासा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
+   "draft": "2024-07-27 रोजी कोल्हापूरमध्ये पूर येण्याची शक्यता आहे. कृपया आपले घर तयार करा: 1) घराभोवतीचे पाणी बाहेर काढा. 2) महत्वपूर्ण कागदपत्रे आणि वस्तू वरच्या मजल्यावर ठेवा. 3) आपल्याला सुरक्षित जागा शोधण्यासाठी 1077 किंवा 112 वर मदत मिळू शकते. अधिक माहितीसाठी अधिकृत चेतावणी तपासा.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline",
+     "missing_helpline"
+    ],
+    [
+     "unsafe_high_ground"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 12.01,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 4698,
+    "output_tokens": 527,
+    "model_seconds": 12.0
+   }
+  },
+  {
+   "day": "2024-07-28",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-29",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-30",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-31",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-01",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-02",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-03",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-04",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-05",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  }
+ ],
+ "title": "Kolhapur-Sangli floods, July 2024"
+}
