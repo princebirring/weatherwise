@@ -95,3 +95,13 @@ def test_never_tells_someone_they_are_safe():
     for text in ("It is safe to work today. 108.", "आज काम करणे सुरक्षित आहे. 108.", "आज कोई खतरा नहीं. 108."):
         assert "claims_safe" in [v.rule for v in check_message(text, ctx, rules)]
     assert check_message("It is not safe to cross the river. 108.", ctx, rules) == []
+
+
+def test_internal_text_never_reaches_a_person():
+    ctx = MessageContext(("flood",), False, frozenset())
+    for leak in ("आपले आश्रयस्थान जाणून घ्या: find_shelters मध्ये शोधा. 112 / 1077",
+                 "<thinking> I will send step one </thinking> कागदपत्रे ठेवा. 112 / 1077",
+                 "Follow the flood skill. 112 / 1077"):
+        assert "internal_text" in [v.rule for v in check_message(leak, ctx, RULES)]
+    clean = "कागदपत्रे प्लास्टिक पिशवीत ठेवा. नद्यांपासून आणि डोंगर उतारांपासून दूर रहा. 112 / 1077"
+    assert "internal_text" not in [v.rule for v in check_message(clean, ctx, RULES)]

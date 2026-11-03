@@ -134,6 +134,13 @@ h1, h2, h3, p { margin: 0; }
 .search input::-webkit-search-cancel-button { width: 22px; height: 22px; }
 
 .loading { display: flex; align-items: center; gap: 10px; color: var(--muted); padding: 18px 4px; }
+/* Chat progress: finished steps ticked, the current one spinning. */
+.progress { display: flex; flex-direction: column; gap: 6px; padding: 8px 4px 0; }
+.progress .done { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--muted); }
+.progress .done svg { color: var(--action); }
+.progress .loading { padding: 4px 0 12px; font-size: 15px; color: var(--ink); font-weight: 600; }
+.progress .loading .spinner { width: 16px; height: 16px; border-width: 2px; }
+.ask-about { align-self: flex-start; }
 .spinner { width: 20px; height: 20px; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--action); animation: spin 0.9s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }

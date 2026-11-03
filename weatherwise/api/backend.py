@@ -4,6 +4,8 @@ Every fact comes from the Climate Risk MCP server through `call`; chat goes to t
 team as WhatsApp. Chat sessions store nothing personal and never send WhatsApp messages.
 """
 
+import json
+import re
 import time
 import tomllib
 from collections import OrderedDict, deque
@@ -16,6 +18,8 @@ from weatherwise.rules import country_for, load_rules, rules_version
 
 ROOT = Path(__file__).resolve().parents[2]
 REPLAYS_FILE = ROOT / "evals" / "headline_events.toml"
+AGENT_REPLAYS_DIR = ROOT / "evals" / "results" / "agent_replays"
+DAILY_SECONDS = 300  # how long a read of the morning run is reused
 HAZARDS = {"heat", "flood", "cyclone", "other"}
 LANGUAGES = {"en", "hi", "mr"}
 
@@ -77,6 +81,8 @@ class WeatherWiseApi:
     _day: tuple = (None, 0)
     _replays: dict = field(default_factory=dict)
     _policies: dict = field(default_factory=dict)
+    daily_store: Callable[[str], dict | list | None] | None = None  # "latest" / "index" -> the morning run
+    _daily: tuple = (0.0, None)
 
     # ---- facts (no AI) ---------------------------------------------------------------
     def status(self) -> dict:
@@ -158,6 +164,33 @@ class WeatherWiseApi:
             self._replays[replay_id] = {"event": event, **result}
         return self._replays[replay_id]
 
+    # ---- the agents' own work, already done (no AI per request) -------------------------
+    def daily(self) -> dict:
+        """This morning's run: the agent on AgentCore wrote a warning for each watched place."""
+        if self.daily_store is None:
+            return {"status": "not_connected"}
+        read_at, cached = self._daily
+        if cached is None or self.clock() - read_at > DAILY_SECONDS:
+            latest = self.daily_store("latest")
+            cached = {"status": "ok" if latest else "not_run_yet", "latest": latest,
+                      "history": self.daily_store("index") or []}
+            self._daily = (self.clock(), cached)
+        return cached
+
+    def agent_replays(self) -> list[dict]:
+        out = []
+        for path in sorted(AGENT_REPLAYS_DIR.glob("*.json")):
+            r = json.loads(path.read_text())
+            out.append({k: r[k] for k in ("event_id", "title", "language", "model_id", "event_day", "summary")})
+        return out
+
+    def agent_replay(self, replay_id: str) -> dict:
+        """A past disaster replayed through the morning warning Graph (evals/eval_agent_replays.py)."""
+        path = AGENT_REPLAYS_DIR / f"{replay_id}.json"
+        if not re.fullmatch(r"[a-z0-9_]{1,64}", replay_id or "") or not path.is_file():
+            raise BadRequest("unknown replay")
+        return json.loads(path.read_text())
+
     # ---- chat (the agents) -----------------------------------------------------------
     def _check_limits(self, visitor: str) -> None:
         now = self.clock()
@@ -188,7 +221,9 @@ class WeatherWiseApi:
         return self._sessions[key][0]
 
     def chat(self, visitor: str, session_id: str, message: str, language: str,
-             place: dict | None = None) -> dict:
+             place: dict | None = None, on_step: Callable[[dict], None] | None = None) -> dict:
+        """One chat turn. Everything is checked before the agents run, so a refusal raises before
+        on_step is ever called; on_step then hears each tool as it starts."""
         if self.team_factory is None:
             raise AgentsOffline("The agents are not connected on this server yet. "
                                 "Everything else on the page works without them.")
@@ -207,5 +242,6 @@ class WeatherWiseApi:
             message = (f"[System: the person's saved place is {name} (lat {lat}, lon {lon}); "
                        f"it is already confirmed.]\n{message}")
         started = self.clock()
-        reply = self._team(session_id, language).reply(message)
+        team = self._team(session_id, language)
+        reply = team.reply(message, on_step=on_step) if on_step else team.reply(message)
         return {**reply, "seconds": round(self.clock() - started, 1)}

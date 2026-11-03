@@ -293,6 +293,51 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expectOnlyLanguage(language)
   })
 
+  it('Ask shows each step in words while the agents work, then the checked answer', async () => {
+    const lines = new TransformStream<string, string>()
+    const writer = lines.writable.getWriter()
+    const body = lines.readable.pipeThrough(new TextEncoderStream())
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(body, { headers: { 'content-type': 'application/x-ndjson' } })))
+    show(language, <Ask place={place} status={{ ...status, agents_ready: true }} />)
+    fireEvent.click(screen.getByRole('button', { name: t('ask.chip.hot') }))
+
+    const step = (tool: string, done: boolean) => writer.write(JSON.stringify({ type: 'step', agent: 'orchestrator', tool, done }) + '\n')
+    await step('hazard_outlook', false)
+    await waitFor(() => expect(screen.getByRole('status').textContent).toContain(t('ask.step.forecast')))
+    await step('hazard_outlook', true)
+    await step('warning_agent', false)
+    await waitFor(() => expect(screen.getByRole('status').textContent).toContain(t('ask.step.advice')))
+    expect(screen.getByRole('status').textContent).toContain(t('ask.step.forecast')) // ticked off
+    await step('warning_agent', true)
+    await waitFor(() => expect(screen.getByRole('status').textContent).toContain(t('ask.step.answer')))
+    expectOnlyLanguage(language)
+
+    await writer.write(JSON.stringify({ type: 'reply', text: 'Checked answer.', used_fallback: false, violations: [], steps: [], seconds: 4 }) + '\n')
+    await writer.close()
+    await waitFor(() => expect(screen.getByText('Checked answer.')).toBeTruthy())
+    expect(screen.queryByRole('status')).toBeNull()
+  })
+
+  it('A refusal while chatting still shows the busy message', async () => {
+    stubApi({ '/api/chat': [429, { error: 'demo_busy', message: 'busy' }] })
+    show(language, <Ask place={place} status={{ ...status, agents_ready: true }} />)
+    fireEvent.click(screen.getByRole('button', { name: t('ask.chip.hot') }))
+    await waitFor(() => expect(screen.getByText(t('ask.busy'))).toBeTruthy())
+  })
+
+  it('Ask about this: each danger page links to Ask with a question in this language, put in the box, not sent', () => {
+    show(language, <HazardPage group="heat" place={place} data={loaded(outlook(true))} />)
+    const link = screen.getByRole('link', { name: t('ask.aboutThis') })
+    expect(link.getAttribute('href')).toBe(`/app/ask?q=${encodeURIComponent(t('ask.q.heat'))}`)
+    cleanup()
+    window.history.pushState(null, '', link.getAttribute('href'))
+    const fetch = vi.fn()
+    vi.stubGlobal('fetch', fetch)
+    show(language, <Ask place={place} status={{ ...status, agents_ready: true }} />)
+    expect((screen.getByRole('textbox') as HTMLInputElement).value).toBe(t('ask.q.heat'))
+    expect(fetch).not.toHaveBeenCalled()
+  })
+
   it('Not covered (a village in Kenya): honest, and no Indian helplines', () => {
     show(language, <NotCovered />)
     expect(screen.getByText(t('notCovered.title'))).toBeTruthy()

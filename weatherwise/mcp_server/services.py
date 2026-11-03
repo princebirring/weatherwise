@@ -62,6 +62,34 @@ def detection_dict(d: HazardDetection) -> dict:
     return out
 
 
+def backtest_reply(place, bt) -> dict:
+    """The backtest tool's reply (also used by agent replays, so both read the same facts)."""
+    return {
+        "place": {"name": place.name, "district": place.admin.district, "state": place.admin.state},
+        "mode": bt.mode,
+        "flood_level_m3s": bt.flood_level_m3s,
+        "unusual_rain_mm": bt.unusual_rain_mm,
+        "verification": verify(bt),
+        "timeline": [
+            {
+                "day": d.day.isoformat(),
+                "would_have_sent": sorted({f"{w['hazard']}:{w['severity']}" for w in d.warnings}),
+                "flood_guide": d.flood_guide_mode,
+                "flood_guide_reasons": d.flood_guide_reasons,
+                "detections": d.warnings,  # the morning's full warnings, for agent replays
+                "data_missing": d.data_missing,
+                "forecast_correction": d.correction,
+                "what_happened": d.observed_events,
+                "observed": d.observed,
+            }
+            for d in bt.days
+        ],
+        "notes": bt.notes,
+        "rules_version": rules_version(),
+        "attribution": ATTRIBUTION,
+    }
+
+
 def not_covered(e: UnsupportedCountry) -> dict:
     """The answer for a place outside every country we have rules for: honest, never a guess.
     No helpline numbers: ours are for the countries we cover, not this one."""
@@ -203,28 +231,7 @@ class ClimateRiskServices:
         if last > today - timedelta(days=6):
             raise ValueError("last_day must be at least 6 days ago (observations lag ~5 days)")
         weather = self.resolver.weather(place.timezone)
-        bt = backtest_place(place, first, last, weather, rules)
-        return {
-            "place": {"name": place.name, "district": place.admin.district, "state": place.admin.state},
-            "mode": bt.mode,
-            "flood_level_m3s": bt.flood_level_m3s,
-            "unusual_rain_mm": bt.unusual_rain_mm,
-            "verification": verify(bt),
-            "timeline": [
-                {
-                    "day": d.day.isoformat(),
-                    "would_have_sent": sorted({f"{w['hazard']}:{w['severity']}" for w in d.warnings}),
-                    "flood_guide": d.flood_guide_mode,
-                    "flood_guide_reasons": d.flood_guide_reasons,
-                    "forecast_correction": d.correction,
-                    "what_happened": d.observed_events,
-                    "observed": d.observed,
-                }
-                for d in bt.days
-            ],
-            "notes": bt.notes,
-            "attribution": ATTRIBUTION,
-        }
+        return backtest_reply(place, backtest_place(place, first, last, weather, rules))
 
     def cap_alerts(self, lat: float, lon: float, status: str = "Exercise") -> dict:
         outlook = self.hazard_outlook(lat, lon)

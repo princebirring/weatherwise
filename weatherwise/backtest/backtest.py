@@ -167,7 +167,7 @@ def _as_dict(d: HazardDetection) -> dict:
     return {
         "hazard": d.hazard.value, "severity": d.severity, "first_day": d.first_day.isoformat(),
         "last_day": d.last_day.isoformat(), "days_ahead": d.days_ahead,
-        "agreement": d.agreement, "place": d.evidence.get("place"),
+        "agreement": d.agreement, "place": d.evidence.get("place"), "evidence": d.evidence,
     }
 
 

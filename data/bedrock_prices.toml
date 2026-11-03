@@ -1,0 +1,23 @@
+# Bedrock on-demand text prices, US$ per 1,000 tokens, us-east-2 (Ohio), where WeatherWise runs.
+# Source: AWS Price List API (pricing:GetProducts, service AmazonBedrock), read 2026-11-02.
+# Keyed by the model or inference-profile id the agents use (CLIMATE_AGENT_MODEL_ID).
+
+["us.amazon.nova-micro-v1:0"]
+input = 0.000035
+output = 0.00014
+
+["us.amazon.nova-lite-v1:0"]
+input = 0.00006
+output = 0.00024
+
+["us.amazon.nova-pro-v1:0"]
+input = 0.0008
+output = 0.0032
+
+["us.amazon.nova-2-lite-v1:0"]
+input = 0.00033
+output = 0.00275
+
+["global.amazon.nova-2-lite-v1:0"]
+input = 0.0003
+output = 0.0025

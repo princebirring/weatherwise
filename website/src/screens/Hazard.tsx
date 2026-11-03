@@ -3,6 +3,7 @@ import { api } from '../api'
 import { chipsOf, groupStatus, iconOf, levelOf, shortDate, titleOf, whenOf, type HazardGroup } from '../hazards'
 import { Icon, type IconName } from '../components/Icon'
 import { Listen } from '../components/Listen'
+import { Link } from '../router'
 import { ErrorBox, Helplines, Loading, ScreenHeader } from '../components/Shell'
 import { useAsync, type Async } from '../components/useAsync'
 import { Week } from '../components/Week'
@@ -104,6 +105,11 @@ export function HazardPage({ group, place, data }: { group: HazardGroup; place: 
             </article>
           ))}
         </section>
+
+        {/* The agents explain and fit the advice to the person; the level above stays the rules' call. */}
+        <Link href={`/app/ask?q=${encodeURIComponent(t(`ask.q.${group}`))}`} className="btn secondary ask-about">
+          <Icon name="chat" size={22} /> {t('ask.aboutThis')}
+        </Link>
 
         <Week outlook={outlook} />
         {group === 'flood' && <FloodSteps place={place} mode={outlook.flood_guide.mode} guidance={guidance} />}

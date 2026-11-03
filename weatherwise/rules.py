@@ -173,7 +173,7 @@ def message_policy(country: str, root: Path = RULES_ROOT) -> dict:
         },
         "delivery": rules["delivery"],
         "safe_messages": {
-            code: {kind: text(lang, "safe_messages", kind) for kind in ("general", "heat", "flood")}
+            code: {kind: text(lang, "safe_messages", kind) for kind in ("general", "heat", "flood", "all_clear")}
             for code, lang in languages.items()
         },
         "footer": {code: text(lang, "footer", "text") for code, lang in languages.items()},

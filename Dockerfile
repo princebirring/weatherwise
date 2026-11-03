@@ -37,6 +37,8 @@ COPY rules/ rules/
 COPY data/ data/
 COPY skills/ skills/
 COPY evals/headline_events.toml evals/headline_events.toml
+# Past disasters replayed through the agent (evals/eval_agent_replays.py), served by /api/agent-replays.
+COPY evals/results/agent_replays/ evals/results/agent_replays/
 COPY --from=website /website/dist website/dist
 
 # Ship the coastline (10 MB, Natural Earth, public domain) so no cold start downloads it.

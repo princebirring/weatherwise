@@ -119,10 +119,21 @@ class AgentTeam:
     policy: dict
     language: str
 
-    def reply(self, message: str) -> dict:
-        """One turn: the reply text, whether the safe fallback was used, and the agent steps."""
+    def remember(self, history: list[dict]) -> None:
+        """Start a new team from earlier turns ({"role": "user" | "assistant", "text": ...}), for
+        when the conversation outlived the process that held it. Only the words carry over."""
+        if not self.orchestrator.messages:
+            self.orchestrator.messages = [{"role": h["role"], "content": [{"text": h["text"]}]} for h in history]
+
+    def reply(self, message: str, on_step: Callable[[dict], None] | None = None) -> dict:
+        """One turn: the reply text, whether the safe fallback was used, and the agent steps.
+        on_step hears each tool start and finish (progress only; the reply is still checked whole)."""
         self.orchestrator.state.set("use_fallback", False)
-        result = self.orchestrator(message)
+        self.step_log.on_step = on_step
+        try:
+            result = self.orchestrator(message)
+        finally:
+            self.step_log.on_step = None
         # Stopped by the cost guard: the last message may be a tool call or an unchecked draft.
         used_fallback = bool(self.orchestrator.state.get("use_fallback")) or result.stop_reason == "cancelled"
         text = fallback_message(self.policy, "general", self.language) if used_fallback else public_text(str(result))

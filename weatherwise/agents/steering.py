@@ -111,6 +111,8 @@ class SafetyRulesHandler(SteeringHandler):
         rewrites = (agent.state.get("evaluator_rewrites") or 0) + 1
         agent.state.set("evaluator_rewrites", rewrites)
         agent.state.set("evaluator_violations", [v.rule for v in violations])
+        # Every draft sent back, with why: the run reports what the Evaluator caught.
+        agent.state.set("evaluator_log", (agent.state.get("evaluator_log") or []) + [[v.rule for v in violations]])
         if rewrites > MAX_REWRITES:
             agent.state.set("use_fallback", True)
             return Proceed(reason="rewrite limit reached; caller sends the safe fallback message")

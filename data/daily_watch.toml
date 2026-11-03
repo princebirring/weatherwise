@@ -1,0 +1,154 @@
+# Places the agent writes a warning for every morning (weatherwise/daily_run.py), shown on the
+# website as "this morning, the agent". Demo data, not settings: the same run works for any point.
+# Spread over states, terrain and hazards. English, so anyone can read the agent's work; the
+# same run writes Hindi or Marathi for real groups (their language is per group).
+
+[[place]]
+name = "Akola"
+lat = 20.70
+lon = 77.00
+language = "en"
+
+[[place]]
+name = "Kolhapur"
+lat = 16.70
+lon = 74.24
+language = "en"
+
+[[place]]
+name = "Nagpur"
+lat = 21.15
+lon = 79.09
+language = "en"
+
+[[place]]
+name = "Latur"
+lat = 18.40
+lon = 76.57
+language = "en"
+
+[[place]]
+name = "Nashik"
+lat = 20.00
+lon = 73.79
+language = "en"
+
+[[place]]
+name = "Mumbai"
+lat = 19.08
+lon = 72.88
+language = "en"
+
+[[place]]
+name = "Delhi"
+lat = 28.61
+lon = 77.21
+language = "en"
+
+[[place]]
+name = "Phalodi"
+lat = 27.13
+lon = 72.36
+language = "en"
+
+[[place]]
+name = "Jaipur"
+lat = 26.91
+lon = 75.79
+language = "en"
+
+[[place]]
+name = "Lucknow"
+lat = 26.85
+lon = 80.95
+language = "en"
+
+[[place]]
+name = "Prayagraj"
+lat = 25.44
+lon = 81.85
+language = "en"
+
+[[place]]
+name = "Patna"
+lat = 25.59
+lon = 85.14
+language = "en"
+
+[[place]]
+name = "Bhopal"
+lat = 23.26
+lon = 77.41
+language = "en"
+
+[[place]]
+name = "Dehradun"
+lat = 30.32
+lon = 78.03
+language = "en"
+
+[[place]]
+name = "Gurdaspur"
+lat = 32.04
+lon = 75.40
+language = "en"
+
+[[place]]
+name = "Ahmedabad"
+lat = 23.02
+lon = 72.57
+language = "en"
+
+[[place]]
+name = "Vijayawada"
+lat = 16.51
+lon = 80.64
+language = "en"
+
+[[place]]
+name = "Hyderabad"
+lat = 17.39
+lon = 78.49
+language = "en"
+
+[[place]]
+name = "Chennai"
+lat = 13.08
+lon = 80.27
+language = "en"
+
+[[place]]
+name = "Puducherry"
+lat = 11.94
+lon = 79.81
+language = "en"
+
+[[place]]
+name = "Meppadi"
+lat = 11.55
+lon = 76.13
+language = "en"
+
+[[place]]
+name = "Belagavi"
+lat = 15.85
+lon = 74.50
+language = "en"
+
+[[place]]
+name = "Bhubaneswar"
+lat = 20.30
+lon = 85.82
+language = "en"
+
+[[place]]
+name = "Kolkata"
+lat = 22.57
+lon = 88.36
+language = "en"
+
+[[place]]
+name = "Guwahati"
+lat = 26.14
+lon = 91.74
+language = "en"

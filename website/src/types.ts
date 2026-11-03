@@ -192,6 +192,13 @@ export interface AgentStep {
   seconds: number
 }
 
+/** A tool starting or finishing while the agents work on a chat reply. */
+export interface ChatProgress {
+  agent: string
+  tool: string
+  done: boolean
+}
+
 export interface ChatReply {
   text: string
   used_fallback: boolean
@@ -231,4 +238,48 @@ export interface Rules {
   }
   correction: { training_days: number; max_shift_c: number }
   rules_version: string
+}
+
+// The morning run (weatherwise/daily_run.py, GET /api/daily): the agent's own work, already done.
+export interface DailyPlace {
+  place: { name: string; lat: number; lon: number; language: Language }
+  ok: boolean
+  error?: string
+  hazard_kind?: 'heat_dry' | 'flood' | 'all_clear' | null
+  body?: string | null
+  used_fallback?: boolean
+  model_error?: string | null
+  flood_guide?: { mode: string | null; reasons: string[] } | null
+  evaluator_sent_back?: string[][]
+  earlier_warnings?: { day: string; kind: string; message: string }[]
+  model_calls?: number
+  wall_seconds: number
+}
+
+export interface DailySummary {
+  places: number
+  finished: number
+  failed: number
+  warnings_written: number
+  updates_of_earlier_warnings?: number
+  all_clears?: number
+  drafts_sent_back_by_evaluator: number
+  safe_fallbacks_used: number
+  model_calls: number
+  model_cost_usd: number | null
+  total_seconds: number
+}
+
+export interface DailyRun {
+  run_date: string
+  started_at: string
+  model_id: string
+  summary: DailySummary
+  places: DailyPlace[]
+}
+
+export interface Daily {
+  status: 'ok' | 'not_run_yet' | 'not_connected'
+  latest?: DailyRun | null
+  history?: ({ run_date: string } & DailySummary)[]
 }

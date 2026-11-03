@@ -5,23 +5,36 @@ import { ErrorBox, Helplines, ScreenHeader } from '../components/Shell'
 import { Link } from '../router'
 import { saved } from '../storage'
 import { useLanguage } from '../text'
-import type { ChatReply, SavedPlace, Status } from '../types'
+import type { TextKey } from '../text/en'
+import type { ChatProgress, ChatReply, SavedPlace, Status } from '../types'
 
 interface Turn {
   question: string
+  progress: ChatProgress[]
   reply?: ChatReply
   error?: ApiError
 }
+
+// What each tool means to the person waiting, in their words.
+const STEP_TEXT: Record<string, TextKey> = {
+  find_place: 'ask.step.place', resolve_place: 'ask.step.place',
+  hazard_outlook: 'ask.step.forecast', official_alerts: 'ask.step.official', find_shelters: 'ask.step.shelters',
+  warning_agent: 'ask.step.advice', flood_guide_agent: 'ask.step.advice',
+}
+
+// A question can arrive with the link, from "Ask about this" on a danger page: it is put in the
+// box for the person to send (or change), never sent on its own.
+const linkedQuestion = (max: number) => (new URLSearchParams(window.location.search).get('q') ?? '').slice(0, max)
 
 /** Chat with the same agent team as WhatsApp. Each reply can show how it was made. */
 export function Ask({ place, status }: { place: SavedPlace; status: Status | null }) {
   const { t, language } = useLanguage()
   const [turns, setTurns] = useState<Turn[]>([])
-  const [draft, setDraft] = useState('')
+  const max = status?.limits.max_message_chars ?? 500
+  const [draft, setDraft] = useState(() => linkedQuestion(max))
   const [busy, setBusy] = useState(false)
   const [open, setOpen] = useState<number | null>(null)
   const input = useRef<HTMLInputElement>(null)
-  const max = status?.limits.max_message_chars ?? 500
   const offline = status !== null && !status.agents_ready
 
   const send = async (question: string) => {
@@ -30,9 +43,11 @@ export function Ask({ place, status }: { place: SavedPlace; status: Status | nul
     setDraft('')
     setBusy(true)
     const index = turns.length
-    setTurns((ts) => [...ts, { question: q }])
+    setTurns((ts) => [...ts, { question: q, progress: [] }])
+    const onProgress = (step: ChatProgress) =>
+      setTurns((ts) => ts.map((x, i) => (i === index ? { ...x, progress: [...x.progress, step] } : x)))
     try {
-      const reply = await api.chat(saved.chatSession(), q, language, place)
+      const reply = await api.chat(saved.chatSession(), q, language, place, onProgress)
       setTurns((ts) => ts.map((x, i) => (i === index ? { ...x, reply } : x)))
     } catch (e) {
       setTurns((ts) => ts.map((x, i) => (i === index ? { ...x, error: e as ApiError } : x)))
@@ -73,7 +88,7 @@ export function Ask({ place, status }: { place: SavedPlace; status: Status | nul
           {turns.map((turn, i) => (
             <div key={i} className="chat">
               <p className="bubble me">{turn.question}</p>
-              {!turn.reply && !turn.error && <div className="loading" role="status"><span className="spinner" />{t('ask.thinking')}</div>}
+              {!turn.reply && !turn.error && <Progress steps={turn.progress} />}
               {turn.error && (turn.error.kind === 'demo_busy'
                 ? <p className="bubble bot">{t('ask.busy')}</p>
                 : <ErrorBox error={turn.error} />)}
@@ -107,6 +122,29 @@ export function Ask({ place, status }: { place: SavedPlace; status: Status | nul
         <Helplines />
       </main>
     </>
+  )
+}
+
+/** While the agents work: what is done, and what is happening now. Once every tool has finished,
+ *  the agent is writing, and the checker reads the answer before it is shown. */
+function Progress({ steps }: { steps: ChatProgress[] }) {
+  const { t } = useLanguage()
+  const order: TextKey[] = []
+  const running = new Map<TextKey, number>() // tools started and not yet finished, per line
+  for (const s of steps) {
+    const key = STEP_TEXT[s.tool] ?? 'ask.step.work'
+    if (!order.includes(key)) order.push(key)
+    running.set(key, (running.get(key) ?? 0) + (s.done ? -1 : 1))
+  }
+  const now = order.find((k) => (running.get(k) ?? 0) > 0)
+  return (
+    <div className="progress" role="status">
+      {order.filter((k) => k !== now && (running.get(k) ?? 0) <= 0).map((k) => (
+        <p key={k} className="done"><Icon name="check" size={16} />{t(k)}</p>
+      ))}
+      <p className="loading"><span className="spinner" />
+        {now ? t(now) : order.length ? t('ask.step.answer') : t('ask.thinking')}</p>
+    </div>
   )
 }
 
