@@ -242,7 +242,7 @@ export interface Rules {
 
 // The morning run (weatherwise/daily_run.py, GET /api/daily): the agent's own work, already done.
 export interface DailyPlace {
-  place: { name: string; lat: number; lon: number; language: Language }
+  place: { name: string; lat: number; lon: number; language: Language; why?: string }
   ok: boolean
   error?: string
   hazard_kind?: 'heat_dry' | 'flood' | 'all_clear' | null

@@ -1,154 +1,188 @@
 # Places the agent writes a warning for every morning (weatherwise/daily_run.py), shown on the
 # website as "this morning, the agent". Demo data, not settings: the same run works for any point.
-# Spread over states, terrain and hazards. English, so anyone can read the agent's work; the
-# same run writes Hindi or Marathi for real groups (their language is per group).
+# Chosen Nov 3 2026 across India: where the risk is today, where 2026's disasters struck, and the
+# heat and drought belts (quiet in November, checked every day anyway). English, so anyone can
+# read the agent's work; the same run writes Hindi or Marathi for real groups.
+
+# ---- Cyclone and northeast-monsoon coast: where the risk is today (official cyclone alerts on the Andhra coast, Nov 3 2026)
 
 [[place]]
-name = "Akola"
-lat = 20.70
-lon = 77.00
+name = "Bapatla"
+lat = 15.90
+lon = 80.47
 language = "en"
-
-[[place]]
-name = "Kolhapur"
-lat = 16.70
-lon = 74.24
-language = "en"
-
-[[place]]
-name = "Nagpur"
-lat = 21.15
-lon = 79.09
-language = "en"
-
-[[place]]
-name = "Latur"
-lat = 18.40
-lon = 76.57
-language = "en"
-
-[[place]]
-name = "Nashik"
-lat = 20.00
-lon = 73.79
-language = "en"
-
-[[place]]
-name = "Mumbai"
-lat = 19.08
-lon = 72.88
-language = "en"
-
-[[place]]
-name = "Delhi"
-lat = 28.61
-lon = 77.21
-language = "en"
-
-[[place]]
-name = "Phalodi"
-lat = 27.13
-lon = 72.36
-language = "en"
-
-[[place]]
-name = "Jaipur"
-lat = 26.91
-lon = 75.79
-language = "en"
-
-[[place]]
-name = "Lucknow"
-lat = 26.85
-lon = 80.95
-language = "en"
-
-[[place]]
-name = "Prayagraj"
-lat = 25.44
-lon = 81.85
-language = "en"
-
-[[place]]
-name = "Patna"
-lat = 25.59
-lon = 85.14
-language = "en"
-
-[[place]]
-name = "Bhopal"
-lat = 23.26
-lon = 77.41
-language = "en"
-
-[[place]]
-name = "Dehradun"
-lat = 30.32
-lon = 78.03
-language = "en"
-
-[[place]]
-name = "Gurdaspur"
-lat = 32.04
-lon = 75.40
-language = "en"
-
-[[place]]
-name = "Ahmedabad"
-lat = 23.02
-lon = 72.57
-language = "en"
+why = "Cyclone Arnab coast; official cyclone alert Nov 3"
 
 [[place]]
 name = "Vijayawada"
 lat = 16.51
 lon = 80.64
 language = "en"
+why = "official red alert Nov 3; Budameru floods 2024"
 
 [[place]]
-name = "Hyderabad"
-lat = 17.39
-lon = 78.49
+name = "Nellore"
+lat = 14.44
+lon = 79.99
 language = "en"
+why = "official cyclone alert Nov 3"
+
+[[place]]
+name = "Kakinada"
+lat = 16.96
+lon = 82.24
+language = "en"
+why = "Cyclone Arnab landfall, Oct 28 2026"
+
+[[place]]
+name = "Visakhapatnam"
+lat = 17.69
+lon = 83.22
+language = "en"
+why = "Cyclone Arnab coast"
 
 [[place]]
 name = "Chennai"
 lat = 13.08
 lon = 80.27
 language = "en"
+why = "northeast-monsoon floods"
 
 [[place]]
 name = "Puducherry"
 lat = 11.94
 lon = 79.81
 language = "en"
+why = "Cyclone Fengal 2024 coast"
 
 [[place]]
-name = "Meppadi"
-lat = 11.55
-lon = 76.13
+name = "Nagapattinam"
+lat = 10.77
+lon = 79.84
 language = "en"
-
-[[place]]
-name = "Belagavi"
-lat = 15.85
-lon = 74.50
-language = "en"
+why = "delta coast, cyclones"
 
 [[place]]
 name = "Bhubaneswar"
 lat = 20.30
 lon = 85.82
 language = "en"
+why = "Odisha cyclone coast"
 
 [[place]]
 name = "Kolkata"
 lat = 22.57
 lon = 88.36
 language = "en"
+why = "cyclone delta city"
+
+# ---- 2026 floods and landslides
 
 [[place]]
-name = "Guwahati"
-lat = 26.14
-lon = 91.74
+name = "Jorhat"
+lat = 26.75
+lon = 94.22
 language = "en"
+why = "Assam floods, Jul 2026 (Brahmaputra above danger mark)"
+
+[[place]]
+name = "Kottayam"
+lat = 9.59
+lon = 76.52
+language = "en"
+why = "Kerala floods, Jul 2026"
+
+[[place]]
+name = "Kohima"
+lat = 25.67
+lon = 94.11
+language = "en"
+why = "Nagaland landslides, Jul 2026"
+
+[[place]]
+name = "Poonch"
+lat = 33.77
+lon = 74.09
+language = "en"
+why = "Jammu and Kashmir floods, Jul 2026"
+
+[[place]]
+name = "Meppadi"
+lat = 11.55
+lon = 76.13
+language = "en"
+why = "Wayanad landslides 2024; hill rain"
+
+[[place]]
+name = "Kolhapur"
+lat = 16.70
+lon = 74.24
+language = "en"
+why = "river floods; our replay warned 9 days ahead in 2024"
+
+# ---- 2026 heat
+
+[[place]]
+name = "Sri Ganganagar"
+lat = 29.90
+lon = 73.88
+language = "en"
+why = "48.2 C, May 2026"
+
+[[place]]
+name = "Akola"
+lat = 20.70
+lon = 77.00
+language = "en"
+why = "Vidarbha heat wave, Apr 2026"
+
+[[place]]
+name = "Hyderabad"
+lat = 17.39
+lon = 78.49
+language = "en"
+why = "Telangana heatstroke deaths, May 2026"
+
+[[place]]
+name = "Lucknow"
+lat = 26.85
+lon = 80.95
+language = "en"
+why = "Uttar Pradesh heat, 2026"
+
+[[place]]
+name = "Delhi"
+lat = 28.61
+lon = 77.21
+language = "en"
+why = "capital heat"
+
+[[place]]
+name = "Mumbai"
+lat = 19.08
+lon = 72.88
+language = "en"
+why = "city heat and floods; heat warning on Nov 3 2026"
+
+# ---- Dry spells and drought
+
+[[place]]
+name = "Anantapur"
+lat = 14.68
+lon = 77.60
+language = "en"
+why = "rain-shadow drought belt"
+
+[[place]]
+name = "Beed"
+lat = 18.99
+lon = 75.76
+language = "en"
+why = "Marathwada drought"
+
+[[place]]
+name = "Barmer"
+lat = 25.75
+lon = 71.39
+language = "en"
+why = "Thar desert, dry spells"
