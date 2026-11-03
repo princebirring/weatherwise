@@ -24,6 +24,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             {NAV.map(([href, key]) => (
               <Link key={href} href={href} aria-current={href === path ? 'page' : undefined}>{t(key)}</Link>
             ))}
+            {/* The code is part of the entry, so it is one tap from every page. */}
+            <a href={REPO} target="_blank" rel="noreferrer">GitHub</a>
           </nav>
           <div className="site-top-actions">
             <LanguagePicker />
