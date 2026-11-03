@@ -4,7 +4,7 @@ safe fallback, the cost guard, and the step log. No network, no Bedrock."""
 from fake_model import ScriptedModel
 from strands import tool
 
-from weatherwise.agents.orchestrator import build_team, fallback_message
+from weatherwise.agents.orchestrator import build_team, fallback_message, public_text
 from weatherwise.rules import message_policy
 
 OUTLOOK = {
@@ -135,3 +135,11 @@ def test_tone_check_asks_for_one_rewrite_then_lets_the_safety_rules_decide():
     out = t.reply("Is a heat wave coming to Akola?")
     assert out["text"] == calmer and model.calls == 3
     assert tone.calls == 1  # the rewrite is accepted without a second tone call
+
+
+def test_rewrite_notes_and_reasoning_never_reach_the_person():
+    # Live, Nov 3, 2026: an English answer began "Here's the revised response:".
+    for raw in ["Here's the revised response:\n\n" + SAFE, "Here is the rewritten message: " + SAFE,
+                "<thinking>check the tools</thinking> " + SAFE, SAFE]:
+        assert public_text(raw) == SAFE
+    assert public_text("Here is what to do: drink water.") == "Here is what to do: drink water."

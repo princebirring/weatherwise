@@ -13,7 +13,7 @@ from zoneinfo import ZoneInfo
 
 from weatherwise.backtest.backtest import backtest_place
 from weatherwise.backtest.verification import verify
-from weatherwise.cache import Cache, FileCache, cached
+from weatherwise.cache import Cache, FileCache, LayeredCache, S3Cache, cached
 from weatherwise.cap import detection_to_cap
 from weatherwise.official.sachet import SachetAlerts, most_serious
 from weatherwise.places.geocoding import Geocoder, NominatimGeocoder, OpenMeteoGeocoder, search_place
@@ -36,6 +36,20 @@ from weatherwise.weather.area_weather import build_area_weather, fetch_raw_input
 ROOT = Path(__file__).resolve().parents[2]
 # Where downloads and cached forecasts live. On AWS Lambda only /tmp is writable.
 CACHE_ROOT = Path(os.environ.get("WEATHERWISE_CACHE_DIR", ROOT / "cache"))
+# Places worked out before deploy (decades of history each; see scripts/seed_cache.py).
+SEED_ROOT = ROOT / "data" / "cache_seed"
+
+
+def default_cache(cache_root: Path = CACHE_ROOT) -> Cache:
+    """This container's disk, then (WEATHERWISE_CACHE_BUCKET) the bucket shared with the agents
+    on AgentCore, then the shipped seed. A new place's 30-year history costs about 3,000 of the
+    free weather tier's 10,000 daily calls, so it is fetched once and kept."""
+    layers: list = [FileCache(cache_root / "store")]
+    if bucket := os.environ.get("WEATHERWISE_CACHE_BUCKET"):
+        layers.append(S3Cache(bucket))
+    if SEED_ROOT.exists():
+        layers.append(FileCache(SEED_ROOT, read_only=True))
+    return LayeredCache(layers) if len(layers) > 1 else layers[0]
 # The coastline file (10 MB, downloaded once); a container can ship it read-only elsewhere.
 GEODATA_ROOT = Path(os.environ.get("WEATHERWISE_GEODATA_DIR", CACHE_ROOT / "geodata"))
 MAX_BACKTEST_DAYS = 62
@@ -71,7 +85,7 @@ class ClimateRiskServices:
 
     @classmethod
     def default(cls, cache_root: Path = CACHE_ROOT) -> "ClimateRiskServices":
-        cache: Cache = FileCache(cache_root / "store")
+        cache = default_cache(cache_root)
         nominatim = NominatimGeocoder()
         return cls(
             resolver=PlaceResolver(nominatim, Coastline(GEODATA_ROOT / "ne_10m_coastline.geojson"), cache),

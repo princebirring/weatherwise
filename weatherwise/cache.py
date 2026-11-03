@@ -1,4 +1,4 @@
-"""Cache interface: files in development, DynamoDB/S3 in production (plan §8.9).
+"""Cache interface: files in development; in production, files backed by a shared S3 bucket.
 
 Entries are keyed by (kind, key), e.g. ("forecast", "cell:18.50:76.50"), and each kind
 has its own time-to-live, so forecasts refresh within hours and baselines yearly.
@@ -37,29 +37,100 @@ class Cache(Protocol):
 
 
 class FileCache:
-    """JSON files under root/<kind>/. Expired entries read as missing."""
+    """JSON files under root/<kind>/. Expired entries read as missing. read_only: a seed shipped
+    with the app (places worked out before deploy), never written to."""
 
-    def __init__(self, root: str | Path, now=time.time):
+    def __init__(self, root: str | Path, now=time.time, read_only: bool = False):
         self.root = Path(root)
         self._now = now
+        self.read_only = read_only
 
     def _path(self, kind: str, key: str) -> Path:
-        digest = hashlib.sha256(key.encode()).hexdigest()[:24]
-        return self.root / kind / f"{digest}.json"
+        return self.root / kind / f"{_digest(key)}.json"
 
-    def get(self, kind: str, key: str) -> Any | None:
+    def get_entry(self, kind: str, key: str) -> dict | None:
         path = self._path(kind, key)
-        if not path.exists():
-            return None
-        entry = json.loads(path.read_text())
-        if self._now() - entry["saved_at"] > TTL_SECONDS.get(kind, DAY):
-            return None
-        return entry["value"]
+        return json.loads(path.read_text()) if path.exists() else None
 
-    def put(self, kind: str, key: str, value: Any) -> None:
+    def put_entry(self, kind: str, key: str, entry: dict) -> None:
+        if self.read_only:
+            return
         path = self._path(kind, key)
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps({"key": key, "saved_at": self._now(), "value": value}))
+        path.write_text(json.dumps(entry))
+
+    def get(self, kind: str, key: str) -> Any | None:
+        entry = self.get_entry(kind, key)
+        return entry["value"] if entry and _fresh(entry, kind, self._now()) else None
+
+    def put(self, kind: str, key: str, value: Any) -> None:
+        self.put_entry(kind, key, {"key": key, "saved_at": self._now(), "value": value})
+
+
+class S3Cache:
+    """The same entries in an S3 bucket: shared by the website's container and the agents on
+    AgentCore, and kept across deploys. A slow or missing bucket reads as a miss, never an error."""
+
+    def __init__(self, bucket: str, prefix: str = "cache/", client=None):
+        self.bucket = bucket
+        self.prefix = prefix
+        self.read_only = False
+        if client is None:
+            from boto3 import client as boto_client
+            from botocore.config import Config
+
+            client = boto_client("s3", config=Config(connect_timeout=2, read_timeout=5,
+                                                     retries={"total_max_attempts": 2}))
+        self.client = client
+
+    def _key(self, kind: str, key: str) -> str:
+        return f"{self.prefix}{kind}/{_digest(key)}.json"
+
+    def get_entry(self, kind: str, key: str) -> dict | None:
+        try:
+            body = self.client.get_object(Bucket=self.bucket, Key=self._key(kind, key))["Body"]
+            return json.loads(body.read())
+        except Exception:
+            return None
+
+    def put_entry(self, kind: str, key: str, entry: dict) -> None:
+        try:
+            self.client.put_object(Bucket=self.bucket, Key=self._key(kind, key),
+                                   Body=json.dumps(entry).encode(), ContentType="application/json")
+        except Exception:
+            pass
+
+
+class LayeredCache:
+    """Nearest layer first (this container's disk, then the shared bucket, then the shipped seed).
+    A hit in a further layer is copied into the nearer ones with its original saved_at, so its
+    time-to-live never restarts."""
+
+    def __init__(self, layers: list, now=time.time):
+        self.layers = layers
+        self._now = now
+
+    def get(self, kind: str, key: str) -> Any | None:
+        for i, layer in enumerate(self.layers):
+            entry = layer.get_entry(kind, key)
+            if entry and _fresh(entry, kind, self._now()):
+                for nearer in self.layers[:i]:
+                    nearer.put_entry(kind, key, entry)
+                return entry["value"]
+        return None
+
+    def put(self, kind: str, key: str, value: Any) -> None:
+        entry = {"key": key, "saved_at": self._now(), "value": value}
+        for layer in self.layers:
+            layer.put_entry(kind, key, entry)
+
+
+def _digest(key: str) -> str:
+    return hashlib.sha256(key.encode()).hexdigest()[:24]
+
+
+def _fresh(entry: dict, kind: str, now: float) -> bool:
+    return now - entry["saved_at"] <= TTL_SECONDS.get(kind, DAY)
 
 
 class MemoryCache:

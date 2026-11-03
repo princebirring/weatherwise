@@ -50,6 +50,14 @@ All notable changes to this project are documented here. The format follows
 - Vijayawada 2024 flood replay.
 
 ### Fixed
+- New places no longer stall on the free weather tier. A new place needs decades of daily
+  history (about 3,000 of Open-Meteo's 10,000 free calls a day), and the cache lived in the
+  container's /tmp, so every deploy threw it away and chats on AgentCore fetched it all again.
+  The cache is now layered: the container's disk, an S3 bucket shared with AgentCore and kept
+  across deploys, and a seed of 36 places shipped in the image (`data/cache_seed/`). A fresh
+  container loads a seeded place in about 4 s with 4 small requests.
+- Chat replies no longer start with "Here's the revised response:": rewrites are asked for the
+  message only, and any such note or `<thinking>` text is removed before the person sees it.
 - A runaway agent loop is now stopped, not just refused. On Nov 2, 2026 one live chat made about
   1,900 Nova calls (23 million input tokens) in 12 minutes: the cost guard refused each tool call
   over its limit, but the model kept asking, one paid model call per refusal, until Python's

@@ -251,6 +251,28 @@ Resources:
         - Key: deregistration_delay.timeout_seconds
           Value: '120'
 
+  CacheBucket:
+    # Weather data shared by the website's container and the agents on AgentCore, kept across
+    # deploys: a new place's decades of history cost ~3,000 of the free weather tier's 10,000
+    # daily calls, so each is fetched once. A few MB; entries expire in code, objects after a year.
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: {SSEAlgorithm: AES256}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules: [{ObjectOwnership: BucketOwnerEnforced}]
+      LifecycleConfiguration:
+        Rules:
+          - Id: expire-old-cache-entries
+            Status: Enabled
+            ExpirationInDays: 400
+
   LogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
@@ -356,6 +378,13 @@ Resources:
                 Resource:
                   - !GetAtt AgentRuntime.AgentRuntimeArn
                   - !Sub '${AgentRuntime.AgentRuntimeArn}/runtime-endpoint/*'
+        - PolicyName: read-write-weather-cache
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ['s3:GetObject', 's3:PutObject']
+                Resource: !Sub '${CacheBucket.Arn}/cache/*'
 
   AgentRuntimeRole:
     Type: AWS::IAM::Role
@@ -417,6 +446,10 @@ Resources:
                 Resource:
                   - !Sub arn:${AWS::Partition}:bedrock:*::foundation-model/*
                   - !Sub arn:${AWS::Partition}:bedrock:*:${AWS::AccountId}:inference-profile/*
+              - Sid: WeatherCache
+                Effect: Allow
+                Action: ["s3:GetObject", "s3:PutObject"]
+                Resource: !Sub '${CacheBucket.Arn}/cache/*'
 
   AgentRuntime:
     Type: AWS::BedrockAgentCore::Runtime
@@ -429,6 +462,7 @@ Resources:
         AWS_REGION: !Ref AWS::Region
         CLIMATE_AGENT_MODEL_ID: !Ref ClimateAgentModelId
         WEATHERWISE_CACHE_DIR: /tmp/weatherwise
+        WEATHERWISE_CACHE_BUCKET: !Ref CacheBucket
         # AgentCore derives the runtime service identity and native CloudWatch
         # trace destination. ADOT supplies framework spans; do not override
         # those AgentCore-managed values with external-compute OTLP settings.
@@ -469,6 +503,8 @@ Resources:
               Value: !GetAtt AgentRuntime.AgentRuntimeArn
             - Name: WEATHERWISE_CACHE_DIR
               Value: /tmp/weatherwise
+            - Name: WEATHERWISE_CACHE_BUCKET
+              Value: !Ref CacheBucket
             - Name: WEATHERWISE_CHATS_PER_DAY
               Value: '100'
             - Name: WEATHERWISE_CHATS_PER_MINUTE

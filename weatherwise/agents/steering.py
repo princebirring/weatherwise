@@ -20,6 +20,8 @@ from strands.vended_plugins.steering import Guide, Proceed, SteeringHandler
 from weatherwise.agents.message_rules import MessageContext, MessageRules, check_message, collect_numbers
 
 MAX_REWRITES = 2
+# The person reads the rewrite as-is, so no "Here's the revised response:" in front of it.
+ONLY_THE_MESSAGE = "Write only the new message for the person; do not say that it was rewritten."
 
 
 def _text(message: dict) -> str:
@@ -112,7 +114,8 @@ class SafetyRulesHandler(SteeringHandler):
         if rewrites > MAX_REWRITES:
             agent.state.set("use_fallback", True)
             return Proceed(reason="rewrite limit reached; caller sends the safe fallback message")
-        return Guide(reason="Rewrite the reply. Fix: " + "; ".join(f"{v.rule}: {v.detail}" for v in violations))
+        return Guide(reason="Rewrite the reply. Fix: " + "; ".join(f"{v.rule}: {v.detail}" for v in violations)
+                     + ". " + ONLY_THE_MESSAGE)
 
 
 TONE_POLICY = """You review a reply to a farmer or household before it is sent. Check that it:
@@ -154,4 +157,4 @@ class ToneHandler(SteeringHandler):
             agent.state.set("tone_rewrites", 0)
             return Proceed(reason="tone approved")
         agent.state.set("tone_rewrites", rewrites + 1)
-        return Guide(reason="Rewrite the reply for tone: " + verdict.reason)
+        return Guide(reason="Rewrite the reply for tone: " + verdict.reason + ". " + ONLY_THE_MESSAGE)
