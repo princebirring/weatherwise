@@ -179,6 +179,8 @@ export const en = {
   'ask.total': '{name} s total',
   'ask.fallback': 'The safe pre-written message was used.',
   'ask.passed': 'passed',
+  'ask.rewrote': 'caught {name} in a draft, rewrote it, passed',
+  'ask.fellBack': 'no draft passed ({name}), safe message sent',
   'ask.noLog': 'No personal data is logged.',
   'ask.offlineTitle': 'Chat is not connected yet',
   'ask.offlineBody': 'Everything else works: your forecast, warnings, safe places and the flood guide.',
