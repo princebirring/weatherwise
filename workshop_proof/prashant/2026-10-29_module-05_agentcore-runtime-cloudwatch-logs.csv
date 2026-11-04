@@ -1,0 +1,25 @@
+timestamp,message
+1793241390003,"2026-10-29 02:36:30,003 WARNING [opentelemetry.instrumentation.logging] [__init__.py:234] [trace_id=0 span_id=0 resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=False] - Skipping installation of LoggingHandler from `opentelemetry-instrumentation-logging` to avoid duplicate logs. The SDK's deprecated LoggingHandler is already active (OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true). To migrate, unset this environment variable. The SDK's handler will be removed in a future release."
+1793241390190,"2026-10-29 02:36:30,189 INFO [amazon.opentelemetry.distro.instrumentation.mcp] [__init__.py:34] [trace_id=0 span_id=0 resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=False] - Initializing MCP instrumentor."
+1793241390912,"2026-10-29 02:36:30,912 INFO [botocore.credentials] [credentials.py:1182] [trace_id=0 span_id=0 resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=False] - Found credentials from IAM Role: execution_role"
+1793241392605,"2026-10-29 02:36:32,604 INFO [botocore.credentials] [credentials.py:1182] [trace_id=6ae2b12a3fa98812156a3e6d510a28e3 span_id=e9f2c18bc121bb03 resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=True] - Found credentials from IAM Role: execution_role"
+1793241392654,"2026-10-29 02:36:32,654 WARNING [opentelemetry.instrumentation.instrumentor] [instrumentor.py:92] [trace_id=6ae2b12a3fa98812156a3e6d510a28e3 span_id=e9f2c18bc121bb03 resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=True] - Attempting to instrument while already instrumented"
+1793241392660,"2026-10-29 02:36:32,660 INFO [strands.telemetry.metrics] [metrics.py:632] [trace_id=6ae2b12a3fa98812156a3e6d510a28e3 span_id=761de48b6d71618d resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=True] - Creating Strands MetricsClient"
+1793241393900,Let me pull up your customer information and order history at the same time!
+1793241393900,Tool #1: lookup_customer
+1793241393904,Tool #2: get_order_history
+1793241394803,"2026-10-29 02:36:34,803 INFO [botocore.credentials] [credentials.py:1182] [trace_id=0 span_id=0 resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=False] - Found credentials from IAM Role: execution_role"
+1793241394848,"2026-10-29 02:36:34,848 ERROR [opentelemetry.exporter.otlp.proto.http.trace_exporter] [__init__.py:216] [trace_id=0 span_id=0 resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=False] - Failed to export span batch code: 400, reason: Bad Request"
+1793241399876,"2026-10-29 02:36:39,876 ERROR [opentelemetry.exporter.otlp.proto.http.trace_exporter] [__init__.py:216] [trace_id=0 span_id=0 resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=False] - Failed to export span batch code: 400, reason: Bad Request"
+1793241402894,Hi Sarah! I found your account. Let me now pull up your order history to locate order ORD-5521.
+1793241402894,Tool #3: get_order_history
+1793241404900,"2026-10-29 02:36:44,899 ERROR [opentelemetry.exporter.otlp.proto.http.trace_exporter] [__init__.py:216] [trace_id=0 span_id=0 resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=False] - Failed to export span batch code: 400, reason: Bad Request"
+1793241409136,I found the order. Here's a summary:
+1793241409140,'"- **Order:** ORD-5521"
+1793241409141,'"- **Item:** Wireless Headphones"
+1793241409390,'"- **Amount:** $79.99"
+1793241409393,'"- **Status:** Delivered on April 28, 2025"
+1793241409905,"{""timestamp"": ""2026-10-29T02:36:49.905Z"", ""level"": ""INFO"", ""message"": ""Invocation completed successfully (17.312s)"", ""logger"": ""bedrock_agentcore.app"", ""requestId"": ""28b4ba2e-7103-4794-b2cf-276a01161b11"", ""sessionId"": ""customer-1001-session-refund-000001""}"
+1793241409905,"2026-10-29 02:36:49,905 INFO [bedrock_agentcore.app] [app.py:598] [trace_id=6ae2b12a3fa98812156a3e6d510a28e3 span_id=e9f2c18bc121bb03 resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=True] - Invocation completed successfully (17.312s)"
+1793241409927,"2026-10-29 02:36:49,927 ERROR [opentelemetry.exporter.otlp.proto.http.trace_exporter] [__init__.py:216] [trace_id=0 span_id=0 resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=False] - Failed to export span batch code: 400, reason: Bad Request"
+1793241414952,"2026-10-29 02:36:54,952 ERROR [opentelemetry.exporter.otlp.proto.http.trace_exporter] [__init__.py:216] [trace_id=0 span_id=0 resource.service.name=CustomerService_default_MyAgent.DEFAULT trace_sampled=False] - Failed to export span batch code: 400, reason: Bad Request"
