@@ -16,7 +16,6 @@ website/dist/
 .env
 .env.*
 .claude/settings.local.json
-workshop_proof/
 
 # OS
 .DS_Store
