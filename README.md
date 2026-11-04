@@ -36,6 +36,14 @@ The idea, as AWS worded it:
 | **Deployment** | One CloudFormation stack ([`weatherwise-service.yaml`](infra/cloudformation/weatherwise-service.yaml)): ECS Fargate, AgentCore Runtime + Memory + Observability, EventBridge Scheduler, S3; deployed by GitHub Actions on merge |
 | **Tests** | Offline tests in CI for the agents, rules, API and website (en / hi / mr) |
 
+## Production architecture
+
+This diagram shows the live AWS request path for `weatherwise.online`, from the GoDaddy-registered domain and Route 53 through WAF, the Application Load Balancer, and the ECS Fargate service. It also shows the separate AWS-managed AgentCore and Bedrock services, CloudWatch/X-Ray observability, and the GitHub Actions → ECR → CloudFormation image-delivery process.
+
+[![WeatherWise AWS production architecture](infra/weatherwise-aws-production-architecture.png)](infra/weatherwise-aws-production-architecture.png)
+
+[Open the full-size image](infra/weatherwise-aws-production-architecture.png) · [Edit the source diagram in draw.io](infra/weatherwise-aws-production-architecture.drawio)
+
 ## The three parts
 | Part | What it does |
 |---|---|
