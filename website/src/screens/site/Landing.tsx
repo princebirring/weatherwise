@@ -5,7 +5,7 @@ import type { TextKey } from '../../text/en'
 import { PhoneDemo } from '../showcase/PhoneDemo'
 import { Person } from './People'
 import { BEST_LEAD, SAFETY, SCORECARD } from './results'
-import { REPO, TEAM, VIDEO_ID } from './team'
+import { REPO, TEAM, VIDEO_COVER, VIDEO_SRC } from './team'
 
 // One idea per screen, in the order a first-time visitor needs it: what it is (and the app
 // itself), where it works, why it is needed, whether it works, what it does, what it is built
@@ -76,8 +76,7 @@ export function Landing() {
         <div className="wrap">
           <Title kicker={t('site.videoKicker')} title={t('site.videoTitle')} />
           <div className="video-frame">
-            <iframe src={`https://www.youtube-nocookie.com/embed/${VIDEO_ID}?rel=0`} title={t('site.videoTitle')} loading="lazy"
-              allow="encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
+            <video src={VIDEO_SRC} poster={VIDEO_COVER} title={t('site.videoTitle')} controls playsInline preload="metadata" />
           </div>
         </div>
       </section>

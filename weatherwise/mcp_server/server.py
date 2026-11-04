@@ -2,7 +2,7 @@
 
 Run locally over stdio (for Claude Desktop, Kiro, or a Strands MCPClient):
     uv run python -m weatherwise.mcp_server.server
-Run over streamable HTTP (for AgentCore Runtime / Gateway):
+Run over streamable HTTP (for a remote client; set CLIMATE_RISK_MCP_URL to use it):
     uv run python -m weatherwise.mcp_server.server --http --port 8000
 """
 

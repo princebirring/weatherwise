@@ -1,4 +1,4 @@
-"""WeatherService: every weather fetch, cached by grid cell (plan §8.9).
+"""WeatherService: every weather fetch, cached by grid cell.
 
 Villages in the same 0.25° cell share forecasts and normals; places in the same
 0.05° river cell share river data. This is what makes cost grow with cells, not people.

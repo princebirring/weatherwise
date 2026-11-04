@@ -1,6 +1,6 @@
 """Open-Meteo client: ensemble forecast, river discharge, recent observations, normals.
 
-APIs used (plan §8.5):
+APIs used:
 - Ensemble API (ECMWF IFS 0.25°, 51 runs): daily max temperature, feels-like max, rain
 - Flood API (GloFAS, 51 runs): daily river discharge, forecast and history
 - Forecast API: past rain and current soil moisture (not in the ensemble)
@@ -344,7 +344,7 @@ def parse_normal_tmax(raw: dict, window_days: int = 7) -> dict[str, float]:
     """Normal daily max temperature per calendar day ("MM-DD").
 
     Mean over all years, smoothed over +/- window_days around each date.
-    Note: ERA5 is a ~25 km grid average and runs cooler than station records (plan §17).
+    Note: ERA5 is a ~25 km grid average and runs cooler than station records.
     """
     by_day: dict[int, list[float]] = defaultdict(list)
     for day, value in zip(raw["daily"]["time"], raw["daily"]["temperature_2m_max"], strict=True):
@@ -385,7 +385,7 @@ def parse_flood_level(raw: dict, return_period_years: float) -> float:
     """The area's flood level: the yearly peak flow reached about once every N years.
 
     Estimated from the area's own history with Weibull plotting positions (rank / (n + 1)),
-    a standard hydrology method. Ours, not an official danger mark (plan §5.2).
+    a standard hydrology method. Ours, not an official danger mark.
     """
     peaks = sorted(yearly_peak_flows(raw).values())
     n = len(peaks)
@@ -434,7 +434,7 @@ def _issued_value(hourly: dict, hours: list[int], variable: str, previous_day: i
 def parse_as_issued(raw: dict, issue_date: date, variable: str, daily: str) -> EnsembleForecast:
     """Daily forecasts of one hourly variable the way they looked on the morning of issue_date.
 
-    daily: "sum" (rain), "max" or "mean" (temperature). The 6 AM scan cannot use runs issued later
+    daily: "sum" (rain), "max" or "mean" (temperature). The morning scan cannot use runs issued later
     that day, so day D + k uses forecasts issued k + 1 days before it ("previous_day{k+1}"):
     about half a day older than what we would really have had, conservative on purpose.
     Each archived model is one forecast run. Trailing days with too few models are dropped.

@@ -33,14 +33,14 @@ allow_cooling = true
 [river_exposure]
 # A point is a "large river" area if its nearest river's 1-in-5-year flow is at least this.
 # The global river model (GloFAS) is built for large catchments; smaller rivers and nalas are
-# warned through heavy rain (Flow 4) instead (plan §7). A country file can override.
+# warned through heavy rain instead. A country file can override.
 min_flood_flow_m3s = 1000.0   # CONFIRM against GloFAS skill guidance; checked on tests/fixtures/places.toml
 screen_years = 5              # Recent years used to find which nearby river cell holds the river
 
 [shelters]
-search_km = 20.0              # Plan §4.2: "no cooling center near you" beyond this
+search_km = 20.0              # "no cooling center near you" beyond this
 max_results = 3
-# Plan §6.5: a verified place is hidden after this many days unless re-checked
+# A verified place is hidden after this many days unless re-checked
 # (scripts/shelter_data.py approve sets recheck_due from it).
 recheck_days = 30
 
@@ -49,7 +49,7 @@ neighbour_ring = true         # Stage 2: also scan the 8 cells around each subsc
 
 [heat]
 min_consecutive_days = 2      # A single hot day alone does not trigger a warning
-min_agreement = 0.70          # Share of forecast runs that must agree (plan §5.2)
+min_agreement = 0.70          # Share of forecast runs that must agree
 first_warning_lead_days = [3, 7]
 
 [work_heat]
@@ -95,7 +95,7 @@ min_mm = 30.0                 # never below this, so dry places are not warned f
 min_agreement = 0.50          # Starting value, as for heavy rain
 
 [dry_spell]
-min_dry_days = 10             # Plan §5.2: about 10-15+ days
+min_dry_days = 10             # about 10-15+ days
 min_agreement = 0.70
 soil_moisture_dry = 0.20      # m3/m3, top layer. CONFIRM: tune per soil type
 
@@ -106,13 +106,13 @@ min_agreement = 0.70
 
 [river_flood]
 # Each area's flood level = the river flow reached about once every N years, computed from
-# that area's own history of yearly peak flows (plan §8.5). Set on 2019 and 2021, tested on 2024.
+# that area's own history of yearly peak flows. Set on 2019 and 2021, tested on 2024.
 flood_level_return_period_years = 5
 history_first_year = 1984
 min_agreement = 0.50          # Starting value
 
 [flood_guide]
-# When the flood guide starts (plan §4.3, Flows 3-4).
+# When the flood guide starts.
 # Our own model data (river forecast, heavy rain) only ever starts PREPARE mode.
 # URGENT ("move now") needs an official red alert or extremely heavy rain within urgent_within_days.
 prepare_within_days = 3

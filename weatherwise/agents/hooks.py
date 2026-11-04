@@ -1,4 +1,4 @@
-"""Hooks (workshop Module 2): limits in code, not in prompts (plan §8.8.2)."""
+"""Hooks (workshop Module 2): limits in code, not in prompts."""
 
 import time
 from collections.abc import Callable

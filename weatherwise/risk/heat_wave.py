@@ -1,5 +1,5 @@
-"""Flow 1 triggers: official heat-wave rules, and our own heat rules: feels-like heat for
-outdoor work, and the Excess Heat Factor (plan §5.2).
+"""Official heat-wave rules, and our own heat rules: feels-like heat for
+outdoor work, and the Excess Heat Factor.
 
 Each country names its official rule in [heat] rule = "..."; HEAT_WAVE_RULES maps
 that name to a function. A country with a different definition adds a function

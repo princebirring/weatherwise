@@ -1,4 +1,4 @@
-"""Flow 4 triggers: official heavy-rain categories from the region (IMD in India; plan §5.2),
+"""Official heavy-rain categories from the region (IMD in India),
 and our own "unusual rain": rain that is rare for this place, judged by its own history.
 
 IMD's mm lines are national. A forecast square is about 25 km wide and its rain is an average,

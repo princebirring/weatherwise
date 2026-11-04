@@ -3,7 +3,7 @@ plans, for any country with a [shelter_sources] section in its rules file.
 
     districts   every district + its official website (OpenStreetMap + Wikidata)
     finder      the district's disaster management plan on its website
-    extraction  shelters named in the plan (Claude on Bedrock, via Strands), each with page + quote
+    extraction  shelters named in the plan (a Bedrock model, via Strands), each with page + quote
     review      drafts -> human approval -> data/shelters_<iso>.csv
 
 Runs ahead of time (scripts/shelter_data.py). Nothing here runs when a person asks for a shelter:

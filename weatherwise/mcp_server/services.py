@@ -1,8 +1,8 @@
 """ClimateRiskServices: the one code path behind the MCP tools, scripts and agents.
 
 Every method takes a point (or a name to geocode) and returns plain JSON-ready dicts.
-External services are injected, so production swaps Nominatim for Amazon Location and the
-file cache for DynamoDB/S3 without changing this file.
+External services are injected, so a deployment can swap the geocoder or the cache without
+changing this file (production layers the file cache over S3: weatherwise/cache.py).
 """
 
 import os

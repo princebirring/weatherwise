@@ -1,7 +1,7 @@
-"""What the website can ask for, independent of the web framework (plan §9.2).
+"""What the website can ask for, independent of the web framework.
 
-Every fact comes from the Climate Risk MCP server through `call`; chat goes to the same agent
-team as WhatsApp. Chat sessions store nothing personal and never send WhatsApp messages.
+Every fact comes from the Climate Risk MCP server through `call`; chat goes to the Strands
+agent team (on AgentCore Runtime in production). Chat sessions store nothing personal.
 """
 
 import json
@@ -44,7 +44,7 @@ def _covered(answer: dict) -> dict:
 
 
 class AgentsOffline(RuntimeError):
-    """Chat needs Claude on Bedrock, which is not configured on this server."""
+    """Chat needs a model on Amazon Bedrock, which is not configured on this server."""
 
 
 class DemoBusy(RuntimeError):
@@ -55,7 +55,7 @@ class DemoBusy(RuntimeError):
 class Limits:
     max_message_chars: int = 500
     chats_per_minute_per_visitor: int = 6
-    chats_per_day: int = 100          # the daily AI-spend cap (plan §9.2 rule 3)
+    chats_per_day: int = 100          # the daily AI-spend cap
     max_sessions: int = 300           # oldest sessions are dropped beyond this
     session_seconds: int = 24 * 3600  # demo sessions expire after 24 h
 

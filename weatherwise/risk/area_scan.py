@@ -1,4 +1,4 @@
-"""Runs every hazard check for one area: the core of the daily risk scan (plan §5.4).
+"""Runs every hazard check for one area: the core of the daily risk scan.
 
 CHECKS names every check. Which ones run is set in the rules ([checks] enabled), so a check can
 be switched off for every country, or for one, without touching code. Live scans and replays

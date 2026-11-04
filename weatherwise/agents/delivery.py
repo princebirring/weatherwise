@@ -1,6 +1,7 @@
-"""Delivery policy: quiet hours, monthly cap, per-event limit, footer (plan §5.1).
+"""Delivery policy: quiet hours, monthly cap, per-event limit, footer.
 
-The ledger and outbox are interfaces: in-memory here, DynamoDB and SQS in production.
+The ledger and outbox are interfaces. Today both are in-memory: the morning run saves what each
+place would receive to S3 (weatherwise/daily_run.py); sending to phones is not built yet.
 """
 
 from dataclasses import dataclass, field

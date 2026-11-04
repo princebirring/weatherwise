@@ -1,4 +1,4 @@
-# Marathi: our safety text for every country that uses this language (plan §6.1, §8.6).
+# Marathi: our safety text for every country that uses this language.
 # The checker uses the unsafe phrases of ALL languages on every message, so a mixed-language
 # reply is still checked. Messages are sent when the AI fails; "TODO" text falls back to English.
 

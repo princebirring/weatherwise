@@ -1,4 +1,4 @@
-"""Run the scenario suite against the real agents (needs Bedrock access; plan §16.3).
+"""Run the scenario suite against the real agents (needs Bedrock access).
 
     CLIMATE_AGENT_MODEL_ID=<id> uv run python evals/run_scenarios.py [--only A1-04,INJ-01] [--judge]
 

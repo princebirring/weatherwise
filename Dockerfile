@@ -4,10 +4,10 @@
 #
 #   docker build -t weatherwise .
 #   docker run -p 8080:8080 weatherwise                       # http://localhost:8080
-#   docker run -p 8080:8080 -e CLIMATE_AGENT_MODEL_ID=... -e AWS_REGION=ap-south-1 weatherwise
+#   docker run -p 8080:8080 -e CLIMATE_AGENT_MODEL_ID=... -e AWS_REGION=us-east-2 weatherwise
 #
-# Runs as-is on ECS/Fargate (Express Mode), or Lambda (add the AWS Lambda Web Adapter; see
-# docs/deployment-todo.md). CI builds and smoke-tests it (linux/amd64) on every pull request.
+# Production runs it on ECS Fargate (infra/cloudformation/weatherwise-service.yaml). CI builds and
+# smoke-tests it (linux/amd64) on every pull request.
 
 # ---- 1. Build the website ----
 FROM node:22-slim AS website

@@ -1,4 +1,4 @@
-"""The WeatherWise API: facts through MCP tools, chat limits, and safe errors (plan §9.2)."""
+"""The WeatherWise API: facts through MCP tools, chat limits, and safe errors."""
 from starlette.testclient import TestClient
 
 from weatherwise.api.agentcore import AgentCoreTeamFactory

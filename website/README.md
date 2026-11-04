@@ -1,8 +1,13 @@
 # WeatherWise website
 
 Two parts, one React + Vite + TypeScript app:
-- `/app`: the app for farmers and households (Start, Today, What to do, Safe place, Help, flood guide, Ask).
-- `/`: the showcase for judges and partners (what it does, disaster replays, how it works).
+- `/app`: the app for farmers and households: pick a place, then **Today** (official warnings
+  first, then our own checks for the week), a page for each danger (heat, dry spell, rain and
+  flood) with what to do, the nearest checked shelter for heat and floods, and the flood guide, **Ask** (chat with the agents)
+  and **Help** (one tap to 112 / 108 / 1077).
+- The public site: `/` (landing, with the real app in a phone), `/how-it-works`, `/impact`
+  (replays, and this morning's agent run at `/impact#live`), `/developers` (the MCP tools) and
+  `/about` (the team).
 
 Every word is in `src/text/{en,hi,mr}.ts`; Hindi and Marathi are full typed copies, so the build
 fails if a key is missing. Safety advice is not here: it comes from `rules/languages/*.toml`

@@ -1,4 +1,4 @@
-"""The Evaluator's code rules (plan §6.1, §8.8.4): every unsafe pattern is caught."""
+"""The Evaluator's code rules: every unsafe pattern is caught."""
 
 import pytest
 

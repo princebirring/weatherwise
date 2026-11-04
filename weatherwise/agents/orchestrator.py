@@ -1,4 +1,4 @@
-"""The Orchestrator and its specialists (plan §8.2; workshop Modules 1-6).
+"""The Orchestrator and its specialists (workshop Modules 1-6).
 
     person --> Orchestrator --+-- find_place / resolve_place / hazard_outlook / find_shelters (MCP)
                               +-- warning_agent      (specialist, heat + drought skills)
@@ -6,8 +6,8 @@
     Every agent that writes a message carries the Evaluator's safety rules; the Orchestrator's
     final reply also gets the Tone check.
 
-The model ID is configuration (CLIMATE_AGENT_MODEL_ID), confirmed from the Bedrock console on
-Day 0, never hard-coded (plan §10.2).
+The model ID is configuration (CLIMATE_AGENT_MODEL_ID), from the Bedrock console, never
+hard-coded.
 """
 
 import os
@@ -57,14 +57,14 @@ one step at a time; urgent = one short message. Never give routes or links. Repl
 
 
 def bedrock_model(model_id: str | None = None, region: str | None = None):
-    """Claude on Bedrock. The exact model / inference-profile ID is config, not code."""
+    """A model on Amazon Bedrock (production: Amazon Nova Pro). The model / inference-profile ID is config, not code."""
     from strands.models import BedrockModel
 
     model_id = model_id or os.environ.get("CLIMATE_AGENT_MODEL_ID")
     if not model_id:
         raise RuntimeError("Set CLIMATE_AGENT_MODEL_ID to the Bedrock model or inference-profile ID "
-                           "confirmed in the Bedrock console (plan §10.2).")
-    return BedrockModel(model_id=model_id, region_name=region or os.environ.get("AWS_REGION", "ap-south-1"))
+                           "confirmed in the Bedrock console.")
+    return BedrockModel(model_id=model_id, region_name=region or os.environ.get("AWS_REGION", "us-east-2"))
 
 
 def climate_risk_client():

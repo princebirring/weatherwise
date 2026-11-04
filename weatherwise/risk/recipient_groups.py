@@ -1,4 +1,4 @@
-"""One warning per group of similar people, so AI cost grows with groups, not people (plan §11)."""
+"""One warning per group of similar people, so AI cost grows with groups, not people."""
 
 from collections import defaultdict
 from dataclasses import dataclass

@@ -1,4 +1,4 @@
-"""Decides whether the flood guide starts in prepare or urgent mode (plan §4.3, §5.2, §6.1).
+"""Decides whether the flood guide starts in prepare or urgent mode.
 
 Safety rule: our own model data (river forecast, heavy rain) only ever starts PREPARE.
 URGENT ("move now") needs an official red alert, or extremely heavy rain in the area or

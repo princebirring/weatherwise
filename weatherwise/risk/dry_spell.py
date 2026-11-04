@@ -1,4 +1,4 @@
-"""Flow 2 triggers: dry spell in the crop season, and the sowing-time rule (plan §5.2)."""
+"""Dry spell in the crop season, and the sowing-time rule."""
 
 from datetime import date
 

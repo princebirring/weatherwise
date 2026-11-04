@@ -1,4 +1,4 @@
-"""Village names to coordinates, and coordinates to admin area (plan §3, §8.9).
+"""Village names to coordinates, and coordinates to admin area.
 
 Two open geocoders are merged because each knows villages the other misses:
 Open-Meteo (GeoNames) and Nominatim (OpenStreetMap). In production, Amazon Location

@@ -1,4 +1,4 @@
-"""Terrain from elevation and distance to the coast, never typed by hand (plan §8.9).
+"""Terrain from elevation and distance to the coast, never typed by hand.
 
 Cut-offs (coast within N km, hills above M metres) are country config, because each
 weather service defines its station types differently.

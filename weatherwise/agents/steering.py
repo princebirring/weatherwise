@@ -1,4 +1,4 @@
-"""The Evaluator as Strands steering (workshop Module 3 pattern, plan §8.8.4).
+"""The Evaluator as Strands steering (workshop Module 3 pattern).
 
 SafetyRulesHandler (code): checks every final reply with check_message(); on a violation it
 returns Guide, so the model rewrites. After MAX_REWRITES it lets the reply through but marks

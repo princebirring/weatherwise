@@ -134,23 +134,28 @@ The most common send-back: "go to high ground" without the slope warning (10 tim
 - **Forecast squares are ~25 km**: the grid reads about 3 °C below a hot station (Akola 46.9 °C vs ~43.6 °C).
 - **Terrain is coarse**: a hill village can be read as "plains" (Meppadi, Wayanad).
 - **Hindi and Marathi text are drafts** until a native speaker checks them.
-- **Verified shelters** cover few districts so far (district plans list them for about 4–6%).
+- **The verified shelter list is still empty.** The pipeline that reads district disaster plans is built
+  (`scripts/shelter_data.py`), but no rows have been reviewed yet, so the router says no checked shelter is
+  listed, gives the helpline and, for heat, the nearest health facilities from OpenStreetMap (marked unverified).
 - **Past official warnings are not archived**, so replays score only our own signals.
 
 ## Repository layout
 ```
-weatherwise/   all code: places/, risk/, weather/, backtest/, mcp_server/, agents/, api/ (website API),
-                      shelter_data/ (builds the shelter list from district disaster plans),
-                      shelters.py, cap.py, cache.py, rules.py, runtime.py (AgentCore entry point)
+weatherwise/          all code: places/, risk/, weather/, official/ (SACHET warnings), backtest/,
+                      mcp_server/, agents/, api/ (website API), shelter_data/ (builds the shelter list
+                      from district disaster plans), shelters.py, cap.py, cache.py, rules.py,
+                      runtime.py (AgentCore entry point), daily_run.py (the 3 AM morning run)
 rules/                global.toml · countries/in.toml · languages/{en,hi,mr}.toml
-data/                 shelters_in.csv (verified shelters; how it is built: data/SHELTERS_README.md)
-                      · shelter_sources_in.csv · review/ (drafts) · river_catchments_in.toml (pilot)
+data/                 daily_watch.toml (the morning run's 25 places) · shelters_in.csv (verified shelters;
+                      how it is built: data/SHELTERS_README.md) · shelter_sources_in.csv ·
+                      river_catchments_in.toml · bedrock_prices.toml · cache_seed/ (place baselines shipped in the image)
 skills/               SKILL.md procedures for the agents
-website/              the website: React + Vite + TypeScript (app + showcase)
-evals/                safety evals, replay scorecard, scenario suite (+ events); results/ holds the reports
+website/              the website: React + Vite + TypeScript (public site + app)
+evals/                safety evals, replay scorecard, real-model replays, scenario suite; results/ holds the reports
 tests/                unit, snapshot and live tests
 scripts/              developer tools
-docs/                 plan, build log, deployment-todo.md (AWS steps for DevOps)
+infra/                ARCHITECTURE.md and the CloudFormation stack (cloudformation/)
+docs/                 video script, GitHub repository settings
 Dockerfile            one image: website + WeatherWise API + MCP server
 ```
 
@@ -165,6 +170,7 @@ uv run python scripts/scan_today.py --lat 25.59 --lon 85.14 --name Patna
 uv run python scripts/backtest.py --headline     # the website's replay events
 uv run python -m evals.eval_safety               # safety evals -> evals/results/SAFETY.md
 uv run python -m evals.eval_replays              # replay scorecard -> evals/results/REPLAYS.md
+uv run python -m evals.eval_agent_replays        # real-model replays -> evals/results/AGENT_REPLAYS.md (needs Bedrock)
 uv run python scripts/time_chat.py               # where one chat answer's time goes
 uv run python -m weatherwise.mcp_server.server          # MCP server (stdio)
 uv run python -m weatherwise.mcp_server.server --http   # MCP server (HTTP, port 8000)
@@ -173,12 +179,12 @@ uv run python -m weatherwise.api.server                  # WeatherWise API + web
 ```
 For website development, run the API and `cd website && npm run dev` (Vite proxies `/api` to port 8080).
 Website tests (every screen in English, Hindi and Marathi): `cd website && npm test`.
-The site has two parts: `/` the showcase (judges, partners) and `/app` the app (farmers, households).
+The site has two parts: the public site (`/`, `/how-it-works`, `/impact`, `/developers`, `/about`) and `/app`, the app for farmers and households.
 The agents need a model on Amazon Bedrock (we run Amazon Nova Pro):
 - set `CLIMATE_AGENT_MODEL_ID` (e.g. `us.amazon.nova-pro-v1:0`, from the Bedrock console) and `AWS_REGION`;
 - optionally set `CLIMATE_RISK_MCP_URL` to use a deployed MCP server.
 
-Then run `uv run python evals/run_scenarios.py`.
+Then run the scenario suite: `uv run python evals/run_scenarios.py`.
 
 ## Status
 - **Built and live** at https://weatherwise.online on AWS (ECS Fargate, deployed from `main` by GitHub Actions):
@@ -187,9 +193,9 @@ Then run `uv run python evals/run_scenarios.py`.
 - **Next:**
   - warnings to families by text message;
   - Africa: a new country rules file;
-  - a native speaker checks the Hindi and Marathi drafts; more verified shelters.
+  - a native speaker checks the Hindi and Marathi drafts; the first reviewed shelters.
 
-The full plan is in `docs/planning-notes.md`.
+How it is deployed: [infra/ARCHITECTURE.md](infra/ARCHITECTURE.md).
 
 ## Contributing
 Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) (including the safety

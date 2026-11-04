@@ -1,4 +1,4 @@
-"""The safety rule for when a family is told to prepare or to move now (plan §4.3, §6.1)."""
+"""The safety rule for when a family is told to prepare or to move now."""
 
 from datetime import timedelta
 

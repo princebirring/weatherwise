@@ -1,9 +1,9 @@
-"""Finds the right place for the hazard near any point (plan §4.2). Plain code, no AI:
+"""Finds the right place for the hazard near any point. Plain code, no AI:
 it cannot invent a shelter.
 
 Rules:
 - heat -> cooling centers; flood, cyclone, other -> shelters;
-- only shelters that pass the §6.5 acceptance fields and are not past their re-check date;
+- only shelters that pass the acceptance fields in data/SHELTERS_README.md and are not past their re-check date;
 - heat with no cooling center nearby -> say so honestly + nearest health facilities
   (OpenStreetMap, labelled unverified);
 - floods: never a map route (maps do not know which roads are underwater);
@@ -137,7 +137,7 @@ class OsmHealthFacilities:
 
 
 def load_shelters(country: str, root: Path = DATA_ROOT) -> list[Shelter]:
-    """Verified shelters for a country (data/shelters_<country>.csv). Rows missing a §6.5
+    """Verified shelters for a country (data/shelters_<country>.csv). Rows missing a required
     acceptance field are rejected."""
     path = root / f"shelters_{country}.csv"
     if not path.exists():

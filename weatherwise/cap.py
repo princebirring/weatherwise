@@ -1,7 +1,7 @@
 """Turns a HazardDetection into a CAP 1.2 alert (OASIS standard), so our warnings can feed
 existing systems such as SACHET instead of competing with them.
 
-We are not an official warning service (plan §6.1), so the sender name says so and the
+We are not an official warning service, so the sender name says so and the
 default status is "Exercise"; a deployment that is authorised to publish can pass "Actual".
 """
 
