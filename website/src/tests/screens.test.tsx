@@ -361,6 +361,22 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expect(screen.queryByRole('status')).toBeNull()
   })
 
+  it('The Evaluator line: a draft fixed by a rewrite passed; only the safe fallback is shown as a failure', async () => {
+    const ask = async (used_fallback: boolean) => {
+      stubApi({ '/api/chat': [200, { text: 'Checked answer.', used_fallback, violations: ['missing_helpline'], steps: [], seconds: 4 }] })
+      show(language, <Ask place={place} status={{ ...status, agents_ready: true }} />)
+      fireEvent.click(screen.getByRole('button', { name: t('ask.chip.hot') }))
+      fireEvent.click(await screen.findByRole('button', { name: t('ask.how') }))
+    }
+    await ask(false)
+    expect(screen.getByText(t('ask.rewrote', 'missing_helpline'), { exact: false })).toBeTruthy()
+    expect(document.querySelector('.steps .dot.error')).toBeNull()
+    cleanup()
+    await ask(true)
+    expect(screen.getByText(t('ask.fellBack', 'missing_helpline'), { exact: false })).toBeTruthy()
+    expect(document.querySelector('.steps .dot.error')).toBeTruthy()
+  })
+
   it('A refusal while chatting still shows the busy message', async () => {
     stubApi({ '/api/chat': [429, { error: 'demo_busy', message: 'busy' }] })
     show(language, <Ask place={place} status={{ ...status, agents_ready: true }} />)

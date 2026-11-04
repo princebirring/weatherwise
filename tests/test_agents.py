@@ -63,6 +63,15 @@ def test_unsafe_reply_is_rewritten():
     out = t.reply("Is a heat wave coming to Akola?")
     assert out["text"] == SAFE
     assert model.calls == 3  # tool call, rejected draft, rewrite
+    assert out["violations"] == ["missing_helpline", "unsupported_number"] and not out["used_fallback"]  # caught, fixed
+
+
+def test_a_draft_sent_back_last_turn_is_not_reported_this_turn():
+    t, _ = team([("tool", "hazard_outlook", {"lat": 20.7, "lon": 77.0}), UNSAFE, SAFE,
+                 ("tool", "hazard_outlook", {"lat": 20.7, "lon": 77.0}), SAFE])
+    assert t.reply("Is a heat wave coming to Akola?")["violations"]
+    out = t.reply("And the day after?")
+    assert out["text"] == SAFE and out["violations"] == [] and not out["used_fallback"]
 
 
 def test_repeated_unsafe_replies_fall_back_to_the_safe_message():

@@ -129,7 +129,10 @@ class AgentTeam:
     def reply(self, message: str, on_step: Callable[[dict], None] | None = None) -> dict:
         """One turn: the reply text, whether the safe fallback was used, and the agent steps.
         on_step hears each tool start and finish (progress only; the reply is still checked whole)."""
-        self.orchestrator.state.set("use_fallback", False)
+        # The Evaluator's notes are per turn: a draft sent back last turn says nothing about this one.
+        for key, empty in (("use_fallback", False), ("evaluator_violations", []), ("evaluator_log", []),
+                           ("evaluator_rewrites", 0)):
+            self.orchestrator.state.set(key, empty)
         self.clock.start()
         self.step_log.on_step = on_step
         try:
@@ -139,8 +142,9 @@ class AgentTeam:
         # Stopped by the cost guard: the last message may be a tool call or an unchecked draft.
         used_fallback = bool(self.orchestrator.state.get("use_fallback")) or result.stop_reason == "cancelled"
         text = fallback_message(self.policy, "general", self.language) if used_fallback else public_text(str(result))
-        return {"text": text, "used_fallback": used_fallback,
-                "violations": self.orchestrator.state.get("evaluator_violations") or [],
+        # Every rule a draft broke this turn: fixed by a rewrite, or the reason the fallback went out.
+        broken = dict.fromkeys(rule for draft in self.orchestrator.state.get("evaluator_log") or [] for rule in draft)
+        return {"text": text, "used_fallback": used_fallback, "violations": list(broken),
                 "steps": list(self.step_log.steps)}
 
 

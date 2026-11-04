@@ -161,9 +161,11 @@ function Steps({ reply }: { reply: ChatReply }) {
         </div>
       ))}
       <div>
-        <span className={`dot ${reply.violations.length ? 'error' : ''}`} />
+        {/* Red only when no draft passed and the safe message went out; a draft fixed by a rewrite passed. */}
+        <span className={`dot ${reply.used_fallback ? 'error' : ''}`} />
         <span style={{ flex: 1 }}>
-          <b>Evaluator</b> · {reply.violations.length ? reply.violations.join('; ') : t('ask.passed')}
+          <b>Evaluator</b> · {reply.used_fallback ? t('ask.fellBack', reply.violations.join('; '))
+            : reply.violations.length ? t('ask.rewrote', reply.violations.join('; ')) : t('ask.passed')}
         </span>
       </div>
       <div className="fine">{t('ask.noLog')}</div>
