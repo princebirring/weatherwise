@@ -5,7 +5,7 @@ import type { TextKey } from '../../text/en'
 import { PhoneDemo } from '../showcase/PhoneDemo'
 import { Person } from './People'
 import { BEST_LEAD, SAFETY, SCORECARD } from './results'
-import { REPO, TEAM } from './team'
+import { REPO, TEAM, VIDEO_ID } from './team'
 
 // One idea per screen, in the order a first-time visitor needs it: what it is (and the app
 // itself), where it works, why it is needed, whether it works, what it does, what it is built
@@ -69,6 +69,16 @@ export function Landing() {
           </div>
           {/* The real app, tappable. It needs the safety advice from the API; until then an empty phone keeps the shape. */}
           {policy ? <PhoneDemo /> : <figure className="phone-demo" aria-hidden="true"><div className="phone" /><div className="phone-tabs" /></figure>}
+        </div>
+      </section>
+
+      <section className="ap-section ap-video" id="video">
+        <div className="wrap">
+          <Title kicker={t('site.videoKicker')} title={t('site.videoTitle')} />
+          <div className="video-frame">
+            <iframe src={`https://www.youtube-nocookie.com/embed/${VIDEO_ID}?rel=0`} title={t('site.videoTitle')} loading="lazy"
+              allow="encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
+          </div>
         </div>
       </section>
 

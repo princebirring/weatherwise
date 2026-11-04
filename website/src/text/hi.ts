@@ -527,6 +527,8 @@ export const hi: Record<TextKey, string> = {
   'site.pillarMcp': 'जगह, पूर्वानुमान, आधिकारिक चेतावनी और आश्रय के लिए आठ टूल। ऐप और एजेंट यही टूल इस्तेमाल करते हैं, और Claude Desktop या कोई भी दूसरा MCP क्लाइंट भी कर सकता है।',
   'site.safetyStrip': 'कोड में लिखा जाँचकर्ता हर जवाब भेजने से पहले पढ़ता है',
   'site.plugIn': 'MCP सर्वर को अपने एजेंट से जोड़ें',
+  'site.videoKicker': 'देखें · 3 मिनट',
+  'site.videoTitle': 'जल्दी जानें। जल्दी कदम उठाएँ।',
   'site.coverKicker': 'कवरेज',
   'site.coverTitle': 'पूरे भारत में चालू। अफ़्रीका अगला।',
   'site.coverIndiaT': 'भारत, अभी',

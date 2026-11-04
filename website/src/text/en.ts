@@ -540,6 +540,8 @@ export const en = {
   'site.pillarMcp': 'Eight tools for places, forecasts, official alerts and shelters. The app and the agents use the same tools, and so can Claude Desktop or any other MCP client.',
   'site.safetyStrip': 'A checker in code reads every reply before it is sent',
   'site.plugIn': 'Plug the MCP server into your agent',
+  'site.videoKicker': 'Watch · 3 minutes',
+  'site.videoTitle': 'Know early. Act early.',
   'site.coverKicker': 'Coverage',
   'site.coverTitle': 'Live across India. Africa next.',
   'site.coverIndiaT': 'India, now',

@@ -2,6 +2,20 @@
 
 [![CI](https://github.com/princebirring/weatherwise/actions/workflows/ci.yml/badge.svg)](https://github.com/princebirring/weatherwise/actions/workflows/ci.yml)
 [![Licence: Apache 2.0](https://img.shields.io/badge/licence-Apache%202.0-blue.svg)](LICENSE)
+[![Live demo](https://img.shields.io/badge/live%20demo-weatherwise.online-0B5F5A.svg)](https://weatherwise.online)
+
+**Know early. Act early.** AI weather alerts for farmers and families, built with Strands Agents on Amazon Bedrock AgentCore.
+
+<p align="center">
+  <a href="https://youtu.be/g6umKXXggMU"><img src="https://img.youtube.com/vi/g6umKXXggMU/maxresdefault.jpg" alt="Watch the 3-minute WeatherWise video on YouTube" width="760"></a>
+</p>
+
+<p align="center">
+  <b><a href="https://youtu.be/g6umKXXggMU">Watch the video (2:57)</a></b> ·
+  <b><a href="https://weatherwise.online">Live demo: weatherwise.online</a></b> ·
+  <b><a href="https://weatherwise.online/app">Open the app</a></b> ·
+  <b><a href="https://weatherwise.online/impact#live">This morning's agent run</a></b>
+</p>
 
 Built for the AWS Builder Center hackathon *Strands SDK: Workshop to Ship* (climate resilience).
 The idea, as AWS worded it:
@@ -10,7 +24,7 @@ The idea, as AWS worded it:
 > cooling center or shelter during extreme weather; a flood-risk guide that walks a household
 > through how to prepare.
 
-**Live:** https://weatherwise.online · **Pilot:** Maharashtra, India. **Works for:** any place in India, with no per-village or per-state setup.
+**Works for:** any place in India, with no per-village or per-state setup. A country is one rules file (`rules/countries/in.toml`), so Africa is next.
 
 ## For judges: check it in two minutes
 | What | Where |
@@ -18,7 +32,7 @@ The idea, as AWS worded it:
 | **The agent at work today** | [weatherwise.online/impact#live](https://weatherwise.online/impact#live): every morning at 3 AM IST, before people head out, EventBridge Scheduler starts [`daily_run.py`](weatherwise/daily_run.py); for 25 places across India the warning Graph runs on **AgentCore Runtime**, and the page shows every message, what the checker sent back, the model calls and the cost |
 | **Memory** | **AgentCore Memory** ([`place_memory.py`](weatherwise/agents/place_memory.py)) keeps what the agent told each place, so the next morning it writes an update instead of a repeat, or an all-clear when the risk has eased (never "you are safe") |
 | **Strands features** | [Graph](weatherwise/agents/warning_pipeline.py) (code risk scan → agent writers → code safety gate → delivery rules) · [MCP server](weatherwise/mcp_server/server.py) (8 tools) · [agents as tools](weatherwise/agents/orchestrator.py) · [Skills](skills/) · [hooks and Evaluator steering](weatherwise/agents/steering.py) · [evals](evals/) |
-| **Proof on past disasters** | [Scorecard of every replayed event, misses included](evals/results/REPLAYS.md) (forecasts as issued then) · [the same events through the real model](evals/results/AGENT_REPLAYS.md) · [safety evals](evals/results/SAFETY.md) |
+| **Proof on past disasters** | [Scorecard of every replayed event, misses included](evals/results/REPLAYS.md) (forecasts as issued then) · [the same events through the real model](evals/results/AGENT_REPLAYS.md): 78 messages from Nova Pro, 0 unsafe reached a household, $0.25 · [safety evals](evals/results/SAFETY.md) |
 | **Deployment** | One CloudFormation stack ([`weatherwise-service.yaml`](infra/cloudformation/weatherwise-service.yaml)): ECS Fargate, AgentCore Runtime + Memory + Observability, EventBridge Scheduler, S3; deployed by GitHub Actions on merge |
 | **Tests** | Offline tests in CI for the agents, rules, API and website (en / hi / mr) |
 
@@ -31,7 +45,7 @@ The idea, as AWS worded it:
 
 ## How it works
 ```
-Person (website / WhatsApp)              6 AM scheduled job (per forecast grid cell with subscribers)
+Person (website, Ask tab)                3 AM morning run (EventBridge Scheduler -> AgentCore Runtime)
           |                                              |
    Orchestrator agent  --->  Warning Agent / Flood Guide Agent    Strands Graph: risk scan -> writer
    (Strands; skills, hooks,      (specialists)                    -> final safety gate -> delivery rules
@@ -87,6 +101,19 @@ dates since 2024 can be replayed: `uv run python scripts/backtest.py --lat .. --
 
 These use a scripted model, so they measure the code's guarantees, which hold whatever a real model writes.
 
+### Does it hold up on the real model? (`evals/results/AGENT_REPLAYS.md`)
+Seven past disasters replayed through Amazon Nova Pro on Bedrock, each morning with only the forecasts issued then.
+
+| What | Result |
+|---|---|
+| Warning messages the model wrote | **78** across 7 events |
+| Passed every safety rule on the first try | **65 of 78 (83%)** |
+| Passed after the Evaluator sent them back | **12**; 1 never passed, so the pre-written safe message went out |
+| Messages that broke a safety rule and reached a household | **0** |
+| Total model cost | **$0.25** |
+
+The most common send-back: "go to high ground" without the slope warning (10 times). That gap is why the rule lives in code.
+
 ### What our tests caught while building
 - **"Safe to work today" during a cyclone.** On Oct 31 the app said this while a cyclone was in the
   news: our checks do not see what forecasters see. Official warnings now come first, and neither
@@ -100,7 +127,7 @@ These use a scripted model, so they measure the code's guarantees, which hold wh
   and judged tool calls instead. It now checks the final reply once: 10 model calls per answer became 7.
 
 ### Limits
-- **The agents' live answers on Bedrock are still being measured.** The safety numbers above use a scripted model.
+- **Warnings are not yet sent to families by text message.** Today they show in the app and on the [live run page](https://weatherwise.online/impact#live); text messages are next.
 - **Misses:** very local extreme rain (Wayanad), cyclone rain and wind, and river floods driven by
   rain far upstream (Assam, Punjab). Official warnings are the safety net.
 - **The "danger" heat level for work over-warns**: about 6 in 10 of its alerts in Delhi and Phalodi 2024 were false alarms.
@@ -147,19 +174,20 @@ uv run python -m weatherwise.api.server                  # WeatherWise API + web
 For website development, run the API and `cd website && npm run dev` (Vite proxies `/api` to port 8080).
 Website tests (every screen in English, Hindi and Marathi): `cd website && npm test`.
 The site has two parts: `/` the showcase (judges, partners) and `/app` the app (farmers, households).
-The agents need Claude on Amazon Bedrock:
-- set `CLIMATE_AGENT_MODEL_ID` (the model or inference-profile ID from the Bedrock console) and `AWS_REGION`;
+The agents need a model on Amazon Bedrock (we run Amazon Nova Pro):
+- set `CLIMATE_AGENT_MODEL_ID` (e.g. `us.amazon.nova-pro-v1:0`, from the Bedrock console) and `AWS_REGION`;
 - optionally set `CLIMATE_RISK_MCP_URL` to use a deployed MCP server.
 
 Then run `uv run python evals/run_scenarios.py`.
 
 ## Status
 - **Built and live** at https://weatherwise.online on AWS (ECS Fargate, deployed from `main` by GitHub Actions):
-  the core, the MCP server, the agents, the scheduled pipeline, backtests, evals, and the website
-  (app + showcase, Marathi / Hindi / English) with its API.
+  the core, the MCP server, the agents on AgentCore Runtime with Memory and Observability, the 3 AM morning run,
+  backtests, evals (scripted and real-model), and the website (app + showcase, Marathi / Hindi / English) with its API.
 - **Next:**
-  - the agents' chat on Bedrock through AgentCore, measured on the real model (`docs/deployment-todo.md`);
-  - a native speaker checks the Hindi and Marathi drafts; verified shelters.
+  - warnings to families by text message;
+  - Africa: a new country rules file;
+  - a native speaker checks the Hindi and Marathi drafts; more verified shelters.
 
 The full plan is in `docs/planning-notes.md`.
 
