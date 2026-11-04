@@ -10,7 +10,7 @@ The idea, as AWS worded it:
 > cooling center or shelter during extreme weather; a flood-risk guide that walks a household
 > through how to prepare.
 
-**Live:** https://weatherwise.online · **Pilot:** Maharashtra, India. **Works for:** any place in India, with no per-village or per-state setup.
+**Video (2:57):** https://youtu.be/g6umKXXggMU · **Live:** https://weatherwise.online · **Pilot:** Maharashtra, India. **Works for:** any place in India, with no per-village or per-state setup.
 
 ## For judges: check it in two minutes
 | What | Where |
