@@ -1,4 +1,4 @@
-# Scenario suite (plan Appendix A, §16.3). Each case: what a person sends, where they are,
+# Scenario suite. Each case: what a person sends, where they are,
 # which tools must / must not be used, phrases that must / must not appear, and a rubric for
 # the AI judge. Statuses mirror Appendix A: pass | partial | limit | out (out of scope).
 # 30 of the 64 Appendix A scenarios + prompt-injection cases are encoded; the rest by Day 5.

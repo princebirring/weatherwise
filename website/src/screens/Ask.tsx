@@ -26,7 +26,7 @@ const STEP_TEXT: Record<string, TextKey> = {
 // box for the person to send (or change), never sent on its own.
 const linkedQuestion = (max: number) => (new URLSearchParams(window.location.search).get('q') ?? '').slice(0, max)
 
-/** Chat with the same agent team as WhatsApp. Each reply can show how it was made. */
+/** Chat with the Strands agent team. Each reply can show how it was made. */
 export function Ask({ place, status }: { place: SavedPlace; status: Status | null }) {
   const { t, language } = useLanguage()
   const [turns, setTurns] = useState<Turn[]>([])

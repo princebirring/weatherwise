@@ -1,4 +1,4 @@
-"""resolve_place: any coordinate -> everything the system needs to know about it (plan §8.9)."""
+"""resolve_place: any coordinate -> everything the system needs to know about it."""
 
 from dataclasses import asdict, dataclass, field
 from datetime import date

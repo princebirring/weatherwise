@@ -1,7 +1,7 @@
 """Backtest any place and dates: what we would have sent each morning, and what happened.
 
 Rules that keep it honest:
-- forecasts are the 7-model archive as issued about a day before each 6 AM scan, corrected
+- forecasts are the 7-model archive as issued about a day before each morning scan, corrected
   per model from its errors in the weeks BEFORE each morning only (as the live scan does);
 - the checks are the live scan's own (area_scan.run_checks), with the same switches;
 - the flood level uses only river history from years BEFORE the backtest;
@@ -180,7 +180,7 @@ def _parse(inputs: dict, d: date, variable: str, daily: str) -> EnsembleForecast
 
 def _morning_weather(place: PlaceContext, d: date, inputs: dict, rules: dict,
                      correction_series, missing: list[str]) -> AreaWeather:
-    """What the 6 AM scan on day d would have had: forecasts as issued, corrected per model."""
+    """What the morning scan on day d would have had: forecasts as issued, corrected per model."""
     heat = inputs["heat_as_issued"]
     correction = fc.learn_from_series(*correction_series, d, rules["forecast_correction"]) \
         if correction_series else fc.OFF

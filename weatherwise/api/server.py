@@ -6,11 +6,11 @@
 Settings (env):
     CLIMATE_AGENT_MODEL_ID      Bedrock model / inference profile; with AWS credentials it turns chat on.
                                 Without it the site still shows places, warnings, shelters and replays.
-    AWS_REGION                  Bedrock region (default ap-south-1).
+    AWS_REGION                  Bedrock region (default us-east-2, where production runs).
     CLIMATE_RISK_MCP_URL        A deployed Climate Risk MCP server; otherwise a local one is started.
     WEATHERWISE_AGENT_RUNTIME_ARN  Optional private AgentCore Runtime ARN. When supplied,
                                 website chat runs there; facts remain in this API container.
-    WEATHERWISE_CACHE_DIR       Downloads and cached forecasts (on Lambda: a folder under /tmp).
+    WEATHERWISE_CACHE_DIR       Downloads and cached forecasts.
     WEATHERWISE_CACHE_BUCKET    Optional S3 bucket behind that folder, shared with the agents on
                                 AgentCore and kept across deploys. The morning run (daily/) lives here too.
     WEATHERWISE_DAILY_DIR       Without the bucket: a folder from `weatherwise.daily_run --local`.
@@ -19,8 +19,8 @@ Settings (env):
     WEATHERWISE_TRUSTED_PROXY_HOPS  Our proxies in front, e.g. 1 behind the ECS load balancer.
     WEATHERWISE_BEHIND_CLOUDFRONT  1 only when CloudFront is in front: trust CloudFront-Viewer-Address.
 
-The judging deployment runs this API on ECS behind a load balancer, with no CloudFront or WAF, so
-these limits are the defence: they cap chat, the only part that costs money per request.
+Production runs this API on ECS Fargate behind a load balancer and AWS WAF (no CloudFront). These
+limits cap chat, the only part that costs money per request.
 """
 
 import argparse

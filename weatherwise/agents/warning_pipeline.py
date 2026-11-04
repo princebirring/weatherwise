@@ -9,9 +9,9 @@
   the run stops (no AI cost). Nothing found after a recent warning -> the all-clear.
 - writers: Strands agents with skills and Evaluator steering (rewrite up to 2 times).
 - final_gate: the same code rules once more, then the safe fallback if anything is still wrong;
-  adds the footer (plan §5.1).
-- send: delivery rules per person (quiet hours, monthly cap, per-event limit) -> outbox (SQS in
-  production) and the ledger. The message is saved to place memory for tomorrow's run.
+  adds the footer.
+- send: delivery rules per person (quiet hours, monthly cap, per-event limit) -> outbox and the
+  ledger (both in-memory; the morning run saves the report to S3). The message is saved to place memory for tomorrow's run.
 Code nodes share one structured RunRecord instead of parsing each other's text.
 """
 

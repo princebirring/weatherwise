@@ -1,4 +1,4 @@
-"""Headline backtests replayed offline from saved inputs (plan §12, §13, §16).
+"""Headline backtests replayed offline from saved inputs.
 
 They pin today's measured results, so any change to rules or code that alters what we
 would have sent in a real disaster is noticed in review.

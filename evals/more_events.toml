@@ -1,6 +1,6 @@
 # More real events for the replay scorecard (evals/eval_replays.py), across India, including
 # known misses. Scored only; the website's replays stay in headline_events.toml.
-# "reported" is what public sources say happened; CONFIRM each against a source before quoting.
+# "reported" is what news reports said happened (checked Nov 2026).
 # kind: the hazard the event is about ("heat" or "flood"); the scorecard reads those signals.
 # event_day (floods): the day the disaster happened; the warning is measured against that day.
 
@@ -14,7 +14,7 @@ lat = 11.55
 lon = 76.13
 first_day = "2024-07-20"
 last_day = "2024-08-03"
-reported = "Extreme overnight rain triggered landslides at Mundakkai and Chooralmala on Jul 30; over 200 dead. CONFIRM"
+reported = "Extreme overnight rain triggered landslides at Mundakkai and Chooralmala on Jul 30; over 200 dead."
 
 [[replay]]
 id = "delhi_heat_2024_05"
@@ -25,7 +25,7 @@ lat = 28.61
 lon = 77.21
 first_day = "2024-05-10"
 last_day = "2024-06-20"
-reported = "Long heat wave from mid-May to mid-June; Safdarjung near 47 deg C at the end of May. CONFIRM"
+reported = "Long heat wave from mid-May to mid-June; Safdarjung near 47 deg C at the end of May."
 
 [[replay]]
 id = "phalodi_heat_2024_05"
@@ -36,7 +36,7 @@ lat = 27.13
 lon = 72.36
 first_day = "2024-05-15"
 last_day = "2024-06-01"
-reported = "Phalodi recorded 50.0 deg C on May 25, 2024. CONFIRM"
+reported = "Phalodi recorded 50.0 deg C on May 25, 2024."
 
 [[replay]]
 id = "assam_flood_2024_07"
@@ -48,7 +48,7 @@ lat = 26.14
 lon = 91.74
 first_day = "2024-06-20"
 last_day = "2024-07-12"
-reported = "Brahmaputra floods in early July affected millions across Assam; Guwahati waterlogged. CONFIRM"
+reported = "Brahmaputra floods in early July affected millions across Assam; Guwahati waterlogged."
 
 [[replay]]
 id = "puducherry_fengal_2024_11"
@@ -60,7 +60,7 @@ lat = 11.93
 lon = 79.83
 first_day = "2024-11-24"
 last_day = "2024-12-05"
-reported = "Cyclone Fengal crossed the coast on Nov 30; record rain of about 46 cm in 24 hours. CONFIRM"
+reported = "Cyclone Fengal crossed the coast on Nov 30; record rain of about 46 cm in 24 hours."
 
 [[replay]]
 id = "punjab_flood_2025_08"
@@ -72,7 +72,7 @@ lat = 32.04
 lon = 75.40
 first_day = "2025-08-15"
 last_day = "2025-09-05"
-reported = "Ravi and other rivers flooded large parts of Gurdaspur district from late August. CONFIRM"
+reported = "Ravi and other rivers flooded large parts of Gurdaspur district from late August."
 
 [[replay]]
 id = "assam_flood_2026_07"
@@ -84,7 +84,7 @@ lat = 26.93
 lon = 94.17
 first_day = "2026-06-25"
 last_day = "2026-07-28"
-reported = "Brahmaputra above the danger mark at Neamatighat (Jorhat) around Jul 20; at least 50 dead and 700,000 displaced in Assam by Jul 24. CONFIRM"
+reported = "Brahmaputra above the danger mark at Neamatighat (Jorhat) around Jul 20; about 60 dead and over 700,000 people affected in Assam by Jul 25."
 
 [[replay]]
 id = "arnab_cyclone_2026_10"
@@ -96,4 +96,4 @@ lat = 16.96
 lon = 82.24
 first_day = "2026-10-18"
 last_day = "2026-10-27"  # weather readings lag ~5 days; extend to Oct 31 from Nov 6
-reported = "Very severe cyclonic storm, landfall on the Andhra Pradesh-Yanam coast on Oct 28 at about 130 km/h; at least 3 dead, about 100,000-220,000 evacuated. CONFIRM"
+reported = "Very severe cyclonic storm; landfall near Yanam, about 60 km southwest of Kakinada, on Oct 28; at least 3 dead; about 100,000-180,000 evacuated."

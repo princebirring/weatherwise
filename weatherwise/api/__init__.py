@@ -1,1 +1,1 @@
-"""The WeatherWise API: what the website (app and showcase) calls (plan §9.2)."""
+"""The WeatherWise API: what the website (app and showcase) calls."""

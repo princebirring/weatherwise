@@ -3,7 +3,7 @@
 The drafts file (data/review/shelters_<iso>_candidates.csv) is edited by a person: set status to
 "approved" or "rejected", fill in or correct lat, lon and hazards. Re-running the extraction adds
 new drafts but never overwrites a row a person has already seen. Only approved rows with every
-§6.5 field reach the shelter list, stamped with who checked them and when to re-check.
+required field reach the shelter list, stamped with who checked them and when to re-check.
 """
 
 import csv

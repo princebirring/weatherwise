@@ -4,7 +4,7 @@ plans (weatherwise/shelter_data/). Runs ahead of time; the website only reads th
     find      every district + its website, and its plan if the site has one
               -> data/shelter_sources_<iso>.csv
     fetch     download the plans found -> cache/shelter_plans/<iso>/<sha256>.pdf
-    extract   Claude on Bedrock lists the shelters each plan names (needs CLIMATE_AGENT_MODEL_ID)
+    extract   a Bedrock model lists the shelters each plan names (needs CLIMATE_AGENT_MODEL_ID)
               -> data/review/shelters_<iso>_candidates.csv (a person approves each row)
     approve   approved, complete rows -> data/shelters_<iso>.csv
     coverage  how much of the country each step reached

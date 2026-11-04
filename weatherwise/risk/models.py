@@ -75,5 +75,5 @@ class HazardDetection:
 class ForecastDataMissing(Exception):
     """Too little forecast data to judge risk.
 
-    Callers must not conclude "no risk" or send cancellations (plan §5.4).
+    Callers must not conclude "no risk" or send cancellations.
     """

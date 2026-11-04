@@ -19,8 +19,8 @@ uv run pytest -m "not live"                # server tests, offline
 uv run python -m weatherwise.api.server    # API + built website on http://127.0.0.1:8080
 ```
 
-For website work, run the API and `cd website && npm run dev`. The agents (chat) need Claude on
-Amazon Bedrock: see "Run it" in the [README](README.md).
+For website work, run the API and `cd website && npm run dev`. The agents (chat) need a model on
+Amazon Bedrock (production uses Amazon Nova Pro): see "Run it" in the [README](README.md).
 
 ## Workflow
 
@@ -46,7 +46,7 @@ Amazon Bedrock: see "Run it" in the [README](README.md).
 - [ ] `uv run pytest -m "not live"` passes; run `uv run pytest -m live` too if you touched weather, places or the MCP server.
 - [ ] `cd website && npm run lint && npm test && npm run build` passes if you touched the website.
 - [ ] New behaviour has tests. A bug fix has a test that failed before the fix.
-- [ ] Docs updated (`README.md`, `docs/`) when behaviour or setup changes.
+- [ ] Docs updated (`README.md`, `infra/ARCHITECTURE.md`, `CHANGELOG.md`) when behaviour or setup changes.
 - [ ] No secrets, personal data, phone numbers or real people's locations in code, tests or logs.
 
 ## Code conventions

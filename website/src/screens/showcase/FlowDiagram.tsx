@@ -3,7 +3,7 @@ import { Icon, type IconName } from '../../components/Icon'
 import { useLanguage } from '../../text'
 import type { TextKey } from '../../text/en'
 
-// Two journeys through the deployed system (docs/deployment-todo.md, "The stack"), one step at a
+// Two journeys through the deployed system (infra/ARCHITECTURE.md), one step at a
 // time. Plain HTML, so it reads the same in every browser and on a phone.
 
 interface Stage { icon: IconName; name: string; role: TextKey; text: TextKey; ai?: boolean }
@@ -21,7 +21,7 @@ const JOURNEYS: Record<'today' | 'ask', Stage[]> = {
     { icon: 'send', name: 'Bedrock AgentCore', role: 'show.nodeRuntime', text: 'show.ask2', ai: true },
     { icon: 'shield', name: 'Orchestrator', role: 'show.nodeSpec', text: 'show.ask3', ai: true },
     { icon: 'waves', name: 'MCP server', role: 'show.nodeTools', text: 'show.ask4' },
-    { icon: 'sun', name: 'Amazon Bedrock', role: 'show.roleClaude', text: 'show.ask5', ai: true },
+    { icon: 'sun', name: 'Amazon Bedrock', role: 'show.roleModel', text: 'show.ask5', ai: true },
     { icon: 'check', name: 'Evaluator', role: 'show.roleEval', text: 'show.ask6', ai: true },
     { icon: 'phone', name: 'show.nodePhone', role: 'show.roleChecked', text: 'show.ask7' },
   ],
@@ -29,8 +29,8 @@ const JOURNEYS: Record<'today' | 'ask', Stage[]> = {
 
 // The six AWS services, each with its one job.
 const STACK: [string, TextKey][] = [
-  ['Amazon Bedrock', 'show.jobBedrock'], ['Bedrock AgentCore Runtime', 'show.jobAgentCore'], ['Amazon ECS + ECR', 'show.jobEcs'],
-  ['Amazon CloudWatch', 'show.nodeLogs'], ['AWS IAM', 'show.jobIam'], ['AWS Budgets', 'show.jobBudgets'],
+  ['Amazon Bedrock', 'show.jobBedrock'], ['Amazon Bedrock AgentCore', 'show.jobAgentCore'], ['Amazon ECS + ECR', 'show.jobEcs'],
+  ['Amazon EventBridge Scheduler', 'show.jobScheduler'], ['Amazon S3', 'show.jobS3'], ['Amazon CloudWatch', 'show.nodeLogs'],
 ]
 
 const STEP_MS = 3200

@@ -1,4 +1,4 @@
-"""Forecast grid cells: the unit we fetch, cache and scan (plan §8.9).
+"""Forecast grid cells: the unit we fetch, cache and scan.
 
 Weather grid: 0.25 degrees (~25 km), the ECMWF ensemble resolution; ~150 villages per cell.
 River grid: 0.05 degrees (~5 km), the GloFAS resolution, because rivers are narrow.

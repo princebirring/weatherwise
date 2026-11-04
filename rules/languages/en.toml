@@ -1,4 +1,4 @@
-# English: our safety text for every country that uses this language (plan §6.1, §8.6).
+# English: our safety text for every country that uses this language.
 # The checker uses the unsafe phrases of ALL languages on every message, so a mixed-language
 # reply is still checked. Messages are sent when the AI fails; "TODO" text falls back to English.
 
@@ -31,7 +31,7 @@ all_clear = "The weather risk we warned you about has eased in the latest foreca
 [footer]
 text = "Not an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No"
 
-# What the website shows people, beside the agents' replies (plan §9.2). Same steps as the
+# What the website shows people, beside the agents' replies. Same steps as the
 # agents' skills, written for people. From NDMA heat-wave and flood guidelines, IMD/KVK
 # agromet advisories and ICAR-CRIDA contingency plans. CONFIRM wording against those sources.
 [guidance]

@@ -11,4 +11,4 @@
 /Dockerfile          @princebirring @pm19nov
 /.dockerignore       @princebirring @pm19nov
 /.github/workflows/  @princebirring @pm19nov
-/docs/deployment-todo.md @princebirring @pm19nov
+/infra/              @princebirring @pm19nov

@@ -1,4 +1,4 @@
-"""The scheduled warning Graph end to end with a scripted model (plan §5.1, §5.2, §16)."""
+"""The scheduled warning Graph end to end with a scripted model."""
 
 from datetime import datetime
 from zoneinfo import ZoneInfo

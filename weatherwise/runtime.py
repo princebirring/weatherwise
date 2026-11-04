@@ -1,10 +1,9 @@
-"""AgentCore Runtime entry point (workshop Module 5; plan §8.8.7): one runtime, two modes.
+"""AgentCore Runtime entry point (workshop Module 5): one runtime, two modes.
 
     {"type": "chat", "session_id": "...", "message": "...", "country": "in", "language": "mr",
      "history": [{"role": "user" | "assistant", "text": "..."}, ...]}
-        from the WhatsApp / website backend. country comes from resolve_place on the person's
-        saved place; language is the person's choice. session_id is a UUID mapped to a
-        hashed phone number upstream. The reply is a stream: {"type": "step", "agent", "tool"}
+        from the website's API (weatherwise/api). country comes from resolve_place on the person's
+        saved place; language is the person's choice. session_id is a random UUID per chat. The reply is a stream: {"type": "step", "agent", "tool"}
         as each tool starts, then {"type": "reply", ...} once the checked answer is ready.
         history (the earlier turns, kept by the caller) rebuilds the conversation when this
         session's microVM was stopped after sitting idle; a running session ignores it.
@@ -91,7 +90,7 @@ def invoke(payload: dict, context) -> dict | Iterator[dict]:
         group = RecipientGroupRun(g["place_name"], g["lat"], g["lon"], g["language"],
                                   g.get("crop"), g.get("water_source"), tuple(g["subscriber_ids"]))
         place = call("resolve_place", {"lat": group.lat, "lon": group.lon})
-        # Production: DynamoDB ledger + SQS outbox. In-memory here; the caller persists results.
+        # In-memory ledger and outbox: the caller saves the run report (the morning run: S3 daily/).
         ledger, outbox = MemoryLedger(), MemoryOutbox()
         outlook = lambda lat, lon, name: call("hazard_outlook", {"lat": lat, "lon": lon, "place_name": name})  # noqa: E731
         model = MeteredModel(bedrock_model())

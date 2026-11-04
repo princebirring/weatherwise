@@ -1,4 +1,4 @@
-"""Flow 3 trigger: river flow forecast above the area's flood level (plan §5.2).
+"""River flow forecast above the area's flood level.
 
 This only reports what the river model shows. Whether that means "prepare" or
 "urgent" is decided in flood_guide_trigger.py, where model data alone never

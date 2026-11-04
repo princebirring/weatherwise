@@ -1,6 +1,6 @@
 # Upstream rain points for river areas in India. PILOT DATA, set by hand for one river and labelled so.
 # Production replaces this file with catchments derived from river-network data
-# (HydroSHEDS / GloFAS), plan §8.9. Places within applies_within_km of the outlet use these points.
+# (HydroSHEDS / GloFAS). Places within applies_within_km of the outlet use these points.
 
 [[catchment]]
 name = "Panchganga at Kolhapur"

@@ -1,7 +1,7 @@
-# Headline events (plan §12): real disasters we backtest, by coordinates. Demo and test data,
+# Headline events: real disasters we backtest, by coordinates. Demo and test data,
 # not settings: any place and date can be backtested the same way.
 # title_mr / title_hi: DRAFT translations, CONFIRM with a native speaker.
-# "reported" is what public sources say happened; each claim needs a row in docs/sources.csv.
+# "reported" is what news reports said happened (checked Nov 2026).
 # event_day (floods): the day the disaster happened; the replay scorecard measures warnings against it.
 
 [[replay]]
@@ -15,7 +15,7 @@ lat = 16.70
 lon = 74.24
 first_day = "2024-07-15"
 last_day = "2024-08-05"
-reported = "River about 8 inches below the danger mark on Jul 24; crossed it on Jul 26. CONFIRM"
+reported = "River about 8 inches below the danger mark on Jul 24; crossed it on Jul 26."
 
 [[replay]]
 id = "vijayawada_flood_2024_08"
@@ -28,7 +28,7 @@ lat = 16.51
 lon = 80.64
 first_day = "2024-08-24"
 last_day = "2024-09-05"
-reported = "Extreme rain on Aug 31; the Budameru stream flooded large parts of the city from Sep 1. CONFIRM"
+reported = "Extreme rain on Aug 31; the Budameru stream flooded large parts of the city from Sep 1."
 
 [[replay]]
 id = "vidarbha_heat_2026_04"
@@ -40,7 +40,7 @@ lat = 20.70
 lon = 77.00
 first_day = "2026-04-01"
 last_day = "2026-05-15"
-reported = "Akola 46.9 deg C, India's hottest; 229+ heatstroke cases statewide since Mar 1. CONFIRM"
+reported = "Akola 46.9 deg C on Apr 26, India's hottest that day; 229+ heatstroke cases in Maharashtra from Mar 1 to mid-May."
 
 [[replay]]
 id = "kharghar_heat_2023_04"
@@ -52,4 +52,4 @@ lat = 19.03
 lon = 73.07
 first_day = "2023-04-10"
 last_day = "2023-04-20"
-reported = "Outdoor ceremony in noon sun and humidity: 11-14 dead; IMD had issued no heat-wave warning. CONFIRM"
+reported = "Outdoor ceremony in noon sun and humidity: 11-14 dead; IMD had issued no heat-wave warning."

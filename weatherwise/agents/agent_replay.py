@@ -1,6 +1,6 @@
 """A past disaster, replayed through the morning warning Graph.
 
-Each replay morning gets the facts the 6 AM scan would have had then (forecasts as issued,
+Each replay morning gets the facts the morning scan would have had then (forecasts as issued,
 from the backtest tool) and runs the same WarningPipeline the live service runs: code decides
 whether to warn, the agent writes the message, the Evaluator checks it, delivery rules decide
 what one household would have received. One ledger runs across the whole replay, so the

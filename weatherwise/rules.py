@@ -1,4 +1,4 @@
-"""Rules and data the system cannot fetch from any API (plan §8.9).
+"""Rules and data the system cannot fetch from any API.
 
     rules/global.toml            our own rules, used in every country
     rules/countries/<iso>.toml   official definitions and national policy (e.g. in.toml: IMD)
@@ -23,7 +23,7 @@ ROOT = Path(__file__).resolve().parent.parent
 RULES_ROOT = ROOT / "rules"
 DATA_ROOT = ROOT / "data"
 
-# Every key the engine needs, checked at load so a gap fails at startup, never at 6 AM.
+# Every key the engine needs, checked at load so a gap fails at startup, never during the morning run.
 REQUIRED_KEYS = {
     "country": ["name", "default_languages"],
     "terrain": ["coast_max_km", "hills_min_elevation_m"],

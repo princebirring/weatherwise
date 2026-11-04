@@ -1,7 +1,7 @@
 """Shelters named in a district disaster plan, as drafts for a person to approve.
 
 Only pages that mention a shelter word (country rules, any of its languages) go to the model.
-The model (Claude on Bedrock, through a Strands agent) returns typed rows, each with the page
+The model (on Amazon Bedrock, through a Strands agent) returns typed rows, each with the page
 number and the exact words on that page that name the place. Code then drops every row whose
 quote is not on that page, or whose name is not in its quote: the model cannot add a shelter the
 plan does not contain. Locations come from the geocoder and must fall inside the district;

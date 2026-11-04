@@ -2,7 +2,7 @@
 
 See [the architecture overview](../ARCHITECTURE.md) for the application, AWS, and delivery flow.
 
-`weatherwise-service.yaml` creates the production network, ALB, ECS Fargate service, private Bedrock AgentCore Runtime, CloudWatch/X-Ray observability, log groups, runtime IAM roles, and optional WAF. It does **not** create a database or persistent storage because the current app stores neither.
+`weatherwise-service.yaml` creates the production network, ALB, ECS Fargate service, private Bedrock AgentCore Runtime and Memory, the S3 bucket (shared weather cache and the morning run's results), the 3 AM morning run (EventBridge Scheduler starting a Fargate task), CloudWatch/X-Ray observability, log groups, runtime IAM roles, and optional WAF. It creates no user database: the app stores nothing about people.
 
 ## Before deployment
 
@@ -21,11 +21,11 @@ aws cloudformation deploy \
   --parameter-overrides \
     ImageUri=ACCOUNT.dkr.ecr.us-east-2.amazonaws.com/weatherwise:COMMIT_SHA \
     AgentRuntimeImageUri=ACCOUNT.dkr.ecr.us-east-2.amazonaws.com/weatherwise:agentcore-COMMIT_SHA \
-    ClimateAgentModelId=us.amazon.nova-micro-v1:0 \
+    ClimateAgentModelId=us.amazon.nova-pro-v1:0 \
     EnableWaf=true
 ```
 
-Until a domain is added, omit `DomainName` and `HostedZoneId`; the output is an HTTP ALB URL. The ALB must use two subnets. Tasks receive public IPs for outbound weather-data calls, but their security group accepts port 8080 only from the ALB; the service cannot be reached directly. This avoids NAT Gateway charges for the hackathon.
+Until a domain is added, omit `DomainName` and `HostedZoneId`; the output is an HTTP ALB URL. The ALB must use two subnets. Tasks receive public IPs for outbound weather-data calls, but their security group accepts port 8080 only from the ALB; the service cannot be reached directly. This avoids NAT Gateway charges.
 
 ## Custom domain and HTTPS
 
