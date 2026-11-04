@@ -37,6 +37,10 @@ export const TEAM: Member[] = [
 ]
 
 export const REPO = 'https://github.com/princebirring/weatherwise'
+// The demo video. The file goes in website/public; the button shows once it is there.
+export const DEMO_VIDEO = '/weatherwise-demo.mp4'
+// The same video on YouTube (public), the link the submission uses. Empty: not uploaded yet.
+export const DEMO_YOUTUBE = ''
 export const LICENSE_URL = `${REPO}/blob/main/LICENSE`
 // The replay and checker results the site's numbers come from.
 export const RESULTS_URL = `${REPO}/tree/main/evals/results`

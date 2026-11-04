@@ -3,6 +3,7 @@ import { Link } from '../../router'
 import { useLanguage } from '../../text'
 import type { TextKey } from '../../text/en'
 import { PhoneDemo } from '../showcase/PhoneDemo'
+import { DemoVideo } from './DemoVideo'
 import { Person } from './People'
 import { BEST_LEAD, SAFETY, SCORECARD } from './results'
 import { REPO, TEAM } from './team'
@@ -63,6 +64,7 @@ export function Landing() {
             <p className="ap-sub">{t('site.lede')}</p>
             <div className="ap-ctas">
               <Link href="/app" className="btn big">{t('site.openApp')}</Link>
+              <DemoVideo />
               <Link href="/how-it-works" className="ap-link">{t('site.navHow')} <Icon name="send" size={18} /></Link>
               <a href={REPO} target="_blank" rel="noreferrer" className="ap-link"><Icon name="github" size={18} /> {t('site.githubRepo')}</a>
             </div>

@@ -16,7 +16,7 @@ import { Home } from '../screens/Home'
 import { NotCovered } from '../screens/NotCovered'
 import { Showcase } from '../screens/Showcase'
 import { countOf, SAFETY, SCORECARD } from '../screens/site/results'
-import { TEAM } from '../screens/site/team'
+import { DEMO_VIDEO, TEAM } from '../screens/site/team'
 import { Welcome } from '../screens/Welcome'
 import { AppHeader } from '../components/Shell'
 import { Ask } from '../screens/Ask'
@@ -460,6 +460,22 @@ describe.each(LANGUAGES)('in %s', (language) => {
     expect(decide).toContain(t('show.ruleStays', rules.flood_guide.stay_on_quiet_days))
     expect(decide).toContain(t('show.oursTag'))
     expectOnlyLanguage(language)
+  })
+
+  it('Landing: the demo video shows only once the file is there, and plays on the page', async () => {
+    const serve = (type: string) => vi.stubGlobal('fetch', vi.fn(async () => new Response(null, { headers: { 'content-type': type } })))
+    serve('text/html') // no file: the server answers with the page
+    at('/')
+    await new Promise((r) => setTimeout(r, 0))
+    expect(screen.queryByRole('button', { name: t('site.watchDemo') })).toBeNull()
+    cleanup()
+    serve('video/mp4')
+    const showModal = vi.fn()
+    HTMLDialogElement.prototype.showModal = showModal
+    at('/')
+    fireEvent.click(await screen.findByRole('button', { name: t('site.watchDemo') }))
+    expect(showModal).toHaveBeenCalled()
+    expect(document.querySelector('dialog video')?.getAttribute('src')).toBe(DEMO_VIDEO)
   })
 
   it('Landing: the phone runs the real app screens; taps move the phone, never the page', () => {

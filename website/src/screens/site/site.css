@@ -218,6 +218,11 @@
 .ap-ctas { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 32px; margin: 32px 0 44px; }
 .ap-link { display: inline-flex; align-items: center; gap: 8px; font-size: var(--fs-body); font-weight: 800; color: var(--action); text-decoration: none; }
 .ap-dark .ap-link { color: var(--mint); }
+.ap-demo-open { background: none; border: 0; padding: 0; font: inherit; font-weight: 800; cursor: pointer; }
+.ap-demo { width: min(960px, calc(100vw - 32px)); max-width: none; padding: 0; border: 0; border-radius: 16px; background: #000; overflow: hidden; }
+.ap-demo::backdrop { background: rgb(0 0 0 / .75); }
+.ap-demo video { display: block; width: 100%; max-height: calc(100vh - 120px); background: #000; }
+.ap-demo-bar { display: flex; justify-content: flex-end; align-items: center; gap: 24px; padding: 12px 16px; background: var(--surface); }
 .ap-link:hover { text-decoration: underline; text-underline-offset: 4px; }
 .ap-hero .phone-demo { margin: 0 auto; text-align: left; }
 /* Laptops: words left, phone right, so the whole phone fits on the first screen even at 720 px tall. */
