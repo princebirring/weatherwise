@@ -198,10 +198,20 @@ Then run the scenario suite: `uv run python evals/run_scenarios.py`.
 - **Built and live** at https://weatherwise.online on AWS (ECS Fargate, deployed from `main` by GitHub Actions):
   the core, the MCP server, the agents on AgentCore Runtime with Memory and Observability, the 3 AM morning run,
   backtests, evals (scripted and real-model), and the website (app + showcase, Marathi / Hindi / English) with its API.
-- **Next:**
-  - warnings to families by text message;
-  - Africa: a new country rules file;
-  - a native speaker checks the Hindi and Marathi drafts; the first reviewed shelters.
+- **Next iteration** (each item closes a limit listed under [Limits](#limits)):
+  - **Reach:** send warnings to families as notifications they can customise (text message, app
+    notification and more; which hazards, which places, what time), not only in the app.
+  - **Fewer misses:** read IMD cyclone bulletins for cyclone rain and wind; watch river flow upstream, not
+    only at the place, for floods driven by rain far away (Assam, Punjab); add rain-gauge readings for very
+    local extreme rain (Wayanad).
+  - **Fewer false alarms:** retune the "danger" heat level for work against the replays (it is a switch, so
+    every change is replayed before it ships).
+  - **Sharper local picture:** correct the ~25 km forecast squares with nearby weather-station readings; use
+    finer elevation data so hill villages are not read as plains.
+  - **Shelters:** review the first rows from district disaster plans so the router can name a checked shelter.
+  - **Languages:** a native speaker checks the Hindi and Marathi drafts.
+  - **Better replays:** keep a copy of each day's official warnings, so future replays can score them too.
+  - **Africa:** a new country rules file.
 
 How it is deployed: [infra/ARCHITECTURE.md](infra/ARCHITECTURE.md).
 
