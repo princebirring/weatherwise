@@ -14,13 +14,13 @@ import os
 import re
 import sys
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from strands import Agent, AgentSkills, tool
 from strands.agent.conversation_manager import SlidingWindowConversationManager
 
-from weatherwise.agents.hooks import CostGuardHook, StepLogHook
+from weatherwise.agents.hooks import CostGuardHook, StepLogHook, TurnClock
 from weatherwise.agents.message_rules import MessageRules
 from weatherwise.agents.steering import SafetyRulesHandler, ToneHandler
 
@@ -118,6 +118,7 @@ class AgentTeam:
     step_log: StepLogHook
     policy: dict
     language: str
+    clock: TurnClock = field(default_factory=TurnClock)
 
     def remember(self, history: list[dict]) -> None:
         """Start a new team from earlier turns ({"role": "user" | "assistant", "text": ...}), for
@@ -129,6 +130,7 @@ class AgentTeam:
         """One turn: the reply text, whether the safe fallback was used, and the agent steps.
         on_step hears each tool start and finish (progress only; the reply is still checked whole)."""
         self.orchestrator.state.set("use_fallback", False)
+        self.clock.start()
         self.step_log.on_step = on_step
         try:
             result = self.orchestrator(message)
@@ -173,11 +175,12 @@ def build_team(
     safe messages). language: the person's choice; defaults to the country's first language."""
     language = language or policy["default_languages"][0]
     rules = MessageRules.from_policy(policy)
+    clock = TurnClock()
 
     def evaluator(tone: bool = False) -> list:
-        handlers = [SafetyRulesHandler(rules)]
+        handlers = [SafetyRulesHandler(rules, clock=clock)]
         if tone and with_tone_check:
-            handlers.append(ToneHandler(model=tone_model))
+            handlers.append(ToneHandler(model=tone_model, clock=clock))
         return handlers
 
     def specialist(name: str, prompt: str, skills: list[str], tool_names: set[str]) -> Agent:
@@ -185,7 +188,7 @@ def build_team(
             name=name, model=model, system_prompt=prompt.format(language=language),
             tools=_by_name(climate_tools, tool_names),
             plugins=[AgentSkills(skills=[str(SKILLS / s) for s in skills]), *evaluator()],
-            hooks=[CostGuardHook()], callback_handler=None,
+            hooks=[CostGuardHook(clock=clock)], callback_handler=None,
         )
 
     make = specialist_factory or specialist
@@ -222,8 +225,8 @@ def build_team(
                warning_agent, flood_guide_agent],
         # Tone is checked once, on the reply the person reads; specialists' drafts feed into it.
         plugins=[AgentSkills(skills=[str(SKILLS / "sign-up"), str(SKILLS / "shelter-reply")]), *evaluator(tone=True)],
-        hooks=[CostGuardHook(), step_log],
+        hooks=[CostGuardHook(clock=clock), step_log],
         conversation_manager=SlidingWindowConversationManager(window_size=20),
         callback_handler=None,
     )
-    return AgentTeam(orchestrator, step_log, policy, language)
+    return AgentTeam(orchestrator, step_log, policy, language, clock)

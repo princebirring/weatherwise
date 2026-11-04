@@ -1,0 +1,445 @@
+{
+ "event_id": "phalodi_heat_2024_05",
+ "place": {
+  "name": "Phalodi",
+  "district": "Phalodi",
+  "state": "Rajasthan"
+ },
+ "language": "en",
+ "model_id": "us.amazon.nova-2-lite-v1:0",
+ "event_day": null,
+ "summary": {
+  "mornings": 18,
+  "mornings_code_flagged": 18,
+  "mornings_with_checked_message": 18,
+  "messages_delivered": 5,
+  "first_warning_day": null,
+  "days_warned_before_event": null,
+  "first_drafts_passed": 14,
+  "passed_after_send_back": 4,
+  "drafts_sent_back_by_evaluator": 4,
+  "sent_back_reasons": {
+   "unsupported_number": 3,
+   "missing_helpline": 1
+  },
+  "safe_fallbacks_used": 0,
+  "model_failures": 0,
+  "model_calls": 74,
+  "input_tokens": 134459,
+  "output_tokens": 7496,
+  "slowest_morning_seconds": 15.67,
+  "cost_usd": 0.06499
+ },
+ "mornings": [
+  {
+   "day": "2024-05-15",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Hot weather is expected in Phalodi today and the next six days. It may feel like around 43 °C for those working outdoors. You could consider avoiding heavy outdoor work between 12 pm and 4 pm if possible, especially if it feels very hot. It’s a good idea to check on anyone working alone. If anyone shows signs like confusion, not sweating, or fainting, try to cool them and call 108 for help.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Hot weather is expected in Phalodi today and the next six days. It may feel like around 43 °C for those working outdoors. You could consider avoiding heavy outdoor work between 12 pm and 4 pm if possible, especially if it feels very hot. It’s a good idea to check on anyone working alone. If anyone shows signs like confusion, not sweating, or fainting, try to cool them and call 108 for help.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 14.26,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7032,
+    "output_tokens": 368,
+    "model_seconds": 14.25
+   }
+  },
+  {
+   "day": "2024-05-16",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "High heat may affect Phalodi from today until 20 May. It could feel like 40 °C today, and 43 °C from 20 May. You could work early (6–10 am) or late (after 5 pm) and rest often in the shade, drinking water regularly. If you must be outside between noon and 4 pm, take frequent breaks and stay hydrated. Check on anyone who is alone or vulnerable. Heatstroke signs: confusion, no sweating, fainting. If this happens, cool the person and call 108. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "High heat may affect Phalodi from today until 20 May. It could feel like 40 °C today, and 43 °C from 20 May. You could work early (6–10 am) or late (after 5 pm) and rest often in the shade, drinking water regularly. If you must be outside between noon and 4 pm, take frequent breaks and stay hydrated. Check on anyone who is alone or vulnerable. Heatstroke signs: confusion, no sweating, fainting. If this happens, cool the person and call 108. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 9.09,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7291,
+    "output_tokens": 400,
+    "model_seconds": 9.06
+   }
+  },
+  {
+   "day": "2024-05-17",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Heat is building in Phalodi. From 7 of 10 forecasts, very hot days are likely from 21 to 23 May. It will feel like 43 °C today, with severe heat continuing until 21 May.\n\nYou could work before 10 am or after 5 pm, rest and drink water often. If you must be outside during the hottest hours, take shade every hour.\n\nHeatstroke signs: confusion, no sweating, fainting. Cool the person and call 108. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heat is building in Phalodi. From 7 of 10 forecasts, very hot days are likely from 21 to 23 May. It will feel like 43 °C today, with severe heat continuing until 21 May.\n\nYou could work before 10 am or after 5 pm, rest and drink water often. If you must be outside during the hottest hours, take shade every hour.\n\nHeatstroke signs: confusion, no sweating, fainting. Cool the person and call 108. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 14.11,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7327,
+    "output_tokens": 380,
+    "model_seconds": 14.08
+   }
+  },
+  {
+   "day": "2024-05-18",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Heat danger is expected from today until May 22. It could feel like 43°C outdoors. You could work 6-10 am and after 5 pm, shade every hour and drink water often. If you are elderly, pregnant, a child or ill, you could stay indoors 12-4 pm. Heatstroke signs: confusion, no sweating, fainting. Cool the person and call 108. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heat danger is expected from today until May 22. It could feel like 43°C outdoors. You could work 6-10 am and after 5 pm, shade every hour and drink water often. If you are elderly, pregnant, a child or ill, you could stay indoors 12-4 pm. Heatstroke signs: confusion, no sweating, fainting. Cool the person and call 108. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 9.85,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7321,
+    "output_tokens": 356,
+    "model_seconds": 9.83
+   }
+  },
+  {
+   "day": "2024-05-19",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Hot weather is coming for Phalodi from Tuesday. Temperatures could reach 49 °C by Friday. Our own early signal shows danger for outdoor work today, and severe heat build-up through Thursday. Seven of 10 forecasts agree.\n\nIf you must work, do it early (6-10 am) or late (after 5 pm). Rest and drink water often. If you can, stop outdoor work from 12 to 4 pm and check on anyone working alone.\n\nStay inside during the hottest hours if you are elderly, pregnant, a child or ill. Give cattle and poultry shade and extra water.\n\nHeatstroke signs: confusion, no sweating, fainting. Cool the person and call 108.\n\nReply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Hot weather is coming for Phalodi from Tuesday. Temperatures could reach 49 °C by Friday. Our own early signal shows danger for outdoor work today, and severe heat build-up through Thursday. Seven of 10 forecasts agree.\n\nIf you must work, do it early (6-10 am) or late (after 5 pm). Rest and drink water often. If you can, stop outdoor work from 12 to 4 pm and check on anyone working alone.\n\nStay inside during the hottest hours if you are elderly, pregnant, a child or ill. Give cattle and poultry shade and extra water.\n\nHeatstroke signs: confusion, no sweating, fainting. Cool the person and call 108.\n\nReply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 12.26,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7350,
+    "output_tokens": 430,
+    "model_seconds": 12.23
+   }
+  },
+  {
+   "day": "2024-05-20",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Heat is expected in Phalodi from May 20 to 26. It may feel like 43 °C for outdoor work. You can choose what works best:\n\n- If you must work outside, consider working between 6 am and 10 am or after 5 pm, rest every hour, and drink water often.\n- If you are elderly, pregnant, have children, or are unwell, staying indoors from 12 pm to 4 pm can help.\n- For animals, provide shade and extra water.\n\nIf someone shows signs like confusion, no sweating, or fainting, cool them down and call 108. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heat is expected in Phalodi from May 20 to 26. It may feel like 43 °C for outdoor work. You can choose what works best:\n\n- If you must work outside, consider working between 6 am and 10 am or after 5 pm, rest every hour, and drink water often.\n- If you are elderly, pregnant, have children, or are unwell, staying indoors from 12 pm to 4 pm can help.\n- For animals, provide shade and extra water.\n\nIf someone shows signs like confusion, no sweating, or fainting, cool them down and call 108. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 12.94,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7336,
+    "output_tokens": 382,
+    "model_seconds": 12.92
+   }
+  },
+  {
+   "day": "2024-05-21",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "The next few days will feel very hot, with temperatures reaching 43°C. You can choose to work early in the morning or late in the evening, rest often and drink water. Stay inside from noon to 4 pm if you can. If you feel confused, stop sweating or faint, cool down fast and call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The next few days will feel very hot, with temperatures reaching 43°C. You can choose to work early in the morning or late in the evening, rest often and drink water. Stay inside from noon to 4 pm if you can. If you feel confused, stop sweating or faint, cool down fast and call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "unsupported_number"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 12.06,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7425,
+    "output_tokens": 336,
+    "model_seconds": 12.03
+   }
+  },
+  {
+   "day": "2024-05-22",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "heat_wave",
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "Phalodi will have very hot weather from May 22 to 28, with temperatures possibly reaching 50.3°C. If you have to work outside, you could try to avoid the hottest hours between 12 and 4 pm, especially if you feel unwell. If you see someone who looks confused, is not sweating, or has fainted, you could help cool them down and call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Phalodi will have very hot weather from May 22 to 28, with temperatures possibly reaching 50.3°C. If you have to work outside, you could try to avoid the hottest hours between 12 and 4 pm, especially if you feel unwell. If you see someone who looks confused, is not sweating, or has fainted, you could help cool them down and call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 10.46,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7422,
+    "output_tokens": 387,
+    "model_seconds": 10.44
+   }
+  },
+  {
+   "day": "2024-05-23",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "heat_wave",
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "Heat is expected to rise sharply in Phalodi from today, May 23, through May 28. Forecasts show very high temperatures, with our own early signals indicating danger for outdoor work until May 29. You have several options to stay safe:\n\n- If you must work outside, consider working early (6-10 am) or late (after 5 pm), rest every hour, and drink water often.\n- If you are elderly, pregnant, have children, or are ill, try to stay indoors from 12 to 4 pm.\n- For animals, make sure they have shade and extra water.\n\nIf you feel confused, stop sweating, or faint, cool down quickly and call 108. If you need help finding a cooling place, you can call 108 or reply SHELTER.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heat is expected to rise sharply in Phalodi from today, May 23, through May 28. Forecasts show very high temperatures, with our own early signals indicating danger for outdoor work until May 29. You have several options to stay safe:\n\n- If you must work outside, consider working early (6-10 am) or late (after 5 pm), rest every hour, and drink water often.\n- If you are elderly, pregnant, have children, or are ill, try to stay indoors from 12 to 4 pm.\n- For animals, make sure they have shade and extra water.\n\nIf you feel confused, stop sweating, or faint, cool down quickly and call 108. If you need help finding a cooling place, you can call 108 or reply SHELTER.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 12.32,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7357,
+    "output_tokens": 418,
+    "model_seconds": 12.3
+   }
+  },
+  {
+   "day": "2024-05-24",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "heat_wave",
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "High heat is expected in Phalodi from today until May 28. Our own early signal shows it could feel like 43 °C for outdoor work.  \n\nYou have options:  \n- If you must work, do it early (6‑10 am) or late (after 5 pm). Rest and drink water often.  \n- If you can, stay indoors between 12 and 4 pm, especially if you are elderly, pregnant, a child, or unwell.  \n- Give animals extra water and shade.  \n\nHeatstroke signs: confusion, no sweating, fainting. Cool the person and call 108. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "High heat is expected in Phalodi from today until May 28. Our own early signal shows it could feel like 43 °C for outdoor work.  \n\nYou have options:  \n- If you must work, do it early (6‑10 am) or late (after 5 pm). Rest and drink water often.  \n- If you can, stay indoors between 12 and 4 pm, especially if you are elderly, pregnant, a child, or unwell.  \n- Give animals extra water and shade.  \n\nHeatstroke signs: confusion, no sweating, fainting. Cool the person and call 108. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 12.87,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6061,
+    "output_tokens": 287,
+    "model_seconds": 12.85
+   }
+  },
+  {
+   "day": "2024-05-25",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "heat_wave",
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "It’s looking very hot in Phalodi from today until Sunday. Seven of ten forecasts agree. You could avoid outdoor work between 12 and 4 pm if possible, and take frequent breaks in the shade with water. If you must work, try the cooler early morning or evening hours. Stay hydrated and check on anyone who might be vulnerable. Heatstroke signs include confusion or fainting—cool the person and call 108 if this happens. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "It’s looking very hot in Phalodi from today until Sunday. Seven of ten forecasts agree. You could avoid outdoor work between 12 and 4 pm if possible, and take frequent breaks in the shade with water. If you must work, try the cooler early morning or evening hours. Stay hydrated and check on anyone who might be vulnerable. Heatstroke signs include confusion or fainting—cool the person and call 108 if this happens. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 12.19,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7313,
+    "output_tokens": 340,
+    "model_seconds": 12.16
+   }
+  },
+  {
+   "day": "2024-05-26",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "heat_wave",
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "It will be very hot in Phalodi today and the next few days. Seven of ten forecasts agree. You could work before 10 am or after 5 pm if you must, and take shade and water often. If you have well water, you could use it to stay cool. Stay indoors from 12 to 4 pm if you can, especially if you are elderly, pregnant, a child or ill. If anyone feels confused, stops sweating or faints, cool them and call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "It will be very hot in Phalodi today and the next few days. Seven of ten forecasts agree. You could work before 10 am or after 5 pm if you must, and take shade and water often. If you have well water, you could use it to stay cool. Stay indoors from 12 to 4 pm if you can, especially if you are elderly, pregnant, a child or ill. If anyone feels confused, stops sweating or faints, cool them and call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 10.47,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7421,
+    "output_tokens": 452,
+    "model_seconds": 10.45
+   }
+  },
+  {
+   "day": "2024-05-27",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "heat_wave",
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "High heat will affect Phalodi today and tomorrow. The temperature may reach 50.4°C, which is much hotter than normal.\n\nTake these steps to stay safe:\n- Work early in the morning or late in the evening. Rest often and drink water.\n- If you must be outside during the hottest hours, find shade every hour and keep drinking water.\n- Stay inside as much as possible between noon and 4 pm, especially if you are elderly, pregnant, have children or are unwell.\n- Give animals extra water and shade.\n\nIf you feel confused, stop sweating or faint, cool down quickly and call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "High heat will affect Phalodi today and tomorrow. The temperature may reach 50.4°C, which is much hotter than normal.\n\nTake these steps to stay safe:\n- Work early in the morning or late in the evening. Rest often and drink water.\n- If you must be outside during the hottest hours, find shade every hour and keep drinking water.\n- Stay inside as much as possible between noon and 4 pm, especially if you are elderly, pregnant, have children or are unwell.\n- Give animals extra water and shade.\n\nIf you feel confused, stop sweating or faint, cool down quickly and call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "unsupported_number"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 13.49,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7371,
+    "output_tokens": 398,
+    "model_seconds": 13.47
+   }
+  },
+  {
+   "day": "2024-05-28",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "heat_wave",
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "You could work early or late, rest and drink water often. If you must be outside from 12 to 4 pm, take shade every hour and stop if you feel unwell. Check on anyone working alone. Heatstroke signs are confusion, no sweating, fainting. If this happens, cool the person and call 108. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "You could work early or late, rest and drink water often. If you must be outside from 12 to 4 pm, take shade every hour and stop if you feel unwell. Check on anyone working alone. Heatstroke signs are confusion, no sweating, fainting. If this happens, cool the person and call 108. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "unsupported_number"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 12.49,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7727,
+    "output_tokens": 705,
+    "model_seconds": 12.47
+   }
+  },
+  {
+   "day": "2024-05-29",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "It will feel like 40 °C for outdoor work from today until June 4th. Seven of ten forecasts agree.\n\nYou could work early (6-10 am) or late (after 5 pm), rest and drink water often.\n\nIf you must work during the hottest hours, take shade and water every hour.\n\nStay indoors between 12 and 4 pm if you are elderly, pregnant, a child or feel unwell.\n\nWatch for feeling dizzy or weak, and call 108 for help.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "It will feel like 40 °C for outdoor work from today until June 4th. Seven of ten forecasts agree.\n\nYou could work early (6-10 am) or late (after 5 pm), rest and drink water often.\n\nIf you must work during the hottest hours, take shade and water every hour.\n\nStay indoors between 12 and 4 pm if you are elderly, pregnant, a child or feel unwell.\n\nWatch for feeling dizzy or weak, and call 108 for help.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 12.59,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7023,
+    "output_tokens": 363,
+    "model_seconds": 12.57
+   }
+  },
+  {
+   "day": "2024-05-30",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Official forecasts show heat will feel very high for outdoor work in Phalodi on 30–31 May and again from 2–4 June. Seven of ten forecasts agree.\n\nPeople who must keep working: work 6–10 am and after 5 pm; shade every hour; water often.\nElderly, pregnant women, children, people who are ill: stay indoors 12–4 pm.\nHeatstroke signs: confusion, no sweating, fainting. Cool the person and call 108.\nReply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Official forecasts show heat will feel very high for outdoor work in Phalodi on 30–31 May and again from 2–4 June. Seven of ten forecasts agree.\n\nPeople who must keep working: work 6–10 am and after 5 pm; shade every hour; water often.\nElderly, pregnant women, children, people who are ill: stay indoors 12–4 pm.\nHeatstroke signs: confusion, no sweating, fainting. Cool the person and call 108.\nReply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 15.67,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 11023,
+    "output_tokens": 708,
+    "model_seconds": 15.64
+   }
+  },
+  {
+   "day": "2024-05-31",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "The weather will be very hot today and for the next few days. It may feel like 40 °C when you are outside. You could work early in the morning, from 6 am to 10 am, or late in the afternoon after 5 pm, and rest in shade every hour. Drink water often. If someone feels very confused, cannot sweat, or faints, cool them down and call 108 immediately.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The weather will be very hot today and for the next few days. It may feel like 40 °C when you are outside. You could work early in the morning, from 6 am to 10 am, or late in the afternoon after 5 pm, and rest in shade every hour. Drink water often. If someone feels very confused, cannot sweat, or faints, cool them down and call 108 immediately.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 13.2,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7359,
+    "output_tokens": 422,
+    "model_seconds": 13.17
+   }
+  },
+  {
+   "day": "2024-06-01",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Heat may feel very high in Phalodi on 2nd and 3rd. Forecasts show it could feel like 40 °C for outdoor work. You can choose to work between 6 am and 10 am or after 5 pm, rest often, and drink water. If you must stay inside from noon to 4 pm, keep cool. Watch for confusion, no sweating or fainting – cool the person and call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heat may feel very high in Phalodi on 2nd and 3rd. Forecasts show it could feel like 40 °C for outdoor work. You can choose to work between 6 am and 10 am or after 5 pm, rest often, and drink water. If you must stay inside from noon to 4 pm, keep cool. Watch for confusion, no sweating or fainting – cool the person and call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 10.77,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7300,
+    "output_tokens": 364,
+    "model_seconds": 10.74
+   }
+  }
+ ],
+ "title": "Phalodi 50 deg C, May 2024 (Rajasthan)",
+ "run_on": "2026-11-03"
+}

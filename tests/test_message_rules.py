@@ -128,3 +128,12 @@ def test_every_safe_flood_message_has_the_flood_safety_lines():
     policy = message_policy("in")
     for language, messages in policy["safe_messages"].items():
         assert "missing_flood_safety" not in rules_broken(messages["flood"], hazards=["flood"]), language
+
+
+def test_saying_it_is_not_safe_is_not_a_claim_of_safety():
+    rules = MessageRules.from_policy(message_policy("in"))
+    for text in ("It is not safe to work in the fields tomorrow. Call 108.",
+                 "It isn't safe to go out at noon. Call 108.", "It is unsafe to work at noon. Call 108."):
+        assert "claims_safe" not in [v.rule for v in check_message(text, context_from_tools([]), rules)], text
+    for text in ("It is safe to work today.", "Safe to go out; no danger."):
+        assert "claims_safe" in [v.rule for v in check_message(text, context_from_tools([]), rules)], text

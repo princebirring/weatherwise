@@ -1,0 +1,923 @@
+{
+ "event_id": "vidarbha_heat_2026_04",
+ "place": {
+  "name": "Akola",
+  "district": "Akola",
+  "state": "Maharashtra"
+ },
+ "language": "en",
+ "model_id": "us.amazon.nova-pro-v1:0",
+ "event_day": null,
+ "summary": {
+  "mornings": 45,
+  "mornings_code_flagged": 22,
+  "mornings_with_checked_message": 22,
+  "messages_delivered": 8,
+  "first_warning_day": null,
+  "days_warned_before_event": null,
+  "first_drafts_passed": 21,
+  "passed_after_send_back": 1,
+  "drafts_sent_back_by_evaluator": 1,
+  "sent_back_reasons": {
+   "internal_text": 1
+  },
+  "safe_fallbacks_used": 0,
+  "model_failures": 0,
+  "model_calls": 72,
+  "input_tokens": 55927,
+  "output_tokens": 4882,
+  "slowest_morning_seconds": 242.57,
+  "cost_usd": 0.06036
+ },
+ "mornings": [
+  {
+   "day": "2026-04-01",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-02",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-03",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-04",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-05",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-06",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-07",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-08",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-09",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-10",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-11",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-12",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-13",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-14",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-15",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-16",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-17",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-18",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-19",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-20",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-21",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-22",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-23",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-24",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Starting today and lasting until April 29, Akola faces a requires caution heat level with feels-like temperatures of 40°C. Drink plenty of water, wear loose, light clothes, and try to stay indoors during the hottest part of the day. Helpline: 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Starting today and lasting until April 29, Akola faces a requires caution heat level with feels-like temperatures of 40°C. Drink plenty of water, wear loose, light clothes, and try to stay indoors during the hottest part of the day. Helpline: 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 8.22,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 2974,
+    "output_tokens": 264,
+    "model_seconds": 8.21
+   }
+  },
+  {
+   "day": "2026-04-25",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "Starting today, take care in the heat. Work in the shade, stay hydrated, and rest often. The feels-like temperature is 40°C. If you need help, call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Starting today, take care in the heat. Work in the shade, stay hydrated, and rest often. The feels-like temperature is 40°C. If you need help, call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 33.21,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 2923,
+    "output_tokens": 210,
+    "model_seconds": 21.19
+   }
+  },
+  {
+   "day": "2026-04-26",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "Starting from today, a heatwave is expected in Akola until April 27. Stay hydrated, take breaks, and avoid outdoor activities during peak heat hours. Helpline: 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Starting from today, a heatwave is expected in Akola until April 27. Stay hydrated, take breaks, and avoid outdoor activities during peak heat hours. Helpline: 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 7.7,
+   "usage": {
+    "model_calls": 2,
+    "input_tokens": 1873,
+    "output_tokens": 150,
+    "model_seconds": 7.69
+   }
+  },
+  {
+   "day": "2026-04-27",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Today, a heat warning is in effect for Akola. Dangerous heat levels are expected. Drink plenty of water and rest in cool places. Avoid outdoor work during the hottest part of the day. Helpline: 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Today, a heat warning is in effect for Akola. Dangerous heat levels are expected. Drink plenty of water and rest in cool places. Avoid outdoor work during the hottest part of the day. Helpline: 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 5.26,
+   "usage": {
+    "model_calls": 2,
+    "input_tokens": 1886,
+    "output_tokens": 155,
+    "model_seconds": 5.25
+   }
+  },
+  {
+   "day": "2026-04-28",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "The heat is expected to reach a feels-like temperature of 40°C today and tomorrow, then again on May 2nd. Continue to take care. Stay hydrated, wear light clothing, and avoid strenuous activities during the hottest parts of the day. If you feel unwell, seek shade and rest. Helpline: 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The heat is expected to reach a feels-like temperature of 40°C today and tomorrow, then again on May 2nd. Continue to take care. Stay hydrated, wear light clothing, and avoid strenuous activities during the hottest parts of the day. If you feel unwell, seek shade and rest. Helpline: 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 74.4,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 1910,
+    "output_tokens": 172,
+    "model_seconds": 42.38
+   }
+  },
+  {
+   "day": "2026-04-29",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": "Today's heat level is high, with a feels-like temperature of 40°C. Take care during outdoor work. Stay hydrated and take regular breaks in shaded or cool areas. Avoid strenuous activities during peak heat hours. Be prepared for similar conditions on May 2nd. Helpline: 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Today's heat level is high, with a feels-like temperature of 40°C. Take care during outdoor work. Stay hydrated and take regular breaks in shaded or cool areas. Avoid strenuous activities during peak heat hours. Be prepared for similar conditions on May 2nd. Helpline: 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 14.48,
+   "usage": {
+    "model_calls": 2,
+    "input_tokens": 1906,
+    "output_tokens": 191,
+    "model_seconds": 14.45
+   }
+  },
+  {
+   "day": "2026-04-30",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "Conditions in Akola are worsening. Stay cool and hydrated. Avoid outdoor work during the hottest part of the day. Check on vulnerable individuals. Seek shade and rest if you feel unwell. Helpline: 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Conditions in Akola are worsening. Stay cool and hydrated. Avoid outdoor work during the hottest part of the day. Check on vulnerable individuals. Seek shade and rest if you feel unwell. Helpline: 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 14.95,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 1886,
+    "output_tokens": 143,
+    "model_seconds": 10.92
+   }
+  },
+  {
+   "day": "2026-05-01",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "The situation is worsening: extreme heat is now expected. You could stay hydrated, take frequent breaks, and avoid strenuous activity during peak heat. Helpline: 108\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The situation is worsening: extreme heat is now expected. You could stay hydrated, take frequent breaks, and avoid strenuous activity during peak heat. Helpline: 108",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 242.57,
+   "usage": {
+    "model_calls": 13,
+    "input_tokens": 4874,
+    "output_tokens": 444,
+    "model_seconds": 90.52
+   }
+  },
+  {
+   "day": "2026-05-02",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": "The heat hazard in Akola remains at 'take care' level with a feels-like temperature of 40°C today and again on May 7. Stay hydrated, take breaks, and avoid strenuous activities during peak heat hours. Helpline: 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The heat hazard in Akola remains at 'take care' level with a feels-like temperature of 40°C today and again on May 7. Stay hydrated, take breaks, and avoid strenuous activities during peak heat hours. Helpline: 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 4.49,
+   "usage": {
+    "model_calls": 2,
+    "input_tokens": 1896,
+    "output_tokens": 143,
+    "model_seconds": 4.47
+   }
+  },
+  {
+   "day": "2026-05-03",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "Work heat warning for Akola: Take care. Feels-like temperature is expected to reach 40°C today and tomorrow, and again on May 7th and 8th. Stay hydrated, take frequent breaks, and avoid strenuous activities during the hottest parts of the day. Helpline: 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Work heat warning for Akola: Take care. Feels-like temperature is expected to reach 40°C today and tomorrow, and again on May 7th and 8th. Stay hydrated, take frequent breaks, and avoid strenuous activities during the hottest parts of the day. Helpline: 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 5.27,
+   "usage": {
+    "model_calls": 2,
+    "input_tokens": 1906,
+    "output_tokens": 186,
+    "model_seconds": 5.25
+   }
+  },
+  {
+   "day": "2026-05-04",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": "Conditions are worsening. Dangerous heat from May 5 to May 9. Take care: limit outdoor work to morning or evening hours. Stay hydrated. Helpline: 108\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Conditions are worsening. Dangerous heat from May 5 to May 9. Take care: limit outdoor work to morning or evening hours. Stay hydrated. Helpline: 108",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 3.41,
+   "usage": {
+    "model_calls": 2,
+    "input_tokens": 1770,
+    "output_tokens": 141,
+    "model_seconds": 3.39
+   }
+  },
+  {
+   "day": "2026-05-05",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "The heat risk is worsening. From today, outdoor work is dangerous. From May 8, expect a heatwave. Stay cool, hydrated, and avoid outdoor work. Check on vulnerable people. Helpline: 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The heat risk is worsening. From today, outdoor work is dangerous. From May 8, expect a heatwave. Stay cool, hydrated, and avoid outdoor work. Check on vulnerable people. Helpline: 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 7.02,
+   "usage": {
+    "model_calls": 2,
+    "input_tokens": 1877,
+    "output_tokens": 326,
+    "model_seconds": 7.0
+   }
+  },
+  {
+   "day": "2026-05-06",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "The heat risk has increased. On 08-09 May, you might experience very hot weather with a high heat factor of 35.0 and it may feel like 43.0°C. To stay safe, consider keeping cool, drinking plenty of water, avoiding outdoor work between 11 AM and 3 PM, and checking on those who might need extra help. If you need assistance, call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The heat risk has increased. On 08-09 May, you might experience very hot weather with a high heat factor of 35.0 and it may feel like 43.0°C. To stay safe, consider keeping cool, drinking plenty of water, avoiding outdoor work between 11 AM and 3 PM, and checking on those who might need extra help. If you need assistance, call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 6.1,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3258,
+    "output_tokens": 398,
+    "model_seconds": 6.09
+   }
+  },
+  {
+   "day": "2026-05-07",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "Consider adjusting work schedules to avoid the hottest part of the day, as dangerous heat levels are expected to begin today and continue until May 12. From May 8 to May 10, a heatwave with excess heat is forecast, with temperatures reaching up to 35°C. You might want to take extra precautions to stay cool and hydrated. For assistance, contact 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Consider adjusting work schedules to avoid the hottest part of the day, as dangerous heat levels are expected to begin today and continue until May 12. From May 8 to May 10, a heatwave with excess heat is forecast, with temperatures reaching up to 35°C. You might want to take extra precautions to stay cool and hydrated. For assistance, contact 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 6.05,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3105,
+    "output_tokens": 290,
+    "model_seconds": 6.03
+   }
+  },
+  {
+   "day": "2026-05-08",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": "Dangerous heat for work. Stay cool, drink water, and avoid outdoor activities. If unwell, call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Dangerous heat for work. Stay cool, drink water, and avoid outdoor activities. If unwell, call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 8.34,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 2440,
+    "output_tokens": 76,
+    "model_seconds": 8.32
+   }
+  },
+  {
+   "day": "2026-05-09",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "The heatwave in Akola has escalated to danger levels, with feels-like temperatures reaching 43°C. Immediate precautions are crucial. Stay indoors during peak heat hours (11 AM to 4 PM). Ensure constant hydration and avoid strenuous activities. Use light, loose clothing and stay in shaded, air-conditioned areas. Check on vulnerable individuals. Seek medical help if experiencing heat-related symptoms. Helpline: 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The heatwave in Akola has escalated to danger levels, with feels-like temperatures reaching 43°C. Immediate precautions are crucial. Stay indoors during peak heat hours (11 AM to 4 PM). Ensure constant hydration and avoid strenuous activities. Use light, loose clothing and stay in shaded, air-conditioned areas. Check on vulnerable individuals. Seek medical help if experiencing heat-related symptoms. Helpline: 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 7.15,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3113,
+    "output_tokens": 237,
+    "model_seconds": 7.13
+   }
+  },
+  {
+   "day": "2026-05-10",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Stay safe from dangerous heat in Akola. Today to May 15, heat will be severe. Outdoor work is risky. Stay indoors during the hottest hours, 11 AM to 3 PM. Drink water often. Wear light clothes. Use fans or air conditioning if you can. Check on those who may need help. For emergencies, call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Stay safe from dangerous heat in Akola. Today to May 15, heat will be severe. Outdoor work is risky. Stay indoors during the hottest hours, 11 AM to 3 PM. Drink water often. Wear light clothes. Use fans or air conditioning if you can. Check on those who may need help. For emergencies, call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 8.72,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3131,
+    "output_tokens": 309,
+    "model_seconds": 8.7
+   }
+  },
+  {
+   "day": "2026-05-11",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "The heat in Akola is getting more dangerous. Consider staying indoors or taking breaks if you must be outside. Use fans or air conditioning if you can. Drink plenty of water. Check on family and friends. For help, call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The heat in Akola is getting more dangerous. Consider staying indoors or taking breaks if you must be outside. Use fans or air conditioning if you can. Drink plenty of water. Check on family and friends. For help, call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 5.75,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3151,
+    "output_tokens": 252,
+    "model_seconds": 5.73
+   }
+  },
+  {
+   "day": "2026-05-12",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "The heat warning for Akola remains severe, with a feels-like temperature of 43°C. Stay indoors during the hottest part of the day (11 AM to 4 PM). Drink plenty of water. Avoid strenuous outdoor activities. Seek shade and rest if you feel unwell. Helpline: 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The heat warning for Akola remains severe, with a feels-like temperature of 43°C. Stay indoors during the hottest part of the day (11 AM to 4 PM). Drink plenty of water. Avoid strenuous outdoor activities. Seek shade and rest if you feel unwell. Helpline: 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 4.34,
+   "usage": {
+    "model_calls": 2,
+    "input_tokens": 1897,
+    "output_tokens": 132,
+    "model_seconds": 4.32
+   }
+  },
+  {
+   "day": "2026-05-13",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "The heat wave has reached high levels. Today, outdoor work is risky. Avoid working from 11am to 4pm. Stay hydrated. Helpline: 108\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The heat wave has reached high levels. Today, outdoor work is risky. Avoid working from 11am to 4pm. Stay hydrated. Helpline: 108",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 6.86,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3131,
+    "output_tokens": 216,
+    "model_seconds": 6.84
+   }
+  },
+  {
+   "day": "2026-05-14",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "Starting from today, a dangerous heat wave is affecting Akola. With temperatures exceeding 35°C, it's critical to avoid outdoor activities during peak heat hours (11 AM to 4 PM). Stay hydrated, wear light clothing, and take frequent breaks if working outdoors. For immediate assistance, call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Starting from today, a dangerous heat wave is affecting Akola. With temperatures exceeding 35°C, it's critical to avoid outdoor activities during peak heat hours (11 AM to 4 PM). Stay hydrated, wear light clothing, and take frequent breaks if working outdoors. For immediate assistance, call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 7.89,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3131,
+    "output_tokens": 264,
+    "model_seconds": 7.87
+   }
+  },
+  {
+   "day": "2026-05-15",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Akola is experiencing a heatwave from May 15 to May 18. Take care as feels-like temperatures will reach 40°C, posing risks for outdoor work. Stay hydrated and avoid strenuous activities during peak heat hours. Helpline: 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Akola is experiencing a heatwave from May 15 to May 18. Take care as feels-like temperatures will reach 40°C, posing risks for outdoor work. Stay hydrated and avoid strenuous activities during peak heat hours. Helpline: 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 9.74,
+   "usage": {
+    "model_calls": 2,
+    "input_tokens": 1889,
+    "output_tokens": 183,
+    "model_seconds": 9.73
+   }
+  }
+ ],
+ "title": "Vidarbha heat wave, April 2026 (Akola)",
+ "run_on": "2026-11-03"
+}

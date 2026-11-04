@@ -59,6 +59,17 @@ class MessageRules:
         )
 
 
+# "It is not safe to work" and "unsafe to work" are the right answer, not a claim of safety
+# (Nov 3 2026: live chat blocked "not safe to work" until the request timed out).
+NEGATION = re.compile(r"(\bnot|\bnever|n't|\bno longer)\s+$|\w$")
+
+
+def claims(phrase: str, low: str) -> bool:
+    """True if the text says the phrase itself, not its negation."""
+    return any(not NEGATION.search(low[max(0, m.start() - 12):m.start()])
+               for m in re.finditer(re.escape(phrase), low))
+
+
 def numbers_in(text: str, rules: "MessageRules | None" = None) -> list[float]:
     """Numbers that carry a weather or distance unit (deg C, mm, km, %, m3/s, or a unit word
     such as "अंश" or "प्रतिशत" from the language files)."""
@@ -114,7 +125,7 @@ def check_message(text: str, ctx: MessageContext, rules: MessageRules) -> list[V
             found.append(Violation("banned_phrase", repr(p)))
 
     for p in rules.claims_safe:
-        if p.lower() in low:
+        if claims(p.lower(), low):
             found.append(Violation("claims_safe", f"never tell someone they are safe ({p!r}); "
                                                   "give the facts and what they could do"))
 
