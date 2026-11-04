@@ -37,8 +37,10 @@ export const TEAM: Member[] = [
 ]
 
 export const REPO = 'https://github.com/princebirring/weatherwise'
-// The 3-minute submission video (YouTube), shown under the hero.
-export const VIDEO_ID = 'g6umKXXggMU'
+// The 3-minute submission video, shown under the hero. Served from this site, not YouTube,
+// so it always plays at full 1080p instead of YouTube's quality guess.
+export const VIDEO_SRC = '/video/weatherwise.mp4'
+export const VIDEO_COVER = '/video/weatherwise-cover.jpg'
 export const LICENSE_URL = `${REPO}/blob/main/LICENSE`
 // The replay and checker results the site's numbers come from.
 export const RESULTS_URL = `${REPO}/tree/main/evals/results`
