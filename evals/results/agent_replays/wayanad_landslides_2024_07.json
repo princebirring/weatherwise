@@ -1,0 +1,306 @@
+{
+ "event_id": "wayanad_landslides_2024_07",
+ "place": {
+  "name": "Meppadi",
+  "district": "Wayanad",
+  "state": "Kerala"
+ },
+ "language": "en",
+ "model_id": "us.amazon.nova-pro-v1:0",
+ "event_day": "2024-07-30",
+ "summary": {
+  "mornings": 15,
+  "mornings_code_flagged": 0,
+  "mornings_with_checked_message": 0,
+  "messages_delivered": 0,
+  "first_warning_day": null,
+  "days_warned_before_event": null,
+  "first_drafts_passed": 0,
+  "passed_after_send_back": 0,
+  "drafts_sent_back_by_evaluator": 0,
+  "sent_back_reasons": {},
+  "safe_fallbacks_used": 0,
+  "model_failures": 0,
+  "model_calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "slowest_morning_seconds": 0.0,
+  "cost_usd": 0.0
+ },
+ "mornings": [
+  {
+   "day": "2024-07-20",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-21",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-22",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-23",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-24",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-25",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-26",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-27",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-28",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-29",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-30",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-31",
+   "code_flagged": null,
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-01",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-02",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-03",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  }
+ ],
+ "title": "Wayanad landslides, July 30, 2024 (Kerala)",
+ "run_on": "2026-11-03"
+}

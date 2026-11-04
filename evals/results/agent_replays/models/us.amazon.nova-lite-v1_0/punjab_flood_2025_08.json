@@ -1,0 +1,510 @@
+{
+ "event_id": "punjab_flood_2025_08",
+ "place": {
+  "name": "Gurdaspur",
+  "district": "Gurdaspur",
+  "state": "Punjab"
+ },
+ "language": "en",
+ "model_id": "us.amazon.nova-lite-v1:0",
+ "event_day": "2025-08-26",
+ "summary": {
+  "mornings": 22,
+  "mornings_code_flagged": 13,
+  "mornings_with_checked_message": 13,
+  "messages_delivered": 8,
+  "first_warning_day": "2025-08-21",
+  "days_warned_before_event": 5,
+  "first_drafts_passed": 0,
+  "passed_after_send_back": 13,
+  "drafts_sent_back_by_evaluator": 13,
+  "sent_back_reasons": {
+   "internal_text": 13,
+   "missing_helpline": 6,
+   "missing_flood_safety": 2,
+   "too_long": 1,
+   "unsafe_high_ground": 1
+  },
+  "safe_fallbacks_used": 0,
+  "model_failures": 0,
+  "model_calls": 67,
+  "input_tokens": 67726,
+  "output_tokens": 7563,
+  "slowest_morning_seconds": 11.17,
+  "cost_usd": 0.00588
+ },
+ "mornings": [
+  {
+   "day": "2025-08-15",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-16",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-17",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-18",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-19",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-20",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-21",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "Be cautious of a hot day on 2025-08-22 in Gurdaspur. The temperature will feel like 40°C for outdoor work. Follow our early signal; trust IMD for official warnings. Work early or late, take breaks in the shade, and stay hydrated. The elderly, pregnant women, children, and the ill should stay indoors from 12 to 4 pm. Provide shade and extra water for cattle and poultry. Watch for heatstroke signs like confusion, no sweating, or fainting. Cool the person and call 108 if needed. Reply SHELTER to find the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Be cautious of a hot day on 2025-08-22 in Gurdaspur. The temperature will feel like 40°C for outdoor work. Follow our early signal; trust IMD for official warnings. Work early or late, take breaks in the shade, and stay hydrated. The elderly, pregnant women, children, and the ill should stay indoors from 12 to 4 pm. Provide shade and extra water for cattle and poultry. Watch for heatstroke signs like confusion, no sweating, or fainting. Cool the person and call 108 if needed. Reply SHELTER to find the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "too_long"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 6.12,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 5957,
+    "output_tokens": 669,
+    "model_seconds": 6.11
+   }
+  },
+  {
+   "day": "2025-08-22",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": "Extreme heat alert for Gurdaspur today, August 22, 2025. Temperatures will feel like 40°C. Avoid outdoor work if possible. Stay hydrated. For emergencies, call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Extreme heat alert for Gurdaspur today, August 22, 2025. Temperatures will feel like 40°C. Avoid outdoor work if possible. Stay hydrated. For emergencies, call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 7.01,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 6078,
+    "output_tokens": 887,
+    "model_seconds": 6.98
+   }
+  },
+  {
+   "day": "2025-08-23",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-24",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-25",
+   "code_flagged": null,
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-26",
+   "code_flagged": "flood",
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": "Unusual rain expected in Gurdaspur today. Stay away from rivers; never cross flowing water. Call 1077 or 112 for help.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Unusual rain expected in Gurdaspur today. Stay away from rivers; never cross flowing water. Call 1077 or 112 for help.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "missing_helpline",
+     "missing_helpline",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 5.16,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 6188,
+    "output_tokens": 540,
+    "model_seconds": 5.14
+   }
+  },
+  {
+   "day": "2025-08-27",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Flood warning for Gurdaspur. Heavy rain is expected. Stay away from rivers and never cross flowing water. Contact helplines 1077 or 112 if needed.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Flood warning for Gurdaspur. Heavy rain is expected. Stay away from rivers and never cross flowing water. Contact helplines 1077 or 112 if needed.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 4.55,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 4478,
+    "output_tokens": 371,
+    "model_seconds": 4.52
+   }
+  },
+  {
+   "day": "2025-08-28",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Flood warning for Gurdaspur. Stay away from rivers. Do not cross flowing water. Helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Flood warning for Gurdaspur. Stay away from rivers. Do not cross flowing water. Helplines: 1077, 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 5.42,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 5606,
+    "output_tokens": 663,
+    "model_seconds": 5.4
+   }
+  },
+  {
+   "day": "2025-08-29",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "A flood is expected in Gurdaspur. Stay away from rivers and never cross flowing water. Move to higher ground, away from hill slopes. Helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "A flood is expected in Gurdaspur. Stay away from rivers and never cross flowing water. Move to higher ground, away from hill slopes. Helplines: 1077, 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "unsafe_high_ground"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 5.18,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 4797,
+    "output_tokens": 567,
+    "model_seconds": 5.16
+   }
+  },
+  {
+   "day": "2025-08-30",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "A flood alert is in effect for Gurdaspur. Stay away from rivers and never cross flowing water. Keep essential items and documents handy. Contact 1077 or 112 if you need help.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "A flood alert is in effect for Gurdaspur. Stay away from rivers and never cross flowing water. Keep essential items and documents handy. Contact 1077 or 112 if you need help.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 3.92,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 4930,
+    "output_tokens": 379,
+    "model_seconds": 3.89
+   }
+  },
+  {
+   "day": "2025-08-31",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "A flood signal is active for Gurdaspur. Stay away from rivers and never cross flowing water. Contact helplines 1077 or 112 for more information.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "A flood signal is active for Gurdaspur. Stay away from rivers and never cross flowing water. Contact helplines 1077 or 112 for more information.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "missing_helpline",
+     "missing_helpline",
+     "missing_flood_safety",
+     "missing_flood_safety"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 2.46,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 3852,
+    "output_tokens": 157,
+    "model_seconds": 2.44
+   }
+  },
+  {
+   "day": "2025-09-01",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "\nHeavy rain is expected in Gurdaspur on September 2, 2025. Stay away from rivers and avoid crossing flowing water. Contact 1077 or 112 if you need help.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "\nHeavy rain is expected in Gurdaspur on September 2, 2025. Stay away from rivers and avoid crossing flowing water. Contact 1077 or 112 if you need help.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 11.17,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 5547,
+    "output_tokens": 1440,
+    "model_seconds": 11.15
+   }
+  },
+  {
+   "day": "2025-09-02",
+   "code_flagged": "flood",
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": "Heavy rain is expected in Gurdaspur today. Stay away from rivers and never cross flowing water. Helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain is expected in Gurdaspur today. Stay away from rivers and never cross flowing water. Helplines: 1077, 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 4.23,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 4892,
+    "output_tokens": 397,
+    "model_seconds": 4.2
+   }
+  },
+  {
+   "day": "2025-09-03",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Heavy rain and potential flooding are expected in Gurdaspur. Stay away from rivers; never cross flowing water. Keep emergency helplines 1077 and 112 handy.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain and potential flooding are expected in Gurdaspur. Stay away from rivers; never cross flowing water. Keep emergency helplines 1077 and 112 handy.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 5.92,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 4737,
+    "output_tokens": 499,
+    "model_seconds": 5.89
+   }
+  },
+  {
+   "day": "2025-09-04",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Heavy rains expected in Gurdaspur. Stay away from rivers; avoid crossing flowing water. Contact helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rains expected in Gurdaspur. Stay away from rivers; avoid crossing flowing water. Contact helplines: 1077, 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 5.17,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 5718,
+    "output_tokens": 566,
+    "model_seconds": 5.15
+   }
+  },
+  {
+   "day": "2025-09-05",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "A flood warning for Gurdaspur: Stay safe by avoiding rivers and never crossing flowing water. Follow local updates, secure your home, and contact 1077 or 112 for emergencies.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "A flood warning for Gurdaspur: Stay safe by avoiding rivers and never crossing flowing water. Follow local updates, secure your home, and contact 1077 or 112 for emergencies.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 4.2,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 4946,
+    "output_tokens": 428,
+    "model_seconds": 4.18
+   }
+  }
+ ],
+ "title": "Punjab floods, Aug-Sep 2025 (Gurdaspur)",
+ "run_on": "2026-11-03"
+}

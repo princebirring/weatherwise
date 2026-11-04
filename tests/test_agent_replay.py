@@ -37,6 +37,7 @@ def test_every_morning_code_flagged_gets_a_checked_message_and_quiet_mornings_co
     assert all(m.usage["model_calls"] == 0 for m in result.mornings if not m.code_flagged)
     assert model.calls == s["model_calls"] == len(flagged)  # one draft each, nothing sent back
     assert s["drafts_sent_back_by_evaluator"] == 0 and s["safe_fallbacks_used"] == 0
+    assert s["first_drafts_passed"] == len(flagged) and s["passed_after_send_back"] == 0
 
 
 def test_the_per_event_limit_holds_across_the_replay():
@@ -50,4 +51,6 @@ def test_unsafe_drafts_are_sent_back_and_logged_then_the_safe_message_goes_out()
     first = next(m for m in result.mornings if m.code_flagged)
     assert first.used_fallback and len(first.evaluator_sent_back) == 3
     assert any("high_ground" in rule or "number" in rule for rule in first.evaluator_sent_back[0])
-    assert result.summary()["drafts_sent_back_by_evaluator"] == 3
+    s = result.summary()
+    assert s["drafts_sent_back_by_evaluator"] == 3 and s["first_drafts_passed"] == s["mornings_code_flagged"] - 1
+    assert s["passed_after_send_back"] == 0 and sum(s["sent_back_reasons"].values()) >= 3

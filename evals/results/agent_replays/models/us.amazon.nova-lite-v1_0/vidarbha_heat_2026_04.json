@@ -1,0 +1,1026 @@
+{
+ "event_id": "vidarbha_heat_2026_04",
+ "place": {
+  "name": "Akola",
+  "district": "Akola",
+  "state": "Maharashtra"
+ },
+ "language": "en",
+ "model_id": "us.amazon.nova-lite-v1:0",
+ "event_day": null,
+ "summary": {
+  "mornings": 45,
+  "mornings_code_flagged": 22,
+  "mornings_with_checked_message": 22,
+  "messages_delivered": 8,
+  "first_warning_day": null,
+  "days_warned_before_event": null,
+  "first_drafts_passed": 0,
+  "passed_after_send_back": 22,
+  "drafts_sent_back_by_evaluator": 25,
+  "sent_back_reasons": {
+   "internal_text": 22,
+   "missing_helpline": 7,
+   "too_long": 2,
+   "unsupported_number": 1
+  },
+  "safe_fallbacks_used": 0,
+  "model_failures": 0,
+  "model_calls": 129,
+  "input_tokens": 155456,
+  "output_tokens": 19755,
+  "slowest_morning_seconds": 12.89,
+  "cost_usd": 0.01407
+ },
+ "mornings": [
+  {
+   "day": "2026-04-01",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-02",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-03",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-04",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-05",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-06",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-07",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-08",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-09",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-10",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-11",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-12",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-13",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-14",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-15",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-16",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-17",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-18",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-19",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-20",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-21",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-22",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-23",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2026-04-24",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Heat warning for Akola from 2026-04-24 to 2026-04-29. It will feel very hot, up to 40°C, for outdoor work. Take care: work early and late, rest and drink water often. If you must work, do so from 6-10 am and after 5 pm, take shade every hour, and drink water often. If you are elderly, pregnant, a child, or ill, stay indoors from 12-4 pm. If you have cattle or poultry, give them extra shade and water. If someone shows signs of heatstroke (confusion, no sweating, fainting), cool them down and call 108. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heat warning for Akola from 2026-04-24 to 2026-04-29. It will feel very hot, up to 40°C, for outdoor work. Take care: work early and late, rest and drink water often. If you must work, do so from 6-10 am and after 5 pm, take shade every hour, and drink water often. If you are elderly, pregnant, a child, or ill, stay indoors from 12-4 pm. If you have cattle or poultry, give them extra shade and water. If someone shows signs of heatstroke (confusion, no sweating, fainting), cool them down and call 108. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 9.58,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 7459,
+    "output_tokens": 1349,
+    "model_seconds": 9.57
+   }
+  },
+  {
+   "day": "2026-04-25",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "High temperatures expected in Akola from 2026-04-25 to 2026-04-30. It will feel like 40°C for outdoor work. Take care by working early and late, resting, and drinking water often. Stay indoors from 12 to 4 pm if you are elderly, pregnant, a child, or ill. Cattle and poultry need extra shade and water. Signs of heatstroke include confusion, no sweating, and fainting. Call 108 for help. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "High temperatures expected in Akola from 2026-04-25 to 2026-04-30. It will feel like 40°C for outdoor work. Take care by working early and late, resting, and drinking water often. Stay indoors from 12 to 4 pm if you are elderly, pregnant, a child, or ill. Cattle and poultry need extra shade and water. Signs of heatstroke include confusion, no sweating, and fainting. Call 108 for help. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 5.68,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 5860,
+    "output_tokens": 665,
+    "model_seconds": 5.67
+   }
+  },
+  {
+   "day": "2026-04-26",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "Heat warnings for Akola from April 26-29. It will feel very hot, up to 40°C, and we're very sure about this. For outdoor workers, it's best to work early and late, take breaks, and drink plenty of water. If you must work outside, do so from 6-10 am and after 5 pm, take shade breaks, and stay hydrated. Older people, pregnant women, children, and those who are ill should stay indoors between noon and 4 pm. If you have cattle or poultry, provide them with shade and extra water. If someone shows signs of heatstroke like confusion or fainting, cool them down and call 108. Reply SHELTER to find the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heat warnings for Akola from April 26-29. It will feel very hot, up to 40°C, and we're very sure about this. For outdoor workers, it's best to work early and late, take breaks, and drink plenty of water. If you must work outside, do so from 6-10 am and after 5 pm, take shade breaks, and stay hydrated. Older people, pregnant women, children, and those who are ill should stay indoors between noon and 4 pm. If you have cattle or poultry, provide them with shade and extra water. If someone shows signs of heatstroke like confusion or fainting, cool them down and call 108. Reply SHELTER to find the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 8.28,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 7019,
+    "output_tokens": 1184,
+    "model_seconds": 8.26
+   }
+  },
+  {
+   "day": "2026-04-27",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "High temperatures expected in Akola from 2026-04-27 to 2026-04-29 and 2026-05-01 to 2026-05-02. It will feel very hot for outdoor work with temperatures up to 40°C. Take care by working early and late, resting often, and drinking plenty of water. If you must work outdoors, take shade breaks every hour. Elderly, pregnant women, children, and those who are ill should stay indoors from noon to 4 PM. For cattle and poultry, provide extra shade and water. If you see signs of too much heat like confusion, no sweating, or fainting, cool the person and call 108. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "High temperatures expected in Akola from 2026-04-27 to 2026-04-29 and 2026-05-01 to 2026-05-02. It will feel very hot for outdoor work with temperatures up to 40°C. Take care by working early and late, resting often, and drinking plenty of water. If you must work outdoors, take shade breaks every hour. Elderly, pregnant women, children, and those who are ill should stay indoors from noon to 4 PM. For cattle and poultry, provide extra shade and water. If you see signs of too much heat like confusion, no sweating, or fainting, cool the person and call 108. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 8.5,
+   "usage": {
+    "model_calls": 7,
+    "input_tokens": 9106,
+    "output_tokens": 1147,
+    "model_seconds": 8.48
+   }
+  },
+  {
+   "day": "2026-04-28",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Due to high temperatures, take extra care when working outdoors from April 28 to April 29 and on May 2. Drink plenty of water, rest often, and wear light clothing. Avoid the hottest part of the day. If you feel unwell, contact the heat helpline at 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Due to high temperatures, take extra care when working outdoors from April 28 to April 29 and on May 2. Drink plenty of water, rest often, and wear light clothing. Avoid the hottest part of the day. If you feel unwell, contact the heat helpline at 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 4.38,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 6013,
+    "output_tokens": 448,
+    "model_seconds": 4.36
+   }
+  },
+  {
+   "day": "2026-04-29",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": "Extreme heat is expected today and on May 2. Stay hydrated, take breaks, and avoid strenuous tasks. If you feel unwell, call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Extreme heat is expected today and on May 2. Stay hydrated, take breaks, and avoid strenuous tasks. If you feel unwell, call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 5.18,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 6219,
+    "output_tokens": 611,
+    "model_seconds": 5.15
+   }
+  },
+  {
+   "day": "2026-04-30",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "The forecast shows high heat in Akola on 2026-04-30. It feels like 40°C for outdoor work. Take care: work early and late, rest and drink water often. Elderly, pregnant women, children, and ill people should stay indoors from 12-4 pm. Cattle and poultry need shade and extra water. If anyone shows confusion, no sweating, or fainting, cool them and call 108. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The forecast shows high heat in Akola on 2026-04-30. It feels like 40°C for outdoor work. Take care: work early and late, rest and drink water often. Elderly, pregnant women, children, and ill people should stay indoors from 12-4 pm. Cattle and poultry need shade and extra water. If anyone shows confusion, no sweating, or fainting, cool them and call 108. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 11.4,
+   "usage": {
+    "model_calls": 7,
+    "input_tokens": 9749,
+    "output_tokens": 1683,
+    "model_seconds": 11.37
+   }
+  },
+  {
+   "day": "2026-05-01",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "Very high temperatures expected, feeling up to 40°C for outdoor work. Take care by working early and late, resting often, and staying hydrated. The elderly, pregnant women, children, and those who are ill should avoid being outside between 12 pm and 4 pm. Cattle and poultry need shade and extra water. Signs of heatstroke include confusion, lack of sweating, and fainting. If you notice these signs, cool the person and call 108. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Very high temperatures expected, feeling up to 40°C for outdoor work. Take care by working early and late, resting often, and staying hydrated. The elderly, pregnant women, children, and those who are ill should avoid being outside between 12 pm and 4 pm. Cattle and poultry need shade and extra water. Signs of heatstroke include confusion, lack of sweating, and fainting. If you notice these signs, cool the person and call 108. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 8.21,
+   "usage": {
+    "model_calls": 7,
+    "input_tokens": 8675,
+    "output_tokens": 1175,
+    "model_seconds": 8.18
+   }
+  },
+  {
+   "day": "2026-05-02",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": "Akola faces a high heat warning from May 2-3. Temperatures will feel like 40°C. Take care with outdoor work. Work early and late, rest often, and drink water. If you must work, do so between 6-10 am and after 5 pm. Seek shade every hour. Elderly, pregnant women, children, and those ill should stay indoors from 12-4 pm. Provide shade and extra water for cattle and poultry. Look out for heatstroke signs: confusion, no sweating, fainting. Cool the person and call 108 if needed. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Akola faces a high heat warning from May 2-3. Temperatures will feel like 40°C. Take care with outdoor work. Work early and late, rest often, and drink water. If you must work, do so between 6-10 am and after 5 pm. Seek shade every hour. Elderly, pregnant women, children, and those ill should stay indoors from 12-4 pm. Provide shade and extra water for cattle and poultry. Look out for heatstroke signs: confusion, no sweating, fainting. Cool the person and call 108 if needed. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 8.98,
+   "usage": {
+    "model_calls": 8,
+    "input_tokens": 10136,
+    "output_tokens": 1156,
+    "model_seconds": 8.94
+   }
+  },
+  {
+   "day": "2026-05-03",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "High temperatures expected in Akola from 2026-05-03 to 2026-05-04. It will feel like 40°C for outdoor work. Take care by working early and late, resting often, and drinking water. Stay indoors from 12-4 pm if you're elderly, pregnant, a child, or ill. Ensure cattle and poultry have shade and extra water. Look out for heatstroke signs like confusion or fainting, and call 108 if needed. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "High temperatures expected in Akola from 2026-05-03 to 2026-05-04. It will feel like 40°C for outdoor work. Take care by working early and late, resting often, and drinking water. Stay indoors from 12-4 pm if you're elderly, pregnant, a child, or ill. Ensure cattle and poultry have shade and extra water. Look out for heatstroke signs like confusion or fainting, and call 108 if needed. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "too_long"
+    ],
+    [
+     "unsupported_number"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 7.83,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 6883,
+    "output_tokens": 946,
+    "model_seconds": 7.8
+   }
+  },
+  {
+   "day": "2026-05-04",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": "Extreme heat expected in Akola from 2026-05-05 to 2026-05-09. Stay safe: avoid outdoor work, stay hydrated, and wear light clothing. If feeling unwell, contact helpline 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Extreme heat expected in Akola from 2026-05-05 to 2026-05-09. Stay safe: avoid outdoor work, stay hydrated, and wear light clothing. If feeling unwell, contact helpline 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 6.79,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 5890,
+    "output_tokens": 751,
+    "model_seconds": 6.76
+   }
+  },
+  {
+   "day": "2026-05-05",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "Dangerous heat expected in Akola from May 5 to May 10. Feels like 43°C for outdoor work. From May 8, extreme heat with a peak of 35°C. Avoid working outside between noon and 4 PM. Stay hydrated and rest often. If alone, check on others. Elderly, pregnant women, children, and the ill should stay indoors. Livestock needs shade and extra water. Signs of heatstroke include confusion, no sweating, and fainting. Seek cool shelter and call 108 if needed.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Dangerous heat expected in Akola from May 5 to May 10. Feels like 43°C for outdoor work. From May 8, extreme heat with a peak of 35°C. Avoid working outside between noon and 4 PM. Stay hydrated and rest often. If alone, check on others. Elderly, pregnant women, children, and the ill should stay indoors. Livestock needs shade and extra water. Signs of heatstroke include confusion, no sweating, and fainting. Seek cool shelter and call 108 if needed.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "too_long"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 8.03,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 8092,
+    "output_tokens": 1045,
+    "model_seconds": 8.0
+   }
+  },
+  {
+   "day": "2026-05-06",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "Dangerous heat expected in Akola from May 7 to May 11. Temperatures will feel very hot for outdoor work, up to 43°C. 7 of 10 forecasts agree. Follow IMD warnings if issued.\n\nWork early or late, rest often, drink water. If working is unavoidable, take breaks in the shade. Elderly, pregnant women, children, and the ill should stay indoors from 12 to 4 pm.\n\nFor cattle and poultry, ensure they have shade and extra water. Signs of heatstroke include confusion, no sweating, and fainting. Cool the person and call 108.\n\nReply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Dangerous heat expected in Akola from May 7 to May 11. Temperatures will feel very hot for outdoor work, up to 43°C. 7 of 10 forecasts agree. Follow IMD warnings if issued.\n\nWork early or late, rest often, drink water. If working is unavoidable, take breaks in the shade. Elderly, pregnant women, children, and the ill should stay indoors from 12 to 4 pm.\n\nFor cattle and poultry, ensure they have shade and extra water. Signs of heatstroke include confusion, no sweating, and fainting. Cool the person and call 108.\n\nReply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 4.85,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 6190,
+    "output_tokens": 619,
+    "model_seconds": 4.82
+   }
+  },
+  {
+   "day": "2026-05-07",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "Extreme heat is forecasted for Akola from 2026-05-07 to 2026-05-12. Take breaks, stay hydrated, and avoid outdoor work during peak heat. If you need help, call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Extreme heat is forecasted for Akola from 2026-05-07 to 2026-05-12. Take breaks, stay hydrated, and avoid outdoor work during peak heat. If you need help, call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 5.92,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 5061,
+    "output_tokens": 677,
+    "model_seconds": 5.9
+   }
+  },
+  {
+   "day": "2026-05-08",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": "A heat wave is expected in Akola from 2026-05-08 to 2026-05-13. The feels-like temperature will be 43°C. The heatwave is very likely (80% agreement). Avoid outdoor work from 12 to 4 pm. If working outdoors, take breaks in the shade and drink water often. Stay indoors if you are elderly, pregnant, a child, or ill. Ensure cattle and poultry have shade and extra water. Watch for signs of heatstroke: confusion, no sweating, fainting. If someone shows these signs, cool them down and call 108. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "A heat wave is expected in Akola from 2026-05-08 to 2026-05-13. The feels-like temperature will be 43°C. The heatwave is very likely (80% agreement). Avoid outdoor work from 12 to 4 pm. If working outdoors, take breaks in the shade and drink water often. Stay indoors if you are elderly, pregnant, a child, or ill. Ensure cattle and poultry have shade and extra water. Watch for signs of heatstroke: confusion, no sweating, fainting. If someone shows these signs, cool them down and call 108. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 4.62,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 6247,
+    "output_tokens": 572,
+    "model_seconds": 4.6
+   }
+  },
+  {
+   "day": "2026-05-09",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "\n\nDangerous heat expected in Akola from 2026-05-09 to 2026-05-12 with temperatures reaching 43°C. Avoid outdoor work if possible. If working outside, take breaks in shaded or cool areas, stay hydrated, and wear light clothing. If heat-related symptoms appear, seek help immediately. Call 108 for assistance.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "\n\nDangerous heat expected in Akola from 2026-05-09 to 2026-05-12 with temperatures reaching 43°C. Avoid outdoor work if possible. If working outside, take breaks in shaded or cool areas, stay hydrated, and wear light clothing. If heat-related symptoms appear, seek help immediately. Call 108 for assistance.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "missing_helpline"
+    ],
+    [
+     "missing_helpline"
+    ],
+    [
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 9.17,
+   "usage": {
+    "model_calls": 10,
+    "input_tokens": 11024,
+    "output_tokens": 1107,
+    "model_seconds": 9.14
+   }
+  },
+  {
+   "day": "2026-05-10",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Dangerous heat is expected in Akola from 2026-05-10 to 2026-05-15. Avoid outdoor activities, drink plenty of water, and take breaks in cooler areas. If feeling unwell, contact the helpline at 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Dangerous heat is expected in Akola from 2026-05-10 to 2026-05-15. Avoid outdoor activities, drink plenty of water, and take breaks in cooler areas. If feeling unwell, contact the helpline at 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 5.32,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 6073,
+    "output_tokens": 661,
+    "model_seconds": 5.3
+   }
+  },
+  {
+   "day": "2026-05-11",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "Heat wave alert for Akola from May 11 to May 16. Temperatures feel like 43°C for outdoor work, severe heat expected until May 14. Avoid outdoor work from 12 pm to 4 pm; check on those working alone. Drink water often, rest in the shade. Elderly, pregnant women, children, and those ill should stay indoors 12 pm to 4 pm. Provide shade and extra water to cattle and poultry. Signs of heatstroke include confusion, no sweating, fainting. Seek help immediately. Reply SHELTER for the nearest cooling place. Call 108 for help.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heat wave alert for Akola from May 11 to May 16. Temperatures feel like 43°C for outdoor work, severe heat expected until May 14. Avoid outdoor work from 12 pm to 4 pm; check on those working alone. Drink water often, rest in the shade. Elderly, pregnant women, children, and those ill should stay indoors 12 pm to 4 pm. Provide shade and extra water to cattle and poultry. Signs of heatstroke include confusion, no sweating, fainting. Seek help immediately. Reply SHELTER for the nearest cooling place. Call 108 for help.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 6.05,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 6724,
+    "output_tokens": 864,
+    "model_seconds": 6.02
+   }
+  },
+  {
+   "day": "2026-05-12",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "High temperatures expected in Akola from 2026-05-12 to 2026-05-17. Feels like 43°C for outdoor work. It's very dangerous to work in the heat. Stay indoors from 12 to 4 pm, especially the elderly, pregnant women, children, and the ill. If working outdoors, take breaks in the shade and drink plenty of water. Look out for signs of heatstroke: confusion, no sweating, fainting. For help, call 108. Reply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "High temperatures expected in Akola from 2026-05-12 to 2026-05-17. Feels like 43°C for outdoor work. It's very dangerous to work in the heat. Stay indoors from 12 to 4 pm, especially the elderly, pregnant women, children, and the ill. If working outdoors, take breaks in the shade and drink plenty of water. Look out for signs of heatstroke: confusion, no sweating, fainting. For help, call 108. Reply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 5.86,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 5486,
+    "output_tokens": 803,
+    "model_seconds": 5.84
+   }
+  },
+  {
+   "day": "2026-05-13",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "Warning for Akola: Dangerous heat from 2026-05-13 to 2026-05-18. Feels like 43°C for outdoor work. Our forecast agrees 83%. Avoid outdoor work 12-4 pm; rest often, drink water. Elderly, children, pregnant women, and ill should stay indoors during peak heat. Cattle and poultry need shade and extra water. Heatstroke signs: confusion, no sweating, fainting. Cool and call 108. Reply SHELTER for cooling places.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Warning for Akola: Dangerous heat from 2026-05-13 to 2026-05-18. Feels like 43°C for outdoor work. Our forecast agrees 83%. Avoid outdoor work 12-4 pm; rest often, drink water. Elderly, children, pregnant women, and ill should stay indoors during peak heat. Cattle and poultry need shade and extra water. Heatstroke signs: confusion, no sweating, fainting. Cool and call 108. Reply SHELTER for cooling places.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 4.28,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 5408,
+    "output_tokens": 541,
+    "model_seconds": 4.26
+   }
+  },
+  {
+   "day": "2026-05-14",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "work_heat:danger",
+    "excess_heat"
+   ],
+   "message": "Akola faces high temperatures from today until May 17. Stay hydrated, take breaks, and avoid outdoor work if possible. For assistance, call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Akola faces high temperatures from today until May 17. Stay hydrated, take breaks, and avoid outdoor work if possible. For assistance, call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "missing_helpline"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 1.97,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3224,
+    "output_tokens": 205,
+    "model_seconds": 1.95
+   }
+  },
+  {
+   "day": "2026-05-15",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care",
+    "excess_heat"
+   ],
+   "message": "High heat expected in Akola from 2026-05-15 to 2026-05-20. Feels like 40°C for outdoor work. Take care:\n- Work early and late, rest often.\n- Drink water regularly.\nElderly, pregnant women, children, and those ill: stay indoors from 12-4 pm.\nCattle and poultry: provide shade and extra water.\nWatch for heatstroke signs: confusion, no sweating, fainting. Cool the person and call 108.\nReply SHELTER for the nearest cooling place.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "High heat expected in Akola from 2026-05-15 to 2026-05-20. Feels like 40°C for outdoor work. Take care:\n- Work early and late, rest often.\n- Drink water regularly.\nElderly, pregnant women, children, and those ill: stay indoors from 12-4 pm.\nCattle and poultry: provide shade and extra water.\nWatch for heatstroke signs: confusion, no sweating, fainting. Cool the person and call 108.\nReply SHELTER for the nearest cooling place.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 12.89,
+   "usage": {
+    "model_calls": 7,
+    "input_tokens": 8918,
+    "output_tokens": 1546,
+    "model_seconds": 12.86
+   }
+  }
+ ],
+ "title": "Vidarbha heat wave, April 2026 (Akola)",
+ "run_on": "2026-11-03"
+}

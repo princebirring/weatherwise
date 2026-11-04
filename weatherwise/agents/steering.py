@@ -17,11 +17,15 @@ from pydantic import BaseModel, Field
 from strands import Agent
 from strands.vended_plugins.steering import Guide, Proceed, SteeringHandler
 
+from weatherwise.agents.hooks import TurnClock
 from weatherwise.agents.message_rules import MessageContext, MessageRules, check_message, collect_numbers
 
 MAX_REWRITES = 2
 # The person reads the rewrite as-is, so no "Here's the revised response:" in front of it.
-ONLY_THE_MESSAGE = "Write only the new message for the person; do not say that it was rewritten."
+# Without the second sentence the writer pasted the review into the message: "Please stay calm.",
+# "This advice does not contradict any official warnings." (Nov 3 2026 real-model eval).
+ONLY_THE_MESSAGE = ("Write only the new message for the person; do not say that it was rewritten. "
+                    "Change the wording; do not add sentences about calm, reassurance or official warnings.")
 
 
 def _text(message: dict) -> str:
@@ -95,8 +99,9 @@ def context_from_tools(results: list) -> MessageContext:
 class SafetyRulesHandler(SteeringHandler):
     name = "evaluator-safety-rules"
 
-    def __init__(self, rules: MessageRules, trust_input_data: bool = False):
+    def __init__(self, rules: MessageRules, trust_input_data: bool = False, clock: TurnClock | None = None):
         super().__init__()
+        self.clock = clock
         self.rules = rules
         self.trust_input_data = trust_input_data
 
@@ -113,9 +118,9 @@ class SafetyRulesHandler(SteeringHandler):
         agent.state.set("evaluator_violations", [v.rule for v in violations])
         # Every draft sent back, with why: the run reports what the Evaluator caught.
         agent.state.set("evaluator_log", (agent.state.get("evaluator_log") or []) + [[v.rule for v in violations]])
-        if rewrites > MAX_REWRITES:
+        if rewrites > MAX_REWRITES or (self.clock and self.clock.too_late_to_rewrite()):
             agent.state.set("use_fallback", True)
-            return Proceed(reason="rewrite limit reached; caller sends the safe fallback message")
+            return Proceed(reason="rewrite or time limit reached; caller sends the safe fallback message")
         return Guide(reason="Rewrite the reply. Fix: " + "; ".join(f"{v.rule}: {v.detail}" for v in violations)
                      + ". " + ONLY_THE_MESSAGE)
 
@@ -123,7 +128,8 @@ class SafetyRulesHandler(SteeringHandler):
 TONE_POLICY = """You review a reply to a farmer or household before it is sent. Check that it:
 - is calm and never alarming (some readers are in distress); no blame;
 - gives options, not orders ("you could", "if you have well water");
-- never contradicts or downplays an official IMD/government warning;
+- never contradicts or downplays an official IMD/government warning given in the facts (never ask
+  the writer to mention official warnings or to say the advice agrees with them);
 - uses simple, natural words in the person's language; no jargon, no English words a village
   reader would not know (except numbers and helplines);
 - is short and answers what was asked.
@@ -141,13 +147,16 @@ class ToneVerdict(BaseModel):
 class ToneHandler(SteeringHandler):
     name = "evaluator-tone"
 
-    def __init__(self, model=None):
+    def __init__(self, model=None, clock: TurnClock | None = None):
         super().__init__()
         self.model = model
+        self.clock = clock
 
     async def steer_after_model(self, *, agent, message, stop_reason, **kwargs):
         if stop_reason != "end_turn":
             return Proceed(reason="not a final reply")
+        if self.clock and self.clock.too_late_to_rewrite():
+            return Proceed(reason="no time left for a tone check; the safety rules still apply")
         rewrites = agent.state.get("tone_rewrites") or 0
         if rewrites >= MAX_TONE_REWRITES:
             agent.state.set("tone_rewrites", 0)

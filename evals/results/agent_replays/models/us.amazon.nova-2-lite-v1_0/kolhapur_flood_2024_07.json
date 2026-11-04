@@ -1,0 +1,447 @@
+{
+ "event_id": "kolhapur_flood_2024_07",
+ "place": {
+  "name": "Kolhapur",
+  "district": "Kolhapur",
+  "state": "Maharashtra"
+ },
+ "language": "en",
+ "model_id": "us.amazon.nova-2-lite-v1:0",
+ "event_day": "2024-07-26",
+ "summary": {
+  "mornings": 22,
+  "mornings_code_flagged": 11,
+  "mornings_with_checked_message": 11,
+  "messages_delivered": 4,
+  "first_warning_day": "2024-07-17",
+  "days_warned_before_event": 9,
+  "first_drafts_passed": 10,
+  "passed_after_send_back": 0,
+  "drafts_sent_back_by_evaluator": 3,
+  "sent_back_reasons": {
+   "missing_helpline": 4,
+   "unsafe_high_ground": 1
+  },
+  "safe_fallbacks_used": 1,
+  "model_failures": 0,
+  "model_calls": 43,
+  "input_tokens": 71443,
+  "output_tokens": 2981,
+  "slowest_morning_seconds": 13.1,
+  "cost_usd": 0.03177
+ },
+ "mornings": [
+  {
+   "day": "2024-07-15",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-16",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-17",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "There is a chance of heavy rain on July 19th and 20th in Gaganbawda (Ghats) near Kolhapur. You could stay away from rivers and never try to cross flowing water. Keep documents, medicines and phone charger if you have a waterproof bag. Call 1077 or 112 for help if water rises.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "There is a chance of heavy rain on July 19th and 20th in Gaganbawda (Ghats) near Kolhapur. You could stay away from rivers and never try to cross flowing water. Keep documents, medicines and phone charger if you have a waterproof bag. Call 1077 or 112 for help if water rises.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 3.66,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7118,
+    "output_tokens": 319,
+    "model_seconds": 3.65
+   }
+  },
+  {
+   "day": "2024-07-18",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "If it is safe, stay away from rivers and avoid crossing flowing water. If you have important documents like Aadhaar, ration card or land papers, you could keep them in a plastic bag for safety. If water starts rising, you could call 1077 or 112 for help.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "If it is safe, stay away from rivers and avoid crossing flowing water. If you have important documents like Aadhaar, ration card or land papers, you could keep them in a plastic bag for safety. If water starts rising, you could call 1077 or 112 for help.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 3.0,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6880,
+    "output_tokens": 302,
+    "model_seconds": 2.99
+   }
+  },
+  {
+   "day": "2024-07-19",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Heavy rain is expected today. Stay away from rivers. Never cross flowing water. Keep documents, medicines and phone charger in a waterproof bag. Call 1077 / 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain is expected today. Stay away from rivers. Never cross flowing water. Keep documents, medicines and phone charger in a waterproof bag. Call 1077 / 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 2.56,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 4914,
+    "output_tokens": 155,
+    "model_seconds": 2.55
+   }
+  },
+  {
+   "day": "2024-07-20",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "If you can, keep away from rivers and avoid crossing flowing water. You could put important documents like Aadhaar, ration card and land papers, along with money, in a plastic bag for safety. If water levels start to rise, you could call 1077 or 112 for help.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "If you can, keep away from rivers and avoid crossing flowing water. You could put important documents like Aadhaar, ration card and land papers, along with money, in a plastic bag for safety. If water levels start to rise, you could call 1077 or 112 for help.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 2.72,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6582,
+    "output_tokens": 284,
+    "model_seconds": 2.71
+   }
+  },
+  {
+   "day": "2024-07-21",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Water is rising at Kolhapur rivers. Stay away from rivers. Never cross flowing water. Put documents (Aadhaar, ration card, land papers) and money in a plastic bag. Call 1077 / 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Water is rising at Kolhapur rivers. Stay away from rivers. Never cross flowing water. Put documents (Aadhaar, ration card, land papers) and money in a plastic bag. Call 1077 / 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 1.95,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 4805,
+    "output_tokens": 175,
+    "model_seconds": 1.95
+   }
+  },
+  {
+   "day": "2024-07-22",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Water may rise in the next days. You could keep documents like Aadhaar and ration cards safe in a plastic bag if you have one. Call 1077 or 112 if water is rising. Stay away from rivers. Do not cross flowing water if you can avoid it.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Water may rise in the next days. You could keep documents like Aadhaar and ration cards safe in a plastic bag if you have one. Call 1077 or 112 if water is rising. Stay away from rivers. Do not cross flowing water if you can avoid it.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 3.72,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6870,
+    "output_tokens": 290,
+    "model_seconds": 3.71
+   }
+  },
+  {
+   "day": "2024-07-23",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Flood risk for your area. Move to a safe place away from rivers and away from hill slopes. Never cross flowing water. Call 112 / 1077.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The water level near Kolhapur is still rising. You could move your cattle to higher ground away from rivers. Stay away from rivers and avoid crossing flowing water. If you need help, contact local authorities. Call 1077 or 112 if water is rising.",
+   "used_fallback": true,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_helpline",
+     "missing_helpline"
+    ],
+    [
+     "missing_helpline",
+     "missing_helpline"
+    ],
+    [
+     "unsafe_high_ground"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 10.54,
+   "usage": {
+    "model_calls": 7,
+    "input_tokens": 11990,
+    "output_tokens": 538,
+    "model_seconds": 10.53
+   }
+  },
+  {
+   "day": "2024-07-24",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Water levels are rising. Stay away from rivers. Never cross flowing water. Know your upper floor or terrace as your safe place. Keep documents, medicines and phone charger in a waterproof bag. Call 1077 / 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Water levels are rising. Stay away from rivers. Never cross flowing water. Know your upper floor or terrace as your safe place. Keep documents, medicines and phone charger in a waterproof bag. Call 1077 / 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 8.94,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 4556,
+    "output_tokens": 174,
+    "model_seconds": 8.93
+   }
+  },
+  {
+   "day": "2024-07-25",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Keep important documents like Aadhaar, ration cards, and land papers in a sealed plastic bag. Store grain and seed on higher ground. Identify a safe place for cattle away from slopes. Charge phones and keep a torch ready. Review shelter options. Help elderly, children, or anyone with health needs plan their move. Stay a safe distance from rivers and avoid crossing flowing water. Call 1077 or 112 if water rises.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Keep important documents like Aadhaar, ration cards, and land papers in a sealed plastic bag. Store grain and seed on higher ground. Identify a safe place for cattle away from slopes. Charge phones and keep a torch ready. Review shelter options. Help elderly, children, or anyone with health needs plan their move. Stay a safe distance from rivers and avoid crossing flowing water. Call 1077 or 112 if water rises.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 12.92,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6568,
+    "output_tokens": 297,
+    "model_seconds": 12.91
+   }
+  },
+  {
+   "day": "2024-07-26",
+   "code_flagged": "flood",
+   "what_happened": [
+    "river_above_flood_level"
+   ],
+   "message": "Put your important documents like Aadhaar and land papers in a plastic bag with some money. Store grain and seed up high. Think about where your cattle can go to higher, safe ground away from slopes. Charge your phones and keep a torch ready. You could stay away from rivers and avoid crossing flowing water. Call 1077 or 112 if water starts to rise.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Put your important documents like Aadhaar and land papers in a plastic bag with some money. Store grain and seed up high. Think about where your cattle can go to higher, safe ground away from slopes. Charge your phones and keep a torch ready. You could stay away from rivers and avoid crossing flowing water. Call 1077 or 112 if water starts to rise.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 13.1,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6572,
+    "output_tokens": 290,
+    "model_seconds": 13.09
+   }
+  },
+  {
+   "day": "2024-07-27",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Water levels are rising. Store grain and seed up high. Stay away from rivers. Never cross flowing water. Call 1077 / 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Water levels are rising. Store grain and seed up high. Stay away from rivers. Never cross flowing water. Call 1077 / 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 8.39,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 4588,
+    "output_tokens": 157,
+    "model_seconds": 8.38
+   }
+  },
+  {
+   "day": "2024-07-28",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-29",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-30",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-31",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-01",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-02",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-03",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-04",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-05",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  }
+ ],
+ "title": "Kolhapur-Sangli floods, July 2024",
+ "run_on": "2026-11-03"
+}

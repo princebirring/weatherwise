@@ -1,0 +1,469 @@
+{
+ "event_id": "punjab_flood_2025_08",
+ "place": {
+  "name": "Gurdaspur",
+  "district": "Gurdaspur",
+  "state": "Punjab"
+ },
+ "language": "en",
+ "model_id": "us.amazon.nova-2-lite-v1:0",
+ "event_day": "2025-08-26",
+ "summary": {
+  "mornings": 22,
+  "mornings_code_flagged": 13,
+  "mornings_with_checked_message": 13,
+  "messages_delivered": 8,
+  "first_warning_day": "2025-08-21",
+  "days_warned_before_event": 5,
+  "first_drafts_passed": 10,
+  "passed_after_send_back": 3,
+  "drafts_sent_back_by_evaluator": 5,
+  "sent_back_reasons": {
+   "missing_flood_safety": 7,
+   "unsafe_high_ground": 2,
+   "internal_text": 1
+  },
+  "safe_fallbacks_used": 0,
+  "model_failures": 0,
+  "model_calls": 62,
+  "input_tokens": 103408,
+  "output_tokens": 4459,
+  "slowest_morning_seconds": 26.74,
+  "cost_usd": 0.04639
+ },
+ "mornings": [
+  {
+   "day": "2025-08-15",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-16",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-17",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-18",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-19",
+   "code_flagged": null,
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-20",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-21",
+   "code_flagged": "heat_dry",
+   "what_happened": [],
+   "message": "Work heat expected in Gurdaspur tomorrow, 22 August. Our rule shows it will feel like 40 °C for outdoor work. 7 of 10 forecasts agree.\n\nWork early and late, rest and drink water often. If you must work in the sun, work 6-10 am and after 5 pm, shade every hour and water often.\n\nHeatstroke signs: confusion, no sweating, fainting. Cool the person and call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Work heat expected in Gurdaspur tomorrow, 22 August. Our rule shows it will feel like 40 °C for outdoor work. 7 of 10 forecasts agree.\n\nWork early and late, rest and drink water often. If you must work in the sun, work 6-10 am and after 5 pm, shade every hour and water often.\n\nHeatstroke signs: confusion, no sweating, fainting. Cool the person and call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 6.74,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 4713,
+    "output_tokens": 225,
+    "model_seconds": 6.73
+   }
+  },
+  {
+   "day": "2025-08-22",
+   "code_flagged": "heat_dry",
+   "what_happened": [
+    "work_heat:take_care"
+   ],
+   "message": "Heat stress risk today in Gurdaspur. It will feel like 40°C for outdoor work. Our own early signal—follow IMD if they issue a warning. Work early and late, rest and drink water often. If you must work, do it between 6 am and 10 am or after 5 pm, shade every hour, and water often. Stay indoors between 12 pm and 4 pm if you can. Heatstroke signs: confusion, no sweating, fainting. Cool the person and call 108.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heat stress risk today in Gurdaspur. It will feel like 40°C for outdoor work. Our own early signal—follow IMD if they issue a warning. Work early and late, rest and drink water often. If you must work, do it between 6 am and 10 am or after 5 pm, shade every hour, and water often. Stay indoors between 12 pm and 4 pm if you can. Heatstroke signs: confusion, no sweating, fainting. Cool the person and call 108.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 10.45,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 4726,
+    "output_tokens": 278,
+    "model_seconds": 10.43
+   }
+  },
+  {
+   "day": "2025-08-23",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-24",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-25",
+   "code_flagged": null,
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2025-08-26",
+   "code_flagged": "flood",
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": "Unusual rain is expected today in Gurdaspur. Consider staying away from rivers and avoid crossing flowing water if possible. If needed, ensure you have safe water sources like wells available. Keep documents, medicines and a phone charger in a waterproof bag. Call 1077 or 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Unusual rain is expected today in Gurdaspur. Consider staying away from rivers and avoid crossing flowing water if possible. If needed, ensure you have safe water sources like wells available. Keep documents, medicines and a phone charger in a waterproof bag. Call 1077 or 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 10.46,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6835,
+    "output_tokens": 273,
+    "model_seconds": 10.44
+   }
+  },
+  {
+   "day": "2025-08-27",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "It’s a good idea to stay away from rivers and avoid crossing flowing water. Please keep important documents like Aadhaar, ration cards, and land papers in a plastic bag. Store grain and seed up high, and consider moving cattle to higher, safe ground. Charge your phones and keep a torch handy. If water rises, you can call 1077 or 112 for help.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "It’s a good idea to stay away from rivers and avoid crossing flowing water. Please keep important documents like Aadhaar, ration cards, and land papers in a plastic bag. Store grain and seed up high, and consider moving cattle to higher, safe ground. Charge your phones and keep a torch handy. If water rises, you can call 1077 or 112 for help.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 10.71,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6580,
+    "output_tokens": 288,
+    "model_seconds": 10.68
+   }
+  },
+  {
+   "day": "2025-08-28",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Stay away from rivers. You could avoid crossing flowing water. Call 1077 or 112 if official alerts say water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Stay away from rivers. You could avoid crossing flowing water. Call 1077 or 112 if official alerts say water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 12.97,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6627,
+    "output_tokens": 285,
+    "model_seconds": 12.94
+   }
+  },
+  {
+   "day": "2025-08-29",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "You could put documents and money in a plastic bag. If you can, stay away from rivers and avoid crossing flowing water. Call 1077 / 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "You could put documents and money in a plastic bag. If you can, stay away from rivers and avoid crossing flowing water. Call 1077 / 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 12.77,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6581,
+    "output_tokens": 249,
+    "model_seconds": 12.75
+   }
+  },
+  {
+   "day": "2025-08-30",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "You could move your cattle early to higher, safe ground away from rivers and hill slopes. If you have well water, you might consider storing it safely. Stay away from rivers and never cross flowing water. Call 1077 or 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "You could move your cattle early to higher, safe ground away from rivers and hill slopes. If you have well water, you might consider storing it safely. Stay away from rivers and never cross flowing water. Call 1077 or 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "unsafe_high_ground",
+     "missing_flood_safety"
+    ],
+    [
+     "missing_flood_safety"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 24.77,
+   "usage": {
+    "model_calls": 9,
+    "input_tokens": 15224,
+    "output_tokens": 656,
+    "model_seconds": 24.73
+   }
+  },
+  {
+   "day": "2025-08-31",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Put important documents like Aadhaar and land papers in a plastic bag with some money.\n\nStore grain and seed on higher ground.\n\nConsider moving cattle to safer, higher areas away from slopes.\n\nCharge your phone and keep a torch handy.\n\nFind out the nearest shelter for floods.\n\nIf you have elderly, children, or anyone who needs help, plan who can assist them.\n\nStay away from rivers and avoid crossing flowing water.\n\nCall 1077 or 112 if water starts to rise.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Put important documents like Aadhaar and land papers in a plastic bag with some money.\n\nStore grain and seed on higher ground.\n\nConsider moving cattle to safer, higher areas away from slopes.\n\nCharge your phone and keep a torch handy.\n\nFind out the nearest shelter for floods.\n\nIf you have elderly, children, or anyone who needs help, plan who can assist them.\n\nStay away from rivers and avoid crossing flowing water.\n\nCall 1077 or 112 if water starts to rise.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 12.59,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6543,
+    "output_tokens": 270,
+    "model_seconds": 12.56
+   }
+  },
+  {
+   "day": "2025-09-01",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "There may be heavy rain tomorrow. You could stay away from rivers. If you can, avoid crossing flowing water. It can help to know your upper floor or terrace as a safe place, keep documents, medicines and phone charger in a waterproof bag, and avoid underpasses and low roads. If water is rising, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "There may be heavy rain tomorrow. You could stay away from rivers. If you can, avoid crossing flowing water. It can help to know your upper floor or terrace as a safe place, keep documents, medicines and phone charger in a waterproof bag, and avoid underpasses and low roads. If water is rising, call 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 12.99,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7134,
+    "output_tokens": 328,
+    "model_seconds": 12.97
+   }
+  },
+  {
+   "day": "2025-09-02",
+   "code_flagged": "flood",
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": "Today there may be heavier rain than usual. If you have a safe upper floor or terrace, you could use it as a higher place to stay. Please stay away from rivers and avoid crossing any flowing water. If water levels rise, you could call 1077 or 112 for help.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Today there may be heavier rain than usual. If you have a safe upper floor or terrace, you could use it as a higher place to stay. Please stay away from rivers and avoid crossing any flowing water. If water levels rise, you could call 1077 or 112 for help.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 10.65,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6866,
+    "output_tokens": 300,
+    "model_seconds": 10.62
+   }
+  },
+  {
+   "day": "2025-09-03",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "If you can, move to higher ground away from rivers and hill slopes. Keep your phone charged and have a torch ready, in case you need light. Think about how you could help elderly people, children, or anyone who may need support. Stay away from rivers, and avoid crossing flowing water. Call 1077 or 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "If you can, move to higher ground away from rivers and hill slopes. Keep your phone charged and have a torch ready, in case you need light. Think about how you could help elderly people, children, or anyone who may need support. Stay away from rivers, and avoid crossing flowing water. Call 1077 or 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text",
+     "missing_flood_safety",
+     "missing_flood_safety"
+    ],
+    [
+     "unsafe_high_ground",
+     "missing_flood_safety"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 26.74,
+   "usage": {
+    "model_calls": 9,
+    "input_tokens": 15300,
+    "output_tokens": 686,
+    "model_seconds": 26.7
+   }
+  },
+  {
+   "day": "2025-09-04",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Put your important documents and some money in a plastic bag, and keep it where it’s safe. Store grain and seed up high. If you have cattle, think now about where you’ll move them to higher, safe ground away from hill slopes. Charge your phones and keep a torch handy. Know the name of the nearest shelter for floods. If you have elderly people, children, or anyone who is ill, decide who will help them move. Stay away from rivers and avoid crossing any flowing water. Call 1077 or 112 if water starts rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Put your important documents and some money in a plastic bag, and keep it where it’s safe. Store grain and seed up high. If you have cattle, think now about where you’ll move them to higher, safe ground away from hill slopes. Charge your phones and keep a torch handy. Know the name of the nearest shelter for floods. If you have elderly people, children, or anyone who is ill, decide who will help them move. Stay away from rivers and avoid crossing any flowing water. Call 1077 or 112 if water starts rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 12.45,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6535,
+    "output_tokens": 279,
+    "model_seconds": 12.43
+   }
+  },
+  {
+   "day": "2025-09-05",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "The flood risk is still high. Keep away from rivers and do not attempt to cross any flowing water. Call 1077 or 112 if water starts to rise.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The flood risk is still high. Keep away from rivers and do not attempt to cross any flowing water. Call 1077 or 112 if water starts to rise.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_flood_safety",
+     "missing_flood_safety"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 19.28,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 9744,
+    "output_tokens": 342,
+    "model_seconds": 19.25
+   }
+  }
+ ],
+ "title": "Punjab floods, Aug-Sep 2025 (Gurdaspur)",
+ "run_on": "2026-11-03"
+}

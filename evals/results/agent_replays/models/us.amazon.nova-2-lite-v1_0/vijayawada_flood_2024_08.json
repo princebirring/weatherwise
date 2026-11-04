@@ -1,0 +1,286 @@
+{
+ "event_id": "vijayawada_flood_2024_08",
+ "place": {
+  "name": "Vijayawada",
+  "district": "NTR",
+  "state": "Andhra Pradesh"
+ },
+ "language": "en",
+ "model_id": "us.amazon.nova-2-lite-v1:0",
+ "event_day": "2024-08-31",
+ "summary": {
+  "mornings": 13,
+  "mornings_code_flagged": 8,
+  "mornings_with_checked_message": 8,
+  "messages_delivered": 7,
+  "first_warning_day": "2024-08-29",
+  "days_warned_before_event": 2,
+  "first_drafts_passed": 7,
+  "passed_after_send_back": 1,
+  "drafts_sent_back_by_evaluator": 2,
+  "sent_back_reasons": {
+   "missing_flood_safety": 2
+  },
+  "safe_fallbacks_used": 0,
+  "model_failures": 0,
+  "model_calls": 31,
+  "input_tokens": 49725,
+  "output_tokens": 1973,
+  "slowest_morning_seconds": 20.27,
+  "cost_usd": 0.02184
+ },
+ "mornings": [
+  {
+   "day": "2024-08-24",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-25",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-26",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-27",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-28",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-29",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Heavy rain is expected tomorrow at Vijayawada. You could stay away from rivers and avoid crossing flowing water if possible. If you have a safe upper floor or terrace, that is a good place to go. If water is rising, you could call 1077 or 112 for help.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain is expected tomorrow at Vijayawada. You could stay away from rivers and avoid crossing flowing water if possible. If you have a safe upper floor or terrace, that is a good place to go. If water is rising, you could call 1077 or 112 for help.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 10.16,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 7093,
+    "output_tokens": 284,
+    "model_seconds": 10.15
+   }
+  },
+  {
+   "day": "2024-08-30",
+   "code_flagged": "flood",
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": "Water levels are rising. Stay away from rivers. Never cross flowing water. Know your upper floor or terrace as the safe place. Call 1077 / 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Water levels are rising. Stay away from rivers. Never cross flowing water. Know your upper floor or terrace as the safe place. Call 1077 / 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 9.7,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 4548,
+    "output_tokens": 156,
+    "model_seconds": 9.69
+   }
+  },
+  {
+   "day": "2024-08-31",
+   "code_flagged": "flood",
+   "what_happened": [
+    "very_heavy_rain",
+    "unusual_rain"
+   ],
+   "message": "Heavy rain expected today in Vijayawada. Stay away from rivers. Never cross flowing water. Keep documents, medicines and phone charger in a waterproof bag. Call 1077 / 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain expected today in Vijayawada. Stay away from rivers. Never cross flowing water. Keep documents, medicines and phone charger in a waterproof bag. Call 1077 / 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 10.64,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 4953,
+    "output_tokens": 165,
+    "model_seconds": 10.63
+   }
+  },
+  {
+   "day": "2024-09-01",
+   "code_flagged": "flood",
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": "Water levels are still rising. Stay away from rivers. Never cross flowing water. Know your upper floor or terrace as your safe place. Call 1077 / 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Water levels are still rising. Stay away from rivers. Never cross flowing water. Know your upper floor or terrace as your safe place. Call 1077 / 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 7.53,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 4549,
+    "output_tokens": 161,
+    "model_seconds": 7.52
+   }
+  },
+  {
+   "day": "2024-09-02",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Water is rising near Vijayawada. Stay away from rivers. Never cross flowing water. Know your upper floor or terrace as the safe place. Call 1077 / 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Water is rising near Vijayawada. Stay away from rivers. Never cross flowing water. Know your upper floor or terrace as the safe place. Call 1077 / 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 12.24,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 4551,
+    "output_tokens": 167,
+    "model_seconds": 12.23
+   }
+  },
+  {
+   "day": "2024-09-03",
+   "code_flagged": "flood",
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": "If you can, stay away from rivers. Never cross flowing water. Keep important papers, medicines and a phone charger in a bag that water cannot enter. If the water around you starts to rise, you could call 1077 or 112 for help.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "If you can, stay away from rivers. Never cross flowing water. Keep important papers, medicines and a phone charger in a bag that water cannot enter. If the water around you starts to rise, you could call 1077 or 112 for help.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "missing_flood_safety"
+    ],
+    [
+     "missing_flood_safety"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 20.27,
+   "usage": {
+    "model_calls": 8,
+    "input_tokens": 12957,
+    "output_tokens": 588,
+    "model_seconds": 20.23
+   }
+  },
+  {
+   "day": "2024-09-04",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Water levels are rising. Stay away from rivers. Never cross flowing water. Keep documents, medicines and phone charger in a waterproof bag. Call 1077 / 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Water levels are rising. Stay away from rivers. Never cross flowing water. Keep documents, medicines and phone charger in a waterproof bag. Call 1077 / 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 10.55,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 4549,
+    "output_tokens": 152,
+    "model_seconds": 10.52
+   }
+  },
+  {
+   "day": "2024-09-05",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "If you can, stay away from rivers and avoid crossing flowing water. You could think of your upper floor or terrace as a safer place if water rises. Call 1077 / 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "If you can, stay away from rivers and avoid crossing flowing water. You could think of your upper floor or terrace as a safer place if water rises. Call 1077 / 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 15.36,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 6525,
+    "output_tokens": 300,
+    "model_seconds": 15.34
+   }
+  }
+ ],
+ "title": "Vijayawada floods, August 2024 (Budameru)",
+ "run_on": "2026-11-03"
+}

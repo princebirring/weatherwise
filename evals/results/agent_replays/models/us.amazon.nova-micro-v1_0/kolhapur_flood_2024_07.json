@@ -1,0 +1,477 @@
+{
+ "event_id": "kolhapur_flood_2024_07",
+ "place": {
+  "name": "Kolhapur",
+  "district": "Kolhapur",
+  "state": "Maharashtra"
+ },
+ "language": "en",
+ "model_id": "us.amazon.nova-micro-v1:0",
+ "event_day": "2024-07-26",
+ "summary": {
+  "mornings": 22,
+  "mornings_code_flagged": 11,
+  "mornings_with_checked_message": 11,
+  "messages_delivered": 4,
+  "first_warning_day": "2024-07-17",
+  "days_warned_before_event": 9,
+  "first_drafts_passed": 5,
+  "passed_after_send_back": 5,
+  "drafts_sent_back_by_evaluator": 10,
+  "sent_back_reasons": {
+   "missing_flood_safety": 8,
+   "unsafe_high_ground": 4,
+   "internal_text": 3
+  },
+  "safe_fallbacks_used": 1,
+  "model_failures": 0,
+  "model_calls": 53,
+  "input_tokens": 58471,
+  "output_tokens": 5047,
+  "slowest_morning_seconds": 5.71,
+  "cost_usd": 0.00275
+ },
+ "mornings": [
+  {
+   "day": "2024-07-15",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-16",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-17",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Heavy rain expected in Kolhapur; consider relocating to safer areas away from rivers and hill slopes. Stay updated and avoid crossing flowing water. For help, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain expected in Kolhapur; consider relocating to safer areas away from rivers and hill slopes. Stay updated and avoid crossing flowing water. For help, call 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "unsafe_high_ground"
+    ],
+    [
+     "missing_flood_safety",
+     "missing_flood_safety"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 5.71,
+   "usage": {
+    "model_calls": 9,
+    "input_tokens": 11096,
+    "output_tokens": 871,
+    "model_seconds": 5.7
+   }
+  },
+  {
+   "day": "2024-07-18",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Heavy rain is expected tomorrow in Gaganbawda (Ghats). Stay safe, avoid rivers, and never cross flowing water. For help, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain is expected tomorrow in Gaganbawda (Ghats). Stay safe, avoid rivers, and never cross flowing water. For help, call 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 1.54,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3187,
+    "output_tokens": 223,
+    "model_seconds": 1.53
+   }
+  },
+  {
+   "day": "2024-07-19",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Heavy rain warning: Gaganbawda (Ghats) and Radhanagari (Ghats) may flood. Avoid rivers; never cross flowing water. Help: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain warning: Gaganbawda (Ghats) and Radhanagari (Ghats) may flood. Avoid rivers; never cross flowing water. Help: 1077, 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 2.21,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 2923,
+    "output_tokens": 388,
+    "model_seconds": 2.2
+   }
+  },
+  {
+   "day": "2024-07-20",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Rain and flood warning: conditions may worsen. Stay alert. Avoid rivers; never cross flowing water. For help, dial 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Rain and flood warning: conditions may worsen. Stay alert. Avoid rivers; never cross flowing water. For help, dial 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 2.22,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 3867,
+    "output_tokens": 324,
+    "model_seconds": 2.21
+   }
+  },
+  {
+   "day": "2024-07-21",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Flood warning: Consider moving away from rivers and never cross flowing water. Stay safe on high ground and move away from hill slopes. Help available: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Flood warning: Consider moving away from rivers and never cross flowing water. Stay safe on high ground and move away from hill slopes. Help available: 1077, 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "unsafe_high_ground"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 2.77,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 5222,
+    "output_tokens": 392,
+    "model_seconds": 2.76
+   }
+  },
+  {
+   "day": "2024-07-22",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Heavy rain alert: flood signal on 2024-07-21. Avoid rivers; avoid crossing flowing water. Help: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain alert: flood signal on 2024-07-21. Avoid rivers; avoid crossing flowing water. Help: 1077, 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 1.92,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3197,
+    "output_tokens": 336,
+    "model_seconds": 1.92
+   }
+  },
+  {
+   "day": "2024-07-23",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Rain is increasing in Kolhapur. Consider moving to higher ground away from hill slopes. If rain persists, stay away from rivers. Do not cross flowing water. For more info, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Rain is increasing in Kolhapur. Consider moving to higher ground away from hill slopes. If rain persists, stay away from rivers. Do not cross flowing water. For more info, call 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "unsafe_high_ground",
+     "missing_flood_safety",
+     "missing_flood_safety"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 3.47,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 6277,
+    "output_tokens": 522,
+    "model_seconds": 3.46
+   }
+  },
+  {
+   "day": "2024-07-24",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Move to a safer location if needed, stay away from rivers and slopes. If possible, consider going to a nearby shelter. Call 112 or 1077 for more help. Remember, never cross flowing water.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Move to a safer location if needed, stay away from rivers and slopes. If possible, consider going to a nearby shelter. Call 112 or 1077 for more help. Remember, never cross flowing water.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ],
+    [
+     "internal_text",
+     "missing_flood_safety"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 4.25,
+   "usage": {
+    "model_calls": 7,
+    "input_tokens": 8534,
+    "output_tokens": 647,
+    "model_seconds": 4.24
+   }
+  },
+  {
+   "day": "2024-07-25",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Heavy rain is expected; be cautious near rivers and avoid crossing flowing water. For help, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain is expected; be cautious near rivers and avoid crossing flowing water. For help, call 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 1.88,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 2973,
+    "output_tokens": 305,
+    "model_seconds": 1.87
+   }
+  },
+  {
+   "day": "2024-07-26",
+   "code_flagged": "flood",
+   "what_happened": [
+    "river_above_flood_level"
+   ],
+   "message": "If you have documents (Aadhaar, ration card, land papers) and money, you could put them in a plastic bag. If you have grain and seed, you might store them up high. Plan where cattle will go; move them early to higher, safe ground away from hill slopes. Charge phones; keep a torch. Know your shelter: if you need one, consider a place away from rivers. Elderly, children, people who are ill: plan who helps them move. Stay away from rivers. Never cross flowing water. Call 1077 / 112 if water is rising.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "If you have documents (Aadhaar, ration card, land papers) and money, you could put them in a plastic bag. If you have grain and seed, you might store them up high. Plan where cattle will go; move them early to higher, safe ground away from hill slopes. Charge phones; keep a torch. Know your shelter: if you need one, consider a place away from rivers. Elderly, children, people who are ill: plan who helps them move. Stay away from rivers. Never cross flowing water. Call 1077 / 112 if water is rising.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 2.81,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 4950,
+    "output_tokens": 501,
+    "model_seconds": 2.8
+   }
+  },
+  {
+   "day": "2024-07-27",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Flood risk for your area. Move to a safe place away from rivers and away from hill slopes. Never cross flowing water. Call 112 / 1077.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Recent updates indicate more flooding signals in Kolhapur since July 21. Consider relocating to higher ground, but ensure it’s away from hill slopes. Avoid crossing any flowing water. For more guidance, call 1077 or 112.",
+   "used_fallback": true,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "unsafe_high_ground",
+     "missing_flood_safety"
+    ],
+    [
+     "missing_flood_safety"
+    ],
+    [
+     "missing_flood_safety"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 3.42,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 6245,
+    "output_tokens": 538,
+    "model_seconds": 3.41
+   }
+  },
+  {
+   "day": "2024-07-28",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-29",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-30",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-07-31",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-01",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-02",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-03",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-04",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-05",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  }
+ ],
+ "title": "Kolhapur-Sangli floods, July 2024",
+ "run_on": "2026-11-03"
+}

@@ -1,0 +1,299 @@
+{
+ "event_id": "vijayawada_flood_2024_08",
+ "place": {
+  "name": "Vijayawada",
+  "district": "NTR",
+  "state": "Andhra Pradesh"
+ },
+ "language": "en",
+ "model_id": "us.amazon.nova-micro-v1:0",
+ "event_day": "2024-08-31",
+ "summary": {
+  "mornings": 13,
+  "mornings_code_flagged": 8,
+  "mornings_with_checked_message": 8,
+  "messages_delivered": 7,
+  "first_warning_day": "2024-08-29",
+  "days_warned_before_event": 2,
+  "first_drafts_passed": 5,
+  "passed_after_send_back": 3,
+  "drafts_sent_back_by_evaluator": 5,
+  "sent_back_reasons": {
+   "internal_text": 3,
+   "unsafe_high_ground": 1,
+   "missing_flood_safety": 1
+  },
+  "safe_fallbacks_used": 0,
+  "model_failures": 0,
+  "model_calls": 29,
+  "input_tokens": 30406,
+  "output_tokens": 2961,
+  "slowest_morning_seconds": 5.48,
+  "cost_usd": 0.00148
+ },
+ "mornings": [
+  {
+   "day": "2024-08-24",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.01,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-25",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-26",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-27",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-28",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-08-29",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Heavy rain is expected tomorrow. Consider relocating away from rivers and avoid crossing flowing water. For more info, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain is expected tomorrow. Consider relocating away from rivers and avoid crossing flowing water. For more info, call 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 1.88,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3431,
+    "output_tokens": 316,
+    "model_seconds": 1.88
+   }
+  },
+  {
+   "day": "2024-08-30",
+   "code_flagged": "flood",
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": "Recent flood signals have been issued for Vijayawada. Prepare your household for possible flooding. Stay away from rivers and never cross flowing water. For more info, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Recent flood signals have been issued for Vijayawada. Prepare your household for possible flooding. Stay away from rivers and never cross flowing water. For more info, call 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 1.44,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 2975,
+    "output_tokens": 189,
+    "model_seconds": 1.43
+   }
+  },
+  {
+   "day": "2024-08-31",
+   "code_flagged": "flood",
+   "what_happened": [
+    "very_heavy_rain",
+    "unusual_rain"
+   ],
+   "message": "Heavy rain expected in Vijayawada today. Move away from rivers. Avoid crossing flowing water. For help, contact 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain expected in Vijayawada today. Move away from rivers. Avoid crossing flowing water. For help, contact 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 2.2,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3426,
+    "output_tokens": 302,
+    "model_seconds": 2.19
+   }
+  },
+  {
+   "day": "2024-09-01",
+   "code_flagged": "flood",
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": "Heavy rain warning now includes flood risk. Be cautious near rivers; avoid crossing flowing water. For further assistance, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain warning now includes flood risk. Be cautious near rivers; avoid crossing flowing water. For further assistance, call 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 1.47,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 2970,
+    "output_tokens": 185,
+    "model_seconds": 1.46
+   }
+  },
+  {
+   "day": "2024-09-02",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Recent flooding signals are still in effect. You could stay safe by moving to higher ground if you're near hill slopes and away from rivers. Avoid crossing flowing water to stay safe. For more info, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Recent flooding signals are still in effect. You could stay safe by moving to higher ground if you're near hill slopes and away from rivers. Avoid crossing flowing water to stay safe. For more info, call 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ],
+    [
+     "unsafe_high_ground"
+    ],
+    [
+     "missing_flood_safety"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 5.48,
+   "usage": {
+    "model_calls": 8,
+    "input_tokens": 8381,
+    "output_tokens": 944,
+    "model_seconds": 5.47
+   }
+  },
+  {
+   "day": "2024-09-03",
+   "code_flagged": "flood",
+   "what_happened": [
+    "unusual_rain"
+   ],
+   "message": "Urgent: Flood warning. Avoid rivers; never cross flowing water. For help, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Urgent: Flood warning. Avoid rivers; never cross flowing water. For help, call 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 2.14,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3121,
+    "output_tokens": 391,
+    "model_seconds": 2.13
+   }
+  },
+  {
+   "day": "2024-09-04",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Recent flooding signals have continued since last month. Consider reinforcing flood defenses. Stay away from rivers and avoid crossing any flowing water. For more, reach out at 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Recent flooding signals have continued since last month. Consider reinforcing flood defenses. Stay away from rivers and avoid crossing any flowing water. For more, reach out at 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 1.89,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 2955,
+    "output_tokens": 300,
+    "model_seconds": 1.88
+   }
+  },
+  {
+   "day": "2024-09-05",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Flood preparation alert for Vijayawada: stay vigilant, avoid rivers; don't cross flowing water. Call 1077 or 112 for updates.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Flood preparation alert for Vijayawada: stay vigilant, avoid rivers; don't cross flowing water. Call 1077 or 112 for updates.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "internal_text"
+    ]
+   ],
+   "delivered": "skip",
+   "seconds": 1.97,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3147,
+    "output_tokens": 334,
+    "model_seconds": 1.96
+   }
+  }
+ ],
+ "title": "Vijayawada floods, August 2024 (Budameru)",
+ "run_on": "2026-11-03"
+}

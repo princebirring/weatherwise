@@ -163,3 +163,25 @@ def test_a_new_team_picks_up_an_earlier_conversation():
     t.reply("What about my cows?")
     texts = [m["content"][0]["text"] for m in t.orchestrator.messages if m["content"] and "text" in m["content"][0]]
     assert texts[:3] == ["Is a heat wave coming to Akola?", "Yes, from Saturday.", "What about my cows?"]
+
+
+def test_late_in_the_turn_an_unsafe_reply_is_not_rewritten_the_safe_message_goes_out():
+    t, model = team([("tool", "hazard_outlook", {"lat": 20.7, "lon": 77.0}), UNSAFE, SAFE])
+    t.clock.rewrite_by = -1  # already past the rewrite time
+    out = t.reply("Is a heat wave coming to Akola?")
+    assert out["used_fallback"] and out["text"] == fallback_message(POLICY, "general", "en")
+    assert model.calls == 2  # no rewrite was asked for
+
+
+def test_late_in_the_turn_a_safe_reply_still_goes_out_as_written():
+    t, _ = team([("tool", "hazard_outlook", {"lat": 20.7, "lon": 77.0}), SAFE])
+    t.clock.rewrite_by = -1
+    out = t.reply("Is a heat wave coming to Akola?")
+    assert out["text"] == SAFE and not out["used_fallback"]
+
+
+def test_out_of_time_the_turn_stops_and_the_safe_message_goes_out():
+    t, model = team([("tool", "hazard_outlook", {"lat": 20.7, "lon": 77.0})] * 5 + [SAFE])
+    t.clock.stop_by = -1
+    out = t.reply("Is a heat wave coming to Akola?")
+    assert out["used_fallback"] and model.calls == 1

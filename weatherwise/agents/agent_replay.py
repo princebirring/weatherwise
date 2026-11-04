@@ -8,6 +8,7 @@ per-event limit applies as it would have.
 """
 
 import time
+from collections import Counter
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from datetime import date, datetime
@@ -60,6 +61,7 @@ class AgentReplay:
         written = [m for m in flagged if m.message]
         before = [m for m in flagged if self.event_day and m.day < self.event_day]
         first = min((m.day for m in before), default=None)
+        reasons = Counter(rule for m in self.mornings for draft in m.evaluator_sent_back for rule in draft)
         return {
             "mornings": len(self.mornings),
             "mornings_code_flagged": len(flagged),
@@ -68,7 +70,12 @@ class AgentReplay:
             "first_warning_day": first,
             "days_warned_before_event": (date.fromisoformat(self.event_day) - date.fromisoformat(first)).days
             if first else None,
+            # How good the model's own writing was: passed the checker first time, passed after
+            # being sent back, or never passed (the pre-written safe message went out instead).
+            "first_drafts_passed": sum(not m.evaluator_sent_back and not m.used_fallback for m in written),
+            "passed_after_send_back": sum(bool(m.evaluator_sent_back) and not m.used_fallback for m in written),
             "drafts_sent_back_by_evaluator": sum(len(m.evaluator_sent_back) for m in self.mornings),
+            "sent_back_reasons": dict(reasons.most_common()),
             "safe_fallbacks_used": sum(m.used_fallback for m in flagged),
             "model_failures": sum(m.model_error is not None for m in flagged),
             "model_calls": sum(m.usage.get("model_calls", 0) for m in self.mornings),

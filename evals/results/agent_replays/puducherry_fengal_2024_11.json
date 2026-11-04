@@ -1,0 +1,266 @@
+{
+ "event_id": "puducherry_fengal_2024_11",
+ "place": {
+  "name": "Puducherry",
+  "district": "Puducherry",
+  "state": "Puducherry"
+ },
+ "language": "en",
+ "model_id": "us.amazon.nova-pro-v1:0",
+ "event_day": "2024-11-30",
+ "summary": {
+  "mornings": 12,
+  "mornings_code_flagged": 6,
+  "mornings_with_checked_message": 6,
+  "messages_delivered": 5,
+  "first_warning_day": null,
+  "days_warned_before_event": null,
+  "first_drafts_passed": 4,
+  "passed_after_send_back": 2,
+  "drafts_sent_back_by_evaluator": 2,
+  "sent_back_reasons": {
+   "unsafe_high_ground": 2
+  },
+  "safe_fallbacks_used": 0,
+  "model_failures": 0,
+  "model_calls": 28,
+  "input_tokens": 18145,
+  "output_tokens": 1313,
+  "slowest_morning_seconds": 57.95,
+  "cost_usd": 0.01872
+ },
+ "mornings": [
+  {
+   "day": "2024-11-24",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-11-25",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-11-26",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-11-27",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-11-28",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-11-29",
+   "code_flagged": null,
+   "what_happened": [],
+   "message": null,
+   "draft": null,
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": null,
+   "seconds": 0.0,
+   "usage": {
+    "model_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "model_seconds": 0.0
+   }
+  },
+  {
+   "day": "2024-11-30",
+   "code_flagged": "flood",
+   "what_happened": [
+    "very_heavy_rain",
+    "unusual_rain"
+   ],
+   "message": "Heavy rain expected in Puducherry today. Stay away from rivers and try to avoid crossing flowing water if possible. Helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain expected in Puducherry today. Stay away from rivers and try to avoid crossing flowing water if possible. Helplines: 1077, 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 2.85,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 3423,
+    "output_tokens": 227,
+    "model_seconds": 2.84
+   }
+  },
+  {
+   "day": "2024-12-01",
+   "code_flagged": "flood",
+   "what_happened": [
+    "unusual_rain",
+    "river_above_flood_level"
+   ],
+   "message": "Heavy rain expected today in Puducherry. Prepare for flooding: move valuables upstairs, secure loose items, and have emergency supplies ready. Stay away from rivers and never cross flowing water. Helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain expected today in Puducherry. Prepare for flooding: move valuables upstairs, secure loose items, and have emergency supplies ready. Stay away from rivers and never cross flowing water. Helplines: 1077, 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 57.95,
+   "usage": {
+    "model_calls": 6,
+    "input_tokens": 3470,
+    "output_tokens": 245,
+    "model_seconds": 29.93
+   }
+  },
+  {
+   "day": "2024-12-02",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "River flood warning for Puducherry. Water levels are above flood level. You could prepare by keeping your important things safe. If you live near a river, you could consider moving away from hill slopes to higher ground. It's safer not to cross flowing water. Helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "River flood warning for Puducherry. Water levels are above flood level. You could prepare by keeping your important things safe. If you live near a river, you could consider moving away from hill slopes to higher ground. It's safer not to cross flowing water. Helplines: 1077, 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "unsafe_high_ground"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 19.25,
+   "usage": {
+    "model_calls": 4,
+    "input_tokens": 3352,
+    "output_tokens": 287,
+    "model_seconds": 15.23
+   }
+  },
+  {
+   "day": "2024-12-03",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "The flood risk in Puducherry has increased. River flood is now above flood level. Stay away from rivers. Never cross flowing water. Prepare for flooding. Helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The flood risk in Puducherry has increased. River flood is now above flood level. Stay away from rivers. Never cross flowing water. Prepare for flooding. Helplines: 1077, 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "send",
+   "seconds": 14.7,
+   "usage": {
+    "model_calls": 3,
+    "input_tokens": 1917,
+    "output_tokens": 163,
+    "model_seconds": 10.68
+   }
+  },
+  {
+   "day": "2024-12-04",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Since the flood signal continues, consider moving to high ground away from hill slopes. Keep away from rivers and never cross flowing water. For help, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Since the flood signal continues, consider moving to high ground away from hill slopes. Keep away from rivers and never cross flowing water. For help, call 1077 or 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [
+    [
+     "unsafe_high_ground"
+    ]
+   ],
+   "delivered": "send",
+   "seconds": 55.13,
+   "usage": {
+    "model_calls": 7,
+    "input_tokens": 4187,
+    "output_tokens": 224,
+    "model_seconds": 47.11
+   }
+  },
+  {
+   "day": "2024-12-05",
+   "code_flagged": "flood",
+   "what_happened": [],
+   "message": "Conditions are worsening in Puducherry. Prepare now for possible flooding. Stay away from rivers. Never cross flowing water. Follow local advice and helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Conditions are worsening in Puducherry. Prepare now for possible flooding. Stay away from rivers. Never cross flowing water. Follow local advice and helplines: 1077, 112.",
+   "used_fallback": false,
+   "model_error": null,
+   "evaluator_sent_back": [],
+   "delivered": "skip",
+   "seconds": 50.52,
+   "usage": {
+    "model_calls": 5,
+    "input_tokens": 1796,
+    "output_tokens": 167,
+    "model_seconds": 34.49
+   }
+  }
+ ],
+ "title": "Cyclone Fengal rain, Nov 30-Dec 1, 2024 (Puducherry)",
+ "run_on": "2026-11-03"
+}

@@ -5,7 +5,7 @@
   "district": "Kolhapur",
   "state": "Maharashtra"
  },
- "language": "mr",
+ "language": "en",
  "model_id": "us.amazon.nova-pro-v1:0",
  "event_day": "2024-07-26",
  "summary": {
@@ -15,14 +15,19 @@
   "messages_delivered": 4,
   "first_warning_day": "2024-07-17",
   "days_warned_before_event": 9,
-  "drafts_sent_back_by_evaluator": 12,
+  "first_drafts_passed": 9,
+  "passed_after_send_back": 2,
+  "drafts_sent_back_by_evaluator": 2,
+  "sent_back_reasons": {
+   "unsafe_high_ground": 2
+  },
   "safe_fallbacks_used": 0,
   "model_failures": 0,
-  "model_calls": 44,
-  "input_tokens": 38587,
-  "output_tokens": 3597,
-  "slowest_morning_seconds": 12.01,
-  "cost_usd": 0.04238
+  "model_calls": 50,
+  "input_tokens": 35291,
+  "output_tokens": 3105,
+  "slowest_morning_seconds": 112.93,
+  "cost_usd": 0.03817
  },
  "mornings": [
   {
@@ -65,211 +70,170 @@
    "day": "2024-07-17",
    "code_flagged": "flood",
    "what_happened": [],
-   "message": "दो दिवसांच्या आत कोल्हापूरमध्ये प्रचंड पाऊस पडण्याची शक्यता आहे. कृपया सुरक्षित ठिकाणी जाऊन, आपले वस्तू सुरक्षित ठेवा. पाऊस आणि पूरविषयी अधिक माहितीसाठी 1077 किंवा 112 यावर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
-   "draft": "दो दिवसांच्या आत कोल्हापूरमध्ये प्रचंड पाऊस पडण्याची शक्यता आहे. कृपया सुरक्षित ठिकाणी जाऊन, आपले वस्तू सुरक्षित ठेवा. पाऊस आणि पूरविषयी अधिक माहितीसाठी 1077 किंवा 112 यावर संपर्क साधा.",
+   "message": "Stay alert: heavy rain is expected in Gaganbawda (Ghats) on July 19 and 20. Prepare now to stay safe. Stay away from rivers; never cross flowing water. Helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Stay alert: heavy rain is expected in Gaganbawda (Ghats) on July 19 and 20. Prepare now to stay safe. Stay away from rivers; never cross flowing water. Helplines: 1077, 112.",
    "used_fallback": false,
    "model_error": null,
-   "evaluator_sent_back": [
-    [
-     "missing_helpline",
-     "missing_helpline",
-     "missing_helpline"
-    ]
-   ],
+   "evaluator_sent_back": [],
    "delivered": "send",
-   "seconds": 3.73,
+   "seconds": 1.79,
    "usage": {
-    "model_calls": 4,
-    "input_tokens": 3976,
-    "output_tokens": 319,
-    "model_seconds": 3.71
+    "model_calls": 2,
+    "input_tokens": 2055,
+    "output_tokens": 143,
+    "model_seconds": 1.78
    }
   },
   {
    "day": "2024-07-18",
    "code_flagged": "flood",
    "what_happened": [],
-   "message": "कोल्हापुरात 2024-07-19 रोजी भारी पाऊस पडण्याची शक्यता आहे. कृपया सुरक्षित ठिकाणी रहा, आपल्याला मदत हवी असेल तर 1077 किंवा 112 या नंबरवर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
-   "draft": "कोल्हापुरात 2024-07-19 रोजी भारी पाऊस पडण्याची शक्यता आहे. कृपया सुरक्षित ठिकाणी रहा, आपल्याला मदत हवी असेल तर 1077 किंवा 112 या नंबरवर संपर्क साधा.",
+   "message": "Heavy rain is expected in Gaganbawda (Ghats) on 2024-07-19. Stay safe by staying away from rivers and never crossing flowing water. If you have well water, consider storing some now. For help, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain is expected in Gaganbawda (Ghats) on 2024-07-19. Stay safe by staying away from rivers and never crossing flowing water. If you have well water, consider storing some now. For help, call 1077 or 112.",
    "used_fallback": false,
    "model_error": null,
-   "evaluator_sent_back": [
-    [
-     "missing_helpline",
-     "missing_helpline",
-     "missing_helpline"
-    ]
-   ],
+   "evaluator_sent_back": [],
    "delivered": "send",
-   "seconds": 3.2,
+   "seconds": 4.29,
    "usage": {
-    "model_calls": 4,
-    "input_tokens": 3681,
-    "output_tokens": 255,
-    "model_seconds": 3.19
+    "model_calls": 3,
+    "input_tokens": 3292,
+    "output_tokens": 402,
+    "model_seconds": 4.28
    }
   },
   {
    "day": "2024-07-19",
    "code_flagged": "flood",
    "what_happened": [],
-   "message": "आज कोल्हापुरात 64.5 मिमी पर्यंत पाऊस पडण्याची शक्यता आहे. कृपया आपल्याला आवश्यक असलेल्या सर्व मदतीसाठी 1077 आणि 112 या हेल्पलाईन्सवर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
-   "draft": "आज कोल्हापुरात 64.5 मिमी पर्यंत पाऊस पडण्याची शक्यता आहे. कृपया आपल्याला आवश्यक असलेल्या सर्व मदतीसाठी 1077 आणि 112 या हेल्पलाईन्सवर संपर्क साधा.",
+   "message": "Given the heavy rain expected in Gaganbawda (Ghats) and Radhanagri (Ghats) today, it is advisable to stay away from rivers and never cross flowing water. Consider moving valuables to higher ground, away from hill slopes, and secure any loose items. You could call for help at 1077 or 112 if needed.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Given the heavy rain expected in Gaganbawda (Ghats) and Radhanagri (Ghats) today, it is advisable to stay away from rivers and never cross flowing water. Consider moving valuables to higher ground, away from hill slopes, and secure any loose items. You could call for help at 1077 or 112 if needed.",
    "used_fallback": false,
    "model_error": null,
    "evaluator_sent_back": [
     [
-     "missing_helpline",
-     "missing_helpline",
-     "missing_helpline"
+     "unsafe_high_ground"
     ]
    ],
    "delivered": "send",
-   "seconds": 4.58,
+   "seconds": 112.93,
    "usage": {
-    "model_calls": 4,
-    "input_tokens": 3935,
-    "output_tokens": 382,
-    "model_seconds": 4.56
+    "model_calls": 12,
+    "input_tokens": 7094,
+    "output_tokens": 477,
+    "model_seconds": 68.89
    }
   },
   {
    "day": "2024-07-20",
    "code_flagged": "flood",
    "what_happened": [],
-   "message": "कोल्हापूरमध्ये पूर होण्याची शक्यता आहे. कृपया आपल्या घराची तयारी करा. आपल्याला मदत हवी असल्यास 1077 किंवा 112 हे हेल्पलाईन क्रमांकांवर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
-   "draft": "कोल्हापूरमध्ये पूर होण्याची शक्यता आहे. कृपया आपल्या घराची तयारी करा. आपल्याला मदत हवी असल्यास 1077 किंवा 112 हे हेल्पलाईन क्रमांकांवर संपर्क साधा.",
+   "message": "Conditions are worsening in Kolhapur. Prepare for possible flooding. Stay away from rivers; never cross flowing water. Follow local advice. Helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Conditions are worsening in Kolhapur. Prepare for possible flooding. Stay away from rivers; never cross flowing water. Follow local advice. Helplines: 1077, 112.",
    "used_fallback": false,
    "model_error": null,
-   "evaluator_sent_back": [
-    [
-     "missing_helpline",
-     "missing_helpline"
-    ]
-   ],
+   "evaluator_sent_back": [],
    "delivered": "send",
-   "seconds": 3.61,
+   "seconds": 20.42,
    "usage": {
-    "model_calls": 4,
-    "input_tokens": 3442,
-    "output_tokens": 279,
-    "model_seconds": 3.59
+    "model_calls": 3,
+    "input_tokens": 1799,
+    "output_tokens": 307,
+    "model_seconds": 16.4
    }
   },
   {
    "day": "2024-07-21",
    "code_flagged": "flood",
    "what_happened": [],
-   "message": "कोल्हापूरमध्ये नदीची पूरची धोका आहे. कृपया आपले घराच्या बाहेरचे मालमत्ता सुरक्षित ठिकाणी ठेवा, आपल्याला आवश्यक असलेल्या वस्तू गोळा करा आणि आपल्याला आवश्यक असलेल्या सर्व मदतीसाठी 1077 किंवा 112 या नंबरवर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
-   "draft": "कोल्हापूरमध्ये नदीची पूरची धोका आहे. कृपया आपले घराच्या बाहेरचे मालमत्ता सुरक्षित ठिकाणी ठेवा, आपल्याला आवश्यक असलेल्या वस्तू गोळा करा आणि आपल्याला आवश्यक असलेल्या सर्व मदतीसाठी 1077 किंवा 112 या नंबरवर संपर्क साधा.",
+   "message": "If you feel unsafe, consider moving to a higher area away from hill slopes. It might be safest to stay indoors for now. Try to avoid rivers and do not attempt to cross any flowing water. If you need help, you can call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "If you feel unsafe, consider moving to a higher area away from hill slopes. It might be safest to stay indoors for now. Try to avoid rivers and do not attempt to cross any flowing water. If you need help, you can call 1077 or 112.",
    "used_fallback": false,
    "model_error": null,
    "evaluator_sent_back": [
     [
-     "missing_helpline",
-     "missing_helpline"
+     "unsafe_high_ground"
     ]
    ],
    "delivered": "skip",
-   "seconds": 2.73,
+   "seconds": 46.43,
    "usage": {
-    "model_calls": 3,
-    "input_tokens": 3030,
-    "output_tokens": 249,
-    "model_seconds": 2.71
+    "model_calls": 7,
+    "input_tokens": 5322,
+    "output_tokens": 454,
+    "model_seconds": 34.4
    }
   },
   {
    "day": "2024-07-22",
    "code_flagged": "flood",
    "what_happened": [],
-   "message": "कोल्हापूरमध्ये 25 जुलै 2024 रोजी 64.5 मिमी पेक्षा जास्त पाऊस पडण्याची शक्यता आहे. हेवी रेनचे धोकेबाजी प्रमाण 0.57 आहे. कृपया सुरक्षित ठिकाणी जा आणि आपल्या घराची तयारी करा. मदतसाठी 1077 किंवा 112 या नंबरवर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
-   "draft": "कोल्हापूरमध्ये 25 जुलै 2024 रोजी 64.5 मिमी पेक्षा जास्त पाऊस पडण्याची शक्यता आहे. हेवी रेनचे धोकेबाजी प्रमाण 0.57 आहे. कृपया सुरक्षित ठिकाणी जा आणि आपल्या घराची तयारी करा. मदतसाठी 1077 किंवा 112 या नंबरवर संपर्क साधा.",
+   "message": "Heavy rain is expected in Gaganbawda (Ghats) on July 25th. Stay away from rivers and never cross flowing water. Use helplines 1077 and 112 if needed. Prepare for possible flooding by securing your home and belongings. Stay informed and follow local guidelines for safety.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Heavy rain is expected in Gaganbawda (Ghats) on July 25th. Stay away from rivers and never cross flowing water. Use helplines 1077 and 112 if needed. Prepare for possible flooding by securing your home and belongings. Stay informed and follow local guidelines for safety.",
    "used_fallback": false,
    "model_error": null,
-   "evaluator_sent_back": [
-    [
-     "missing_helpline",
-     "missing_helpline",
-     "missing_helpline"
-    ]
-   ],
+   "evaluator_sent_back": [],
    "delivered": "skip",
-   "seconds": 4.43,
+   "seconds": 43.15,
    "usage": {
-    "model_calls": 4,
-    "input_tokens": 3716,
-    "output_tokens": 370,
-    "model_seconds": 4.41
+    "model_calls": 5,
+    "input_tokens": 3224,
+    "output_tokens": 258,
+    "model_seconds": 31.12
    }
   },
   {
    "day": "2024-07-23",
    "code_flagged": "flood",
    "what_happened": [],
-   "message": "कोल्हापूरमध्ये पूर होण्याची शक्यता आहे. कृपया आपल्याला आवश्यक असलेल्या सुरक्षित ठिकाणी जाण्यासाठी तयार रहा. आपल्याला मदत हवी असल्यास 1077 किंवा 112 यावर संपर्क साधा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
-   "draft": "कोल्हापूरमध्ये पूर होण्याची शक्यता आहे. कृपया आपल्याला आवश्यक असलेल्या सुरक्षित ठिकाणी जाण्यासाठी तयार रहा. आपल्याला मदत हवी असल्यास 1077 किंवा 112 यावर संपर्क साधा.",
+   "message": "Conditions remain unchanged since the last warning on 2024-07-21. Prepare for possible flooding. Secure important documents, move valuables upstairs, and gather emergency supplies. Stay away from rivers and never cross flowing water. For help, call 1077 or 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Conditions remain unchanged since the last warning on 2024-07-21. Prepare for possible flooding. Secure important documents, move valuables upstairs, and gather emergency supplies. Stay away from rivers and never cross flowing water. For help, call 1077 or 112.",
    "used_fallback": false,
    "model_error": null,
-   "evaluator_sent_back": [
-    [
-     "missing_helpline",
-     "missing_helpline"
-    ]
-   ],
+   "evaluator_sent_back": [],
    "delivered": "skip",
-   "seconds": 3.92,
+   "seconds": 17.19,
    "usage": {
     "model_calls": 4,
-    "input_tokens": 3479,
-    "output_tokens": 388,
-    "model_seconds": 3.9
+    "input_tokens": 2965,
+    "output_tokens": 215,
+    "model_seconds": 13.17
    }
   },
   {
    "day": "2024-07-24",
    "code_flagged": "flood",
    "what_happened": [],
-   "message": "कोल्हापूरमध्ये पूर टाळण्यासाठी तयारी करा. आपले घराचे शेवटचे बांधकाम तपासा. आपल्या घरातील आवश्यक वस्तू वर ठेवा. आपल्याला मदत हवी असल्यास, कृपया 1077 किंवा 112 हे हेल्पलाइन नंबर डायल करा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
-   "draft": "कोल्हापूरमध्ये पूर टाळण्यासाठी तयारी करा. आपले घराचे शेवटचे बांधकाम तपासा. आपल्या घरातील आवश्यक वस्तू वर ठेवा. आपल्याला मदत हवी असल्यास, कृपया 1077 किंवा 112 हे हेल्पलाइन नंबर डायल करा.",
+   "message": "The flood signal from 2024-07-21 remains active. Prepare now: move valuables upstairs, secure loose items, gather emergency supplies (food, water, first aid), and stay updated. Avoid rivers and never cross flowing water. Helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The flood signal from 2024-07-21 remains active. Prepare now: move valuables upstairs, secure loose items, gather emergency supplies (food, water, first aid), and stay updated. Avoid rivers and never cross flowing water. Helplines: 1077, 112.",
    "used_fallback": false,
    "model_error": null,
-   "evaluator_sent_back": [
-    [
-     "missing_helpline",
-     "missing_helpline"
-    ]
-   ],
+   "evaluator_sent_back": [],
    "delivered": "skip",
-   "seconds": 3.51,
+   "seconds": 31.12,
    "usage": {
-    "model_calls": 4,
-    "input_tokens": 2741,
-    "output_tokens": 252,
-    "model_seconds": 3.49
+    "model_calls": 5,
+    "input_tokens": 2961,
+    "output_tokens": 213,
+    "model_seconds": 23.1
    }
   },
   {
    "day": "2024-07-25",
    "code_flagged": "flood",
    "what_happened": [],
-   "message": "कोल्हापूरमध्ये पूर येण्याची शक्यता आहे. कृपया आपले घराचे आवश्यक वस्तू, औषधे आणि मूल्यवान वस्तू सुरक्षित ठेवा. आपल्याला मदत हवी असल्यास 1077 किंवा 112 या नंबरवर संपर्क करा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
-   "draft": "कोल्हापूरमध्ये पूर येण्याची शक्यता आहे. कृपया आपले घराचे आवश्यक वस्तू, औषधे आणि मूल्यवान वस्तू सुरक्षित ठेवा. आपल्याला मदत हवी असल्यास 1077 किंवा 112 या नंबरवर संपर्क करा.",
+   "message": "Since the flood signal on 2024-07-21 remains active, continue to prepare for flooding in Kolhapur. Stay updated on escape routes and keep emergency numbers handy: 1077, 112. Move away from rivers and never cross flowing water.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Since the flood signal on 2024-07-21 remains active, continue to prepare for flooding in Kolhapur. Stay updated on escape routes and keep emergency numbers handy: 1077, 112. Move away from rivers and never cross flowing water.",
    "used_fallback": false,
    "model_error": null,
-   "evaluator_sent_back": [
-    [
-     "missing_helpline",
-     "missing_helpline"
-    ]
-   ],
+   "evaluator_sent_back": [],
    "delivered": "skip",
-   "seconds": 3.79,
+   "seconds": 30.81,
    "usage": {
     "model_calls": 4,
-    "input_tokens": 2445,
-    "output_tokens": 262,
-    "model_seconds": 3.77
+    "input_tokens": 2973,
+    "output_tokens": 325,
+    "model_seconds": 26.78
    }
   },
   {
@@ -278,49 +242,36 @@
    "what_happened": [
     "river_above_flood_level"
    ],
-   "message": "कोल्हापूरमध्ये पूर येण्याची शक्यता आहे. कृपया आपल्या घराची तयारी करा. 1077 आणि 112 हे हेल्पलाईन नंबर आपल्याकडे ठेवा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
-   "draft": "कोल्हापूरमध्ये पूर येण्याची शक्यता आहे. कृपया आपल्या घराची तयारी करा. 1077 आणि 112 हे हेल्पलाईन नंबर आपल्याकडे ठेवा.",
+   "message": "The flood risk in Kolhapur remains high. Continue preparing for possible flooding. Stay away from rivers and never cross flowing water. Helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "The flood risk in Kolhapur remains high. Continue preparing for possible flooding. Stay away from rivers and never cross flowing water. Helplines: 1077, 112.",
    "used_fallback": false,
    "model_error": null,
-   "evaluator_sent_back": [
-    [
-     "missing_helpline",
-     "missing_helpline"
-    ]
-   ],
+   "evaluator_sent_back": [],
    "delivered": "skip",
-   "seconds": 3.5,
+   "seconds": 24.77,
    "usage": {
-    "model_calls": 4,
-    "input_tokens": 3444,
-    "output_tokens": 314,
-    "model_seconds": 3.48
+    "model_calls": 3,
+    "input_tokens": 1798,
+    "output_tokens": 144,
+    "model_seconds": 20.75
    }
   },
   {
    "day": "2024-07-27",
    "code_flagged": "flood",
    "what_happened": [],
-   "message": "2024-07-27 रोजी कोल्हापूरमध्ये पूर येण्याची शक्यता आहे. कृपया आपले घर तयार करा: 1) घराभोवतीचे पाणी बाहेर काढा. 2) महत्वपूर्ण कागदपत्रे आणि वस्तू वरच्या मजल्यावर ठेवा. 3) आपल्याला सुरक्षित जागा शोधण्यासाठी 1077 किंवा 112 वर मदत मिळू शकते. अधिक माहितीसाठी अधिकृत चेतावणी तपासा.\n\nही अधिकृत इशारा सेवा नाही; IMD चे पालन करा. आम्ही कधीही पैसे किंवा OTP मागत नाही. हे उपयोगी होते का? 1 हो / 2 नाही",
-   "draft": "2024-07-27 रोजी कोल्हापूरमध्ये पूर येण्याची शक्यता आहे. कृपया आपले घर तयार करा: 1) घराभोवतीचे पाणी बाहेर काढा. 2) महत्वपूर्ण कागदपत्रे आणि वस्तू वरच्या मजल्यावर ठेवा. 3) आपल्याला सुरक्षित जागा शोधण्यासाठी 1077 किंवा 112 वर मदत मिळू शकते. अधिक माहितीसाठी अधिकृत चेतावणी तपासा.",
+   "message": "Conditions remain unchanged since the earlier warning on 2024-07-21. Stay alert and follow flood preparation guidelines. Avoid rivers and never cross flowing water. Helplines: 1077, 112.\n\nNot an official warning service; follow IMD. We never ask for money or OTP. Was this useful? 1 Yes / 2 No",
+   "draft": "Conditions remain unchanged since the earlier warning on 2024-07-21. Stay alert and follow flood preparation guidelines. Avoid rivers and never cross flowing water. Helplines: 1077, 112.",
    "used_fallback": false,
    "model_error": null,
-   "evaluator_sent_back": [
-    [
-     "missing_helpline",
-     "missing_helpline"
-    ],
-    [
-     "unsafe_high_ground"
-    ]
-   ],
+   "evaluator_sent_back": [],
    "delivered": "skip",
-   "seconds": 12.01,
+   "seconds": 12.69,
    "usage": {
-    "model_calls": 5,
-    "input_tokens": 4698,
-    "output_tokens": 527,
-    "model_seconds": 12.0
+    "model_calls": 2,
+    "input_tokens": 1808,
+    "output_tokens": 167,
+    "model_seconds": 12.68
    }
   },
   {
@@ -351,7 +302,7 @@
    "model_error": null,
    "evaluator_sent_back": [],
    "delivered": null,
-   "seconds": 0.0,
+   "seconds": 0.01,
    "usage": {
     "model_calls": 0,
     "input_tokens": 0,
@@ -369,7 +320,7 @@
    "model_error": null,
    "evaluator_sent_back": [],
    "delivered": null,
-   "seconds": 0.0,
+   "seconds": 0.01,
    "usage": {
     "model_calls": 0,
     "input_tokens": 0,
@@ -387,7 +338,7 @@
    "model_error": null,
    "evaluator_sent_back": [],
    "delivered": null,
-   "seconds": 0.0,
+   "seconds": 0.01,
    "usage": {
     "model_calls": 0,
     "input_tokens": 0,
@@ -405,7 +356,7 @@
    "model_error": null,
    "evaluator_sent_back": [],
    "delivered": null,
-   "seconds": 0.0,
+   "seconds": 0.01,
    "usage": {
     "model_calls": 0,
     "input_tokens": 0,
@@ -486,5 +437,6 @@
    }
   }
  ],
- "title": "Kolhapur-Sangli floods, July 2024"
+ "title": "Kolhapur-Sangli floods, July 2024",
+ "run_on": "2026-11-03"
 }

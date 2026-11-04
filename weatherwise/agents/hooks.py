@@ -13,6 +13,29 @@ from strands.hooks import (
 )
 
 
+class TurnClock:
+    """Time used by one chat turn, shared by every agent in it. The load balancer drops a request
+    at 120 s (Nov 3 2026: a chat took 138 s of rewrites and the person got a 504), so after
+    rewrite_by seconds nothing is sent back for a rewrite, and after stop_by the turn stops and the
+    safe message goes out. No clock (the morning run) means no time limit."""
+
+    def __init__(self, rewrite_by: float = 45, stop_by: float = 80):
+        self.rewrite_by, self.stop_by = rewrite_by, stop_by
+        self.started: float | None = None
+
+    def start(self) -> None:
+        self.started = time.monotonic()
+
+    def elapsed(self) -> float:
+        return 0.0 if self.started is None else time.monotonic() - self.started
+
+    def too_late_to_rewrite(self) -> bool:
+        return self.elapsed() > self.rewrite_by
+
+    def out_of_time(self) -> bool:
+        return self.elapsed() > self.stop_by
+
+
 class CostGuardHook(HookProvider):
     """Caps model calls, calls per tool and total tool calls per request, so a runaway loop cannot
     run up the Bedrock bill. Over a tool's limit, the call is cancelled and the model is told why.
@@ -20,7 +43,9 @@ class CostGuardHook(HookProvider):
     "do not call it again" would otherwise keep paying for one model call per refused tool call
     (on Nov 2, 2026 one chat made ~940 Nova calls this way until Python's recursion limit)."""
 
-    def __init__(self, max_calls_per_tool: int = 3, max_total_calls: int = 12, max_model_calls: int = 16):
+    def __init__(self, max_calls_per_tool: int = 3, max_total_calls: int = 12, max_model_calls: int = 16,
+                 clock: TurnClock | None = None):
+        self.clock = clock
         self.max_per_tool = max_calls_per_tool
         self.max_total = max_total_calls
         self.max_model_calls = max_model_calls
@@ -47,7 +72,7 @@ class CostGuardHook(HookProvider):
 
     def count_model_call(self, event: AfterModelCallEvent) -> None:
         self.model_calls += 1
-        if self.model_calls >= self.max_model_calls:
+        if self.model_calls >= self.max_model_calls or (self.clock and self.clock.out_of_time()):
             event.agent.cancel(after_current_tools=True)  # no further model call this request
 
 

@@ -41,7 +41,8 @@ language, crop and water source. The facts are in the task as JSON from the risk
 those numbers. Follow the matching skill. Language: {language}. Do not add a footer (the system
 adds it). Under 700 characters. Write only the words the person will read: no greeting, no tool or
 skill names, no notes about what you are doing, nothing copied from these instructions.
-Helpline numbers the message must include, by hazard: {numbers}.
+Include every helpline number in the facts' helplines_to_include.
+A flood or heavy-rain warning must also tell people, in {language}: {flood_lines}.
 If the facts include earlier_warnings, people already have those messages: begin with what has
 changed since the latest one (worse, the same or easing) and do not repeat it word for word."""
 
@@ -117,9 +118,8 @@ class WarningPipeline:
                    SafetyRulesHandler(rules, trust_input_data=True)]
         if self.with_tone_check:
             plugins.append(ToneHandler(model=self.tone_model))
-        numbers = "; ".join(f"{hazard.replace('_', ' ')}: {', '.join(nums)}"
-                            for hazard, nums in rules.required_numbers.items())
-        return Agent(name=name, model=self.model, system_prompt=WRITER_PROMPT.format(language=language, numbers=numbers),
+        return Agent(name=name, model=self.model, system_prompt=WRITER_PROMPT.format(
+                         language=language, flood_lines="; ".join(rules.flood_must_say)),
                      plugins=plugins, callback_handler=None)
 
     def run(self, group: RecipientGroupRun, now: datetime) -> RunRecord:
@@ -149,6 +149,10 @@ class WarningPipeline:
             facts = {"group": {"place": group.place_name, "crop": group.crop,
                                "water_source": group.water_source, "language": group.language},
                      **rec.outlook}
+            # Code picks the helplines, so the message has exactly the ones the checker requires
+            # (Nov 3 2026 eval: given every hazard's numbers, the model listed them all or dropped some).
+            facts["helplines_to_include"] = sorted({n for h in context_from_tools([rec.outlook]).hazards
+                                                    for n in rules.required_numbers.get(h, [])})
             if rec.earlier_warnings:
                 facts["earlier_warnings"] = [{"day": e["day"], "kind": e["kind"], "message": e["message"]}
                                              for e in rec.earlier_warnings]
