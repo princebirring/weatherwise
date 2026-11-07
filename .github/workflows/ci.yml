@@ -88,7 +88,7 @@ jobs:
       - name: Set up ARM64 image emulation
         uses: docker/setup-qemu-action@v3
       - name: Build and publish immutable image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           platforms: linux/arm64
@@ -97,7 +97,7 @@ jobs:
             ${{ steps.ecr.outputs.registry }}/weatherwise:${{ github.sha }}
             ${{ steps.ecr.outputs.registry }}/weatherwise:main
       - name: Build and publish AgentCore runtime image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           target: agentcore
