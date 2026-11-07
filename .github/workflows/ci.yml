@@ -86,7 +86,7 @@ jobs:
         id: ecr
         uses: aws-actions/amazon-ecr-login@v2
       - name: Set up ARM64 image emulation
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
       - name: Build and publish immutable image
         uses: docker/build-push-action@v6
         with:
